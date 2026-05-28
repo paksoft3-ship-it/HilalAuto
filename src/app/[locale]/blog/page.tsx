@@ -7,6 +7,10 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Calendar, ArrowRight } from "lucide-react";
+import { FaWhatsapp } from 'react-icons/fa';
+import { Badge } from "@/components/ui/Badge";
+import { routes, externalRoutes } from "@/lib/routes";
+import { WHATSAPP_NUMBER } from "@/lib/constants";
 
 export default function BlogIndexPage() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -29,15 +33,41 @@ export default function BlogIndexPage() {
   }, [locale]);
 
   return (
-    <div className="bg-surface pb-60 pt-32 min-h-screen">
+    <div className="min-h-screen pb-60">
+      <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-44 md:py-60 mb-60">
+        <Container>
+          <div className="flex flex-col items-start gap-16 max-w-[640px]">
+            <Badge variant="accent">Blog</Badge>
+            <h1 className="text-section-title-mobile md:text-[40px] font-medium tracking-heading text-text-primary">
+              Sektörel Haberler ve Rehberler
+            </h1>
+            <p className="text-[14px] text-text-muted leading-relaxed">
+              Hasarlı araç sektörü, araç değer kaybı ve sigorta işlemleri hakkında güncel bilgiler.
+            </p>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-12 mt-8">
+              <Link
+                href={routes.quote(locale)}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-8 bg-primary text-white px-32 py-16 rounded-btn font-medium text-[14px] hover:opacity-90 transition-opacity"
+              >
+                Ücretsiz Teklif Al
+                <ArrowRight size={16} strokeWidth={1.5} aria-hidden />
+              </Link>
+              <a
+                href={externalRoutes.whatsapp(WHATSAPP_NUMBER)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-8 bg-transparent border border-whatsapp-green text-whatsapp-green px-32 py-16 rounded-btn text-[14px] font-medium hover:bg-whatsapp-green hover:text-white transition-colors"
+                aria-label="WhatsApp ile yazın"
+              >
+                <FaWhatsapp size={16} aria-hidden />
+                WhatsApp ile Yaz
+              </a>
+            </div>
+          </div>
+        </Container>
+      </section>
+
       <Container>
-        <SectionHeader
-          badge="Blog"
-          title="Sektörel Haberler ve Rehberler"
-          subtitle="Hasarlı araç sektörü, araç değer kaybı ve sigorta işlemleri hakkında güncel bilgiler."
-          align="left"
-          className="mb-44"
-        />
 
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-24">

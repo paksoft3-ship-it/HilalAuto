@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { FaWhatsapp } from 'react-icons/fa';
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
@@ -9,7 +11,8 @@ import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Badge } from "@/components/ui/Badge";
-import { SITE_URL } from "@/lib/constants";
+import { routes, externalRoutes } from "@/lib/routes";
+import { SITE_URL, WHATSAPP_NUMBER } from "@/lib/constants";
 
 interface Props { params: Promise<{ locale: string }> }
 
@@ -50,15 +53,36 @@ export default async function HakkimizdaPage({ params }: Props) {
       <Navbar />
       <main className="pb-[76px] md:pb-0">
         {/* Hero */}
-        <section className="bg-surface-container-lowest border-b border-[0.5px] border-border-default py-44 md:py-60">
-          <Container className="flex flex-col items-center text-center gap-16">
-            <Badge variant="accent">Hakkımızda</Badge>
-            <h1 className="text-section-title-mobile md:text-[40px] font-medium tracking-heading text-on-surface max-w-[640px]">
-              Türkiye Genelinde Hasarlı Araç Alımında Güvenilir Adres
-            </h1>
-            <p className="text-[14px] text-muted-text max-w-[520px] leading-relaxed">
-              HazarAl olarak amacımız; hasar görmüş, pert ya da çalışmayan aracını satmak isteyen araç sahiplerine hızlı, şeffaf ve güvenilir bir deneyim sunmaktır.
-            </p>
+        <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-44 md:py-60">
+          <Container>
+            <div className="flex flex-col items-start gap-16 max-w-[640px]">
+              <Badge variant="accent">Hakkımızda</Badge>
+              <h1 className="text-section-title-mobile md:text-[40px] font-medium tracking-heading text-text-primary">
+                Türkiye Genelinde Hasarlı Araç Alımında Güvenilir Adres
+              </h1>
+              <p className="text-[14px] text-text-muted leading-relaxed">
+                HazarAl olarak amacımız; hasar görmüş, pert ya da çalışmayan aracını satmak isteyen araç sahiplerine hızlı, şeffaf ve güvenilir bir deneyim sunmaktır.
+              </p>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-12 mt-8">
+                <Link
+                  href={routes.quote(locale)}
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-8 bg-primary text-white px-32 py-16 rounded-btn font-medium text-[14px] hover:opacity-90 transition-opacity"
+                >
+                  Ücretsiz Teklif Al
+                  <ArrowRight size={16} strokeWidth={1.5} aria-hidden />
+                </Link>
+                <a
+                  href={externalRoutes.whatsapp(WHATSAPP_NUMBER)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-8 bg-transparent border border-whatsapp-green text-whatsapp-green px-32 py-16 rounded-btn text-[14px] font-medium hover:bg-whatsapp-green hover:text-white transition-colors"
+                  aria-label="WhatsApp ile yazın"
+                >
+                  <FaWhatsapp size={16} aria-hidden />
+                  WhatsApp ile Yaz
+                </a>
+              </div>
+            </div>
           </Container>
         </section>
 
