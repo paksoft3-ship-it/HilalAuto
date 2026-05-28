@@ -51,25 +51,23 @@ export function Navbar() {
         )}
         aria-label="Ana navigasyon"
       >
-        <div className="mx-auto max-w-[1180px] px-16 md:px-32 h-full flex items-center justify-between relative">
+        <div className="mx-auto max-w-[1180px] px-16 md:px-32 h-full flex items-center justify-between">
           {/* Logo */}
-          <div className="flex flex-1 items-center">
-            <Link
-              href={routes.home(locale)}
-              className="flex items-center shrink-0"
-              aria-label="HazarAl - Ana Sayfa"
-            >
-              <span className="font-medium text-on-surface text-[22px] tracking-[-1px]">
-                Hazar
-              </span>
-              <span className="font-medium text-primary text-[22px] tracking-[-1px]">
-                Al
-              </span>
-            </Link>
-          </div>
+          <Link
+            href={routes.home(locale)}
+            className="flex items-center shrink-0"
+            aria-label="HazarAl - Ana Sayfa"
+          >
+            <span className="font-medium text-on-surface text-[22px] tracking-[-1px]">
+              Hazar
+            </span>
+            <span className="font-medium text-primary text-[22px] tracking-[-1px]">
+              Al
+            </span>
+          </Link>
 
           {/* Desktop nav links */}
-          <div className="hidden lg:flex items-center justify-center gap-24 h-full absolute left-1/2 -translate-x-1/2">
+          <div className="hidden lg:flex items-center gap-24 h-full">
             {NAV_LINKS.map((link) => {
               if (link.labelKey === "Araç Türleri") {
                 return (
@@ -108,7 +106,7 @@ export function Navbar() {
           </div>
 
           {/* Desktop actions */}
-          <div className="hidden md:flex flex-1 items-center justify-end gap-12">
+          <div className="hidden md:flex items-center gap-12">
             <a
               href={externalRoutes.phone(PHONE_NUMBER)}
               className="inline-flex items-center gap-8 bg-surface-container-lowest border border-[0.5px] border-border-default text-on-surface px-16 py-8 rounded-btn text-[13px] hover:border-primary hover:text-primary transition-colors"
