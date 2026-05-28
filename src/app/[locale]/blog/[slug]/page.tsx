@@ -5,6 +5,10 @@ import { Calendar, ArrowLeft, Share2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { Container } from "@/components/ui/Container";
 import { SITE_URL } from "@/lib/constants";
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
+import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
+import { MobileStickyCTA } from "@/components/layout/MobileStickyCTA";
 
 interface Props {
   params: Promise<{ locale: string; slug: string }>;
@@ -63,56 +67,62 @@ export default async function BlogDetailPage({ params }: Props) {
   };
 
   return (
-    <div className="bg-surface pb-60 pt-32">
-      <Container className="max-w-[800px]">
-        <Link
-          href={`/${locale}/blog`}
-          className="inline-flex items-center gap-8 text-[13px] text-muted-text hover:text-on-surface transition-colors mb-32"
-        >
-          <ArrowLeft size={16} /> Blog&apos;a Dön
-        </Link>
+    <>
+      <Navbar />
+      <main className="bg-surface pb-[76px] md:pb-0 pt-32">
+        <Container className="max-w-[800px]">
+          <Link
+            href={`/${locale}/blog`}
+            className="inline-flex items-center gap-8 text-[13px] text-muted-text hover:text-on-surface transition-colors mb-32"
+          >
+            <ArrowLeft size={16} /> Blog&apos;a Dön
+          </Link>
 
-        <div className="flex flex-col gap-32">
-          <div className="flex flex-col gap-16 text-center">
-            <div className="flex items-center justify-center gap-8 text-[13px] text-muted-text">
-              <Calendar size={14} />
-              {new Date(blog.created_at).toLocaleDateString("tr-TR", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
+          <div className="flex flex-col gap-32">
+            <div className="flex flex-col gap-16 text-center">
+              <div className="flex items-center justify-center gap-8 text-[13px] text-muted-text">
+                <Calendar size={14} />
+                {new Date(blog.created_at).toLocaleDateString("tr-TR", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </div>
+              <h1 className="text-[28px] md:text-[36px] font-bold text-on-surface tracking-[-1px] leading-tight">
+                {blog.title}
+              </h1>
             </div>
-            <h1 className="text-[28px] md:text-[36px] font-bold text-on-surface tracking-[-1px] leading-tight">
-              {blog.title}
-            </h1>
-          </div>
 
-          {blog.image_url && (
-            <div className="w-full aspect-[16/9] bg-surface-container-lowest border border-[0.5px] border-border-default rounded-[14px] overflow-hidden">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={blog.image_url} alt={blog.title} className="w-full h-full object-cover" />
+            {blog.image_url && (
+              <div className="w-full aspect-[16/9] bg-surface-container-lowest border border-[0.5px] border-border-default rounded-[14px] overflow-hidden">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={blog.image_url} alt={blog.title} className="w-full h-full object-cover" />
+              </div>
+            )}
+
+            <div className="bg-surface-container-lowest border border-[0.5px] border-border-default rounded-[14px] p-24 md:p-44">
+              <div
+                className="prose prose-sm md:prose-base prose-neutral max-w-none
+                  prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-on-surface
+                  prose-p:text-muted-text prose-p:leading-relaxed
+                  prose-a:text-primary prose-a:no-underline hover:prose-a:underline"
+                dangerouslySetInnerHTML={{ __html: blog.content }}
+              />
             </div>
-          )}
 
-          <div className="bg-surface-container-lowest border border-[0.5px] border-border-default rounded-[14px] p-24 md:p-44">
-            <div
-              className="prose prose-sm md:prose-base prose-neutral max-w-none
-                prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-on-surface
-                prose-p:text-muted-text prose-p:leading-relaxed
-                prose-a:text-primary prose-a:no-underline hover:prose-a:underline"
-              dangerouslySetInnerHTML={{ __html: blog.content }}
-            />
-          </div>
-
-          <div className="flex items-center justify-between py-24 border-t border-[0.5px] border-border-default">
-            <span className="text-[14px] font-medium text-on-surface">Bu yazıyı paylaş:</span>
-            <div className="flex items-center gap-16">
-              <Share2 size={20} className="text-muted-text" />
+            <div className="flex items-center justify-between py-24 border-t border-[0.5px] border-border-default">
+              <span className="text-[14px] font-medium text-on-surface">Bu yazıyı paylaş:</span>
+              <div className="flex items-center gap-16">
+                <Share2 size={20} className="text-muted-text" />
+              </div>
             </div>
           </div>
-        </div>
-      </Container>
+        </Container>
+      </main>
+      <Footer locale={locale} />
+      <WhatsAppButton />
+      <MobileStickyCTA />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
-    </div>
+    </>
   );
 }

@@ -11,9 +11,10 @@ import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Badge } from "@/components/ui/Badge";
-import { routes } from "@/lib/routes";
-import { CITIES } from "@/lib/constants";
+import { routes, externalRoutes } from "@/lib/routes";
+import { CITIES, WHATSAPP_NUMBER } from "@/lib/constants";
 import { SITE_URL } from "@/lib/constants";
+import { FaWhatsapp } from 'react-icons/fa';
 
 interface Props { params: Promise<{ locale: string }> }
 
@@ -70,15 +71,36 @@ export default async function AracTurleriPage({ params }: Props) {
       <Navbar />
       <main className="pb-[76px] md:pb-0">
         {/* Hero */}
-        <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-44 md:py-60">
-          <Container className="flex flex-col items-center text-center gap-16">
-            <Badge variant="accent">Araç Türleri</Badge>
-            <h1 className="text-section-title-mobile md:text-[40px] font-medium tracking-heading text-text-primary max-w-[640px]">
-              Her Türlü Hasarlı Aracı Değerinde Alıyoruz
-            </h1>
-            <p className="text-[14px] text-text-muted max-w-[520px] leading-relaxed">
-              Kazalı, pert, yanmış, sel hasarlı veya arızalı fark etmez. Aracınızın durumunu bildirin, ücretsiz teklif alın.
-            </p>
+        <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-44 md:py-60 mb-60">
+          <Container>
+            <div className="flex flex-col items-start gap-16 max-w-[640px]">
+              <Badge variant="accent">Araç Türleri</Badge>
+              <h1 className="text-section-title-mobile md:text-[40px] font-medium tracking-heading text-text-primary">
+                Her Türlü Hasarlı Aracı Değerinde Alıyoruz
+              </h1>
+              <p className="text-[14px] text-text-muted leading-relaxed">
+                Kazalı, pert, yanmış, sel hasarlı veya arızalı fark etmez. Aracınızın durumunu bildirin, ücretsiz teklif alın.
+              </p>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-12 mt-8">
+                <Link
+                  href={routes.quote(locale)}
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-8 bg-primary text-white px-32 py-16 rounded-btn font-medium text-[14px] hover:opacity-90 transition-opacity"
+                >
+                  Ücretsiz Teklif Al
+                  <ArrowRight size={16} strokeWidth={1.5} aria-hidden />
+                </Link>
+                <a
+                  href={externalRoutes.whatsapp(WHATSAPP_NUMBER)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-8 bg-transparent border border-whatsapp-green text-whatsapp-green px-32 py-16 rounded-btn text-[14px] font-medium hover:bg-whatsapp-green hover:text-white transition-colors"
+                  aria-label="WhatsApp ile yazın"
+                >
+                  <FaWhatsapp size={16} aria-hidden />
+                  WhatsApp ile Yaz
+                </a>
+              </div>
+            </div>
           </Container>
         </section>
 
