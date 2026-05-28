@@ -235,7 +235,7 @@ export function Navbar() {
             <Link
               href={routes.quote(locale)}
               onClick={closeMenu}
-              className="flex items-center justify-center w-full bg-primary text-on-primary py-14 rounded-btn text-[15px] font-medium hover:opacity-90 transition-opacity"
+              className="flex items-center justify-center w-full bg-primary text-on-primary py-12 rounded-btn text-[14px] font-medium hover:opacity-90 transition-opacity"
             >
               Ücretsiz Teklif Al
             </Link>
