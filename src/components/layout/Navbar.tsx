@@ -123,7 +123,7 @@ export function Navbar() {
               href={externalRoutes.whatsapp(WHATSAPP_NUMBER)}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-8 bg-whatsapp-green text-white px-16 py-8 rounded-btn text-[13px] font-medium hover:opacity-90 transition-opacity"
+              className="inline-flex items-center gap-8 bg-transparent border border-whatsapp-green text-whatsapp-green px-16 py-8 rounded-btn text-[13px] font-medium hover:bg-whatsapp-green hover:text-white transition-colors"
               aria-label="WhatsApp ile yazın"
             >
               <FaWhatsapp size={15} aria-hidden />
@@ -215,7 +215,7 @@ export function Navbar() {
                   href={externalRoutes.whatsapp(WHATSAPP_NUMBER)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-8 bg-whatsapp-green text-white py-12 rounded-btn text-[13px] font-medium hover:opacity-90 transition-opacity"
+                  className="flex items-center justify-center gap-8 bg-transparent border border-whatsapp-green text-whatsapp-green py-12 rounded-btn text-[13px] font-medium hover:bg-whatsapp-green hover:text-white transition-colors"
                   aria-label="WhatsApp ile yazın"
                 >
                   <FaWhatsapp size={15} aria-hidden />
