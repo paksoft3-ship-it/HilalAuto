@@ -46,7 +46,7 @@ export function Accordion({ items, dark = false, className }: AccordionProps) {
               aria-controls={panelId}
               onClick={() => toggle(item.id)}
               className={cn(
-                "flex w-full items-center justify-between gap-16 px-16 md:px-24 py-16 md:py-20 text-left",
+                "flex w-full items-center justify-between gap-16 px-16 md:px-24 py-16 md:py-24 text-left",
                 "focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-border focus-visible:outline-offset-2 rounded-sm",
                 dark ? "text-white" : "text-on-surface hover:text-primary transition-colors"
               )}
@@ -71,7 +71,7 @@ export function Accordion({ items, dark = false, className }: AccordionProps) {
               aria-labelledby={headerId}
               hidden={!isOpen}
               className={cn(
-                "px-16 md:px-24 pb-16 md:pb-20 text-[14px] md:text-[15px] leading-relaxed",
+                "px-16 md:px-24 pb-16 md:pb-24 text-[14px] md:text-[15px] leading-relaxed",
                 dark ? "text-[#AAAAAA]" : "text-muted-text"
               )}
             >
