@@ -72,7 +72,7 @@ export default function BlogIndexPage() {
           </Container>
         </section>
 
-        <Container>
+        <Container className="mb-60 md:mb-[100px]">
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-24">
               {[1, 2, 3].map(i => (
