@@ -77,7 +77,7 @@ export function Navbar() {
                         <Link
                           key={type.slug}
                           href={routes.service(locale, type.serviceSlug)}
-                          className="px-16 py-8 text-[13px] text-muted-text hover:bg-surface hover:text-primary transition-colors text-center"
+                          className="px-16 py-8 text-[13px] text-muted-text hover:bg-surface hover:text-primary transition-colors text-left"
                         >
                           {type.label}
                         </Link>
