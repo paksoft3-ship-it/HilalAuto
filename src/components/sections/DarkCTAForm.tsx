@@ -63,7 +63,7 @@ export function DarkCTAForm() {
                 )}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-8 bg-whatsapp text-white px-24 py-12 rounded-btn text-[14px] font-medium hover:opacity-90 transition-opacity"
+                className="inline-flex items-center gap-8 bg-transparent border border-whatsapp-green text-whatsapp-green px-24 py-12 rounded-btn text-[14px] font-medium hover:bg-whatsapp-green hover:text-white transition-colors"
                 aria-label="WhatsApp ile yazın"
               >
                 <FaWhatsapp size={16} strokeWidth={1.5} aria-hidden />

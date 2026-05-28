@@ -114,7 +114,7 @@ export function Hero() {
                 )}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-8 bg-surface-container-lowest border border-[0.5px] border-border-default text-on-surface px-32 py-16 rounded-btn text-[14px] hover:border-whatsapp-green hover:text-whatsapp-green transition-colors"
+                className="inline-flex items-center justify-center gap-8 bg-transparent border border-whatsapp-green text-whatsapp-green px-32 py-16 rounded-btn text-[14px] font-medium hover:bg-whatsapp-green hover:text-white transition-colors"
                 aria-label="WhatsApp ile yazın"
               >
                 <FaWhatsapp size={16} strokeWidth={1.5} aria-hidden />

@@ -44,7 +44,7 @@ export function FAQSection({ dark = false }: FAQSectionProps) {
                 href={externalRoutes.whatsapp(WHATSAPP_NUMBER)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto inline-flex justify-center items-center gap-8 bg-whatsapp-green text-white px-20 py-16 rounded-lg text-[14px] font-medium hover:opacity-90 transition-opacity"
+                className="w-full sm:w-auto inline-flex justify-center items-center gap-8 bg-transparent border border-whatsapp-green text-whatsapp-green px-20 py-16 rounded-btn text-[14px] font-medium hover:bg-whatsapp-green hover:text-white transition-colors"
                 aria-label="WhatsApp ile yazın"
               >
                 <FaWhatsapp size={20} strokeWidth={1.5} aria-hidden />

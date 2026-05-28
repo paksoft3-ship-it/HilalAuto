@@ -58,8 +58,8 @@ export function WhyChooseUs() {
               <Link href={routes.quote(locale)} className="w-full sm:w-auto text-center bg-primary text-on-primary px-24 py-16 rounded-btn font-medium text-[14px] hover:opacity-90 transition-opacity">
                 Hemen Teklif Al
               </Link>
-              <a href={externalRoutes.whatsapp(WHATSAPP_NUMBER)} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto flex items-center justify-center gap-8 bg-surface-container-lowest border border-[0.5px] border-border-default px-24 py-16 rounded-btn text-[14px] font-medium text-on-surface hover:bg-surface transition-colors">
-                <FaWhatsapp size={20} strokeWidth={1.5} className="text-whatsapp-green" aria-hidden />
+              <a href={externalRoutes.whatsapp(WHATSAPP_NUMBER)} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto flex items-center justify-center gap-8 bg-transparent border border-whatsapp-green text-whatsapp-green px-24 py-16 rounded-btn text-[14px] font-medium hover:bg-whatsapp-green hover:text-white transition-colors">
+                <FaWhatsapp size={20} aria-hidden />
                 WhatsApp ile Yaz
               </a>
             </div>
