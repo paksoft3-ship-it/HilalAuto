@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useParams } from "next/navigation";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { externalRoutes } from "@/lib/routes";
 import { DAMAGE_TYPES, WHATSAPP_NUMBER } from "@/lib/constants";
@@ -11,8 +9,6 @@ const CURRENT_YEAR = new Date().getFullYear();
 const YEARS = Array.from({ length: 30 }, (_, i) => String(CURRENT_YEAR - i));
 
 export function QuickQuoteForm() {
-  const params = useParams();
-  const locale = (params?.locale as string) ?? "tr";
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -54,8 +50,12 @@ export function QuickQuoteForm() {
       
       // Optionally clear form
       setFormData({ brand: "", year: "", damage: "", city: "", phone: "" });
-    } catch (err: any) {
-      setErrorMsg(err.message || "Bir hata oluştu.");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setErrorMsg(err.message);
+      } else {
+        setErrorMsg("Bir hata oluştu.");
+      }
     } finally {
       setIsLoading(false);
     }
