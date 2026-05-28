@@ -19,12 +19,14 @@ interface Props { params: Promise<{ locale: string }> }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const title = "Araç Türleri — HazarAl";
-  const description = "HazarAl olarak aldığımız hasarlı araç türleri. Kazalı, pert, yanmış, sel hasarlı ve daha fazlası.";
+  const title = "Hasarlı Araç Türleri — Kazalı, Pert, Hurda Araç Alımı | HazarAl";
+  const description =
+    "HazarAl olarak aldığımız hasarlı araç türleri: kazalı, pert, yanmış, sel hasarlı, hurda, motor arızalı ve daha fazlası. Ücretsiz teklif alın.";
   return {
-    title, description,
+    title,
+    description,
     alternates: { canonical: `${SITE_URL}/${locale}/arac-turleri` },
-    openGraph: { title, description, locale: locale === "tr" ? "tr_TR" : "en_US", type: "website" },
+    openGraph: { title, description, locale: "tr_TR", type: "website" },
   };
 }
 
@@ -41,6 +43,28 @@ const VEHICLE_TYPES = [
 
 export default async function AracTurleriPage({ params }: Props) {
   const { locale } = await params;
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Ana Sayfa", item: `${SITE_URL}/tr` },
+      { "@type": "ListItem", position: 2, name: "Araç Türleri", item: `${SITE_URL}/tr/arac-turleri` },
+    ],
+  };
+
+  const itemListSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Hasarlı Araç Türleri",
+    itemListElement: VEHICLE_TYPES.map(({ label, slug }, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: label,
+      url: `${SITE_URL}/tr/hizmet/${slug}`,
+    })),
+  };
+
   return (
     <>
       <Navbar />
@@ -105,6 +129,8 @@ export default async function AracTurleriPage({ params }: Props) {
       <Footer locale={locale} />
       <WhatsAppButton />
       <MobileStickyCTA />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} />
     </>
   );
 }

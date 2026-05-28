@@ -12,14 +12,14 @@ export type Locale = (typeof LOCALES)[number];
 export const DEFAULT_LOCALE: Locale = "tr";
 
 export const VEHICLE_TYPES = [
-  { slug: "kazali", label: "Kazalı Araç", labelEn: "Accident Damaged" },
-  { slug: "pert", label: "Pert Araç", labelEn: "Written Off" },
-  { slug: "yanmis", label: "Yanmış Araç", labelEn: "Fire Damaged" },
-  { slug: "sel", label: "Sel Hasarlı Araç", labelEn: "Flood Damaged" },
-  { slug: "hurda", label: "Hurda Araç", labelEn: "Scrap" },
-  { slug: "motor", label: "Motor Arızalı Araç", labelEn: "Engine Failure" },
-  { slug: "cekme", label: "Çekme Belgeli Araç", labelEn: "Tow Certificate" },
-  { slug: "agir", label: "Ağır Hasarlı Araç", labelEn: "Heavily Damaged" },
+  { slug: "kazali", label: "Kazalı Araç", labelEn: "Accident Damaged", serviceSlug: "kazali-arac-alimi" },
+  { slug: "pert", label: "Pert Araç", labelEn: "Written Off", serviceSlug: "pert-arac-alimi" },
+  { slug: "yanmis", label: "Yanmış Araç", labelEn: "Fire Damaged", serviceSlug: "yanmis-arac-alimi" },
+  { slug: "sel", label: "Sel Hasarlı Araç", labelEn: "Flood Damaged", serviceSlug: "sel-hasarli-arac-alimi" },
+  { slug: "hurda", label: "Hurda Araç", labelEn: "Scrap", serviceSlug: "hurda-arac-alimi" },
+  { slug: "motor", label: "Motor Arızalı Araç", labelEn: "Engine Failure", serviceSlug: "motor-arizali-arac-alimi" },
+  { slug: "cekme", label: "Çekme Belgeli Araç", labelEn: "Tow Certificate", serviceSlug: "cekme-belgeli-arac-alimi" },
+  { slug: "agir", label: "Ağır Hasarlı Araç", labelEn: "Heavily Damaged", serviceSlug: "agir-hasarli-arac-alimi" },
 ] as const;
 
 export const SERVICE_SLUGS = [

@@ -175,13 +175,24 @@ export function Footer({ locale = "tr" }: FooterProps) {
 
       {/* Bottom bar */}
       <div className="border-t border-white/10 mt-60">
-        <Container className="py-24 flex flex-col sm:flex-row items-center justify-between gap-8">
-          <p className="text-[12px] text-[#888888]">
-            © {year} {SITE_NAME}. Tüm hakları saklıdır.
-          </p>
-          <p className="text-[12px] text-[#888888]">
-            Türkiye geneli hasarlı araç alım hizmeti
-          </p>
+        <Container className="py-24 flex flex-col items-center justify-center gap-8 text-center text-[#888888] text-[12px]">
+          <p>© {year} {SITE_NAME}. Tüm hakları saklıdır.</p>
+          <div className="mt-4 flex justify-center items-center gap-8">
+            <a
+              href="https://paksoft.com.tr"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center group"
+            >
+              <span className="text-[#888888] mr-8 group-hover:text-primary transition-colors">PakSoft tarafından geliştirildi</span>
+              <div className="flex items-center text-primary group-hover:opacity-80 transition-opacity">
+                <svg viewBox="0 0 24 24" fill="currentColor" className="w-16 h-16 -rotate-12 mr-4">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c1.85 0 3.58-.5 5.08-1.38-.7.13-1.42.21-2.16.21-5.52 0-10-4.48-10-10S9.42 2.83 14.92 2.83c.74 0 1.46.08 2.16.21C15.58 2.5 13.85 2 12 2z" />
+                </svg>
+                <span className="font-bold text-[14px] tracking-wide">PakSoft</span>
+              </div>
+            </a>
+          </div>
         </Container>
       </div>
     </footer>
