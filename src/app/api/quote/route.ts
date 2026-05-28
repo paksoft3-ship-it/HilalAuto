@@ -52,11 +52,31 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // TODO Phase 8: upload photos to Supabase Storage
-    // TODO Phase 8: save lead to Supabase database
-    // TODO Phase 8: send email via Resend
+    // Initialize Supabase Admin client to bypass RLS for inserts
+    const { supabaseAdmin } = await import("@/lib/supabase");
 
-    const leadId = `lead_${Date.now()}`;
+    const leadData = {
+      brand: `${data.aracMarkasi} ${data.aracModeli || ""}`.trim(),
+      model_year: data.modelYili,
+      damage_type: Array.isArray(data.hasarTurleri) ? data.hasarTurleri.join(", ") : String(data.hasarTurleri),
+      city: `${data.il} ${data.ilce ? "- " + data.ilce : ""} (${data.adSoyad})`,
+      phone: String(data.telefon),
+      source: "quick_quote",
+      status: "new",
+    };
+
+    const { data: insertedLead, error: insertError } = await supabaseAdmin
+      .from("hazaral_leads")
+      .insert([leadData])
+      .select()
+      .single();
+
+    if (insertError) {
+      console.error("[quote/route] Supabase insert error:", insertError);
+      return NextResponse.json({ error: "Veritabanı hatası." }, { status: 500 });
+    }
+
+    const leadId = insertedLead.id;
 
     return NextResponse.json({ success: true, leadId });
   } catch (err) {
