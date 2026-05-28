@@ -46,12 +46,12 @@ export function Accordion({ items, dark = false, className }: AccordionProps) {
               aria-controls={panelId}
               onClick={() => toggle(item.id)}
               className={cn(
-                "flex w-full items-center justify-between gap-16 py-16 text-left",
+                "flex w-full items-center justify-between gap-16 py-20 md:py-24 text-left",
                 "focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-border focus-visible:outline-offset-2 rounded-sm",
-                dark ? "text-white" : "text-on-surface"
+                dark ? "text-white" : "text-on-surface hover:text-primary transition-colors"
               )}
             >
-              <span className="text-[14px] font-medium leading-snug">
+              <span className="text-[15px] md:text-[16px] font-medium leading-snug pr-16">
                 {item.question}
               </span>
               <span
@@ -71,7 +71,7 @@ export function Accordion({ items, dark = false, className }: AccordionProps) {
               aria-labelledby={headerId}
               hidden={!isOpen}
               className={cn(
-                "pb-16 text-[14px] leading-relaxed",
+                "pb-20 md:pb-24 text-[14px] md:text-[15px] leading-relaxed pr-24",
                 dark ? "text-[#AAAAAA]" : "text-muted-text"
               )}
             >
