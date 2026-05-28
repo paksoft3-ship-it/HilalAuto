@@ -55,15 +55,15 @@ export default async function HakkimizdaPage({ params }: Props) {
         {/* Hero */}
         <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-44 md:py-60">
           <Container>
-            <div className="flex flex-col items-start gap-16 max-w-[640px]">
+            <div className="flex flex-col items-start gap-16 max-w-[640px] w-full">
               <Badge variant="accent">Hakkımızda</Badge>
               <h1 className="text-section-title-mobile md:text-[40px] font-medium tracking-heading text-text-primary">
-                Türkiye Genelinde Hasarlı Araç Alımında Güvenilir Adres
+                Hasarlı Araç Alımında Türkiye'nin Güvenilir Markası
               </h1>
               <p className="text-[14px] text-text-muted leading-relaxed">
-                HazarAl olarak amacımız; hasar görmüş, pert ya da çalışmayan aracını satmak isteyen araç sahiplerine hızlı, şeffaf ve güvenilir bir deneyim sunmaktır.
+                Yılların getirdiği otomotiv tecrübesiyle, hasarlı araç sahiplerine en doğru fiyatı ve en güvenli hizmeti sunuyoruz.
               </p>
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-12 mt-8">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-12 mt-8 w-full sm:w-auto">
                 <Link
                   href={routes.quote(locale)}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-8 bg-primary text-white px-32 py-16 rounded-btn font-medium text-[14px] hover:opacity-90 transition-opacity"
@@ -120,7 +120,7 @@ export default async function HakkimizdaPage({ params }: Props) {
         {/* Values */}
         <section className="py-44 md:py-60">
           <Container>
-            <SectionHeader title="Değerlerimiz" subtitle="Her müşterimize aynı özenle yaklaşıyoruz." align="center" className="mb-32 md:mb-44" />
+            <SectionHeader title="Değerlerimiz" subtitle="Her müşterimize aynı özenle yaklaşıyoruz." align="left" className="mb-32 md:mb-44" />
             <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-16">
               {VALUES.map(({ title, desc }) => (
                 <li key={title} className="flex flex-col gap-12 p-24 bg-surface-container-lowest border border-[0.5px] border-border-default rounded-card">

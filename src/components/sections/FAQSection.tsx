@@ -20,7 +20,7 @@ export function FAQSection({ dark = false }: FAQSectionProps) {
     >
       <Container>
         <div className="flex flex-col gap-44">
-          <div className="flex flex-col gap-24 text-center md:text-left">
+          <div className="flex flex-col gap-24 text-left">
             <div className="flex flex-col gap-8">
               <span className="text-[11px] font-medium text-primary uppercase tracking-wider mx-auto md:mx-0">SIK SORULAN SORULAR</span>
               <h2 className="text-[28px] md:text-[32px] font-medium text-on-surface tracking-[-1.5px] leading-tight">Hasarlı araç satışı hakkında merak edilenler</h2>
@@ -32,7 +32,7 @@ export function FAQSection({ dark = false }: FAQSectionProps) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4 }}
-              className="bg-surface border border-[0.5px] border-border-default rounded-[14px] p-24 text-center md:text-left"
+              className="bg-surface border border-[0.5px] border-border-default rounded-[14px] p-24 text-left"
             >
               <h3 className="text-[16px] font-medium text-on-surface mb-8">
                 Cevabınızı bulamadınız mı?

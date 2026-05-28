@@ -156,7 +156,7 @@ export default async function CityPage({ params }: Props) {
         {/* Vehicle types */}
         <section className="py-44 md:py-60">
           <Container>
-            <SectionHeader title={`${city.nameGenitive} Aldığımız Araç Türleri`} subtitle="Her türlü hasarlı araç için teklif veriyoruz." align="center" className="mb-32 md:mb-44" />
+            <SectionHeader title={`${city.nameGenitive} Aldığımız Araç Türleri`} subtitle="Her türlü hasarlı araç için teklif veriyoruz." align="left" className="mb-32 md:mb-44" />
             <ul className="grid grid-cols-2 md:grid-cols-3 gap-12">
               {VEHICLE_SERVICES.map(({ label, slug: sSlug }) => (
                 <li key={sSlug}>
@@ -177,7 +177,7 @@ export default async function CityPage({ params }: Props) {
         {nearbyCities.length > 0 && (
           <section className="py-44 md:py-60 bg-bg-surface border-b border-[0.5px] border-border-default">
             <Container>
-              <SectionHeader title="Yakın Şehirler" subtitle="Komşu illerde de hizmet veriyoruz." align="center" className="mb-24" />
+              <SectionHeader title="Yakın Şehirler" subtitle="Komşu illerde de hizmet veriyoruz." align="left" className="mb-24" />
               <ul className="flex flex-wrap gap-12 justify-center">
                 {nearbyCities.map(({ slug: cs, name }) => (
                   <li key={cs}>

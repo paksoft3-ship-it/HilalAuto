@@ -48,7 +48,7 @@ export function WhyChooseUs() {
     >
       <Container>
         <div className="flex flex-col gap-44">
-          <div className="flex flex-col gap-24 text-center md:text-left">
+          <div className="flex flex-col gap-24 text-left">
             <div>
               <span className="text-[11px] font-medium text-primary uppercase tracking-wider mx-auto md:mx-0">NEDEN HAZARAL?</span>
               <h2 className="text-[28px] md:text-[32px] font-medium text-on-surface tracking-[-1.5px] mt-8 leading-tight">Hasarlı araç satışını hızlı, güvenli ve zahmetsiz hale getiriyoruz.</h2>
@@ -74,7 +74,7 @@ export function WhyChooseUs() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ delay: i * 0.08, duration: 0.35, ease: "easeOut" }}
-                className="bg-surface border border-[0.5px] border-border-default rounded-[14px] p-24 text-center md:text-left flex flex-col items-center md:items-start"
+                className="bg-surface border border-[0.5px] border-border-default rounded-[14px] p-24 text-left flex flex-col items-start"
               >
                 <div className="inline-flex bg-accent-light border border-[0.5px] border-accent-border p-12 rounded-full mb-16">
                   <Icon size={24} strokeWidth={1.5} className="text-primary" />
@@ -86,15 +86,15 @@ export function WhyChooseUs() {
           </div>
 
           <div className="mt-16 p-24 bg-surface border border-[0.5px] border-border-default rounded-[14px] flex flex-col md:flex-row gap-24 md:justify-around md:items-center">
-            <div className="flex flex-col items-center text-center">
+            <div className="flex flex-col items-start text-left">
               <span className="text-[24px] font-bold text-on-surface">3.200+</span>
               <span className="text-[13px] text-muted-text mt-4">araç değerlendirildi</span>
             </div>
-            <div className="flex flex-col items-center text-center border-y md:border-y-0 md:border-x border-[0.5px] border-border-default py-24 md:py-0 md:px-24">
+            <div className="flex flex-col items-start text-left border-y md:border-y-0 md:border-x border-[0.5px] border-border-default py-24 md:py-0 md:px-24">
               <span className="text-[24px] font-bold text-on-surface">24 saat içinde</span>
               <span className="text-[13px] text-muted-text mt-4">tüm süreç tamamlanır</span>
             </div>
-            <div className="flex flex-col items-center text-center">
+            <div className="flex flex-col items-start text-left">
               <span className="text-[24px] font-bold text-on-surface">Türkiye Geneli</span>
               <span className="text-[13px] text-muted-text mt-4">her noktadan alım</span>
             </div>

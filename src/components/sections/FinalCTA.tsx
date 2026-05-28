@@ -24,7 +24,7 @@ export function FinalCTA() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="flex flex-col items-center text-center gap-24"
+          className="flex flex-col items-start text-left gap-24"
         >
           <div>
             <span className="text-[11px] font-medium text-accent uppercase tracking-wider">

@@ -70,19 +70,15 @@ export default async function SehirlerPage({ params }: Props) {
         {/* Hero */}
         <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-44 md:py-60">
           <Container>
-            <div className="flex flex-col items-start gap-16 max-w-[640px]">
-              <Badge variant="accent">
-                <MapPin size={11} aria-hidden className="mr-4 inline" />
-                Türkiye Geneli
-              </Badge>
+            <div className="flex flex-col items-start gap-16 max-w-[640px] w-full">
+              <Badge variant="accent">Şehirler</Badge>
               <h1 className="text-section-title-mobile md:text-[40px] font-medium tracking-heading text-text-primary">
-                Türkiye&apos;nin Her Şehrinde Hasarlı Araç Alımı
+                Türkiye&apos;nin Her Yerinden Hasarlı Araç Alımı
               </h1>
               <p className="text-[14px] text-text-muted leading-relaxed">
-                Türkiye genelinde {cities.length} büyük ilde kazalı, pert, yanmış ve hurda araç alım
-                hizmeti sunuyoruz. Şehrinizi seçin, ücretsiz teklif alın.
+                Nerede olursanız olun, kazalı veya arızalı aracınızı ücretsiz çekici hizmetimizle kapınızdan alıyor, ödemesini anında nakit yapıyoruz.
               </p>
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-12 mt-8">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-12 mt-8 w-full sm:w-auto">
                 <Link
                   href={routes.quote(locale)}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-8 bg-primary text-white px-32 py-16 rounded-btn font-medium text-[14px] hover:opacity-90 transition-opacity"
@@ -111,7 +107,7 @@ export default async function SehirlerPage({ params }: Props) {
             <SectionHeader
               title="Hizmet Verdiğimiz Şehirler"
               subtitle="Aşağıdan şehrinizi seçin, o şehre özel hasarlı araç alım sayfasına ulaşın."
-              align="center"
+              align="left"
               className="mb-32 md:mb-44"
             />
             <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-16">

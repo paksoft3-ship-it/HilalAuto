@@ -58,15 +58,15 @@ export default async function NasilCalisirPage({ params }: Props) {
         {/* Hero */}
         <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-44 md:py-60">
           <Container>
-            <div className="flex flex-col items-start gap-16 max-w-[640px]">
-              <Badge variant="accent">Süreç</Badge>
+            <div className="flex flex-col items-start gap-16 max-w-[640px] w-full">
+              <Badge variant="accent">Nasıl Çalışır</Badge>
               <h1 className="text-section-title-mobile md:text-[40px] font-medium tracking-heading text-text-primary">
-                HazarAl ile Hasarlı Araç Satmak 6 Adımda Tamamlanır
+                Hasarlı Aracınızı Satmak Artık Çok Daha Kolay
               </h1>
               <p className="text-[14px] text-text-muted leading-relaxed">
-                Formu doldurmaktan ödemeye kadar tüm süreci açıklıyoruz. Karmaşık değil, hızlı ve güvenli.
+                Ekspertizden ödemeye kadar tüm süreci şeffaf ve güvenli bir şekilde yönetiyoruz. Siz sadece teklifimizi değerlendirin, gerisini bize bırakın.
               </p>
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-12 mt-8">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-12 mt-8 w-full sm:w-auto">
                 <Link
                   href={routes.quote(locale)}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-8 bg-primary text-white px-32 py-16 rounded-btn font-medium text-[14px] hover:opacity-90 transition-opacity"
@@ -92,7 +92,7 @@ export default async function NasilCalisirPage({ params }: Props) {
         {/* Steps */}
         <section className="py-44 md:py-60">
           <Container>
-            <SectionHeader title="6 Adımlı Süreç" subtitle="Başvurudan ödemeye kadar her adım." align="center" className="mb-32 md:mb-44" />
+            <SectionHeader title="6 Adımlı Süreç" subtitle="Başvurudan ödemeye kadar her adım." align="left" className="mb-32 md:mb-44" />
             <ol className="flex flex-col gap-0" aria-label="Süreç adımları">
               {STEPS.map((step, i) => (
                 <li key={step.num} className="flex gap-24 pb-32 relative">
@@ -137,7 +137,7 @@ export default async function NasilCalisirPage({ params }: Props) {
         {/* Trust */}
         <section className="py-44 md:py-60">
           <Container>
-            <SectionHeader title="Güvenli mi?" subtitle="Sürecimiz tamamen şeffaf ve güvenlidir." align="center" className="mb-32 md:mb-44" />
+            <SectionHeader title="Güvenli mi?" subtitle="Sürecimiz tamamen şeffaf ve güvenlidir." align="left" className="mb-32 md:mb-44" />
             <ul className="grid grid-cols-2 md:grid-cols-4 gap-16">
               {TRUST_ITEMS.map(({ title, desc }) => (
                 <li key={title} className="flex flex-col gap-8 p-24 bg-bg-surface border border-[0.5px] border-border-default rounded-card">

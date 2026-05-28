@@ -41,7 +41,7 @@ export default function BlogIndexPage() {
       <main className="min-h-screen pb-[76px] md:pb-0">
         <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-44 md:py-60 mb-60">
           <Container>
-            <div className="flex flex-col items-start gap-16 max-w-[640px]">
+            <div className="flex flex-col items-start gap-16 max-w-[640px] w-full">
               <Badge variant="accent">Blog</Badge>
               <h1 className="text-section-title-mobile md:text-[40px] font-medium tracking-heading text-text-primary">
                 Sektörel Haberler ve Rehberler
@@ -49,7 +49,7 @@ export default function BlogIndexPage() {
               <p className="text-[14px] text-text-muted leading-relaxed">
                 Hasarlı araç sektörü, araç değer kaybı ve sigorta işlemleri hakkında güncel bilgiler.
               </p>
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-12 mt-8">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-12 mt-8 w-full sm:w-auto">
                 <Link
                   href={routes.quote(locale)}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-8 bg-primary text-white px-32 py-16 rounded-btn font-medium text-[14px] hover:opacity-90 transition-opacity"

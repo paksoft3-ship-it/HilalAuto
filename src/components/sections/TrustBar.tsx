@@ -34,7 +34,7 @@ export function TrustBar() {
       <Container>
         <ul className="grid grid-cols-2 gap-y-32 gap-x-16 md:grid-cols-4 md:gap-32">
           {ITEMS.map(({ icon: Icon, label, desc }) => (
-            <li key={label} className="flex flex-col items-center text-center gap-8">
+            <li key={label} className="flex flex-col items-start text-left gap-8">
               <Icon size={32} strokeWidth={1.5} className="text-primary" aria-hidden />
               <div>
                 <h3 className="text-[13px] md:text-[14px] font-medium text-on-surface">{label}</h3>

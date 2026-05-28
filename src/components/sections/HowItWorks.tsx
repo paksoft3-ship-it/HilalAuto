@@ -43,7 +43,7 @@ export function HowItWorks() {
           badge="Süreç"
           title="3 Adımda Aracınızı Satın"
           subtitle="Bilgilerinizi gönderin, uzman ekibimiz size hızlıca ulaşsın. Aracınızı bulunduğu yerden teslim alalım."
-          align="center"
+          align="left"
           className="mb-32 md:mb-44"
         />
 
@@ -55,7 +55,7 @@ export function HowItWorks() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ delay: i * 0.1, duration: 0.4, ease: "easeOut" }}
-              className="bg-surface-container-lowest border border-[0.5px] border-border-default rounded-[14px] p-24 flex flex-col gap-16 text-center relative z-10"
+              className="bg-surface-container-lowest border border-[0.5px] border-border-default rounded-[14px] p-24 flex flex-col gap-16 text-left relative z-10"
             >
               <div className="flex flex-col items-center gap-12">
                 <span
@@ -86,7 +86,7 @@ export function HowItWorks() {
           transition={{ delay: 0.3, duration: 0.4 }}
           className="mt-32 md:mt-44 p-24 border border-[0.5px] border-border-default rounded-xl flex flex-col sm:flex-row items-center justify-between gap-16 bg-surface-container-lowest"
         >
-          <p className="text-[14px] text-on-surface text-center sm:text-left">
+          <p className="text-[14px] text-on-surface text-left">
             Aracınız için ücretsiz ve bağlayıcı olmayan teklif alın.
           </p>
           <Link

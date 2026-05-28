@@ -73,7 +73,7 @@ export default async function AracTurleriPage({ params }: Props) {
         {/* Hero */}
         <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-44 md:py-60 mb-60">
           <Container>
-            <div className="flex flex-col items-start gap-16 max-w-[640px]">
+            <div className="flex flex-col items-start gap-16 max-w-[640px] w-full">
               <Badge variant="accent">Araç Türleri</Badge>
               <h1 className="text-section-title-mobile md:text-[40px] font-medium tracking-heading text-text-primary">
                 Her Türlü Hasarlı Aracı Değerinde Alıyoruz
@@ -81,7 +81,7 @@ export default async function AracTurleriPage({ params }: Props) {
               <p className="text-[14px] text-text-muted leading-relaxed">
                 Kazalı, pert, yanmış, sel hasarlı veya arızalı fark etmez. Aracınızın durumunu bildirin, ücretsiz teklif alın.
               </p>
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-12 mt-8">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-12 mt-8 w-full sm:w-auto">
                 <Link
                   href={routes.quote(locale)}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-8 bg-primary text-white px-32 py-16 rounded-btn font-medium text-[14px] hover:opacity-90 transition-opacity"
@@ -131,7 +131,7 @@ export default async function AracTurleriPage({ params }: Props) {
         {/* City links */}
         <section className="bg-bg-surface border-y border-[0.5px] border-border-default py-44 md:py-60">
           <Container>
-            <SectionHeader title="Hizmet Verdiğimiz Şehirler" subtitle="Türkiye'nin büyük şehirlerinde yerinden alım hizmeti." align="center" className="mb-32" />
+            <SectionHeader title="Hizmet Verdiğimiz Şehirler" subtitle="Türkiye'nin büyük şehirlerinde yerinden alım hizmeti." align="left" className="mb-32" />
             <ul className="flex flex-wrap gap-8 justify-center">
               {Object.entries(CITIES).map(([slug, name]) => (
                 <li key={slug}>

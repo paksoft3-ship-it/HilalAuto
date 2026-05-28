@@ -132,23 +132,27 @@ export default async function ServicePage({ params }: Props) {
         <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-44 md:py-60">
           <Container>
             <div className="flex flex-col lg:flex-row gap-44 md:gap-60 items-start">
-              <div className="flex-1">
-                <Badge variant="accent" className="mb-24">{service.hero.badge}</Badge>
-                <h1 className="text-section-title-mobile md:text-[40px] font-medium tracking-heading text-text-primary mb-16">
-                  {service.hero.heading}
+              <div className="flex flex-col items-start gap-16 w-full">
+                <Badge variant="accent" className="uppercase tracking-wide">{service.title}</Badge>
+                <h1 className="text-section-title-mobile md:text-section-title font-medium tracking-heading text-text-primary leading-[1.1]">
+                  {service.seoTitle}
                 </h1>
-                <p className="text-[14px] text-text-muted leading-relaxed max-w-[480px] mb-32">
-                  {service.hero.description}
+                <p className="text-body-md text-text-muted">
+                  {service.seoDescription}
                 </p>
-                <ul className="flex flex-col gap-8 mb-32">
-                  {service.conditions.map(({ label }) => (
-                    <li key={label} className="flex items-center gap-8">
-                      <CheckCircle size={15} strokeWidth={1.5} className="text-accent shrink-0" aria-hidden />
-                      <span className="text-[13px] text-text-muted">{label}</span>
+                
+                <ul className="flex flex-col gap-12 mt-8 mb-8 w-full">
+                  {service.features.map((feature, i) => (
+                    <li key={i} className="flex items-start gap-12">
+                      <div className="mt-4 w-16 h-16 rounded-full bg-accent-light border border-accent-border flex items-center justify-center shrink-0">
+                        <Check size={10} strokeWidth={2.5} className="text-accent" aria-hidden />
+                      </div>
+                      <span className="text-[14px] text-text-secondary">{feature}</span>
                     </li>
                   ))}
                 </ul>
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-12">
+
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-12 w-full sm:w-auto">
                   <Link href={routes.quote(locale)} className="w-full sm:w-auto inline-flex items-center justify-center gap-8 bg-primary text-white px-32 py-16 rounded-btn font-medium text-[14px] hover:opacity-90 transition-opacity">
                     Ücretsiz Teklif Al <ArrowRight size={16} strokeWidth={1.5} aria-hidden />
                   </Link>
@@ -179,7 +183,7 @@ export default async function ServicePage({ params }: Props) {
         {/* Problems */}
         <section className="py-44 md:py-60">
           <Container>
-            <SectionHeader title="Hangi Durumlar Kapsanıyor?" subtitle="Aşağıdaki durumlardan herhangi birinde değerlendirme yapıyoruz." align="center" className="mb-32 md:mb-44" />
+            <SectionHeader title="Hangi Durumlar Kapsanıyor?" subtitle="Aşağıdaki durumlardan herhangi birinde değerlendirme yapıyoruz." align="left" className="mb-32 md:mb-44" />
             <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-16">
               {service.problems.map(({ title, desc }) => (
                 <li key={title}>
@@ -198,7 +202,7 @@ export default async function ServicePage({ params }: Props) {
         {/* How it works */}
         <section className="bg-bg-surface border-y border-[0.5px] border-border-default py-44 md:py-60">
           <Container>
-            <SectionHeader title="Nasıl Çalışır?" subtitle="3 adımda aracınızı satın." align="center" className="mb-32 md:mb-44" />
+            <SectionHeader title="Nasıl Çalışır?" subtitle="3 adımda aracınızı satın." align="left" className="mb-32 md:mb-44" />
             <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
               {HOW_IT_WORKS.map(({ num, title, desc }) => (
                 <div key={num} className="flex flex-col gap-12 p-24 bg-white border border-[0.5px] border-border-default rounded-card text-center">
@@ -218,7 +222,7 @@ export default async function ServicePage({ params }: Props) {
         {/* FAQ */}
         <section className="py-44 md:py-60 border-b border-[0.5px] border-border-default">
           <Container>
-            <SectionHeader title="Sık Sorulan Sorular" align="center" className="mb-32" />
+            <SectionHeader title="Sık Sorulan Sorular" align="left" className="mb-32" />
             <div className="max-w-[720px] mx-auto">
               <Accordion items={service.faqs} />
             </div>
@@ -229,7 +233,7 @@ export default async function ServicePage({ params }: Props) {
         {relatedServices.length > 0 && (
           <section className="py-44 md:py-60 bg-bg-surface border-b border-[0.5px] border-border-default">
             <Container>
-              <SectionHeader title="İlgili Hizmetler" align="center" className="mb-32" />
+              <SectionHeader title="İlgili Hizmetler" align="left" className="mb-32" />
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-16 max-w-[640px] mx-auto">
                 {relatedServices.map((s) => (
                   <li key={s.slug}>

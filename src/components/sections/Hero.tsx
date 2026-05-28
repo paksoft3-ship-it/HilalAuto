@@ -50,12 +50,12 @@ export function Hero() {
       <Container className="py-44 md:py-[100px]">
         <div className="flex flex-col md:flex-row gap-44 md:gap-60 items-center">
           {/* Left: content */}
-          <div className="flex-1 w-full text-center md:text-left">
+          <div className="flex-1 w-full text-left">
             <motion.div
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
-              className="flex justify-center md:justify-start mb-24"
+              className="flex justify-start mb-24"
             >
               <Badge variant="accent">Hızlı &amp; Güvenilir</Badge>
             </motion.div>
@@ -63,7 +63,7 @@ export function Hero() {
             <AnimatedHeading />
 
             <motion.p
-              className="mt-16 md:mt-24 text-[14px] text-secondary leading-relaxed max-w-[500px] mx-auto md:mx-0"
+              className="mt-16 md:mt-24 text-[14px] text-secondary leading-relaxed max-w-[500px]"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.4 }}
@@ -75,7 +75,7 @@ export function Hero() {
 
             {/* Bullets */}
             <motion.ul
-              className="mt-24 flex flex-col gap-8 items-center md:items-start"
+              className="mt-24 flex flex-col gap-8 items-start"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.65, duration: 0.4 }}
@@ -96,14 +96,14 @@ export function Hero() {
 
             {/* CTA buttons */}
             <motion.div
-              className="mt-32 flex flex-col sm:flex-row gap-12 justify-center md:justify-start"
+              className="mt-32 flex flex-col sm:flex-row gap-12 justify-start w-full sm:w-auto"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8, duration: 0.4 }}
             >
               <Link
                 href={routes.quote(locale)}
-                className="inline-flex items-center justify-center bg-primary text-on-primary px-32 py-16 rounded-btn font-medium text-[14px] hover:opacity-90 transition-opacity"
+                className="w-full sm:w-auto inline-flex items-center justify-center bg-primary text-on-primary px-32 py-16 rounded-btn font-medium text-[14px] hover:opacity-90 transition-opacity"
               >
                 Ücretsiz Teklif Al
               </Link>
@@ -114,7 +114,7 @@ export function Hero() {
                 )}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-8 bg-transparent border border-whatsapp-green text-whatsapp-green px-32 py-16 rounded-btn text-[14px] font-medium hover:bg-whatsapp-green hover:text-white transition-colors"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-8 bg-transparent border border-whatsapp-green text-whatsapp-green px-32 py-16 rounded-btn text-[14px] font-medium hover:bg-whatsapp-green hover:text-white transition-colors"
                 aria-label="WhatsApp ile yazın"
               >
                 <FaWhatsapp size={16} strokeWidth={1.5} aria-hidden />
