@@ -70,7 +70,7 @@ export default async function BlogDetailPage({ params }: Props) {
     <>
       <Navbar />
       <main className="bg-surface pb-[76px] md:pb-0 pt-32">
-        <Container className="max-w-[800px]">
+        <Container>
           <Link
             href={`/${locale}/blog`}
             className="inline-flex items-center gap-8 text-[13px] text-muted-text hover:text-on-surface transition-colors mb-32"
@@ -100,7 +100,7 @@ export default async function BlogDetailPage({ params }: Props) {
               </div>
             )}
 
-            <div className="bg-surface-container-lowest border border-[0.5px] border-border-default rounded-[14px] p-24 md:p-44">
+            <div className="bg-surface-container-lowest border border-[0.5px] border-border-default rounded-[14px] p-24 md:p-32">
               <div
                 className="prose prose-sm md:prose-base prose-neutral max-w-none
                   prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-on-surface

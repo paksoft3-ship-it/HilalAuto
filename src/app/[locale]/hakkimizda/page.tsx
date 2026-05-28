@@ -88,7 +88,7 @@ export default async function HakkimizdaPage({ params }: Props) {
 
         {/* Story */}
         <section className="py-44 md:py-60">
-          <Container narrow>
+          <Container>
             <div className="flex flex-col gap-24 text-[14px] text-muted-text leading-relaxed">
               <h2 className="text-section-title-mobile md:text-[28px] font-medium tracking-heading text-on-surface">
                 Hikayemiz
