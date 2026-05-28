@@ -11,7 +11,7 @@ export default function AdminLeads() {
 
   async function fetchLeads() {
     setLoading(true);
-    const { data } = await supabase.from("leads").select("*").order("created_at", { ascending: false });
+    const { data } = await supabase.from("hazaral_leads").select("*").order("created_at", { ascending: false });
     setLeads(data || []);
     setLoading(false);
   }
@@ -21,7 +21,7 @@ export default function AdminLeads() {
   }, []);
 
   async function updateStatus(id: string, newStatus: string) {
-    const { error } = await supabase.from("leads").update({ status: newStatus }).eq("id", id);
+    const { error } = await supabase.from("hazaral_leads").update({ status: newStatus }).eq("id", id);
     if (!error) {
       setLeads(leads.map(lead => lead.id === id ? { ...lead, status: newStatus } : lead));
     } else {
@@ -31,7 +31,7 @@ export default function AdminLeads() {
 
   async function deleteLead(id: string) {
     if (!confirm("Bu talebi silmek istediğinize emin misiniz?")) return;
-    const { error } = await supabase.from("leads").delete().eq("id", id);
+    const { error } = await supabase.from("hazaral_leads").delete().eq("id", id);
     if (!error) {
       setLeads(leads.filter(lead => lead.id !== id));
     } else {

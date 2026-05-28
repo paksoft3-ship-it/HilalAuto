@@ -23,10 +23,10 @@ export default function AdminDashboard() {
         { count: blogsCount },
         { data: leads }
       ] = await Promise.all([
-        supabase.from("leads").select("*", { count: "exact", head: true }),
-        supabase.from("cars").select("*", { count: "exact", head: true }),
-        supabase.from("blogs").select("*", { count: "exact", head: true }),
-        supabase.from("leads").select("*").order("created_at", { ascending: false }).limit(5)
+        supabase.from("hazaral_leads").select("*", { count: "exact", head: true }),
+        supabase.from("hazaral_cars").select("*", { count: "exact", head: true }),
+        supabase.from("hazaral_blogs").select("*", { count: "exact", head: true }),
+        supabase.from("hazaral_leads").select("*").order("created_at", { ascending: false }).limit(5)
       ]);
 
       setStats({

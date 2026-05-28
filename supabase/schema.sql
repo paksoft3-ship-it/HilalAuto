@@ -1,7 +1,7 @@
 -- Supabase Schema for HazarAl Advanced Features
 
 -- 1. Profiles Table (For Admins)
-create table public.profiles (
+create table public.hazaral_profiles (
   id uuid references auth.users on delete cascade not null primary key,
   email text not null,
   role text default 'admin' check (role in ('admin', 'user')),
@@ -9,7 +9,7 @@ create table public.profiles (
 );
 
 -- 2. Leads Table (For Quick Quotes and Contact Forms)
-create table public.leads (
+create table public.hazaral_leads (
   id uuid default gen_random_uuid() primary key,
   brand text,
   model_year text,
@@ -22,7 +22,7 @@ create table public.leads (
 );
 
 -- 3. Cars Table (Marketplace for damaged cars)
-create table public.cars (
+create table public.hazaral_cars (
   id uuid default gen_random_uuid() primary key,
   title text not null,
   brand text not null,
@@ -38,7 +38,7 @@ create table public.cars (
 );
 
 -- 4. Blogs Table
-create table public.blogs (
+create table public.hazaral_blogs (
   id uuid default gen_random_uuid() primary key,
   title text not null,
   slug text not null unique,
@@ -53,33 +53,33 @@ create table public.blogs (
 
 -- Row Level Security (RLS)
 
-alter table public.profiles enable row level security;
-alter table public.leads enable row level security;
-alter table public.cars enable row level security;
-alter table public.blogs enable row level security;
+alter table public.hazaral_profiles enable row level security;
+alter table public.hazaral_leads enable row level security;
+alter table public.hazaral_cars enable row level security;
+alter table public.hazaral_blogs enable row level security;
 
 -- Profiles: Users can read their own profile. Service role/admins can read all.
-create policy "Users can view own profile" on public.profiles for select using (auth.uid() = id);
+create policy "Users can view own profile" on public.hazaral_profiles for select using (auth.uid() = id);
 
 -- Leads: Anyone can insert (public forms). Only authenticated users (admins) can view/update.
-create policy "Anyone can insert leads" on public.leads for insert with check (true);
-create policy "Admins can view leads" on public.leads for select using (auth.role() = 'authenticated');
-create policy "Admins can update leads" on public.leads for update using (auth.role() = 'authenticated');
+create policy "Anyone can insert leads" on public.hazaral_leads for insert with check (true);
+create policy "Admins can view leads" on public.hazaral_leads for select using (auth.role() = 'authenticated');
+create policy "Admins can update leads" on public.hazaral_leads for update using (auth.role() = 'authenticated');
 
 -- Cars: Anyone can view available cars. Only admins can insert/update/delete.
-create policy "Anyone can view available cars" on public.cars for select using (status = 'available' or auth.role() = 'authenticated');
-create policy "Admins can insert cars" on public.cars for insert with check (auth.role() = 'authenticated');
-create policy "Admins can update cars" on public.cars for update using (auth.role() = 'authenticated');
-create policy "Admins can delete cars" on public.cars for delete using (auth.role() = 'authenticated');
+create policy "Anyone can view available cars" on public.hazaral_cars for select using (status = 'available' or auth.role() = 'authenticated');
+create policy "Admins can insert cars" on public.hazaral_cars for insert with check (auth.role() = 'authenticated');
+create policy "Admins can update cars" on public.hazaral_cars for update using (auth.role() = 'authenticated');
+create policy "Admins can delete cars" on public.hazaral_cars for delete using (auth.role() = 'authenticated');
 
 -- Blogs: Anyone can view published blogs. Only admins can insert/update/delete.
-create policy "Anyone can view published blogs" on public.blogs for select using (status = 'published' or auth.role() = 'authenticated');
-create policy "Admins can insert blogs" on public.blogs for insert with check (auth.role() = 'authenticated');
-create policy "Admins can update blogs" on public.blogs for update using (auth.role() = 'authenticated');
-create policy "Admins can delete blogs" on public.blogs for delete using (auth.role() = 'authenticated');
+create policy "Anyone can view published blogs" on public.hazaral_blogs for select using (status = 'published' or auth.role() = 'authenticated');
+create policy "Admins can insert blogs" on public.hazaral_blogs for insert with check (auth.role() = 'authenticated');
+create policy "Admins can update blogs" on public.hazaral_blogs for update using (auth.role() = 'authenticated');
+create policy "Admins can delete blogs" on public.hazaral_blogs for delete using (auth.role() = 'authenticated');
 
 -- Triggers for updated_at
-create or replace function public.handle_updated_at()
+create or replace function public.hazaral_handle_updated_at()
 returns trigger as $$
 begin
   new.updated_at = now();
@@ -87,24 +87,24 @@ begin
 end;
 $$ language plpgsql;
 
-create trigger set_cars_updated_at
-  before update on public.cars
-  for each row execute procedure public.handle_updated_at();
+create trigger hazaral_set_cars_updated_at
+  before update on public.hazaral_cars
+  for each row execute procedure public.hazaral_handle_updated_at();
 
-create trigger set_blogs_updated_at
-  before update on public.blogs
-  for each row execute procedure public.handle_updated_at();
+create trigger hazaral_set_blogs_updated_at
+  before update on public.hazaral_blogs
+  for each row execute procedure public.hazaral_handle_updated_at();
 
 -- Trigger to automatically create a profile on user signup
-create or replace function public.handle_new_user()
+create or replace function public.hazaral_handle_new_user()
 returns trigger as $$
 begin
-  insert into public.profiles (id, email, role)
+  insert into public.hazaral_profiles (id, email, role)
   values (new.id, new.email, 'admin');
   return new;
 end;
 $$ language plpgsql;
 
-create trigger on_auth_user_created
+create trigger hazaral_on_auth_user_created
   after insert on auth.users
-  for each row execute procedure public.handle_new_user();
+  for each row execute procedure public.hazaral_handle_new_user();

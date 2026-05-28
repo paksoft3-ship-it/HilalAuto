@@ -15,7 +15,7 @@ export default function AdminBlogs() {
 
   async function fetchBlogs() {
     setLoading(true);
-    const { data } = await supabase.from("blogs").select("*").order("created_at", { ascending: false });
+    const { data } = await supabase.from("hazaral_blogs").select("*").order("created_at", { ascending: false });
     setBlogs(data || []);
     setLoading(false);
   }
@@ -25,7 +25,7 @@ export default function AdminBlogs() {
   }, []);
 
   async function updateStatus(id: string, newStatus: string) {
-    const { error } = await supabase.from("blogs").update({ status: newStatus }).eq("id", id);
+    const { error } = await supabase.from("hazaral_blogs").update({ status: newStatus }).eq("id", id);
     if (!error) {
       setBlogs(blogs.map(blog => blog.id === id ? { ...blog, status: newStatus } : blog));
     }
@@ -33,7 +33,7 @@ export default function AdminBlogs() {
 
   async function deleteBlog(id: string) {
     if (!confirm("Bu yazıyı silmek istediğinize emin misiniz?")) return;
-    const { error } = await supabase.from("blogs").delete().eq("id", id);
+    const { error } = await supabase.from("hazaral_blogs").delete().eq("id", id);
     if (!error) {
       setBlogs(blogs.filter(blog => blog.id !== id));
     }

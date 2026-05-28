@@ -17,7 +17,7 @@ export default function BlogIndexPage() {
   useEffect(() => {
     async function loadBlogs() {
       const { data } = await supabase
-        .from("blogs")
+        .from("hazaral_blogs")
         .select("*")
         .eq("status", "published")
         .eq("locale", locale)

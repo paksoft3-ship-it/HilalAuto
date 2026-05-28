@@ -14,7 +14,7 @@ export default function AdminCars() {
 
   async function fetchCars() {
     setLoading(true);
-    const { data } = await supabase.from("cars").select("*").order("created_at", { ascending: false });
+    const { data } = await supabase.from("hazaral_cars").select("*").order("created_at", { ascending: false });
     setCars(data || []);
     setLoading(false);
   }
@@ -24,7 +24,7 @@ export default function AdminCars() {
   }, []);
 
   async function updateStatus(id: string, newStatus: string) {
-    const { error } = await supabase.from("cars").update({ status: newStatus }).eq("id", id);
+    const { error } = await supabase.from("hazaral_cars").update({ status: newStatus }).eq("id", id);
     if (!error) {
       setCars(cars.map(car => car.id === id ? { ...car, status: newStatus } : car));
     }
@@ -32,7 +32,7 @@ export default function AdminCars() {
 
   async function deleteCar(id: string) {
     if (!confirm("Bu ilanı silmek istediğinize emin misiniz?")) return;
-    const { error } = await supabase.from("cars").delete().eq("id", id);
+    const { error } = await supabase.from("hazaral_cars").delete().eq("id", id);
     if (!error) {
       setCars(cars.filter(car => car.id !== id));
     }

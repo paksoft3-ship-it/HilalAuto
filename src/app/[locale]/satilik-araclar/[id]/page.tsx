@@ -20,7 +20,7 @@ export default function CarDetailPage() {
   useEffect(() => {
     async function loadCar() {
       if (!id) return;
-      const { data, error } = await supabase.from("cars").select("*").eq("id", id).single();
+      const { data, error } = await supabase.from("hazaral_cars").select("*").eq("id", id).single();
       
       if (error || !data) {
         notFound();

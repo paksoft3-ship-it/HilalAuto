@@ -18,7 +18,7 @@ export default function BlogDetailPage() {
   useEffect(() => {
     async function loadBlog() {
       if (!slug) return;
-      const { data, error } = await supabase.from("blogs").select("*").eq("slug", slug).single();
+      const { data, error } = await supabase.from("hazaral_blogs").select("*").eq("slug", slug).single();
       
       if (error || !data) {
         notFound();

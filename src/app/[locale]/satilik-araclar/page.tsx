@@ -22,7 +22,7 @@ export default function MarketplacePage() {
     async function loadCars() {
       setLoading(true);
       const { data } = await supabase
-        .from("cars")
+        .from("hazaral_cars")
         .select("*")
         .eq("status", "available")
         .order("created_at", { ascending: false });
