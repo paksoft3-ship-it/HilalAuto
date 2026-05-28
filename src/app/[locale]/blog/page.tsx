@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Container } from "@/components/ui/Container";
-import { SectionHeader } from "@/components/ui/SectionHeader";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Calendar, ArrowRight } from "lucide-react";
