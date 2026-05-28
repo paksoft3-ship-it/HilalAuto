@@ -1,10 +1,9 @@
-"use client";
-
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
-import { ArrowRight } from "lucide-react";
-import { routes } from "@/lib/routes";
-import { DAMAGE_TYPES } from "@/lib/constants";
+import { ArrowRight, Loader2 } from "lucide-react";
+import { externalRoutes } from "@/lib/routes";
+import { DAMAGE_TYPES, WHATSAPP_NUMBER } from "@/lib/constants";
 
 const CURRENT_YEAR = new Date().getFullYear();
 const YEARS = Array.from({ length: 30 }, (_, i) => String(CURRENT_YEAR - i));
@@ -12,11 +11,52 @@ const YEARS = Array.from({ length: 30 }, (_, i) => String(CURRENT_YEAR - i));
 export function QuickQuoteForm() {
   const params = useParams();
   const locale = (params?.locale as string) ?? "tr";
-  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  const [formData, setFormData] = useState({
+    brand: "",
+    year: "",
+    damage: "",
+    city: "",
+    phone: "",
+  });
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    router.push(routes.quote(locale));
+    setErrorMsg("");
+
+    if (!formData.brand || !formData.year || !formData.damage || !formData.city || !formData.phone) {
+      setErrorMsg("Lütfen tüm alanları doldurun.");
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const res = await fetch("/api/quick-quote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Bir hata oluştu.");
+      }
+
+      // Success! Format WhatsApp message and redirect
+      const message = `Merhaba, ${formData.brand} (${formData.year}) aracım için teklif almak istiyorum. Hasar: ${formData.damage}, Şehir: ${formData.city}. Telefonum: ${formData.phone}`;
+      window.open(externalRoutes.whatsapp(WHATSAPP_NUMBER, message), "_blank");
+      
+      // Optionally clear form
+      setFormData({ brand: "", year: "", damage: "", city: "", phone: "" });
+    } catch (err: any) {
+      setErrorMsg(err.message || "Bir hata oluştu.");
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -36,6 +76,8 @@ export function QuickQuoteForm() {
           type="text"
           placeholder="Araç Markası"
           autoComplete="off"
+          value={formData.brand}
+          onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
           className="w-full bg-surface-container-lowest border border-[0.5px] border-border-default rounded-input px-16 py-12 text-[14px] text-on-surface placeholder:text-soft-text outline-none focus:border-primary transition-colors"
         />
       </div>
@@ -47,7 +89,8 @@ export function QuickQuoteForm() {
         </label>
         <select
           id="qq-year"
-          defaultValue=""
+          value={formData.year}
+          onChange={(e) => setFormData({ ...formData, year: e.target.value })}
           className="w-full appearance-none bg-surface-container-lowest border border-[0.5px] border-border-default rounded-input px-16 py-12 pr-44 text-[14px] text-on-surface outline-none focus:border-primary transition-colors cursor-pointer"
         >
           <option value="" disabled>
@@ -71,7 +114,8 @@ export function QuickQuoteForm() {
         </label>
         <select
           id="qq-damage"
-          defaultValue=""
+          value={formData.damage}
+          onChange={(e) => setFormData({ ...formData, damage: e.target.value })}
           className="w-full appearance-none bg-surface-container-lowest border border-[0.5px] border-border-default rounded-input px-16 py-12 pr-44 text-[14px] text-on-surface outline-none focus:border-primary transition-colors cursor-pointer"
         >
           <option value="" disabled>
@@ -98,6 +142,8 @@ export function QuickQuoteForm() {
           type="text"
           placeholder="İl / İlçe"
           autoComplete="off"
+          value={formData.city}
+          onChange={(e) => setFormData({ ...formData, city: e.target.value })}
           className="w-full bg-surface-container-lowest border border-[0.5px] border-border-default rounded-input px-16 py-12 text-[14px] text-on-surface placeholder:text-soft-text outline-none focus:border-primary transition-colors"
         />
       </div>
@@ -112,16 +158,32 @@ export function QuickQuoteForm() {
           type="tel"
           placeholder="Telefon Numaranız"
           autoComplete="tel"
+          value={formData.phone}
+          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
           className="w-full bg-surface-container-lowest border border-[0.5px] border-border-default rounded-input px-16 py-12 text-[14px] text-on-surface placeholder:text-soft-text outline-none focus:border-primary transition-colors"
         />
       </div>
 
+      {errorMsg && (
+        <div className="text-error text-[13px] font-medium">{errorMsg}</div>
+      )}
+
       <button
         type="submit"
-        className="w-full flex items-center justify-center gap-8 bg-primary text-on-primary py-16 rounded-btn font-medium text-[14px] hover:opacity-90 transition-opacity mt-4"
+        disabled={isLoading}
+        className="w-full flex items-center justify-center gap-8 bg-primary text-on-primary py-16 rounded-btn font-medium text-[14px] hover:opacity-90 transition-opacity mt-4 disabled:opacity-70 disabled:cursor-not-allowed"
       >
-        Teklifimi Al
-        <ArrowRight size={16} strokeWidth={1.5} aria-hidden />
+        {isLoading ? (
+          <>
+            <Loader2 size={16} className="animate-spin" aria-hidden />
+            İşleniyor...
+          </>
+        ) : (
+          <>
+            Teklifimi Al
+            <ArrowRight size={16} strokeWidth={1.5} aria-hidden />
+          </>
+        )}
       </button>
     </form>
   );
