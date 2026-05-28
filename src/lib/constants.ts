@@ -44,6 +44,11 @@ export const CITY_SLUGS = [
   "adana",
   "gaziantep",
   "kayseri",
+  "mersin",
+  "diyarbakir",
+  "samsun",
+  "balikesir",
+  "hatay",
 ] as const;
 
 export const CITIES: Record<string, string> = {
@@ -57,6 +62,11 @@ export const CITIES: Record<string, string> = {
   adana: "Adana",
   gaziantep: "Gaziantep",
   kayseri: "Kayseri",
+  mersin: "Mersin",
+  diyarbakir: "Diyarbakır",
+  samsun: "Samsun",
+  balikesir: "Balıkesir",
+  hatay: "Hatay",
 };
 
 export const FUEL_TYPES = ["Benzin", "Dizel", "LPG", "Hibrit", "Elektrik"] as const;
@@ -83,5 +93,5 @@ export const GA4_ID = process.env.NEXT_PUBLIC_GA4_ID;
 export const GADS_ID = process.env.NEXT_PUBLIC_GADS_ID;
 export const GADS_CONVERSION_LABEL = process.env.NEXT_PUBLIC_GADS_CONVERSION_LABEL;
 
-export const OG_IMAGE_URL = `${SITE_URL}/images/og-default.jpg`;
+export const OG_IMAGE_URL = `${SITE_URL}/opengraph-image`;
 export const TWITTER_HANDLE = "@hazaral";

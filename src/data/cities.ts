@@ -1,7 +1,7 @@
 export interface CityData {
   slug: string;
   name: string;
-  nameGenitive: string; // e.g. "İstanbul'da"
+  nameGenitive: string;
   districts: string[];
   description: string;
   metaDescription: string;
@@ -120,7 +120,7 @@ export const CITIES_DATA: Record<string, CityData> = {
       "Adana'da hasarlı araç alım hizmeti. Kazalı, motor arızalı araçlar için teklif alın.",
     metaDescription:
       "Adana hasarlı araç alanlar. Kazalı, pert araç için ücretsiz teklif alın. Adana genelinde hizmet.",
-    nearbyCities: ["gaziantep", "ankara"],
+    nearbyCities: ["gaziantep", "mersin"],
   },
   gaziantep: {
     slug: "gaziantep",
@@ -134,7 +134,7 @@ export const CITIES_DATA: Record<string, CityData> = {
       "Gaziantep'te hasarlı araç alım hizmeti. Hızlı değerleme, güvenli devir.",
     metaDescription:
       "Gaziantep hasarlı araç alanlar. Kazalı, pert araç için ücretsiz teklif alın. Gaziantep genelinde hizmet.",
-    nearbyCities: ["adana", "kayseri"],
+    nearbyCities: ["adana", "diyarbakir"],
   },
   kayseri: {
     slug: "kayseri",
@@ -149,6 +149,76 @@ export const CITIES_DATA: Record<string, CityData> = {
     metaDescription:
       "Kayseri hasarlı araç alanlar. Kazalı, pert araç için ücretsiz teklif alın. Kayseri genelinde hizmet.",
     nearbyCities: ["ankara", "adana"],
+  },
+  mersin: {
+    slug: "mersin",
+    name: "Mersin",
+    nameGenitive: "Mersin'de",
+    districts: [
+      "Akdeniz", "Toroslar", "Mezitli", "Yenişehir", "Tarsus",
+      "Erdemli", "Silifke", "Anamur",
+    ],
+    description:
+      "Mersin'de hasarlı araç alım hizmeti. Kazalı, pert ve sel hasarlı araçlar için ücretsiz teklif.",
+    metaDescription:
+      "Mersin hasarlı araç alanlar. Kazalı, pert, yanmış araç için ücretsiz teklif alın. Mersin genelinde hizmet.",
+    nearbyCities: ["adana", "gaziantep"],
+  },
+  diyarbakir: {
+    slug: "diyarbakir",
+    name: "Diyarbakır",
+    nameGenitive: "Diyarbakır'da",
+    districts: [
+      "Bağlar", "Kayapınar", "Sur", "Yenişehir", "Ergani",
+      "Bismil", "Çermik", "Silvan",
+    ],
+    description:
+      "Diyarbakır'da hasarlı araç alım hizmeti. Tüm ilçelerde kazalı, pert, hurda araç için teklif.",
+    metaDescription:
+      "Diyarbakır hasarlı araç alanlar. Kazalı, pert araç için ücretsiz teklif alın. Diyarbakır genelinde hizmet.",
+    nearbyCities: ["gaziantep", "adana"],
+  },
+  samsun: {
+    slug: "samsun",
+    name: "Samsun",
+    nameGenitive: "Samsun'da",
+    districts: [
+      "Atakum", "Canik", "İlkadım", "Tekkeköy", "Bafra",
+      "Çarşamba", "Vezirköprü", "Terme",
+    ],
+    description:
+      "Samsun'da hasarlı araç alım hizmeti. Kazalı, pert, motor arızalı araçlar için yerinden teslim.",
+    metaDescription:
+      "Samsun hasarlı araç alanlar. Kazalı, pert araç için ücretsiz teklif alın. Samsun genelinde hizmet.",
+    nearbyCities: ["ankara", "kayseri"],
+  },
+  balikesir: {
+    slug: "balikesir",
+    name: "Balıkesir",
+    nameGenitive: "Balıkesir'de",
+    districts: [
+      "Altıeylül", "Karesi", "Bandırma", "Edremit", "Burhaniye",
+      "Ayvalık", "Gönen", "Erdek",
+    ],
+    description:
+      "Balıkesir'de hasarlı araç alım hizmeti. Hurda, kazalı ve pert araçlar için ücretsiz değerleme.",
+    metaDescription:
+      "Balıkesir hasarlı araç alanlar. Kazalı, hurda araç için ücretsiz teklif alın. Balıkesir genelinde hizmet.",
+    nearbyCities: ["istanbul", "bursa"],
+  },
+  hatay: {
+    slug: "hatay",
+    name: "Hatay",
+    nameGenitive: "Hatay'da",
+    districts: [
+      "Antakya", "İskenderun", "Defne", "Payas", "Kırıkhan",
+      "Samandağ", "Reyhanlı", "Dörtyol",
+    ],
+    description:
+      "Hatay'da hasarlı araç alım hizmeti. Deprem hasarlı, kazalı, hurda araçlar için teklif alın.",
+    metaDescription:
+      "Hatay hasarlı araç alanlar. Kazalı, hurda araç için ücretsiz teklif alın. Hatay genelinde hizmet.",
+    nearbyCities: ["adana", "gaziantep"],
   },
 };
 

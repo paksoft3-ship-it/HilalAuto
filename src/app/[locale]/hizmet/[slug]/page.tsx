@@ -16,11 +16,22 @@ import { Accordion } from "@/components/ui/Accordion";
 import { QuickQuoteForm } from "@/components/forms/QuickQuoteForm";
 import { SERVICES, ALL_SERVICE_SLUGS } from "@/data/services";
 import { routes } from "@/lib/routes";
-import { SITE_URL } from "@/lib/constants";
+import { SITE_URL, PHONE_NUMBER } from "@/lib/constants";
 
 interface Props {
   params: Promise<{ locale: string; slug: string }>;
 }
+
+const SEO_TITLES: Record<string, string> = {
+  "kazali-arac-alimi": "Kazalı Araç Alanlar & Alımı | HazarAl",
+  "pert-arac-alimi": "Pert Araç Alanlar & Alımı | HazarAl",
+  "yanmis-arac-alimi": "Yanmış Araç Alımı | HazarAl",
+  "sel-hasarli-arac-alimi": "Sel Hasarlı Araç Alanlar | HazarAl",
+  "hurda-arac-alimi": "Hurda Araç Alanlar & Alımı | HazarAl",
+  "motor-arizali-arac-alimi": "Motor Arızalı Araç Alımı | HazarAl",
+  "cekme-belgeli-arac-alimi": "Çekme Belgeli Araç Alımı | HazarAl",
+  "agir-hasarli-arac-alimi": "Ağır Hasarlı Araç Alanlar | HazarAl",
+};
 
 export function generateStaticParams() {
   return ALL_SERVICE_SLUGS.flatMap((slug) => [
@@ -33,14 +44,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const service = SERVICES[slug];
   if (!service) return {};
+  const title = SEO_TITLES[slug] ?? `${service.title} — HazarAl`;
   return {
-    title: `${service.title} — HazarAl`,
+    title,
     description: service.metaDescription,
     alternates: { canonical: `${SITE_URL}/${locale}/hizmet/${slug}` },
     openGraph: {
-      title: `${service.title} — HazarAl`,
+      title,
       description: service.metaDescription,
-      locale: locale === "tr" ? "tr_TR" : "en_US",
+      locale: "tr_TR",
       type: "website",
     },
   };
@@ -70,6 +82,46 @@ export default async function ServicePage({ params }: Props) {
 
   const relatedSlugs = RELATED_SLUGS[slug] ?? [];
   const relatedServices = relatedSlugs.map((s) => SERVICES[s]).filter(Boolean);
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Ana Sayfa", item: `${SITE_URL}/tr` },
+      { "@type": "ListItem", position: 2, name: "Hizmetler", item: `${SITE_URL}/tr/hizmet` },
+      { "@type": "ListItem", position: 3, name: service.title, item: `${SITE_URL}/tr/hizmet/${slug}` },
+    ],
+  };
+
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: service.title,
+    description: service.metaDescription,
+    provider: {
+      "@type": "LocalBusiness",
+      name: "HazarAl",
+      url: SITE_URL,
+      telephone: PHONE_NUMBER,
+    },
+    areaServed: { "@type": "Country", name: "TR" },
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "TRY",
+      description: "Ücretsiz teklif — bağlayıcı değil",
+    },
+  };
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: service.faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: { "@type": "Answer", text: faq.answer },
+    })),
+  };
 
   return (
     <>
@@ -184,6 +236,9 @@ export default async function ServicePage({ params }: Props) {
       <Footer locale={locale} />
       <WhatsAppButton />
       <MobileStickyCTA />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
     </>
   );
 }

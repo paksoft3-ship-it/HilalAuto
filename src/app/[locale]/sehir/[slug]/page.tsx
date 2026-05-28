@@ -15,8 +15,9 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Badge } from "@/components/ui/Badge";
 import { QuickQuoteForm } from "@/components/forms/QuickQuoteForm";
 import { CITIES_DATA, ALL_CITY_SLUGS } from "@/data/cities";
+import { SITE_FAQ_ITEMS } from "@/data/faqs";
 import { routes } from "@/lib/routes";
-import { CITIES, SITE_URL } from "@/lib/constants";
+import { CITIES, SITE_URL, PHONE_NUMBER } from "@/lib/constants";
 
 interface Props {
   params: Promise<{ locale: string; slug: string }>;
@@ -40,7 +41,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: `${city.name} Hasarlı Araç Alanlar — HazarAl`,
       description: city.metaDescription,
-      locale: locale === "tr" ? "tr_TR" : "en_US",
+      locale: "tr_TR",
       type: "website",
     },
   };
@@ -60,7 +61,49 @@ export default async function CityPage({ params }: Props) {
   const city = CITIES_DATA[slug];
   if (!city) notFound();
 
-  const nearbyCities = city.nearbyCities.map((s) => ({ slug: s, name: CITIES[s] ?? s })).filter((c) => c.name);
+  const nearbyCities = city.nearbyCities
+    .map((s) => ({ slug: s, name: CITIES[s] ?? s }))
+    .filter((c) => c.name);
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Ana Sayfa", item: `${SITE_URL}/tr` },
+      { "@type": "ListItem", position: 2, name: "Şehirler", item: `${SITE_URL}/tr/sehir` },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: `${city.name} Hasarlı Araç Alanlar`,
+        item: `${SITE_URL}/tr/sehir/${slug}`,
+      },
+    ],
+  };
+
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "AutoDealer",
+    name: `HazarAl — ${city.name} Hasarlı Araç Alımı`,
+    description: city.metaDescription,
+    url: `${SITE_URL}/tr/sehir/${slug}`,
+    telephone: PHONE_NUMBER,
+    areaServed: {
+      "@type": "City",
+      name: city.name,
+      containedInPlace: { "@type": "Country", name: "TR" },
+    },
+    priceRange: "Ücretsiz Teklif",
+  };
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: SITE_FAQ_ITEMS.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  };
 
   return (
     <>
@@ -81,7 +124,6 @@ export default async function CityPage({ params }: Props) {
                   {city.description}
                 </p>
 
-                {/* Districts */}
                 <div>
                   <p className="text-[12px] font-medium text-text-primary uppercase tracking-wider mb-12">Hizmet Verilen İlçeler</p>
                   <ul className="flex flex-wrap gap-8" aria-label={`${city.name} ilçeleri`}>
@@ -155,6 +197,9 @@ export default async function CityPage({ params }: Props) {
       <Footer locale={locale} />
       <WhatsAppButton />
       <MobileStickyCTA />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
     </>
   );
 }

@@ -8,7 +8,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Check, ChevronRight, ChevronLeft, Upload, X, AlertCircle } from "lucide-react";
 import { routes } from "@/lib/routes";
 import { trackFormStep, trackFormSubmit, trackLeadSuccess } from "@/lib/tracking";
-import { fireGoogleAdsConversion } from "@/lib/gtag";
 import {
   quoteStep1Schema,
   quoteStep2Schema,
@@ -654,7 +653,6 @@ export function MultiStepQuoteForm() {
 
       const leadId = json.leadId ?? "unknown";
       trackLeadSuccess(leadId);
-      fireGoogleAdsConversion();
       router.push(routes.thankYou(locale));
     } catch {
       setSubmitError("Bağlantı hatası. Lütfen tekrar deneyin.");

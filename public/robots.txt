@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /tr/admin/
+Disallow: /tr/tesekkurler
+
+Sitemap: https://hazaral.com/sitemap.xml

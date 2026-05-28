@@ -20,10 +20,12 @@ export function trackCTA(label: string, location: string) {
 }
 
 export function trackConversion(conversionId: string, conversionLabel: string) {
-  if (typeof window === "undefined" || !window.gtag) return;
-  window.gtag("event", "conversion", {
-    send_to: `${conversionId}/${conversionLabel}`,
-  });
+  push({ event: "conversion_lead" });
+  if (typeof window !== "undefined" && typeof window.gtag === "function") {
+    window.gtag("event", "conversion", {
+      send_to: `${conversionId}/${conversionLabel}`,
+    });
+  }
 }
 
 export function trackWhatsApp(location: string) {

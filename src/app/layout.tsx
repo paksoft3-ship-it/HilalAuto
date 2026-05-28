@@ -37,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html suppressHydrationWarning>
+    <html lang="tr" suppressHydrationWarning>
       <body className={`${inter.variable} antialiased font-body-md text-body-md bg-surface-container-lowest text-on-surface`}>{children}</body>
     </html>
   );

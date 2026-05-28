@@ -21,6 +21,11 @@ const CITIES = [
   { label: "Bursa", slug: "bursa" },
   { label: "Konya", slug: "konya" },
   { label: "Antalya", slug: "antalya" },
+  { label: "Mersin", slug: "mersin" },
+  { label: "Diyarbakır", slug: "diyarbakir" },
+  { label: "Samsun", slug: "samsun" },
+  { label: "Balıkesir", slug: "balikesir" },
+  { label: "Hatay", slug: "hatay" },
 ];
 
 interface FooterProps {
