@@ -1,0 +1,148 @@
+{
+  "nav": {
+    "howItWorks": "Nasıl Çalışır",
+    "vehicleTypes": "Araç Türleri",
+    "cities": "Şehirler",
+    "blog": "Blog",
+    "about": "Hakkımızda",
+    "getQuote": "Teklif Al",
+    "call": "Ara",
+    "whatsapp": "WhatsApp"
+  },
+  "hero": {
+    "heading": "Hasarlı Aracınız İçin Hızlı ve Güvenli Teklif Alın",
+    "description": "Kazalı, pert, yanmış, sel hasarlı veya hurda aracınızı değerinde alıyoruz. Kısa formu doldurun, uzman ekibimiz size hızlıca dönüş yapsın.",
+    "ctaQuote": "Ücretsiz Teklif Al",
+    "ctaWhatsApp": "WhatsApp ile Yaz",
+    "formTitle": "Ücretsiz Teklif Al",
+    "formSubtitle": "Bağlayıcı değil · Hızlı dönüş"
+  },
+  "form": {
+    "brand": "Araç Markası",
+    "year": "Model Yılı",
+    "damageType": "Hasar Türü",
+    "city": "İl",
+    "district": "İlçe",
+    "phone": "Telefon Numaranız",
+    "submit": "Teklifimi Al",
+    "name": "Ad Soyad",
+    "vehicleModel": "Araç Modeli",
+    "fuelType": "Yakıt Tipi",
+    "transmission": "Vites Tipi",
+    "description": "Açıklama",
+    "photos": "Fotoğraf Ekle",
+    "kvkk": "KVKK metnini okudum ve kabul ediyorum.",
+    "confirmSubmit": "Ücretsiz Teklif Al",
+    "step1Title": "İletişim Bilgileri",
+    "step2Title": "Araç Bilgileri",
+    "step3Title": "Onay",
+    "next": "Devam Et",
+    "back": "Geri",
+    "brandPlaceholder": "Örn: Toyota",
+    "modelPlaceholder": "Örn: Corolla",
+    "phonePlaceholder": "05xx xxx xx xx",
+    "descriptionPlaceholder": "Aracınız hakkında ek bilgi verebilirsiniz..."
+  },
+  "trustBar": {
+    "item1": "Yerinden Alım",
+    "item2": "Hızlı Değerleme",
+    "item3": "Güvenli Evrak Süreci",
+    "item4": "WhatsApp Destek"
+  },
+  "vehicleTypes": {
+    "title": "Hangi Araçları Alıyoruz?",
+    "subtitle": "Her türlü hasarlı aracı değerinde alıyoruz.",
+    "kazali": "Kazalı Araç",
+    "pert": "Pert Araç",
+    "yanmis": "Yanmış Araç",
+    "sel": "Sel Hasarlı Araç",
+    "hurda": "Hurda Araç",
+    "motor": "Motor Arızalı Araç",
+    "cekme": "Çekme Belgeli Araç",
+    "agir": "Ağır Hasarlı Araç"
+  },
+  "howItWorks": {
+    "title": "Nasıl Çalışır?",
+    "subtitle": "Sadece 3 adımda aracınızı satın.",
+    "step1Title": "Formu Doldurun",
+    "step1Desc": "Araç bilgilerinizi kısa formdan girin, bağlayıcı değil.",
+    "step2Title": "Uzmanımız Sizi Arasın",
+    "step2Desc": "Ekibimiz en kısa sürede araç durumunu değerlendirip size teklif sunar.",
+    "step3Title": "Aracınızı Alalım, Ödemenizi Yapın",
+    "step3Desc": "Anlaşma sağlandığında aracınızı yerinden teslim alır, ödemenizi yaparız."
+  },
+  "socialProof": {
+    "title": "Müşterilerimiz Ne Diyor?",
+    "subtitle": "Binlerce araç sahibi HazarAl ile güvenle satış yaptı."
+  },
+  "whyUs": {
+    "title": "Neden HazarAl?",
+    "subtitle": "Şeffaf, hızlı ve güvenilir hizmet.",
+    "item1Title": "Şeffaf Fiyatlandırma",
+    "item1Desc": "Gizli ücret yok, net teklif.",
+    "item2Title": "Yerinden Alım Kolaylığı",
+    "item2Desc": "Aracınızı kapınızdan teslim alıyoruz.",
+    "item3Title": "Evrak Sürecinde Destek",
+    "item3Desc": "Tüm evrak işlemlerinde yanınızdayız.",
+    "item4Title": "Hızlı İletişim",
+    "item4Desc": "WhatsApp ve telefon ile 7 gün ulaşın."
+  },
+  "faq": {
+    "title": "Sık Sorulan Sorular",
+    "q1": "Hasarlı araç alım süreciniz nasıl işler?",
+    "a1": "Formu doldurursunuz, uzmanımız araç durumunu değerlendirip size en kısa sürede teklif sunar. Anlaşma sağlanırsa aracı yerinden alır, ödemeyi yaparız.",
+    "q2": "Teklif vermek için araç fiziksel olarak görülmesi gerekiyor mu?",
+    "a2": "Hayır. Fotoğraf ve açıklamalar üzerinden ön teklif veriyoruz. Fiziksel inceleme sadece teslim aşamasında yapılır.",
+    "q3": "Hangi şehirlerde hizmet veriyorsunuz?",
+    "a3": "Türkiye genelinde hizmet veriyoruz. İstanbul, Ankara, İzmir başta olmak üzere tüm şehirlerde alım yapıyoruz.",
+    "q4": "Pert araç alıyor musunuz?",
+    "a4": "Evet. Sigorta tarafından pert ilan edilmiş araçları da değerlendiriyoruz.",
+    "q5": "Çekme belgeli araç satabilir miyim?",
+    "a5": "Evet. Çekme belgeli araçlar dahil her türlü hasarlı aracı alıyoruz ve evrak sürecinde destek sağlıyoruz.",
+    "q6": "Teklif bağlayıcı mı?",
+    "a6": "Hayır. Verdiğimiz teklifler tamamen bağlayıcı değil, araç sahibi istediği zaman vazgeçebilir.",
+    "q7": "Ödeme ne zaman yapılır?",
+    "a7": "Araç teslimi ve evrak süreci tamamlandıktan sonra ödeme anında gerçekleşir.",
+    "q8": "WhatsApp ile iletişime geçebilir miyim?",
+    "a8": "Evet. WhatsApp numaramız üzerinden 7 gün bize ulaşabilirsiniz."
+  },
+  "cta": {
+    "title": "Aracınızı Satmaya Hazır mısınız?",
+    "subtitle": "Ücretsiz teklif alın, bağlayıcı değil.",
+    "button": "Ücretsiz Teklif Al",
+    "whatsapp": "WhatsApp ile Yaz"
+  },
+  "footer": {
+    "tagline": "Hasarlı araç alım hizmetinde güvenilir adres.",
+    "services": "Hizmetler",
+    "cities": "Şehirler",
+    "contact": "İletişim",
+    "kvkk": "KVKK",
+    "privacy": "Gizlilik Politikası",
+    "terms": "Kullanım Koşulları",
+    "rights": "Tüm hakları saklıdır."
+  },
+  "thankyou": {
+    "title": "Başvurunuz Alındı",
+    "subtitle": "HazarAl ekibi kısa sürede size telefon veya WhatsApp üzerinden dönüş yapacaktır.",
+    "whatsapp": "WhatsApp ile Hemen Yaz",
+    "call": "Telefonla Ara",
+    "home": "Ana Sayfaya Dön"
+  },
+  "notFound": {
+    "title": "Sayfa Bulunamadı",
+    "subtitle": "Aradığınız sayfa mevcut değil veya taşınmış olabilir.",
+    "home": "Ana Sayfaya Dön",
+    "quote": "Teklif Al",
+    "whatsapp": "WhatsApp ile Yaz"
+  },
+  "contact": {
+    "title": "Bize Ulaşın",
+    "subtitle": "Sorularınız için arayın, yazın veya formu doldurun.",
+    "phoneCta": "Hemen Ara",
+    "whatsappCta": "WhatsApp ile Yaz",
+    "formTitle": "İletişim Formu",
+    "messagePlaceholder": "Mesajınızı yazın...",
+    "sendButton": "Gönder"
+  }
+}

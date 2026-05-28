@@ -1,0 +1,429 @@
+
+> hazaral@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.35
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+
+./src/app/[locale]/admin/blogs/page.tsx
+90:27  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/app/[locale]/admin/cars/page.tsx
+89:27  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/app/[locale]/blog/[slug]/page.tsx
+75:15  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/app/[locale]/blog/page.tsx
+62:21  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/app/[locale]/satilik-araclar/[id]/page.tsx
+65:17  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/app/[locale]/satilik-araclar/page.tsx
+101:21  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+   Collecting page data ...
+   Generating static pages (0/76) ...
+Error: supabaseUrl is required.
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53566
+    at new rV (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53817)
+    at rz (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:58088)
+    at 2777 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/blog/page.js:1:6393)
+    at t (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at 41514 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/blog/page.js:1:2458)
+    at Object.t [as require] (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at require (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:18811)
+    at s (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:88330)
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:98875 {
+  digest: '113303304'
+}
+
+Error occurred prerendering page "/tr/blog". Read more: https://nextjs.org/docs/messages/prerender-error
+
+Error: supabaseUrl is required.
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53566
+    at new rV (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53817)
+    at rz (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:58088)
+    at 2777 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/blog/page.js:1:6393)
+    at t (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at 41514 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/blog/page.js:1:2458)
+    at Object.t [as require] (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at require (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:18811)
+    at s (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:88330)
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:98875
+Error: supabaseUrl is required.
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53566
+    at new rV (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53817)
+    at rz (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:58088)
+    at 2777 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/blogs/page.js:1:11759)
+    at t (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at 7018 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/blogs/page.js:1:2723)
+    at Object.t [as require] (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at require (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:18811)
+    at s (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:88330)
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:98875 {
+  digest: '1465775016'
+}
+
+Error occurred prerendering page "/en/admin/blogs". Read more: https://nextjs.org/docs/messages/prerender-error
+
+Error: supabaseUrl is required.
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53566
+    at new rV (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53817)
+    at rz (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:58088)
+    at 2777 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/blogs/page.js:1:11759)
+    at t (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at 7018 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/blogs/page.js:1:2723)
+    at Object.t [as require] (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at require (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:18811)
+    at s (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:88330)
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:98875
+Error: supabaseUrl is required.
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53566
+    at new rV (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53817)
+    at rz (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:58088)
+    at 2777 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/satilik-araclar/[id]/page.js:1:7970)
+    at t (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at 41514 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/blog/page.js:1:2458)
+    at Object.t [as require] (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at require (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:18811)
+    at s (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:88330)
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:98875 {
+  digest: '1059260334'
+}
+
+Error occurred prerendering page "/en/blog". Read more: https://nextjs.org/docs/messages/prerender-error
+
+Error: supabaseUrl is required.
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53566
+    at new rV (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53817)
+    at rz (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:58088)
+    at 2777 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/satilik-araclar/[id]/page.js:1:7970)
+    at t (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at 41514 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/blog/page.js:1:2458)
+    at Object.t [as require] (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at require (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:18811)
+    at s (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:88330)
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:98875
+Error: supabaseUrl is required.
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53566
+    at new rV (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53817)
+    at rz (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:58088)
+    at 2777 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/blogs/page.js:1:11759)
+    at t (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at 7018 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/blogs/page.js:1:2723)
+    at Object.t [as require] (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at require (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:18811)
+    at s (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:88330)
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:98875 {
+  digest: '1465775016'
+}
+
+Error occurred prerendering page "/tr/admin/blogs". Read more: https://nextjs.org/docs/messages/prerender-error
+
+Error: supabaseUrl is required.
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53566
+    at new rV (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53817)
+    at rz (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:58088)
+    at 2777 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/blogs/page.js:1:11759)
+    at t (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at 7018 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/blogs/page.js:1:2723)
+    at Object.t [as require] (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at require (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:18811)
+    at s (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:88330)
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:98875
+   Generating static pages (19/76) 
+Error: supabaseUrl is required.
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53566
+    at new rV (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53817)
+    at rz (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:58088)
+    at 2777 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/login/page.js:1:9506)
+    at t (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at 13243 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/login/page.js:1:6265)
+    at Object.t [as require] (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at require (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:18811)
+    at s (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:88330)
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:98875 {
+  digest: '2688292579'
+}
+Error: supabaseUrl is required.
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53566
+    at new rV (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53817)
+    at rz (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:58088)
+    at 2777 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/blogs/page.js:1:11759)
+    at t (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at 13243 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/login/page.js:1:6265)
+    at Object.t [as require] (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at require (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:18811)
+    at s (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:88330)
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:98875 {
+  digest: '2259912708'
+}
+
+Error occurred prerendering page "/tr/admin/login". Read more: https://nextjs.org/docs/messages/prerender-error
+
+Error: supabaseUrl is required.
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53566
+    at new rV (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53817)
+    at rz (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:58088)
+    at 2777 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/login/page.js:1:9506)
+    at t (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at 13243 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/login/page.js:1:6265)
+    at Object.t [as require] (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at require (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:18811)
+    at s (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:88330)
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:98875
+
+Error occurred prerendering page "/en/admin/login". Read more: https://nextjs.org/docs/messages/prerender-error
+
+Error: supabaseUrl is required.
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53566
+    at new rV (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53817)
+    at rz (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:58088)
+    at 2777 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/blogs/page.js:1:11759)
+    at t (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at 13243 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/login/page.js:1:6265)
+    at Object.t [as require] (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at require (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:18811)
+    at s (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:88330)
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:98875
+   Generating static pages (38/76) 
+Error: supabaseUrl is required.
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53566
+    at new rV (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53817)
+    at rz (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:58088)
+    at 2777 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/satilik-araclar/page.js:1:8631)
+    at t (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at 60090 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/satilik-araclar/page.js:1:2525)
+    at Object.t [as require] (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at require (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:18811)
+    at s (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:88330)
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:98875 {
+  digest: '523454666'
+}
+Error: supabaseUrl is required.
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53566
+    at new rV (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53817)
+    at rz (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:58088)
+    at 2777 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/satilik-araclar/page.js:1:8631)
+    at t (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at 60090 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/satilik-araclar/page.js:1:2525)
+    at Object.t [as require] (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at require (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:18811)
+    at s (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:88330)
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:98875 {
+  digest: '523454666'
+}
+
+Error occurred prerendering page "/en/satilik-araclar". Read more: https://nextjs.org/docs/messages/prerender-error
+
+Error: supabaseUrl is required.
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53566
+    at new rV (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53817)
+    at rz (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:58088)
+    at 2777 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/satilik-araclar/page.js:1:8631)
+    at t (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at 60090 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/satilik-araclar/page.js:1:2525)
+    at Object.t [as require] (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at require (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:18811)
+    at s (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:88330)
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:98875
+
+Error occurred prerendering page "/tr/satilik-araclar". Read more: https://nextjs.org/docs/messages/prerender-error
+
+Error: supabaseUrl is required.
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53566
+    at new rV (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53817)
+    at rz (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:58088)
+    at 2777 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/satilik-araclar/page.js:1:8631)
+    at t (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at 60090 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/satilik-araclar/page.js:1:2525)
+    at Object.t [as require] (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at require (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:18811)
+    at s (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:88330)
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:98875
+   Generating static pages (57/76) 
+Error: supabaseUrl is required.
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53566
+    at new rV (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53817)
+    at rz (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:58088)
+    at 2777 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/cars/page.js:1:11799)
+    at t (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at 70936 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/cars/page.js:1:2719)
+    at Object.t [as require] (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at require (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:18811)
+    at s (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:88330)
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:98875 {
+  digest: '2664153176'
+}
+
+Error occurred prerendering page "/tr/admin/cars". Read more: https://nextjs.org/docs/messages/prerender-error
+
+Error: supabaseUrl is required.
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53566
+    at new rV (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53817)
+    at rz (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:58088)
+    at 2777 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/cars/page.js:1:11799)
+    at t (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at 70936 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/cars/page.js:1:2719)
+    at Object.t [as require] (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at require (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:18811)
+    at s (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:88330)
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:98875
+Error: supabaseUrl is required.
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53566
+    at new rV (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53817)
+    at rz (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:58088)
+    at 2777 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/leads/page.js:1:11530)
+    at t (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at 23038 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/leads/page.js:1:6254)
+    at Object.t [as require] (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at require (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:18811)
+    at s (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:88330)
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:98875 {
+  digest: '479470576'
+}
+
+Error occurred prerendering page "/tr/admin/leads". Read more: https://nextjs.org/docs/messages/prerender-error
+
+Error: supabaseUrl is required.
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53566
+    at new rV (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53817)
+    at rz (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:58088)
+    at 2777 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/leads/page.js:1:11530)
+    at t (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at 23038 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/leads/page.js:1:6254)
+    at Object.t [as require] (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at require (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:18811)
+    at s (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:88330)
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:98875
+Error: supabaseUrl is required.
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53566
+    at new rV (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53817)
+    at rz (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:58088)
+    at 2777 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/cars/page.js:1:11799)
+    at t (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at 70936 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/cars/page.js:1:2719)
+    at Object.t [as require] (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at require (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:18811)
+    at s (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:88330)
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:98875 {
+  digest: '2664153176'
+}
+
+Error occurred prerendering page "/en/admin/cars". Read more: https://nextjs.org/docs/messages/prerender-error
+
+Error: supabaseUrl is required.
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53566
+    at new rV (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53817)
+    at rz (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:58088)
+    at 2777 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/cars/page.js:1:11799)
+    at t (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at 70936 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/cars/page.js:1:2719)
+    at Object.t [as require] (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at require (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:18811)
+    at s (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:88330)
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:98875
+Error: supabaseUrl is required.
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53566
+    at new rV (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53817)
+    at rz (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:58088)
+    at 2777 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/leads/page.js:1:11530)
+    at t (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at 23038 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/leads/page.js:1:6254)
+    at Object.t [as require] (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at require (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:18811)
+    at s (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:88330)
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:98875 {
+  digest: '479470576'
+}
+
+Error occurred prerendering page "/en/admin/leads". Read more: https://nextjs.org/docs/messages/prerender-error
+
+Error: supabaseUrl is required.
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53566
+    at new rV (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53817)
+    at rz (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:58088)
+    at 2777 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/leads/page.js:1:11530)
+    at t (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at 23038 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/leads/page.js:1:6254)
+    at Object.t [as require] (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at require (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:18811)
+    at s (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:88330)
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:98875
+Error: supabaseUrl is required.
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53566
+    at new rV (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53817)
+    at rz (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:58088)
+    at 2777 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/page.js:1:10440)
+    at t (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at 88295 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/page.js:1:6197)
+    at Object.t [as require] (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at require (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:18811)
+    at s (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:88330)
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:98875 {
+  digest: '3784153247'
+}
+
+Error occurred prerendering page "/tr/admin". Read more: https://nextjs.org/docs/messages/prerender-error
+
+Error: supabaseUrl is required.
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53566
+    at new rV (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53817)
+    at rz (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:58088)
+    at 2777 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/page.js:1:10440)
+    at t (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at 88295 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/page.js:1:6197)
+    at Object.t [as require] (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at require (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:18811)
+    at s (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:88330)
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:98875
+Error: supabaseUrl is required.
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53566
+    at new rV (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53817)
+    at rz (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:58088)
+    at 2777 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/page.js:1:10440)
+    at t (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at 88295 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/page.js:1:6197)
+    at Object.t [as require] (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at require (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:18811)
+    at s (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:88330)
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:98875 {
+  digest: '3784153247'
+}
+
+Error occurred prerendering page "/en/admin". Read more: https://nextjs.org/docs/messages/prerender-error
+
+Error: supabaseUrl is required.
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53566
+    at new rV (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:53817)
+    at rz (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/chunks/125.js:37:58088)
+    at 2777 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/page.js:1:10440)
+    at t (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at 88295 (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/app/[locale]/admin/page.js:1:6197)
+    at Object.t [as require] (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/.next/server/webpack-runtime.js:1:127)
+    at require (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:17:18811)
+    at s (/Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:88330)
+    at /Users/hilalahamd/MyRestProjects/HilalAuto/hazaral/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:98875
+ ✓ Generating static pages (76/76)
+
+> Export encountered errors on following paths:
+	/[locale]/admin/blogs/page: /en/admin/blogs
+	/[locale]/admin/blogs/page: /tr/admin/blogs
+	/[locale]/admin/cars/page: /en/admin/cars
+	/[locale]/admin/cars/page: /tr/admin/cars
+	/[locale]/admin/leads/page: /en/admin/leads
+	/[locale]/admin/leads/page: /tr/admin/leads
+	/[locale]/admin/login/page: /en/admin/login
+	/[locale]/admin/login/page: /tr/admin/login
+	/[locale]/admin/page: /en/admin
+	/[locale]/admin/page: /tr/admin
+	/[locale]/blog/page: /en/blog
+	/[locale]/blog/page: /tr/blog
+	/[locale]/satilik-araclar/page: /en/satilik-araclar
+	/[locale]/satilik-araclar/page: /tr/satilik-araclar
