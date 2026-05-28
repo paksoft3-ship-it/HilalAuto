@@ -133,21 +133,21 @@ export default async function ServicePage({ params }: Props) {
           <Container>
             <div className="flex flex-col lg:flex-row gap-44 md:gap-60 items-start">
               <div className="flex flex-col items-start gap-16 w-full">
-                <Badge variant="accent" className="uppercase tracking-wide">{service.title}</Badge>
+                <Badge variant="accent" className="uppercase tracking-wide">{service.hero.badge}</Badge>
                 <h1 className="text-section-title-mobile md:text-section-title font-medium tracking-heading text-text-primary leading-[1.1]">
-                  {service.seoTitle}
+                  {service.hero.heading}
                 </h1>
                 <p className="text-body-md text-text-muted">
-                  {service.seoDescription}
+                  {service.hero.description}
                 </p>
                 
                 <ul className="flex flex-col gap-12 mt-8 mb-8 w-full">
-                  {service.features.map((feature, i) => (
+                  {service.conditions.map(({ label }, i) => (
                     <li key={i} className="flex items-start gap-12">
                       <div className="mt-4 w-16 h-16 rounded-full bg-accent-light border border-accent-border flex items-center justify-center shrink-0">
                         <Check size={10} strokeWidth={2.5} className="text-accent" aria-hidden />
                       </div>
-                      <span className="text-[14px] text-text-secondary">{feature}</span>
+                      <span className="text-[14px] text-text-secondary">{label}</span>
                     </li>
                   ))}
                 </ul>
