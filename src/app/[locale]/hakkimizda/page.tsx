@@ -58,7 +58,7 @@ export default async function HakkimizdaPage({ params }: Props) {
             <div className="flex flex-col items-start gap-16 max-w-[640px] w-full">
               <Badge variant="accent">Hakkımızda</Badge>
               <h1 className="text-section-title-mobile md:text-[40px] font-medium tracking-heading text-text-primary">
-                Hasarlı Araç Alımında Türkiye'nin Güvenilir Markası
+                Hasarlı Araç Alımında Türkiye&apos;nin Güvenilir Markası
               </h1>
               <p className="text-[14px] text-text-muted leading-relaxed">
                 Yılların getirdiği otomotiv tecrübesiyle, hasarlı araç sahiplerine en doğru fiyatı ve en güvenli hizmeti sunuyoruz.
