@@ -1,5 +1,6 @@
-import { MapPin, Zap, FileCheck, MessageCircle } from "lucide-react";
+import { MapPin, Zap, FileCheck } from "lucide-react";
 import { Container } from "@/components/ui/Container";
+import { FaWhatsapp } from 'react-icons/fa';
 
 const ITEMS = [
   {
@@ -18,7 +19,7 @@ const ITEMS = [
     desc: "Tüm belgelerde yanınızdayız.",
   },
   {
-    icon: MessageCircle,
+    icon: FaWhatsapp,
     label: "WhatsApp Destek",
     desc: "7 gün boyunca ulaşabilirsiniz.",
   },

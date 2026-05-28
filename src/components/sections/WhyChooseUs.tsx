@@ -8,11 +8,11 @@ import {
   Truck,
   Scale,
   HeadphonesIcon,
-  MessageCircle,
 } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { routes, externalRoutes } from "@/lib/routes";
 import { WHATSAPP_NUMBER } from "@/lib/constants";
+import { FaWhatsapp } from 'react-icons/fa';
 
 const ITEMS = [
   {
@@ -59,7 +59,7 @@ export function WhyChooseUs() {
                 Hemen Teklif Al
               </Link>
               <a href={externalRoutes.whatsapp(WHATSAPP_NUMBER)} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto flex items-center justify-center gap-8 bg-surface-container-lowest border border-[0.5px] border-border-default px-24 py-16 rounded-btn text-[14px] font-medium text-on-surface hover:bg-surface transition-colors">
-                <MessageCircle size={20} strokeWidth={1.5} className="text-whatsapp-green" aria-hidden />
+                <FaWhatsapp size={20} strokeWidth={1.5} className="text-whatsapp-green" aria-hidden />
                 WhatsApp ile Yaz
               </a>
             </div>

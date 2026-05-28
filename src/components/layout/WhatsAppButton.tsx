@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { WHATSAPP_NUMBER } from "@/lib/constants";
 import { externalRoutes } from "@/lib/routes";
+import { FaWhatsapp } from 'react-icons/fa';
 
 interface WhatsAppButtonProps {
   message?: string;
@@ -44,7 +44,7 @@ export function WhatsAppButton({ message, className }: WhatsAppButtonProps) {
       animate={{ scale: 1, opacity: 1 }}
       transition={{ type: "spring", stiffness: 260, damping: 20 }}
     >
-      <MessageCircle size={24} strokeWidth={1.5} aria-hidden />
+      <FaWhatsapp size={24} strokeWidth={1.5} aria-hidden />
     </motion.a>
   );
 }

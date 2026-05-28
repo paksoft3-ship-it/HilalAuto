@@ -4,10 +4,11 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Container } from "@/components/ui/Container";
 import { useParams, notFound } from "next/navigation";
-import { Wrench, Calendar, Tag, ShieldAlert, CheckCircle, MessageCircle, ArrowLeft } from "lucide-react";
+import { Wrench, Calendar, Tag, ShieldAlert, CheckCircle, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { externalRoutes } from "@/lib/routes";
 import { WHATSAPP_NUMBER } from "@/lib/constants";
+import { FaWhatsapp } from 'react-icons/fa';
 
 export default function CarDetailPage() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -112,7 +113,7 @@ export default function CarDetailPage() {
                   rel="noopener noreferrer"
                   className="w-full flex items-center justify-center gap-8 bg-whatsapp-green text-white px-24 py-16 rounded-btn text-[14px] font-medium hover:opacity-90 transition-opacity"
                 >
-                  <MessageCircle size={20} strokeWidth={1.5} /> WhatsApp ile Bilgi Al
+                  <FaWhatsapp size={20} strokeWidth={1.5} /> WhatsApp ile Bilgi Al
                 </a>
                 <p className="text-[11px] text-center text-muted-text">
                   İlan ID: {car.id.slice(0, 8).toUpperCase()}

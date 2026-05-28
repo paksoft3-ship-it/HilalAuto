@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { Phone, MessageCircle, ArrowRight } from "lucide-react";
+import { Phone, ArrowRight } from "lucide-react";
 import { useParams } from "next/navigation";
 import { routes, externalRoutes } from "@/lib/routes";
 import { PHONE_NUMBER, WHATSAPP_NUMBER } from "@/lib/constants";
+import { FaWhatsapp } from 'react-icons/fa';
 
 export function MobileStickyCTA() {
   const params = useParams();
@@ -32,7 +33,7 @@ export function MobileStickyCTA() {
           className="flex flex-col items-center justify-center gap-4 py-12 text-whatsapp hover:bg-bg-surface transition-colors border-r border-[0.5px] border-border-default"
           aria-label="WhatsApp ile yazın"
         >
-          <MessageCircle size={18} strokeWidth={1.5} aria-hidden />
+          <FaWhatsapp size={18} strokeWidth={1.5} aria-hidden />
           <span className="text-[11px] font-medium">WhatsApp</span>
         </a>
         <Link

@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { ArrowLeft, MessageCircle, FileText } from "lucide-react";
+import { ArrowLeft, FileText } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Container } from "@/components/ui/Container";
 import { WHATSAPP_NUMBER } from "@/lib/constants";
 import { routes, externalRoutes } from "@/lib/routes";
+import { FaWhatsapp } from 'react-icons/fa';
 
 export default function NotFound() {
   const params = useParams();
@@ -49,7 +50,7 @@ export default function NotFound() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-8 bg-white border border-[0.5px] border-border-default text-text-primary px-24 py-14 rounded-btn font-medium text-[14px] hover:border-whatsapp hover:text-whatsapp transition-colors w-full sm:w-auto justify-center"
               >
-                <MessageCircle size={15} strokeWidth={1.5} aria-hidden />
+                <FaWhatsapp size={15} strokeWidth={1.5} aria-hidden />
                 WhatsApp ile Yaz
               </a>
             </div>

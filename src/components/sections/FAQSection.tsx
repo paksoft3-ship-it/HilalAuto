@@ -1,12 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MessageCircle } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 
 import { Accordion } from "@/components/ui/Accordion";
 import { externalRoutes } from "@/lib/routes";
 import { WHATSAPP_NUMBER } from "@/lib/constants";
+import { FaWhatsapp } from 'react-icons/fa';
 
 const FAQ_ITEMS = [
   {
@@ -98,7 +98,7 @@ export function FAQSection({ dark = false }: FAQSectionProps) {
                 className="w-full sm:w-auto inline-flex justify-center items-center gap-8 bg-whatsapp-green text-white px-20 py-16 rounded-lg text-[14px] font-medium hover:opacity-90 transition-opacity"
                 aria-label="WhatsApp ile yazın"
               >
-                <MessageCircle size={20} strokeWidth={1.5} aria-hidden />
+                <FaWhatsapp size={20} strokeWidth={1.5} aria-hidden />
                 WhatsApp ile Yaz
               </a>
             </motion.div>

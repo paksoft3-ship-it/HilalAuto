@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { CheckCircle, MessageCircle } from "lucide-react";
+import { CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { Badge } from "@/components/ui/Badge";
 import { QuickQuoteForm } from "@/components/forms/QuickQuoteForm";
 import { routes, externalRoutes } from "@/lib/routes";
 import { WHATSAPP_NUMBER } from "@/lib/constants";
+import { FaWhatsapp } from 'react-icons/fa';
 
 const TRUST_BULLETS = [
   "Türkiye geneli hizmet",
@@ -116,7 +117,7 @@ export function Hero() {
                 className="inline-flex items-center justify-center gap-8 bg-surface-container-lowest border border-[0.5px] border-border-default text-on-surface px-32 py-16 rounded-btn text-[14px] hover:border-whatsapp-green hover:text-whatsapp-green transition-colors"
                 aria-label="WhatsApp ile yazın"
               >
-                <MessageCircle size={16} strokeWidth={1.5} aria-hidden />
+                <FaWhatsapp size={16} strokeWidth={1.5} aria-hidden />
                 WhatsApp ile Yaz
               </a>
             </motion.div>

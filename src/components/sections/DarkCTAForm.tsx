@@ -1,11 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MessageCircle, CheckCircle } from "lucide-react";
+import {  CheckCircle } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { QuickQuoteForm } from "@/components/forms/QuickQuoteForm";
 import { externalRoutes } from "@/lib/routes";
 import { WHATSAPP_NUMBER } from "@/lib/constants";
+import { FaWhatsapp } from 'react-icons/fa';
 
 const BULLETS = [
   "Ücretsiz ve bağlayıcı değil",
@@ -65,7 +66,7 @@ export function DarkCTAForm() {
                 className="inline-flex items-center gap-8 bg-whatsapp text-white px-24 py-12 rounded-btn text-[14px] font-medium hover:opacity-90 transition-opacity"
                 aria-label="WhatsApp ile yazın"
               >
-                <MessageCircle size={16} strokeWidth={1.5} aria-hidden />
+                <FaWhatsapp size={16} strokeWidth={1.5} aria-hidden />
                 WhatsApp ile Yaz
               </a>
             </motion.div>

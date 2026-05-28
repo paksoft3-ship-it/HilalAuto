@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Phone, MessageCircle } from "lucide-react";
+import { Phone } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
@@ -12,6 +12,7 @@ import { ContactForm } from "@/components/forms/ContactForm";
 import { PHONE_NUMBER, WHATSAPP_NUMBER, CITIES, SITE_URL } from "@/lib/constants";
 import { externalRoutes, routes } from "@/lib/routes";
 import Link from "next/link";
+import { FaWhatsapp } from 'react-icons/fa';
 
 interface Props { params: Promise<{ locale: string }> }
 
@@ -65,7 +66,7 @@ export default async function IletisimPage({ params }: Props) {
                 {/* WhatsApp */}
                 <a href={externalRoutes.whatsapp(WHATSAPP_NUMBER)} target="_blank" rel="noopener noreferrer" className="flex items-center gap-16 p-24 bg-white border border-[0.5px] border-border-default rounded-card hover:border-whatsapp transition-colors group">
                   <div className="flex items-center justify-center w-[44px] h-[44px] bg-green-50 border border-[0.5px] border-green-200 rounded-full shrink-0">
-                    <MessageCircle size={20} strokeWidth={1.5} className="text-whatsapp" aria-hidden />
+                    <FaWhatsapp size={20} strokeWidth={1.5} className="text-whatsapp" aria-hidden />
                   </div>
                   <div>
                     <p className="text-[13px] font-medium text-text-primary group-hover:text-whatsapp transition-colors">WhatsApp ile Yaz</p>

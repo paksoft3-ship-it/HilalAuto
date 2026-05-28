@@ -3,8 +3,8 @@ export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://hazaral.com
 export const SITE_DESCRIPTION =
   "Kazalı, pert, yanmış, sel hasarlı veya hurda aracınızı değerinde alıyoruz. Ücretsiz teklif alın.";
 
-export const PHONE_NUMBER = process.env.NEXT_PUBLIC_PHONE_NUMBER ?? "+905000000000";
-export const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "905000000000";
+export const PHONE_NUMBER = process.env.NEXT_PUBLIC_PHONE_NUMBER ?? "+90 552 567 71 64";
+export const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "905525677164";
 export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
 
 export const LOCALES = ["tr", "en"] as const;

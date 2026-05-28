@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { Phone, MessageCircle } from "lucide-react";
+import { Phone } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { routes, externalRoutes } from "@/lib/routes";
 import { PHONE_NUMBER, WHATSAPP_NUMBER, SITE_NAME } from "@/lib/constants";
+import { FaWhatsapp } from 'react-icons/fa';
 
 const SERVICES = [
   { label: "Kazalı Araç Alımı", slug: "kazali-arac-alimi" },
@@ -66,7 +67,7 @@ export function Footer({ locale = "tr" }: FooterProps) {
                 className="inline-flex items-center gap-8 text-[13px] text-[#AAAAAA] hover:text-whatsapp-green transition-colors"
                 aria-label="WhatsApp ile yazın"
               >
-                <MessageCircle size={14} strokeWidth={1.5} aria-hidden />
+                <FaWhatsapp size={14} strokeWidth={1.5} aria-hidden />
                 WhatsApp
               </a>
             </div>

@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { CheckCircle, MessageCircle, Phone, Home } from "lucide-react";
+import { CheckCircle, Phone, Home } from "lucide-react";
 import { motion } from "framer-motion";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -12,6 +12,7 @@ import { routes, externalRoutes } from "@/lib/routes";
 import { PHONE_NUMBER, WHATSAPP_NUMBER } from "@/lib/constants";
 import { trackRemarketingPageView } from "@/lib/tracking";
 import { fireGoogleAdsConversion } from "@/lib/gtag";
+import { FaWhatsapp } from 'react-icons/fa';
 
 export default function TesekkurlerPage() {
   const params = useParams();
@@ -60,7 +61,7 @@ export default function TesekkurlerPage() {
                 className="inline-flex items-center justify-center gap-8 bg-whatsapp text-white px-32 py-16 rounded-btn font-medium text-[14px] hover:opacity-90 transition-opacity"
                 aria-label="WhatsApp ile hemen yazın"
               >
-                <MessageCircle size={16} strokeWidth={1.5} aria-hidden />
+                <FaWhatsapp size={16} strokeWidth={1.5} aria-hidden />
                 WhatsApp ile Hemen Yaz
               </a>
               <a

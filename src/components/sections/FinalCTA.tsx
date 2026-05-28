@@ -3,10 +3,11 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
-import { ArrowRight, MessageCircle } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { routes, externalRoutes } from "@/lib/routes";
 import { WHATSAPP_NUMBER } from "@/lib/constants";
+import { FaWhatsapp } from 'react-icons/fa';
 
 export function FinalCTA() {
   const params = useParams();
@@ -55,7 +56,7 @@ export function FinalCTA() {
               className="inline-flex items-center justify-center gap-8 bg-white border border-[0.5px] border-border-default text-text-primary px-32 py-16 rounded-btn text-[14px] hover:border-whatsapp hover:text-whatsapp transition-colors"
               aria-label="WhatsApp ile yazın"
             >
-              <MessageCircle size={16} strokeWidth={1.5} aria-hidden />
+              <FaWhatsapp size={16} strokeWidth={1.5} aria-hidden />
               WhatsApp ile Yaz
             </a>
           </div>

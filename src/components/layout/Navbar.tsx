@@ -3,11 +3,12 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { Menu, X, Phone, MessageCircle } from "lucide-react";
+import { Menu, X, Phone } from "lucide-react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { routes, externalRoutes } from "@/lib/routes";
 import { PHONE_NUMBER, WHATSAPP_NUMBER } from "@/lib/constants";
+import { FaWhatsapp } from 'react-icons/fa';
 
 const NAV_LINKS = [
   { labelKey: "Nasıl Çalışır", href: (locale: string) => routes.howItWorks(locale) },
@@ -152,7 +153,7 @@ export function Navbar() {
                   className="flex items-center justify-center gap-8 bg-whatsapp-green text-white py-12 rounded-btn text-[13px] font-medium hover:opacity-90 transition-opacity"
                   aria-label="WhatsApp ile yazın"
                 >
-                  <MessageCircle size={15} strokeWidth={1.5} aria-hidden />
+                  <FaWhatsapp size={15} strokeWidth={1.5} aria-hidden />
                   WhatsApp
                 </a>
                 <Link
