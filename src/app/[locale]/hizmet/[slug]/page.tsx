@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { CheckCircle, ArrowRight } from "lucide-react";
+import { FaWhatsapp } from 'react-icons/fa';
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
@@ -15,8 +16,8 @@ import { Card, CardBody } from "@/components/ui/Card";
 import { Accordion } from "@/components/ui/Accordion";
 import { QuickQuoteForm } from "@/components/forms/QuickQuoteForm";
 import { SERVICES, ALL_SERVICE_SLUGS } from "@/data/services";
-import { routes } from "@/lib/routes";
-import { SITE_URL, PHONE_NUMBER } from "@/lib/constants";
+import { routes, externalRoutes } from "@/lib/routes";
+import { SITE_URL, PHONE_NUMBER, WHATSAPP_NUMBER } from "@/lib/constants";
 
 interface Props {
   params: Promise<{ locale: string; slug: string }>;
@@ -147,9 +148,21 @@ export default async function ServicePage({ params }: Props) {
                     </li>
                   ))}
                 </ul>
-                <Link href={routes.quote(locale)} className="inline-flex items-center gap-8 bg-accent text-white px-32 py-16 rounded-btn font-medium text-[14px] hover:opacity-90 transition-opacity">
-                  Ücretsiz Teklif Al <ArrowRight size={16} strokeWidth={1.5} aria-hidden />
-                </Link>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-12">
+                  <Link href={routes.quote(locale)} className="w-full sm:w-auto inline-flex items-center justify-center gap-8 bg-primary text-white px-32 py-16 rounded-btn font-medium text-[14px] hover:opacity-90 transition-opacity">
+                    Ücretsiz Teklif Al <ArrowRight size={16} strokeWidth={1.5} aria-hidden />
+                  </Link>
+                  <a
+                    href={externalRoutes.whatsapp(WHATSAPP_NUMBER)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-8 bg-transparent border border-whatsapp-green text-whatsapp-green px-32 py-16 rounded-btn text-[14px] font-medium hover:bg-whatsapp-green hover:text-white transition-colors"
+                    aria-label="WhatsApp ile yazın"
+                  >
+                    <FaWhatsapp size={16} aria-hidden />
+                    WhatsApp ile Yaz
+                  </a>
+                </div>
               </div>
 
               <div className="w-full lg:w-[400px] shrink-0">
