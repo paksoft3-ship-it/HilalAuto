@@ -3,11 +3,11 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { Menu, X, Phone } from "lucide-react";
+import { Menu, X, Phone, ChevronDown } from "lucide-react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { routes, externalRoutes } from "@/lib/routes";
-import { PHONE_NUMBER, WHATSAPP_NUMBER } from "@/lib/constants";
+import { PHONE_NUMBER, WHATSAPP_NUMBER, VEHICLE_TYPES } from "@/lib/constants";
 import { FaWhatsapp } from 'react-icons/fa';
 
 const NAV_LINKS = [
@@ -67,16 +67,42 @@ export function Navbar() {
           </Link>
 
           {/* Desktop nav links */}
-          <div className="hidden lg:flex items-center gap-24">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.labelKey}
-                href={link.href(locale)}
-                className="text-[13px] text-muted-text hover:text-primary transition-colors"
-              >
-                {link.labelKey}
-              </Link>
-            ))}
+          <div className="hidden lg:flex items-center gap-24 h-full">
+            {NAV_LINKS.map((link) => {
+              if (link.labelKey === "Araç Türleri") {
+                return (
+                  <div key={link.labelKey} className="relative group h-full flex items-center">
+                    <Link
+                      href={link.href(locale)}
+                      className="text-[13px] text-muted-text hover:text-primary transition-colors flex items-center gap-4 py-20"
+                    >
+                      {link.labelKey}
+                      <ChevronDown size={14} className="group-hover:rotate-180 transition-transform duration-200" />
+                    </Link>
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 w-[220px] bg-surface-container-lowest border border-[0.5px] border-border-default rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 flex flex-col py-8 z-50">
+                      {VEHICLE_TYPES.map((type) => (
+                        <Link
+                          key={type.slug}
+                          href={`${routes.vehicleTypes(locale)}/${type.slug}`}
+                          className="px-16 py-8 text-[13px] text-muted-text hover:bg-surface hover:text-primary transition-colors text-center"
+                        >
+                          {type.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                );
+              }
+              return (
+                <Link
+                  key={link.labelKey}
+                  href={link.href(locale)}
+                  className="text-[13px] text-muted-text hover:text-primary transition-colors"
+                >
+                  {link.labelKey}
+                </Link>
+              );
+            })}
           </div>
 
           {/* Desktop actions */}
@@ -92,6 +118,18 @@ export function Navbar() {
               </span>
               <span className="xl:hidden">Ara</span>
             </a>
+            
+            <a
+              href={externalRoutes.whatsapp(WHATSAPP_NUMBER)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-8 bg-whatsapp-green text-white px-16 py-8 rounded-btn text-[13px] font-medium hover:opacity-90 transition-opacity"
+              aria-label="WhatsApp ile yazın"
+            >
+              <FaWhatsapp size={15} aria-hidden />
+              <span className="hidden xl:inline">WhatsApp</span>
+            </a>
+
             <Link
               href={routes.quote(locale)}
               className="inline-flex items-center justify-center bg-primary text-on-primary px-24 py-8 rounded-btn text-[13px] font-medium hover:opacity-90 transition-opacity"
@@ -121,21 +159,48 @@ export function Navbar() {
         {menuOpen && (
           <div
             id="mobile-menu"
-            className="absolute top-[60px] left-0 right-0 bg-surface-container-lowest border-b border-[0.5px] border-border-default md:hidden"
+            className="absolute top-[60px] left-0 right-0 bg-surface-container-lowest border-b border-[0.5px] border-border-default md:hidden max-h-[calc(100vh-60px)] overflow-y-auto"
             role="navigation"
             aria-label="Mobil navigasyon"
           >
             <div className="flex flex-col">
-              {NAV_LINKS.map((link) => (
-                <Link
-                  key={link.labelKey}
-                  href={link.href(locale)}
-                  onClick={() => setMenuOpen(false)}
-                  className="px-24 py-16 text-[14px] text-on-surface border-b border-[0.5px] border-border-default hover:bg-surface transition-colors"
-                >
-                  {link.labelKey}
-                </Link>
-              ))}
+              {NAV_LINKS.map((link) => {
+                if (link.labelKey === "Araç Türleri") {
+                  return (
+                    <div key={link.labelKey} className="flex flex-col border-b border-[0.5px] border-border-default">
+                      <Link
+                        href={link.href(locale)}
+                        onClick={() => setMenuOpen(false)}
+                        className="px-24 py-16 text-[14px] font-medium text-on-surface hover:bg-surface transition-colors"
+                      >
+                        {link.labelKey}
+                      </Link>
+                      <div className="flex flex-col bg-surface px-24 pb-12 pt-4">
+                        {VEHICLE_TYPES.map((type) => (
+                          <Link
+                            key={type.slug}
+                            href={`${routes.vehicleTypes(locale)}/${type.slug}`}
+                            onClick={() => setMenuOpen(false)}
+                            className="py-10 text-[13px] text-muted-text hover:text-primary transition-colors pl-12 border-l-[1.5px] border-border-default"
+                          >
+                            {type.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                }
+                return (
+                  <Link
+                    key={link.labelKey}
+                    href={link.href(locale)}
+                    onClick={() => setMenuOpen(false)}
+                    className="px-24 py-16 text-[14px] text-on-surface border-b border-[0.5px] border-border-default hover:bg-surface transition-colors"
+                  >
+                    {link.labelKey}
+                  </Link>
+                );
+              })}
 
               <div className="p-24 grid grid-cols-2 gap-12 bg-surface">
                 <a
@@ -153,7 +218,7 @@ export function Navbar() {
                   className="flex items-center justify-center gap-8 bg-whatsapp-green text-white py-12 rounded-btn text-[13px] font-medium hover:opacity-90 transition-opacity"
                   aria-label="WhatsApp ile yazın"
                 >
-                  <FaWhatsapp size={15} strokeWidth={1.5} aria-hidden />
+                  <FaWhatsapp size={15} aria-hidden />
                   WhatsApp
                 </a>
                 <Link
