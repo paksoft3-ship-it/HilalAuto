@@ -41,7 +41,7 @@ export default function BlogIndexPage() {
     <>
       <Navbar />
       <main className="min-h-screen pb-[76px] md:pb-0">
-        <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-44 md:py-60 mb-60">
+        <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-24 md:py-32">
           <Container>
             <div className="flex flex-col items-start gap-16 w-full lg:w-3/4">
               <Badge variant="accent">{t("badge", { default: "Blog" })}</Badge>

@@ -74,7 +74,7 @@ export default async function AracTurleriPage({ params }: Props) {
       <Navbar />
       <main className="pb-[76px] md:pb-0">
         {/* Hero */}
-        <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-44 md:py-60 mb-60">
+        <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-24 md:py-32">
           <Container>
             <div className="flex flex-col items-start gap-16 w-full lg:w-3/4">
               <Badge variant="accent">{t("badge", { default: "Araç Türleri" })}</Badge>
@@ -108,7 +108,7 @@ export default async function AracTurleriPage({ params }: Props) {
         </section>
 
         {/* Vehicle type cards */}
-        <section className="py-44 md:py-60">
+        <section className="py-24 md:py-32">
           <Container>
             <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-16">
               {VEHICLE_TYPES.map(({ icon: Icon, label, desc, slug }) => (
@@ -132,7 +132,7 @@ export default async function AracTurleriPage({ params }: Props) {
         </section>
 
         {/* City links */}
-        <section className="bg-bg-surface border-y border-[0.5px] border-border-default py-44 md:py-60">
+        <section className="bg-bg-surface border-y border-[0.5px] border-border-default py-24 md:py-32">
           <Container>
             <SectionHeader title={t("citiesTitle", { default: "Hizmet Verdiğimiz Şehirler" })} subtitle={t("citiesSubtitle", { default: "Türkiye'nin büyük şehirlerinde yerinden alım hizmeti." })} align="left" className="mb-32" />
             <ul className="flex flex-wrap gap-8 justify-center">

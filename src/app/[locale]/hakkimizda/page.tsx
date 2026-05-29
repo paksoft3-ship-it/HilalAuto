@@ -56,7 +56,7 @@ export default async function HakkimizdaPage({ params }: Props) {
       <Navbar />
       <main className="pb-[76px] md:pb-0">
         {/* Hero */}
-        <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-44 md:py-60">
+        <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-24 md:py-32">
           <Container>
             <div className="flex flex-col items-start gap-16 w-full lg:w-3/4">
               <Badge variant="accent">{t("badge", { default: "Hakkımızda" })}</Badge>
@@ -90,7 +90,7 @@ export default async function HakkimizdaPage({ params }: Props) {
         </section>
 
         {/* Story */}
-        <section className="py-44 md:py-60">
+        <section className="py-24 md:py-32">
           <Container>
             <div className="flex flex-col gap-24 text-[14px] text-muted-text leading-relaxed w-full">
               <h2 className="text-section-title-mobile md:text-[28px] font-medium tracking-heading text-on-surface">
@@ -107,7 +107,7 @@ export default async function HakkimizdaPage({ params }: Props) {
         </section>
 
         {/* Stats */}
-        <section className="bg-surface-container-lowest border-y border-[0.5px] border-border-default py-44 md:py-60">
+        <section className="bg-surface-container-lowest border-y border-[0.5px] border-border-default py-24 md:py-32">
           <Container>
             <ul className="grid grid-cols-2 md:grid-cols-4 gap-24">
               {STATS.map(({ value, label }) => (
@@ -121,9 +121,9 @@ export default async function HakkimizdaPage({ params }: Props) {
         </section>
 
         {/* Values */}
-        <section className="py-44 md:py-60">
+        <section className="py-24 md:py-32">
           <Container>
-            <SectionHeader title={t("valuesTitle", { default: "Değerlerimiz" })} subtitle={t("valuesSubtitle", { default: "Her müşterimize aynı özenle yaklaşıyoruz." })} align="left" className="mb-32 md:mb-44" />
+            <SectionHeader title={t("valuesTitle", { default: "Değerlerimiz" })} subtitle={t("valuesSubtitle", { default: "Her müşterimize aynı özenle yaklaşıyoruz." })} align="left" className="mb-24" />
             <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-16">
               {VALUES.map(({ title, desc }) => (
                 <li key={title} className="flex flex-col gap-12 p-24 bg-surface-container-lowest border border-[0.5px] border-border-default rounded-card">
@@ -136,9 +136,9 @@ export default async function HakkimizdaPage({ params }: Props) {
         </section>
 
         {/* What we buy */}
-        <section className="bg-surface-container-lowest border-y border-[0.5px] border-border-default py-44 md:py-60">
+        <section className="bg-surface-container-lowest border-y border-[0.5px] border-border-default py-24 md:py-32">
           <Container>
-            <div className="flex flex-col lg:flex-row gap-44 items-start">
+            <div className="flex flex-col lg:flex-row gap-24 items-start">
               <div className="lg:w-[360px] shrink-0">
                 <SectionHeader title={t("buyTitle", { default: "Hangi Araçları Alıyoruz?" })} subtitle={t("buySubtitle", { default: "Her türlü hasarlı araç için teklif veriyoruz." })} align="left" />
               </div>

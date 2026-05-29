@@ -133,9 +133,9 @@ export default async function ServicePage({ params }: Props) {
       <Navbar />
       <main className="pb-[76px] md:pb-0">
         {/* Hero */}
-        <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-44 md:py-60">
+        <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-24 md:py-32">
           <Container>
-            <div className="flex flex-col lg:flex-row gap-44 md:gap-60 items-start">
+            <div className="flex flex-col lg:flex-row gap-24 md:gap-32 items-start">
               <div className="flex flex-col items-start gap-16 w-full">
                 <Badge variant="accent" className="uppercase tracking-wide">{service.hero.badge}</Badge>
                 <h1 className="text-section-title-mobile md:text-section-title font-medium tracking-heading text-text-primary leading-[1.1]">
@@ -185,9 +185,9 @@ export default async function ServicePage({ params }: Props) {
         </section>
 
         {/* Problems */}
-        <section className="py-44 md:py-60">
+        <section className="py-24 md:py-32">
           <Container>
-            <SectionHeader title={t("problemsTitle", { default: "Hangi Durumlar Kapsanıyor?" })} subtitle={t("problemsSub", { default: "Aşağıdaki durumlardan herhangi birinde değerlendirme yapıyoruz." })} align="left" className="mb-32 md:mb-44" />
+            <SectionHeader title={t("problemsTitle", { default: "Hangi Durumlar Kapsanıyor?" })} subtitle={t("problemsSub", { default: "Aşağıdaki durumlardan herhangi birinde değerlendirme yapıyoruz." })} align="left" className="mb-24" />
             <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-16">
               {service.problems.map(({ title, desc }) => (
                 <li key={title}>
@@ -204,9 +204,9 @@ export default async function ServicePage({ params }: Props) {
         </section>
 
         {/* How it works */}
-        <section className="bg-bg-surface border-y border-[0.5px] border-border-default py-44 md:py-60">
+        <section className="bg-bg-surface border-y border-[0.5px] border-border-default py-24 md:py-32">
           <Container>
-            <SectionHeader title={t("howTitle", { default: "Nasıl Çalışır?" })} subtitle={t("howSub", { default: "3 adımda aracınızı satın." })} align="left" className="mb-32 md:mb-44" />
+            <SectionHeader title={t("howTitle", { default: "Nasıl Çalışır?" })} subtitle={t("howSub", { default: "3 adımda aracınızı satın." })} align="left" className="mb-24" />
             <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
               {HOW_IT_WORKS.map(({ num, title, desc }) => (
                 <div key={num} className="flex flex-col gap-12 p-24 bg-white border border-[0.5px] border-border-default rounded-card text-center">
@@ -224,7 +224,7 @@ export default async function ServicePage({ params }: Props) {
         <DarkCTAForm />
 
         {/* FAQ */}
-        <section className="py-44 md:py-60 border-b border-[0.5px] border-border-default">
+        <section className="py-24 md:py-32 border-b border-[0.5px] border-border-default">
           <Container>
             <SectionHeader title={t("faqTitle", { default: "Sık Sorulan Sorular" })} align="left" className="mb-32" />
             <div className="max-w-[720px] mx-auto">
@@ -235,7 +235,7 @@ export default async function ServicePage({ params }: Props) {
 
         {/* Related services */}
         {relatedServices.length > 0 && (
-          <section className="py-44 md:py-60 bg-bg-surface border-b border-[0.5px] border-border-default">
+          <section className="py-24 md:py-32 bg-bg-surface border-b border-[0.5px] border-border-default">
             <Container>
               <SectionHeader title={t("relatedTitle", { default: "İlgili Hizmetler" })} align="left" className="mb-32" />
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-16 max-w-[640px] mx-auto">

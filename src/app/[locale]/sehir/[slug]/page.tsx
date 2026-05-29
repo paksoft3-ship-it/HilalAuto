@@ -115,9 +115,9 @@ export default async function CityPage({ params }: Props) {
       <Navbar />
       <main className="pb-[76px] md:pb-0">
         {/* Hero */}
-        <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-44 md:py-60">
+        <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-24 md:py-32">
           <Container>
-            <div className="flex flex-col lg:flex-row gap-44 md:gap-60 items-start">
+            <div className="flex flex-col lg:flex-row gap-24 md:gap-32 items-start">
               <div className="flex-1">
                 <div className="flex items-center gap-8 mb-24">
                   <Badge variant="accent"><MapPin size={11} aria-hidden className="mr-4" />{city.name}</Badge>
@@ -159,9 +159,9 @@ export default async function CityPage({ params }: Props) {
         <TrustBar />
 
         {/* Vehicle types */}
-        <section className="py-44 md:py-60">
+        <section className="py-24 md:py-32">
           <Container>
-            <SectionHeader title={`${city.nameGenitive} ${t("typesTitle", { default: "Aldığımız Araç Türleri" })}`} subtitle={t("typesSubtitle", { default: "Her türlü hasarlı araç için teklif veriyoruz." })} align="left" className="mb-32 md:mb-44" />
+            <SectionHeader title={`${city.nameGenitive} ${t("typesTitle", { default: "Aldığımız Araç Türleri" })}`} subtitle={t("typesSubtitle", { default: "Her türlü hasarlı araç için teklif veriyoruz." })} align="left" className="mb-24" />
             <ul className="grid grid-cols-2 md:grid-cols-3 gap-12">
               {VEHICLE_SERVICES.map(({ label, slug: sSlug }) => (
                 <li key={sSlug}>
@@ -180,7 +180,7 @@ export default async function CityPage({ params }: Props) {
 
         {/* Nearby cities */}
         {nearbyCities.length > 0 && (
-          <section className="py-44 md:py-60 bg-bg-surface border-b border-[0.5px] border-border-default">
+          <section className="py-24 md:py-32 bg-bg-surface border-b border-[0.5px] border-border-default">
             <Container>
               <SectionHeader title={t("nearbyTitle", { default: "Yakın Şehirler" })} subtitle={t("nearbySubtitle", { default: "Komşu illerde de hizmet veriyoruz." })} align="left" className="mb-24" />
               <ul className="flex flex-wrap gap-12 justify-center">

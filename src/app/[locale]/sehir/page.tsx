@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { MapPin, ArrowRight } from "lucide-react";
@@ -21,9 +22,9 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const title = "Türkiye Geneli Hasarlı Araç Alanlar — Tüm Şehirler | Oto Grade";
-  const description =
-    "Oto Grade olarak Türkiye'nin 15 büyük şehrinde kazalı, pert ve hurda araç alım hizmeti veriyoruz. Şehrinizi seçin, ücretsiz teklif alın.";
+  const t = await getTranslations({ locale, namespace: "seo" });
+  const title = t("citiesTitleMeta", { default: "Türkiye Geneli Hasarlı Araç Alanlar — Tüm Şehirler | Oto Grade" });
+  const description = t("citiesDescMeta", { default: "Oto Grade olarak Türkiye'nin 15 büyük şehrinde kazalı, pert ve hurda araç alım hizmeti veriyoruz. Şehrinizi seçin, ücretsiz teklif alın." });
   return {
     title,
     description,
@@ -31,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title,
       description,
-      locale: "tr_TR",
+      locale: locale === "en" ? "en_US" : "tr_TR",
       type: "website",
     },
   };
@@ -39,6 +40,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function SehirlerPage({ params }: Props) {
   const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "citiesIndex" });
 
   const cities = Object.values(CITIES_DATA);
 
@@ -46,20 +48,20 @@ export default async function SehirlerPage({ params }: Props) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Ana Sayfa", item: `${SITE_URL}/tr` },
-      { "@type": "ListItem", position: 2, name: "Şehirler", item: `${SITE_URL}/tr/sehir` },
+      { "@type": "ListItem", position: 1, name: t("home", { default: "Ana Sayfa" }), item: `${SITE_URL}/${locale}` },
+      { "@type": "ListItem", position: 2, name: t("cities", { default: "Şehirler" }), item: `${SITE_URL}/${locale}/sehir` },
     ],
   };
 
   const itemListSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "Hizmet Verdiğimiz Şehirler",
+    name: t("listName", { default: "Hizmet Verdiğimiz Şehirler" }),
     itemListElement: cities.map((city, i) => ({
       "@type": "ListItem",
       position: i + 1,
-      name: `${city.name} Hasarlı Araç Alanlar`,
-      url: `${SITE_URL}/tr/sehir/${city.slug}`,
+      name: `${city.name} ${t("citySuffix", { default: "Hasarlı Araç Alanlar" })}`,
+      url: `${SITE_URL}/${locale}/sehir/${city.slug}`,
     })),
   };
 
@@ -68,22 +70,22 @@ export default async function SehirlerPage({ params }: Props) {
       <Navbar />
       <main className="pb-[76px] md:pb-0">
         {/* Hero */}
-        <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-44 md:py-60">
+        <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-24 md:py-32">
           <Container>
             <div className="flex flex-col items-start gap-16 max-w-[640px] w-full">
-              <Badge variant="accent">Şehirler</Badge>
+              <Badge variant="accent">{t("badge", { default: "Şehirler" })}</Badge>
               <h1 className="text-section-title-mobile md:text-[40px] font-medium tracking-heading text-text-primary">
-                Türkiye&apos;nin Her Yerinden Hasarlı Araç Alımı
+                {t("heroTitle", { default: "Türkiye'nin Her Yerinden Hasarlı Araç Alımı" })}
               </h1>
               <p className="text-[14px] text-text-muted leading-relaxed">
-                Nerede olursanız olun, kazalı veya arızalı aracınızı ücretsiz çekici hizmetimizle kapınızdan alıyor, ödemesini anında nakit yapıyoruz.
+                {t("heroDesc", { default: "Nerede olursanız olun, kazalı veya arızalı aracınızı ücretsiz çekici hizmetimizle kapınızdan alıyor, ödemesini anında nakit yapıyoruz." })}
               </p>
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-12 mt-8 w-full sm:w-auto">
                 <Link
                   href={routes.quote(locale)}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-8 bg-primary text-white px-32 py-16 rounded-btn font-medium text-[14px] hover:opacity-90 transition-opacity"
                 >
-                  Ücretsiz Teklif Al
+                  {t("ctaQuote", { default: "Ücretsiz Teklif Al" })}
                   <ArrowRight size={16} strokeWidth={1.5} aria-hidden />
                 </Link>
                 <a
@@ -91,10 +93,10 @@ export default async function SehirlerPage({ params }: Props) {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-8 bg-transparent border border-whatsapp-green text-whatsapp-green px-32 py-16 rounded-btn text-[14px] font-medium hover:bg-whatsapp-green hover:text-white transition-colors"
-                  aria-label="WhatsApp ile yazın"
+                  aria-label={t("ctaWhatsappAria", { default: "WhatsApp ile yazın" })}
                 >
                   <FaWhatsapp size={16} aria-hidden />
-                  WhatsApp ile Yaz
+                  {t("ctaWhatsapp", { default: "WhatsApp ile Yaz" })}
                 </a>
               </div>
             </div>
@@ -102,13 +104,13 @@ export default async function SehirlerPage({ params }: Props) {
         </section>
 
         {/* City grid */}
-        <section className="py-44 md:py-60">
+        <section className="py-24 md:py-32">
           <Container>
             <SectionHeader
-              title="Hizmet Verdiğimiz Şehirler"
-              subtitle="Aşağıdan şehrinizi seçin, o şehre özel hasarlı araç alım sayfasına ulaşın."
+              title={t("sectionTitle", { default: "Hizmet Verdiğimiz Şehirler" })}
+              subtitle={t("sectionSubtitle", { default: "Aşağıdan şehrinizi seçin, o şehre özel hasarlı araç alım sayfasına ulaşın." })}
               align="left"
-              className="mb-32 md:mb-44"
+              className="mb-24"
             />
             <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-16">
               {cities.map((city) => (
@@ -140,12 +142,12 @@ export default async function SehirlerPage({ params }: Props) {
                       ))}
                       {city.districts.length > 3 && (
                         <span className="px-8 py-2 text-[11px] text-text-soft">
-                          +{city.districts.length - 3} ilçe
+                          +{city.districts.length - 3} {t("districts", { default: "ilçe" })}
                         </span>
                       )}
                     </div>
                     <span className="text-[12px] text-accent font-medium flex items-center gap-4 mt-4 group-hover:gap-8 transition-all">
-                      Teklif Al <ArrowRight size={12} strokeWidth={1.5} aria-hidden />
+                      {t("getQuote", { default: "Teklif Al" })} <ArrowRight size={12} strokeWidth={1.5} aria-hidden />
                     </span>
                   </Link>
                 </li>
