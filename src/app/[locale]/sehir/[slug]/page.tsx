@@ -15,7 +15,7 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Badge } from "@/components/ui/Badge";
 import { QuickQuoteForm } from "@/components/forms/QuickQuoteForm";
-import { CITIES_DATA, ALL_CITY_SLUGS } from "@/data/cities";
+import { getCities, ALL_CITY_SLUGS } from "@/data/cities";
 import { SITE_FAQ_ITEMS } from "@/data/faqs";
 import { routes } from "@/lib/routes";
 import { CITIES, SITE_URL, PHONE_NUMBER } from "@/lib/constants";
@@ -33,6 +33,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
+  const CITIES_DATA = getCities(locale);
   const city = CITIES_DATA[slug];
   if (!city) return {};
   const t = await getTranslations({ locale, namespace: "seo" });
@@ -51,6 +52,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CityPage({ params }: Props) {
   const { locale, slug } = await params;
+  const CITIES_DATA = getCities(locale);
   const city = CITIES_DATA[slug];
   if (!city) notFound();
 

@@ -16,7 +16,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Card, CardBody } from "@/components/ui/Card";
 import { Accordion } from "@/components/ui/Accordion";
 import { QuickQuoteForm } from "@/components/forms/QuickQuoteForm";
-import { SERVICES, ALL_SERVICE_SLUGS } from "@/data/services";
+import { getServices, ALL_SERVICE_SLUGS } from "@/data/services";
 import { routes, externalRoutes } from "@/lib/routes";
 import { SITE_URL, PHONE_NUMBER, WHATSAPP_NUMBER } from "@/lib/constants";
 
@@ -44,6 +44,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
+  const SERVICES = getServices(locale);
   const service = SERVICES[slug];
   if (!service) return {};
   const baseTitle = SEO_TITLES[slug] ?? `${service.title} — Oto Grade`;
@@ -74,6 +75,7 @@ const RELATED_SLUGS: Record<string, string[]> = {
 
 export default async function ServicePage({ params }: Props) {
   const { locale, slug } = await params;
+  const SERVICES = getServices(locale);
   const service = SERVICES[slug];
   if (!service) notFound();
 

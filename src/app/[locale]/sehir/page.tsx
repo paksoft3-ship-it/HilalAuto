@@ -12,7 +12,7 @@ import { DarkCTAForm } from "@/components/sections/DarkCTAForm";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Badge } from "@/components/ui/Badge";
-import { CITIES_DATA } from "@/data/cities";
+import { getCities } from "@/data/cities";
 import { routes, externalRoutes } from "@/lib/routes";
 import { SITE_URL, WHATSAPP_NUMBER } from "@/lib/constants";
 
@@ -41,6 +41,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function SehirlerPage({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "citiesIndex" });
+  const CITIES_DATA = getCities(locale);
 
   const cities = Object.values(CITIES_DATA);
 

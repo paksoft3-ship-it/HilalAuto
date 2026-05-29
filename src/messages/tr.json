@@ -52,7 +52,8 @@
     "errorGeneric": "Bir hata oluştu.",
     "whatsappMessage": "Merhaba, {brand} ({year}) aracım için teklif almak istiyorum. Hasar: {damage}, Şehir: {city}. Telefonum: {phone}",
     "ariaLabel": "Hızlı teklif formu",
-    "loading": "İşleniyor..."
+    "loading": "İşleniyor...",
+    "damage": "Hasar Türü"
   },
   "trustBar": {
     "item1": "Yerinden Alım",
@@ -403,7 +404,8 @@
     "nearbyTitle": "Yakın Şehirler",
     "quoteTitle": "Ücretsiz Teklif Al — Oto Grade",
     "quoteDescription": "Hasarlı aracınız için ücretsiz ve bağlayıcı olmayan teklif alın. Formu doldurun, uzman ekibimiz hızlıca dönüş yapsın.",
-    "cityTitleSuffix": "Hasarlı Araç Alanlar — Oto Grade"
+    "cityTitleSuffix": "Hasarlı Araç Alanlar — Oto Grade",
+    "formTitle": "Hızlı Teklif Formu"
   },
   "thankYou": {
     "title": "Başvurunuz Alındı",
@@ -495,7 +497,10 @@
     "trustSubtitle": "Sürecimiz tamamen şeffaf ve güvenlidir.",
     "badge": "Süreç",
     "title": "Hasarlı Aracınızı Satmak Artık Çok Daha Kolay",
-    "subtitle": "Karmaşık süreçleri en aza indirdik. Formu doldurun, teklifinizi alın, aynı gün içinde ödemenizi nakit olarak alın."
+    "subtitle": "Karmaşık süreçleri en aza indirdik. Formu doldurun, teklifinizi alın, aynı gün içinde ödemenizi nakit olarak alın.",
+    "step1Title": "Formu Doldurun",
+    "step2Title": "Uzmanımız Arasın",
+    "step3Title": "Teslim ve Ödeme"
   },
   "quote": {
     "trust1": "Ücretsiz değerleme",
@@ -518,5 +523,18 @@
     "badge": "Ücretsiz ve bağlayıcı olmayan teklif",
     "title": "Hasarlı aracınız için hızlı teklif alın",
     "subtitle": "Birkaç basit adımı tamamlayarak aracınızın durumunu bize iletin. Uzman ekibimiz en kısa sürede size en iyi fiyat teklifini sunacaktır."
+  },
+  "darkCta": {
+    "badge": "Ücretsiz Teklif",
+    "title": "Aracınızı Satmaya Hazır mısınız?",
+    "subtitle": "Kısa formu doldurun, uzman ekibimiz en kısa sürede size dönüş yapsın. Teklif almak tamamen ücretsiz ve bağlayıcı değil.",
+    "bullet1": "Ücretsiz ve bağlayıcı değil",
+    "bullet2": "1 saat içinde geri dönüş",
+    "bullet3": "Yerinden alım desteği",
+    "bullet4": "Evrak işlemlerinde yardım",
+    "whatsappMessage": "Merhaba, hasarlı aracım için teklif almak istiyorum.",
+    "whatsapp": "WhatsApp ile Yaz",
+    "formTitle": "Hızlı Teklif Formu",
+    "formSub": "Bağlayıcı değil · Hızlı dönüş"
   }
 }
