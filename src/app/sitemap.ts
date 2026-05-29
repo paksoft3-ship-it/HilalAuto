@@ -3,6 +3,8 @@ import { ALL_SERVICE_SLUGS } from "@/data/services";
 import { ALL_CITY_SLUGS } from "@/data/cities";
 import { SITE_URL } from "@/lib/constants";
 import { supabase } from "@/lib/supabase";
+import { getPathname } from "@/i18n/routing";
+
 
 // TR = default locale, no prefix (e.g. https://hazaral.com/teklif-al)
 // EN = /en/ prefix with localised paths (e.g. https://hazaral.com/en/get-a-quote)
@@ -58,10 +60,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...pair("/kullanim-kosullari", "/terms-of-use",        { freq: "yearly",  priority: 0.30 }),
   ];
 
-  // ── Service pages ────────────────────────────────────────────────────────────
-  const services: MetadataRoute.Sitemap = ALL_SERVICE_SLUGS.flatMap((slug) =>
-    pair(`/hizmet/${slug}`, `/service/${slug}`, { priority: 0.85 })
-  );
+  // ── Service pages — TR slug kept canonical, EN uses translated slug ─────────
+  const services: MetadataRoute.Sitemap = ALL_SERVICE_SLUGS.flatMap((slug) => {
+    const trUrl = `${SITE_URL}${getPathname({ locale: "tr", href: `/hizmet/${slug}` as never })}`;
+    const enUrl = `${SITE_URL}${getPathname({ locale: "en", href: `/hizmet/${slug}` as never })}`;
+    const alternates = { languages: { tr: trUrl, en: enUrl, "x-default": trUrl } };
+    return [
+      { url: trUrl, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.85, alternates },
+      { url: enUrl, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.80, alternates },
+    ];
+  });
 
   // ── City pages ───────────────────────────────────────────────────────────────
   const cities: MetadataRoute.Sitemap = ALL_CITY_SLUGS.flatMap((slug) =>

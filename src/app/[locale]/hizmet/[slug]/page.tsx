@@ -56,11 +56,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: baseTitle,
     description: service.metaDescription,
     alternates: {
-      canonical: `${SITE_URL}${getPathname({ locale, href: { pathname: "/hizmet/[slug]", params: { slug } } } as any)}`,
+      canonical: `${SITE_URL}${getPathname({ locale, href: `/hizmet/${slug}` as any })}`,
       languages: {
-        tr: `${SITE_URL}${getPathname({ locale: "tr", href: { pathname: "/hizmet/[slug]", params: { slug } } } as any)}`,
-        en: `${SITE_URL}${getPathname({ locale: "en", href: { pathname: "/hizmet/[slug]", params: { slug } } } as any)}`,
-        "x-default": `${SITE_URL}${getPathname({ locale: "tr", href: { pathname: "/hizmet/[slug]", params: { slug } } } as any)}`,
+        tr: `${SITE_URL}${getPathname({ locale: "tr", href: `/hizmet/${slug}` as any })}`,
+        en: `${SITE_URL}${getPathname({ locale: "en", href: `/hizmet/${slug}` as any })}`,
+        "x-default": `${SITE_URL}${getPathname({ locale: "tr", href: `/hizmet/${slug}` as any })}`,
       },
     },
     openGraph: {
@@ -105,8 +105,8 @@ export default async function ServicePage({ params }: Props) {
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: t("home", { default: "Ana Sayfa" }), item: localeUrl(locale, "/") },
-      { "@type": "ListItem", position: 2, name: t("services", { default: "Hizmetler" }), item: localeUrl(locale, "/hizmet") },
-      { "@type": "ListItem", position: 3, name: service.title, item: localeUrl(locale, `/hizmet/${slug}`) },
+      { "@type": "ListItem", position: 2, name: t("services", { default: "Hizmetler" }), item: `${SITE_URL}${getPathname({ locale, href: "/arac-turleri" })}` },
+      { "@type": "ListItem", position: 3, name: service.title, item: `${SITE_URL}${getPathname({ locale, href: `/hizmet/${slug}` as any })}` },
     ],
   };
 
