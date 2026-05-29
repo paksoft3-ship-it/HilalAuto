@@ -1,63 +1,49 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Card, CardBody } from "@/components/ui/Card";
 
-const TESTIMONIALS = [
-  {
-    id: "t1",
-    name: "Ahmet Y.",
-    city: "İstanbul",
-    vehicleType: "Kazalı Araç",
-    text: "Aracım kaza geçirmişti ve ne yapacağımı bilmiyordum. Oto Grade ekibi çok hızlı dönüş yaptı, aracımı yerinden aldılar. Süreç çok rahat geçti.",
-    rating: 5,
-  },
-  {
-    id: "t2",
-    name: "Fatma K.",
-    city: "Ankara",
-    vehicleType: "Pert Araç",
-    text: "Sigorta pert ilan etmişti, aracı ne yapacağımı bilemiyordum. Oto Grade ile çok basit oldu, teklif aldım ve evrak sürecinde destek sağlandı.",
-    rating: 5,
-  },
-  {
-    id: "t3",
-    name: "Murat D.",
-    city: "İzmir",
-    vehicleType: "Sel Hasarlı Araç",
-    text: "Sel basan aracımı satmak için birçok yeri aradım ama en hızlı ve güvenilir cevap Oto Grade'dan geldi. Tavsiye ederim.",
-    rating: 5,
-  },
-];
-
-function StarRating({ count }: { count: number }) {
-  return (
-    <div className="flex gap-4" aria-label={`${count} yıldız`}>
-      {Array.from({ length: count }).map((_, i) => (
-        <Star
-          key={i}
-          size={13}
-          strokeWidth={0}
-          fill="#E8380D"
-          className="text-accent"
-          aria-hidden
-        />
-      ))}
-    </div>
-  );
-}
-
 export function SocialProof() {
+  const t = useTranslations("socialProof");
+
+  const TESTIMONIALS = [
+    {
+      id: "t1",
+      name: "Ahmet Y.",
+      city: "İstanbul",
+      vehicleType: t("vehicle1", { default: "Kazalı Araç" }),
+      text: t("text1", { default: "Aracım kaza geçirmişti ve ne yapacağımı bilmiyordum. Oto Grade ekibi çok hızlı dönüş yaptı, aracımı yerinden aldılar. Süreç çok rahat geçti." }),
+      rating: 5,
+    },
+    {
+      id: "t2",
+      name: "Fatma K.",
+      city: "Ankara",
+      vehicleType: t("vehicle2", { default: "Pert Araç" }),
+      text: t("text2", { default: "Sigorta pert ilan etmişti, aracı ne yapacağımı bilemiyordum. Oto Grade ile çok basit oldu, teklif aldım ve evrak sürecinde destek sağlandı." }),
+      rating: 5,
+    },
+    {
+      id: "t3",
+      name: "Murat D.",
+      city: "İzmir",
+      vehicleType: t("vehicle3", { default: "Sel Hasarlı Araç" }),
+      text: t("text3", { default: "Sel basan aracımı satmak için birçok yeri aradım ama en hızlı ve güvenilir cevap Oto Grade'dan geldi. Tavsiye ederim." }),
+      rating: 5,
+    },
+  ];
+
   return (
-    <section aria-label="Müşteri yorumları" className="bg-bg-primary py-44 md:py-60">
+    <section aria-label={t("title")} className="bg-bg-primary py-44 md:py-60">
       <Container>
         <SectionHeader
-          badge="Referanslar"
-          title="Müşterilerimiz Ne Diyor?"
-          subtitle="Binlerce araç sahibi Oto Grade ile güvenle satış yaptı."
+          badge={t("badge", { default: "Referanslar" })}
+          title={t("title")}
+          subtitle={t("subtitle")}
           className="mb-32 md:mb-44"
         />
 
@@ -92,5 +78,22 @@ export function SocialProof() {
         </ul>
       </Container>
     </section>
+  );
+}
+
+function StarRating({ count }: { count: number }) {
+  return (
+    <div className="flex gap-4" aria-label={`${count} yıldız`}>
+      {Array.from({ length: count }).map((_, i) => (
+        <Star
+          key={i}
+          size={13}
+          strokeWidth={0}
+          fill="#E8380D"
+          className="text-accent"
+          aria-hidden
+        />
+      ))}
+    </div>
   );
 }

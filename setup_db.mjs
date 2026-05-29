@@ -35,6 +35,8 @@ async function runSchema() {
       
       DROP POLICY IF EXISTS "Admins can update leads" ON public.hazaral_leads;
       CREATE POLICY "Admins can update leads" on public.hazaral_leads for update using (auth.role() = 'authenticated');
+      
+      GRANT ALL ON TABLE public.hazaral_leads TO anon, authenticated, service_role;
     `;
     console.log("Executing hazaral_leads schema...");
     await pool.query(sql);

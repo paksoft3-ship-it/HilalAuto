@@ -1,34 +1,37 @@
+import { useTranslations } from "next-intl";
 import { MapPin, Zap, FileCheck } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { FaWhatsapp } from 'react-icons/fa';
 
-const ITEMS = [
-  {
-    icon: MapPin,
-    label: "Yerinden Alım",
-    desc: "Aracınızı kapınızdan teslim alıyoruz.",
-  },
-  {
-    icon: Zap,
-    label: "Hızlı Değerleme",
-    desc: "1 saat içinde teklifinizi iletiyoruz.",
-  },
-  {
-    icon: FileCheck,
-    label: "Güvenli Evrak Süreci",
-    desc: "Tüm belgelerde yanınızdayız.",
-  },
-  {
-    icon: FaWhatsapp,
-    label: "WhatsApp Destek",
-    desc: "7 gün boyunca ulaşabilirsiniz.",
-  },
-];
-
 export function TrustBar() {
+  const t = useTranslations("trustBar");
+
+  const ITEMS = [
+    {
+      icon: MapPin,
+      label: t("item1", { default: "Yerinden Alım" }),
+      desc: t("item1Desc", { default: "Aracınızı kapınızdan teslim alıyoruz." }),
+    },
+    {
+      icon: Zap,
+      label: t("item2", { default: "Hızlı Değerleme" }),
+      desc: t("item2Desc", { default: "1 saat içinde teklifinizi iletiyoruz." }),
+    },
+    {
+      icon: FileCheck,
+      label: t("item3", { default: "Güvenli Evrak Süreci" }),
+      desc: t("item3Desc", { default: "Tüm belgelerde yanınızdayız." }),
+    },
+    {
+      icon: FaWhatsapp,
+      label: t("item4", { default: "WhatsApp Destek" }),
+      desc: t("item4Desc", { default: "7 gün boyunca ulaşabilirsiniz." }),
+    },
+  ];
+
   return (
     <section
-      aria-label="Güven öğeleri"
+      aria-label={t("ariaLabel", { default: "Güven öğeleri" })}
       className="bg-surface border-y border-[0.5px] border-border-default py-32"
     >
       <Container>

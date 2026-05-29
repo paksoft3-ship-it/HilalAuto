@@ -7,7 +7,7 @@ export const PHONE_NUMBER = process.env.NEXT_PUBLIC_PHONE_NUMBER ?? "+90 552 567
 export const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "905525677164";
 export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
 
-export const LOCALES = ["tr"] as const;
+export const LOCALES = ["tr", "en"] as const;
 export type Locale = (typeof LOCALES)[number];
 export const DEFAULT_LOCALE: Locale = "tr";
 

@@ -14,7 +14,6 @@ import { DarkCTAForm } from "@/components/sections/DarkCTAForm";
 import { FAQSection } from "@/components/sections/FAQSection";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { SITE_URL, OG_IMAGE_URL, PHONE_NUMBER } from "@/lib/constants";
-import { SITE_FAQ_ITEMS } from "@/data/faqs";
 
 interface HomePageProps {
   params: Promise<{ locale: string }>;
@@ -22,9 +21,9 @@ interface HomePageProps {
 
 export async function generateMetadata({ params }: HomePageProps): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "hero" });
-  const title = "Hasarlı Araç Alanlar | Kazalı, Pert, Hurda Araç Alımı — Oto Grade";
-  const description = t("description");
+  const t = await getTranslations({ locale, namespace: "seo" });
+  const title = t("homeTitle", { default: "Hasarlı Araç Alanlar | Kazalı, Pert, Hurda Araç Alımı — Oto Grade" });
+  const description = t("homeDescription", { default: "Türkiye genelinde kazalı, pert, yanmış, sel hasarlı ve hurda araç alım hizmeti. Ücretsiz teklif, yerinden teslim." });
   const url = `${SITE_URL}/${locale}`;
 
   return {
@@ -55,6 +54,8 @@ export async function generateMetadata({ params }: HomePageProps): Promise<Metad
 
 export default async function HomePage({ params }: HomePageProps) {
   const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "seo" });
+  const faqT = await getTranslations({ locale, namespace: "faq" });
 
   const organizationSchema = {
     "@context": "https://schema.org",
@@ -75,11 +76,10 @@ export default async function HomePage({ params }: HomePageProps) {
     "@context": "https://schema.org",
     "@type": "AutoDealer",
     name: "Oto Grade — Hasarlı Araç Alım",
-    description:
-      "Türkiye genelinde kazalı, pert, yanmış, sel hasarlı ve hurda araç alım hizmeti. Ücretsiz teklif, yerinden teslim.",
+    description: t("homeDescription", { default: "Türkiye genelinde kazalı, pert, yanmış, sel hasarlı ve hurda araç alım hizmeti. Ücretsiz teklif, yerinden teslim." }),
     url: SITE_URL,
     telephone: PHONE_NUMBER,
-    priceRange: "Ücretsiz Teklif",
+    priceRange: t("priceRange", { default: "Ücretsiz Teklif" }),
     openingHoursSpecification: {
       "@type": "OpeningHoursSpecification",
       dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
@@ -109,19 +109,19 @@ export default async function HomePage({ params }: HomePageProps) {
     "@type": "WebSite",
     name: "Oto Grade",
     url: SITE_URL,
-    description: "Türkiye genelinde hasarlı araç alım hizmeti",
-    inLanguage: "tr-TR",
+    description: t("websiteDescription", { default: "Türkiye genelinde hasarlı araç alım hizmeti" }),
+    inLanguage: locale === "en" ? "en-US" : "tr-TR",
   };
 
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: SITE_FAQ_ITEMS.map((item) => ({
+    mainEntity: Array.from({ length: 8 }).map((_, i) => ({
       "@type": "Question",
-      name: item.question,
+      name: faqT(`q${i + 1}` as never),
       acceptedAnswer: {
         "@type": "Answer",
-        text: item.answer,
+        text: faqT(`a${i + 1}` as never),
       },
     })),
   };

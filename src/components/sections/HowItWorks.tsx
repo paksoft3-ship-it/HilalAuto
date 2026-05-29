@@ -2,47 +2,49 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { routes } from "@/lib/routes";
 
-const STEPS = [
-  {
-    num: "01",
-    time: "~2 dakika",
-    title: "Formu Doldurun",
-    desc: "Araç markası, hasar türü, şehir ve telefon bilgilerinizi kısa form üzerinden gönderin.",
-  },
-  {
-    num: "02",
-    time: "1 saat içinde",
-    title: "Uzmanımız Sizi Arasın",
-    desc: "Ekibimiz aracınızın durumunu değerlendirir ve size hızlıca teklif sunar.",
-  },
-  {
-    num: "03",
-    time: "24 saat içinde",
-    title: "Aracınızı Alalım, Ödemenizi Yapın",
-    desc: "Aracı bulunduğu yerden teslim alır, evrak sürecinde destek olur ve ödemenizi tamamlarız.",
-  },
-];
-
 export function HowItWorks() {
   const params = useParams();
   const locale = (params?.locale as string) ?? "tr";
+  const t = useTranslations("howItWorks");
+
+  const STEPS = [
+    {
+      num: "01",
+      time: t("step1Time", { default: "~2 dakika" }),
+      title: t("step1Title"),
+      desc: t("step1Desc"),
+    },
+    {
+      num: "02",
+      time: t("step2Time", { default: "1 saat içinde" }),
+      title: t("step2Title"),
+      desc: t("step2Desc"),
+    },
+    {
+      num: "03",
+      time: t("step3Time", { default: "24 saat içinde" }),
+      title: t("step3Title"),
+      desc: t("step3Desc"),
+    },
+  ];
 
   return (
     <section
-      aria-label="Nasıl çalışır"
+      aria-label={t("title")}
       className="bg-surface border-y border-[0.5px] border-border-default py-44 md:py-60"
     >
       <Container>
         <SectionHeader
-          badge="Süreç"
-          title="3 Adımda Aracınızı Satın"
-          subtitle="Bilgilerinizi gönderin, uzman ekibimiz size hızlıca ulaşsın. Aracınızı bulunduğu yerden teslim alalım."
+          badge={t("badge", { default: "Süreç" })}
+          title={t("title")}
+          subtitle={t("subtitle")}
           align="left"
           className="mb-32 md:mb-44"
         />
@@ -87,13 +89,13 @@ export function HowItWorks() {
           className="mt-32 md:mt-44 p-24 border border-[0.5px] border-border-default rounded-xl flex flex-col sm:flex-row items-center justify-between gap-16 bg-surface-container-lowest"
         >
           <p className="text-[14px] text-on-surface text-left">
-            Aracınız için ücretsiz ve bağlayıcı olmayan teklif alın.
+            {t("ctaText", { default: "Aracınız için ücretsiz ve bağlayıcı olmayan teklif alın." })}
           </p>
           <Link
             href={routes.quote(locale)}
             className="inline-flex items-center gap-8 bg-primary text-on-primary px-24 py-16 rounded-lg font-medium text-[14px] hover:opacity-90 transition-opacity whitespace-nowrap shrink-0 w-full sm:w-auto justify-center"
           >
-            Hemen Teklif Al
+            {t("ctaButton", { default: "Hemen Teklif Al" })}
             <ArrowRight size={15} strokeWidth={1.5} aria-hidden />
           </Link>
         </motion.div>

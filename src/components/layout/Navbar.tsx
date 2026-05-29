@@ -4,24 +4,27 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Menu, X, Phone, ChevronDown } from "lucide-react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { routes, externalRoutes } from "@/lib/routes";
 import { PHONE_NUMBER, WHATSAPP_NUMBER, VEHICLE_TYPES } from "@/lib/constants";
 import { FaWhatsapp } from "react-icons/fa";
+import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 
 const NAV_LINKS = [
-  { labelKey: "Nasıl Çalışır", href: (locale: string) => routes.howItWorks(locale) },
-  { labelKey: "Araç Türleri", href: (locale: string) => routes.vehicleTypes(locale) },
-  { labelKey: "Şehirler", href: (locale: string) => `/${locale}/sehir` },
-  { labelKey: "Blog", href: (locale: string) => routes.blog(locale) },
-  { labelKey: "Hakkımızda", href: (locale: string) => routes.about(locale) },
+  { labelKey: "howItWorks", href: (locale: string) => routes.howItWorks(locale) },
+  { labelKey: "vehicleTypes", href: (locale: string) => routes.vehicleTypes(locale) },
+  { labelKey: "cities", href: (locale: string) => `/${locale}/sehir` },
+  { labelKey: "blog", href: (locale: string) => routes.blog(locale) },
+  { labelKey: "about", href: (locale: string) => routes.about(locale) },
 ];
 
 export function Navbar() {
   const params = useParams();
   const locale = (params?.locale as string) ?? "tr";
+  const t = useTranslations("nav");
   const [menuOpen, setMenuOpen] = useState(false);
   const [vehicleTypesOpen, setVehicleTypesOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -69,14 +72,14 @@ export function Navbar() {
           {/* Desktop nav links */}
           <div className="hidden lg:flex items-center gap-24 h-full">
             {NAV_LINKS.map((link) => {
-              if (link.labelKey === "Araç Türleri") {
+              if (link.labelKey === "vehicleTypes") {
                 return (
                   <div key={link.labelKey} className="relative group h-full flex items-center">
                     <Link
                       href={link.href(locale)}
                       className="text-[13px] text-muted-text hover:text-primary transition-colors flex items-center gap-4 py-20"
                     >
-                      {link.labelKey}
+                      {t(link.labelKey as never)}
                       <ChevronDown size={14} className="group-hover:rotate-180 transition-transform duration-200" />
                     </Link>
                     <div className="absolute top-full left-1/2 -translate-x-1/2 w-[220px] bg-surface-container-lowest border border-[0.5px] border-border-default rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 flex flex-col py-8 z-50">
@@ -86,7 +89,7 @@ export function Navbar() {
                           href={routes.service(locale, type.serviceSlug)}
                           className="px-16 py-8 text-[13px] text-muted-text hover:bg-surface hover:text-primary transition-colors text-left"
                         >
-                          {type.label}
+                          {locale === "en" ? type.labelEn : type.label}
                         </Link>
                       ))}
                     </div>
@@ -99,7 +102,7 @@ export function Navbar() {
                   href={link.href(locale)}
                   className="text-[13px] text-muted-text hover:text-primary transition-colors"
                 >
-                  {link.labelKey}
+                  {t(link.labelKey as never)}
                 </Link>
               );
             })}
@@ -107,30 +110,31 @@ export function Navbar() {
 
           {/* Desktop actions */}
           <div className="hidden md:flex items-center gap-12">
+            <LanguageSwitcher />
             <a
               href={externalRoutes.phone(PHONE_NUMBER)}
               className="inline-flex items-center gap-8 bg-surface-container-lowest border border-[0.5px] border-border-default text-on-surface px-16 py-8 rounded-btn text-[13px] hover:border-primary hover:text-primary transition-colors"
-              aria-label="Bizi arayın"
+              aria-label={t("call")}
             >
               <Phone size={14} strokeWidth={1.5} aria-hidden />
               <span className="hidden xl:inline">{PHONE_NUMBER.replace("+90", "0")}</span>
-              <span className="xl:hidden">Ara</span>
+              <span className="xl:hidden">{t("call")}</span>
             </a>
             <a
               href={externalRoutes.whatsapp(WHATSAPP_NUMBER)}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-8 bg-transparent border border-whatsapp-green text-whatsapp-green px-16 py-8 rounded-btn text-[13px] font-medium hover:bg-whatsapp-green hover:text-white transition-colors"
-              aria-label="WhatsApp ile yazın"
+              aria-label={t("whatsapp")}
             >
               <FaWhatsapp size={15} aria-hidden />
-              <span className="hidden xl:inline">WhatsApp</span>
+              <span className="hidden xl:inline">{t("whatsapp")}</span>
             </a>
             <Link
               href={routes.quote(locale)}
               className="inline-flex items-center justify-center bg-primary text-on-primary px-24 py-8 rounded-btn text-[13px] font-medium hover:opacity-90 transition-opacity"
             >
-              Teklif Al
+              {t("getQuote")}
             </Link>
           </div>
 
@@ -164,7 +168,7 @@ export function Navbar() {
 
             {/* Nasıl Çalışır, Şehirler, Blog, Hakkımızda */}
             {NAV_LINKS.map((link) => {
-              if (link.labelKey === "Araç Türleri") {
+              if (link.labelKey === "vehicleTypes") {
                 return (
                   <div key={link.labelKey} className="border-b border-[0.5px] border-border-default">
                     {/* Accordion toggle */}
@@ -173,7 +177,7 @@ export function Navbar() {
                       onClick={() => setVehicleTypesOpen((v) => !v)}
                       className="w-full flex items-center justify-between px-24 py-16 text-[15px] font-medium text-on-surface hover:bg-surface transition-colors"
                     >
-                      <span>Araç Türleri</span>
+                      <span>{t("vehicleTypes")}</span>
                       <ChevronDown
                         size={18}
                         strokeWidth={1.5}
@@ -195,7 +199,7 @@ export function Navbar() {
                             onClick={closeMenu}
                             className="flex items-center justify-center px-12 py-10 bg-surface-container-lowest border border-[0.5px] border-border-default rounded-card text-[13px] font-medium text-on-surface hover:border-primary hover:text-primary transition-colors text-center"
                           >
-                            {type.label}
+                            {locale === "en" ? type.labelEn : type.label}
                           </Link>
                         ))}
                       </div>
@@ -211,7 +215,7 @@ export function Navbar() {
                   onClick={closeMenu}
                   className="flex items-center px-24 py-16 text-[15px] text-on-surface border-b border-[0.5px] border-border-default hover:bg-surface transition-colors"
                 >
-                  {link.labelKey}
+                  {t(link.labelKey as never)}
                 </Link>
               );
             })}
@@ -223,20 +227,20 @@ export function Navbar() {
               <a
                 href={externalRoutes.phone(PHONE_NUMBER)}
                 className="flex items-center justify-center gap-8 bg-surface-container-lowest border border-[0.5px] border-border-default py-12 rounded-btn text-[13px] font-medium text-on-surface hover:border-primary hover:text-primary transition-colors"
-                aria-label="Bizi arayın"
+                aria-label={t("call")}
               >
                 <Phone size={15} strokeWidth={1.5} aria-hidden />
-                Ara
+                {t("call")}
               </a>
               <a
                 href={externalRoutes.whatsapp(WHATSAPP_NUMBER)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-8 bg-transparent border border-whatsapp-green text-whatsapp-green py-12 rounded-btn text-[13px] font-medium hover:bg-whatsapp-green hover:text-white transition-colors"
-                aria-label="WhatsApp ile yazın"
+                aria-label={t("whatsapp")}
               >
                 <FaWhatsapp size={15} aria-hidden />
-                WhatsApp
+                {t("whatsapp")}
               </a>
             </div>
             <Link
@@ -244,7 +248,7 @@ export function Navbar() {
               onClick={closeMenu}
               className="flex items-center justify-center w-full bg-primary text-on-primary py-[14px] rounded-btn text-[14px] font-medium hover:opacity-90 transition-opacity"
             >
-              Ücretsiz Teklif Al
+              {t("getQuote")}
             </Link>
           </div>
         </div>

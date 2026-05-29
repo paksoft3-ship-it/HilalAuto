@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
@@ -11,18 +12,11 @@ import { routes, externalRoutes } from "@/lib/routes";
 import { WHATSAPP_NUMBER } from "@/lib/constants";
 import { FaWhatsapp } from 'react-icons/fa';
 
-const TRUST_BULLETS = [
-  "Türkiye geneli hizmet",
-  "Yerinden alım",
-  "Bağlayıcı değil, ücretsiz teklif",
-];
-
-const WORDS = ["Hasarlı", "Aracınız", "İçin", "Hızlı", "ve", "Güvenli", "Teklif", "Alın"];
-
-function AnimatedHeading() {
+function AnimatedHeading({ heading, highlightWord }: { heading: string, highlightWord: string }) {
+  const words = heading.split(" ");
   return (
     <h1 className="text-[30px] leading-[1.1] md:text-hero-lg text-on-surface mb-16 md:mb-24 font-medium tracking-[-1.5px]">
-      {WORDS.map((word, i) => (
+      {words.map((word, i) => (
         <motion.span
           key={i}
           className="inline-block mr-[0.25em]"
@@ -30,7 +24,7 @@ function AnimatedHeading() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: i * 0.06, duration: 0.35, ease: "easeOut" }}
         >
-          {word === "Hızlı" ? (
+          {word === highlightWord || word === "Hızlı" ? (
             <span className="text-primary">{word}</span>
           ) : (
             word
@@ -44,6 +38,13 @@ function AnimatedHeading() {
 export function Hero() {
   const params = useParams();
   const locale = (params?.locale as string) ?? "tr";
+  const t = useTranslations("hero");
+
+  const trustBullets = [
+    t("bullet1", { default: "Türkiye geneli hizmet" }),
+    t("bullet2", { default: "Yerinden alım" }),
+    t("bullet3", { default: "Bağlayıcı değil, ücretsiz teklif" }),
+  ];
 
   return (
     <section aria-label="Hero bölümü">
@@ -57,10 +58,10 @@ export function Hero() {
               transition={{ duration: 0.3 }}
               className="flex justify-start mb-24"
             >
-              <Badge variant="accent">Hızlı &amp; Güvenilir</Badge>
+              <Badge variant="accent">{t("badge", { default: "Hızlı & Güvenilir" })}</Badge>
             </motion.div>
 
-            <AnimatedHeading />
+            <AnimatedHeading heading={t("heading")} highlightWord={locale === "en" ? "Fast" : "Hızlı"} />
 
             <motion.p
               className="mt-16 md:mt-24 text-[14px] text-secondary leading-relaxed max-w-[500px]"
@@ -68,9 +69,7 @@ export function Hero() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.4 }}
             >
-              Kazalı, pert, yanmış, sel hasarlı veya hurda aracınızı değerinde
-              alıyoruz. Kısa formu doldurun, uzman ekibimiz size hızlıca dönüş
-              yapsın.
+              {t("description")}
             </motion.p>
 
             {/* Bullets */}
@@ -79,9 +78,9 @@ export function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.65, duration: 0.4 }}
-              aria-label="Öne çıkan özellikler"
+              aria-label={t("bulletAria", { default: "Öne çıkan özellikler" })}
             >
-              {TRUST_BULLETS.map((item) => (
+              {trustBullets.map((item) => (
                 <li key={item} className="flex items-center gap-8">
                   <CheckCircle
                     size={15}
@@ -105,20 +104,20 @@ export function Hero() {
                 href={routes.quote(locale)}
                 className="w-full sm:w-auto inline-flex items-center justify-center bg-primary text-on-primary px-32 py-16 rounded-btn font-medium text-[14px] hover:opacity-90 transition-opacity"
               >
-                Ücretsiz Teklif Al
+                {t("ctaQuote")}
               </Link>
               <a
                 href={externalRoutes.whatsapp(
                   WHATSAPP_NUMBER,
-                  "Merhaba, hasarlı aracım için teklif almak istiyorum."
+                  t("whatsappMessage", { default: "Merhaba, hasarlı aracım için teklif almak istiyorum." })
                 )}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-8 bg-transparent border border-whatsapp-green text-whatsapp-green px-32 py-16 rounded-btn text-[14px] font-medium hover:bg-whatsapp-green hover:text-white transition-colors"
-                aria-label="WhatsApp ile yazın"
+                aria-label={t("ctaWhatsApp")}
               >
                 <FaWhatsapp size={16} strokeWidth={1.5} aria-hidden />
-                WhatsApp ile Yaz
+                {t("ctaWhatsApp")}
               </a>
             </motion.div>
           </div>
@@ -133,10 +132,10 @@ export function Hero() {
             <div className="bg-surface border border-[0.5px] border-border-default rounded-[14px] p-24 md:p-32">
               <div className="mb-24">
                 <h2 className="text-[18px] font-medium text-on-surface tracking-[-0.5px]">
-                  Hızlı Teklif Formu
+                  {t("formTitle")}
                 </h2>
                 <p className="text-[12px] text-soft-text mt-4">
-                  Bağlayıcı değil · Hızlı dönüş
+                  {t("formSubtitle")}
                 </p>
               </div>
               <QuickQuoteForm />

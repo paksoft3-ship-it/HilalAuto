@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { externalRoutes } from "@/lib/routes";
 import { DAMAGE_TYPES, WHATSAPP_NUMBER } from "@/lib/constants";
@@ -9,6 +10,7 @@ const CURRENT_YEAR = new Date().getFullYear();
 const YEARS = Array.from({ length: 30 }, (_, i) => String(CURRENT_YEAR - i));
 
 export function QuickQuoteForm() {
+  const t = useTranslations("form");
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -25,7 +27,7 @@ export function QuickQuoteForm() {
     setErrorMsg("");
 
     if (!formData.brand || !formData.year || !formData.damage || !formData.city || !formData.phone) {
-      setErrorMsg("Lütfen tüm alanları doldurun.");
+      setErrorMsg(t("errorEmpty", { default: "Lütfen tüm alanları doldurun." }));
       return;
     }
 
@@ -41,11 +43,18 @@ export function QuickQuoteForm() {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || "Bir hata oluştu.");
+        throw new Error(data.error || t("errorGeneric", { default: "Bir hata oluştu." }));
       }
 
       // Success! Format WhatsApp message and redirect
-      const message = `Merhaba, ${formData.brand} (${formData.year}) aracım için teklif almak istiyorum. Hasar: ${formData.damage}, Şehir: ${formData.city}. Telefonum: ${formData.phone}`;
+      const message = t("whatsappMessage", {
+        default: "Merhaba, {brand} ({year}) aracım için teklif almak istiyorum. Hasar: {damage}, Şehir: {city}. Telefonum: {phone}",
+        brand: formData.brand,
+        year: formData.year,
+        damage: formData.damage,
+        city: formData.city,
+        phone: formData.phone
+      });
       window.open(externalRoutes.whatsapp(WHATSAPP_NUMBER, message), "_blank");
       
       // Optionally clear form
@@ -54,7 +63,7 @@ export function QuickQuoteForm() {
       if (err instanceof Error) {
         setErrorMsg(err.message);
       } else {
-        setErrorMsg("Bir hata oluştu.");
+        setErrorMsg(t("errorGeneric", { default: "Bir hata oluştu." }));
       }
     } finally {
       setIsLoading(false);
@@ -66,17 +75,17 @@ export function QuickQuoteForm() {
       onSubmit={handleSubmit}
       noValidate
       className="flex flex-col gap-12"
-      aria-label="Hızlı teklif formu"
+      aria-label={t("ariaLabel", { default: "Hızlı teklif formu" })}
     >
       {/* Brand */}
       <div>
         <label htmlFor="qq-brand" className="sr-only">
-          Araç Markası
+          {t("brand", { default: "Araç Markası" })}
         </label>
         <input
           id="qq-brand"
           type="text"
-          placeholder="Araç Markası"
+          placeholder={t("brand", { default: "Araç Markası" })}
           autoComplete="off"
           value={formData.brand}
           onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
@@ -87,7 +96,7 @@ export function QuickQuoteForm() {
       {/* Year */}
       <div className="relative">
         <label htmlFor="qq-year" className="sr-only">
-          Model Yılı
+          {t("year", { default: "Model Yılı" })}
         </label>
         <select
           id="qq-year"
@@ -96,7 +105,7 @@ export function QuickQuoteForm() {
           className="w-full appearance-none bg-surface-container-lowest border border-[0.5px] border-border-default rounded-input px-16 py-12 pr-44 text-[14px] text-on-surface outline-none focus:border-primary transition-colors cursor-pointer"
         >
           <option value="" disabled>
-            Model Yılı
+            {t("year", { default: "Model Yılı" })}
           </option>
           {YEARS.map((y) => (
             <option key={y} value={y}>
@@ -112,7 +121,7 @@ export function QuickQuoteForm() {
       {/* Damage type */}
       <div className="relative">
         <label htmlFor="qq-damage" className="sr-only">
-          Hasar Türü
+          {t("damage", { default: "Hasar Türü" })}
         </label>
         <select
           id="qq-damage"
@@ -121,7 +130,7 @@ export function QuickQuoteForm() {
           className="w-full appearance-none bg-surface-container-lowest border border-[0.5px] border-border-default rounded-input px-16 py-12 pr-44 text-[14px] text-on-surface outline-none focus:border-primary transition-colors cursor-pointer"
         >
           <option value="" disabled>
-            Hasar Türü
+            {t("damage", { default: "Hasar Türü" })}
           </option>
           {DAMAGE_TYPES.map((d) => (
             <option key={d} value={d}>
@@ -137,12 +146,12 @@ export function QuickQuoteForm() {
       {/* City */}
       <div>
         <label htmlFor="qq-city" className="sr-only">
-          İl / İlçe
+          {t("city", { default: "İl / İlçe" })}
         </label>
         <input
           id="qq-city"
           type="text"
-          placeholder="İl / İlçe"
+          placeholder={t("city", { default: "İl / İlçe" })}
           autoComplete="off"
           value={formData.city}
           onChange={(e) => setFormData({ ...formData, city: e.target.value })}
@@ -153,12 +162,12 @@ export function QuickQuoteForm() {
       {/* Phone */}
       <div>
         <label htmlFor="qq-phone" className="sr-only">
-          Telefon Numaranız
+          {t("phone", { default: "Telefon Numaranız" })}
         </label>
         <input
           id="qq-phone"
           type="tel"
-          placeholder="Telefon Numaranız"
+          placeholder={t("phone", { default: "Telefon Numaranız" })}
           autoComplete="tel"
           value={formData.phone}
           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
@@ -178,11 +187,11 @@ export function QuickQuoteForm() {
         {isLoading ? (
           <>
             <Loader2 size={16} className="animate-spin" aria-hidden />
-            İşleniyor...
+            {t("loading", { default: "İşleniyor..." })}
           </>
         ) : (
           <>
-            Teklifimi Al
+            {t("submit", { default: "Teklifimi Al" })}
             <ArrowRight size={16} strokeWidth={1.5} aria-hidden />
           </>
         )}

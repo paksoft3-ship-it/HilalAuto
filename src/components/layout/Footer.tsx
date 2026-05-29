@@ -1,19 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { Phone } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { routes, externalRoutes } from "@/lib/routes";
-import { PHONE_NUMBER, WHATSAPP_NUMBER, SITE_NAME } from "@/lib/constants";
+import { PHONE_NUMBER, WHATSAPP_NUMBER, SITE_NAME, VEHICLE_TYPES } from "@/lib/constants";
 import { FaWhatsapp } from 'react-icons/fa';
 
-const SERVICES = [
-  { label: "Kazalı Araç Alımı", slug: "kazali-arac-alimi" },
-  { label: "Pert Araç Alımı", slug: "pert-arac-alimi" },
-  { label: "Yanmış Araç Alımı", slug: "yanmis-arac-alimi" },
-  { label: "Sel Hasarlı Araç Alımı", slug: "sel-hasarli-arac-alimi" },
-  { label: "Hurda Araç Alımı", slug: "hurda-arac-alimi" },
-  { label: "Motor Arızalı Araç Alımı", slug: "motor-arizali-arac-alimi" },
-];
+const SERVICES = VEHICLE_TYPES.slice(0, 6); // First 6 services
 
 const CITIES = [
   { label: "İstanbul", slug: "istanbul" },
@@ -34,6 +28,7 @@ interface FooterProps {
 }
 
 export function Footer({ locale = "tr" }: FooterProps) {
+  const t = useTranslations("footer");
   const year = new Date().getFullYear();
 
   return (
@@ -56,7 +51,7 @@ export function Footer({ locale = "tr" }: FooterProps) {
               />
             </Link>
             <p className="text-[13px] text-[#AAAAAA] leading-relaxed max-w-[220px]">
-              Hasarlı araç alım hizmetinde güvenilir adres. Türkiye genelinde hizmet.
+              {t("tagline")}
             </p>
             <div className="flex flex-col gap-8 mt-4">
               <a
@@ -83,17 +78,17 @@ export function Footer({ locale = "tr" }: FooterProps) {
           {/* Services */}
           <div className="flex flex-col gap-16">
             <p className="text-[13px] font-medium text-white uppercase tracking-wider">
-              Hizmetler
+              {t("services")}
             </p>
-            <nav aria-label="Hizmetler">
+            <nav aria-label={t("services")}>
               <ul className="flex flex-col gap-8">
                 {SERVICES.map((s) => (
                   <li key={s.slug}>
                     <Link
-                      href={routes.service(locale, s.slug)}
+                      href={routes.service(locale, s.serviceSlug)}
                       className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors"
                     >
-                      {s.label}
+                      {locale === "en" ? s.labelEn : s.label}
                     </Link>
                   </li>
                 ))}
@@ -104,9 +99,9 @@ export function Footer({ locale = "tr" }: FooterProps) {
           {/* Cities */}
           <div className="flex flex-col gap-16">
             <p className="text-[13px] font-medium text-white uppercase tracking-wider">
-              Şehirler
+              {t("cities")}
             </p>
-            <nav aria-label="Hizmet verdiğimiz şehirler">
+            <nav aria-label={t("cities")}>
               <ul className="flex flex-col gap-8">
                 {CITIES.map((c) => (
                   <li key={c.slug}>
@@ -114,7 +109,7 @@ export function Footer({ locale = "tr" }: FooterProps) {
                       href={routes.city(locale, c.slug)}
                       className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors"
                     >
-                      {c.label} Hasarlı Araç
+                      {c.label} {locale === "en" ? "Damaged Vehicle" : "Hasarlı Araç"}
                     </Link>
                   </li>
                 ))}
@@ -125,20 +120,20 @@ export function Footer({ locale = "tr" }: FooterProps) {
           {/* Contact + Legal */}
           <div className="flex flex-col gap-16">
             <p className="text-[13px] font-medium text-white uppercase tracking-wider">
-              İletişim
+              {t("contact")}
             </p>
             <div className="flex flex-col gap-8">
               <Link
                 href={routes.contact(locale)}
                 className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors"
               >
-                İletişim
+                {t("contact")}
               </Link>
               <Link
                 href={routes.about(locale)}
                 className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors"
               >
-                Hakkımızda
+                {locale === "en" ? "About Us" : "Hakkımızda"}
               </Link>
               <Link
                 href={routes.blog(locale)}
@@ -149,33 +144,33 @@ export function Footer({ locale = "tr" }: FooterProps) {
             </div>
 
             <p className="text-[13px] font-medium text-white uppercase tracking-wider mt-8">
-              Yasal
+              {locale === "en" ? "Legal" : "Yasal"}
             </p>
             <div className="flex flex-col gap-8">
               <Link
                 href={routes.kvkk(locale)}
                 className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors"
               >
-                KVKK
+                {t("kvkk")}
               </Link>
               <Link
                 href={routes.privacy(locale)}
                 className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors"
               >
-                Gizlilik Politikası
+                {t("privacy")}
               </Link>
               <Link
                 href={routes.terms(locale)}
                 className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors"
               >
-                Kullanım Koşulları
+                {t("terms")}
               </Link>
               <a
                 href="/sitemap.xml"
                 target="_blank"
                 className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors"
               >
-                Site Haritası
+                {locale === "en" ? "Sitemap" : "Site Haritası"}
               </a>
             </div>
           </div>
@@ -186,7 +181,7 @@ export function Footer({ locale = "tr" }: FooterProps) {
       <div className="border-t border-white/10 mt-60">
         <Container className="py-24 flex flex-col sm:flex-row items-center justify-between gap-16">
           <p className="text-[12px] text-[#888888]">
-            © {year} {SITE_NAME}. Tüm hakları saklıdır.
+            © {year} {SITE_NAME}. {t("rights")}
           </p>
           <a
             href="https://paksoft.com.tr"
@@ -194,7 +189,9 @@ export function Footer({ locale = "tr" }: FooterProps) {
             rel="noopener noreferrer"
             className="flex items-center group text-[12px]"
           >
-            <span className="text-[#888888] mr-8 group-hover:text-primary transition-colors">PakSoft tarafından geliştirildi</span>
+            <span className="text-[#888888] mr-8 group-hover:text-primary transition-colors">
+              {locale === "en" ? "Developed by PakSoft" : "PakSoft tarafından geliştirildi"}
+            </span>
             <div className="flex items-center text-primary group-hover:opacity-80 transition-opacity">
               <svg viewBox="0 0 24 24" fill="currentColor" className="w-[14px] h-[14px] -rotate-12 mr-4">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c1.85 0 3.58-.5 5.08-1.38-.7.13-1.42.21-2.16.21-5.52 0-10-4.48-10-10S9.42 2.83 14.92 2.83c.74 0 1.46.08 2.16.21C15.58 2.5 13.85 2 12 2z" />

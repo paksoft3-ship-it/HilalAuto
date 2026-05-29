@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import {
   Car,
   Flame,
@@ -18,57 +19,6 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { routes } from "@/lib/routes";
 
-const VEHICLE_TYPES = [
-  {
-    icon: Car,
-    label: "Kazalı Araç",
-    desc: "Trafik kazası sonucu hasarlanmış araçlar",
-    slug: "kazali-arac-alimi",
-  },
-  {
-    icon: ShieldAlert,
-    label: "Pert Araç",
-    desc: "Sigorta tarafından pert ilan edilmiş araçlar",
-    slug: "pert-arac-alimi",
-  },
-  {
-    icon: Flame,
-    label: "Yanmış Araç",
-    desc: "Yangın hasarı görmüş araçlar",
-    slug: "yanmis-arac-alimi",
-  },
-  {
-    icon: Droplets,
-    label: "Sel Hasarlı Araç",
-    desc: "Su baskını veya sel nedeniyle zarar gören araçlar",
-    slug: "sel-hasarli-arac-alimi",
-  },
-  {
-    icon: Trash2,
-    label: "Hurda Araç",
-    desc: "Ekonomik değerini yitirmiş araçlar",
-    slug: "hurda-arac-alimi",
-  },
-  {
-    icon: Wrench,
-    label: "Motor Arızalı Araç",
-    desc: "Motor veya şanzıman arızası olan araçlar",
-    slug: "motor-arizali-arac-alimi",
-  },
-  {
-    icon: FileX,
-    label: "Çekme Belgeli Araç",
-    desc: "Çekme kaydı bulunan araçlar",
-    slug: "cekme-belgeli-arac-alimi",
-  },
-  {
-    icon: AlertTriangle,
-    label: "Ağır Hasarlı Araç",
-    desc: "Ciddi kaza hasarı bulunan araçlar",
-    slug: "agir-hasarli-arac-alimi",
-  },
-];
-
 const cardVariants: Variants = {
   hidden: { opacity: 0, y: 16 },
   visible: (i: number) => ({
@@ -81,19 +31,71 @@ const cardVariants: Variants = {
 export function VehicleTypeCards() {
   const params = useParams();
   const locale = (params?.locale as string) ?? "tr";
+  const t = useTranslations("vehicleTypes");
+
+  const vehicleTypes = [
+    {
+      icon: Car,
+      label: t("type1Label", { default: "Kazalı Araç" }),
+      desc: t("type1Desc", { default: "Trafik kazası sonucu hasarlanmış araçlar" }),
+      slug: "kazali-arac-alimi",
+    },
+    {
+      icon: ShieldAlert,
+      label: t("type2Label", { default: "Pert Araç" }),
+      desc: t("type2Desc", { default: "Sigorta tarafından pert ilan edilmiş araçlar" }),
+      slug: "pert-arac-alimi",
+    },
+    {
+      icon: Flame,
+      label: t("type3Label", { default: "Yanmış Araç" }),
+      desc: t("type3Desc", { default: "Yangın hasarı görmüş araçlar" }),
+      slug: "yanmis-arac-alimi",
+    },
+    {
+      icon: Droplets,
+      label: t("type4Label", { default: "Sel Hasarlı Araç" }),
+      desc: t("type4Desc", { default: "Su baskını veya sel nedeniyle zarar gören araçlar" }),
+      slug: "sel-hasarli-arac-alimi",
+    },
+    {
+      icon: Trash2,
+      label: t("type5Label", { default: "Hurda Araç" }),
+      desc: t("type5Desc", { default: "Ekonomik değerini yitirmiş araçlar" }),
+      slug: "hurda-arac-alimi",
+    },
+    {
+      icon: Wrench,
+      label: t("type6Label", { default: "Motor Arızalı Araç" }),
+      desc: t("type6Desc", { default: "Motor veya şanzıman arızası olan araçlar" }),
+      slug: "motor-arizali-arac-alimi",
+    },
+    {
+      icon: FileX,
+      label: t("type7Label", { default: "Çekme Belgeli Araç" }),
+      desc: t("type7Desc", { default: "Çekme kaydı bulunan araçlar" }),
+      slug: "cekme-belgeli-arac-alimi",
+    },
+    {
+      icon: AlertTriangle,
+      label: t("type8Label", { default: "Ağır Hasarlı Araç" }),
+      desc: t("type8Desc", { default: "Ciddi kaza hasarı bulunan araçlar" }),
+      slug: "agir-hasarli-arac-alimi",
+    },
+  ];
 
   return (
-    <section aria-label="Aldığımız araç türleri" className="bg-surface-container-lowest py-44 md:py-60">
+    <section aria-label={t("title", { default: "Aldığımız araç türleri" })} className="bg-surface-container-lowest py-44 md:py-60">
       <Container>
         <SectionHeader
-          badge="Araç Türleri"
-          title="Hangi Araçları Alıyoruz?"
-          subtitle="Her türlü hasarlı aracı değerinde alıyoruz. Aracınızın durumu ne olursa olsun teklif veririz."
+          badge={t("badge", { default: "Araç Türleri" })}
+          title={t("title", { default: "Hangi Araçları Alıyoruz?" })}
+          subtitle={t("subtitle", { default: "Her türlü hasarlı aracı değerinde alıyoruz. Aracınızın durumu ne olursa olsun teklif veririz." })}
           className="mb-32 md:mb-44"
         />
 
         <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 md:gap-16">
-          {VEHICLE_TYPES.map(({ icon: Icon, label, desc, slug }, i) => (
+          {vehicleTypes.map(({ icon: Icon, label, desc, slug }, i) => (
             <motion.li
               key={slug}
               custom={i}
@@ -119,7 +121,7 @@ export function VehicleTypeCards() {
                   {desc}
                 </p>
                 <span className="mt-auto text-primary text-[13px] font-medium flex items-center gap-4">
-                  Detaylı Bilgi <ArrowRight size={16} />
+                  {t("details", { default: "Detaylı Bilgi" })} <ArrowRight size={16} />
                 </span>
               </Link>
             </motion.li>
