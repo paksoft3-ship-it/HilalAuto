@@ -10,7 +10,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   return {
     title: `KVKK Aydınlatma Metni — ${SITE_NAME}`,
-    description: "HazarAl KVKK Kişisel Verilerin Korunması Kanunu aydınlatma metni.",
+    description: "Oto Grade KVKK Kişisel Verilerin Korunması Kanunu aydınlatma metni.",
     alternates: { canonical: `${SITE_URL}/${locale}/kvkk` },
     robots: { index: false },
   };

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useParams } from "next/navigation";
 import { Menu, X, Phone, ChevronDown } from "lucide-react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
@@ -53,10 +54,16 @@ export function Navbar() {
           <Link
             href={routes.home(locale)}
             className="flex items-center shrink-0"
-            aria-label="HazarAl - Ana Sayfa"
+            aria-label="Oto Grade - Ana Sayfa"
           >
-            <span className="font-medium text-on-surface text-[22px] tracking-[-1px]">Hazar</span>
-            <span className="font-medium text-primary text-[22px] tracking-[-1px]">Al</span>
+            <Image 
+              src="/images/logo/otograde-light.svg" 
+              alt="Oto Grade Logo" 
+              width={140} 
+              height={36} 
+              className="h-[36px] w-auto"
+              priority
+            />
           </Link>
 
           {/* Desktop nav links */}

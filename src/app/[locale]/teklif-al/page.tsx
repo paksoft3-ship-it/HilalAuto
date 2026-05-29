@@ -15,7 +15,7 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const title = "Ücretsiz Teklif Al — HazarAl";
+  const title = "Ücretsiz Teklif Al — Oto Grade";
   const description =
     "Hasarlı aracınız için ücretsiz ve bağlayıcı olmayan teklif alın. Formu doldurun, uzman ekibimiz hızlıca dönüş yapsın.";
 
@@ -89,10 +89,10 @@ export default async function TeklifAlPage({ params }: Props) {
               </div>
 
               {/* Sidebar */}
-              <aside className="lg:col-span-4 flex flex-col gap-16" aria-label="Neden HazarAl">
+              <aside className="lg:col-span-4 flex flex-col gap-16" aria-label="Neden Oto Grade">
                 <div className="bg-bg-surface border border-[0.5px] border-border-default rounded-card p-24 flex flex-col gap-24">
                   <h2 className="text-[15px] font-medium text-text-primary">
-                    Neden HazarAl?
+                    Neden Oto Grade?
                   </h2>
                   <ul className="flex flex-col gap-20">
                     {SIDEBAR_ITEMS.map((item) => (

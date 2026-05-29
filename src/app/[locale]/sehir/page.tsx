@@ -21,9 +21,9 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const title = "Türkiye Geneli Hasarlı Araç Alanlar — Tüm Şehirler | HazarAl";
+  const title = "Türkiye Geneli Hasarlı Araç Alanlar — Tüm Şehirler | Oto Grade";
   const description =
-    "HazarAl olarak Türkiye'nin 15 büyük şehrinde kazalı, pert ve hurda araç alım hizmeti veriyoruz. Şehrinizi seçin, ücretsiz teklif alın.";
+    "Oto Grade olarak Türkiye'nin 15 büyük şehrinde kazalı, pert ve hurda araç alım hizmeti veriyoruz. Şehrinizi seçin, ücretsiz teklif alın.";
   return {
     title,
     description,

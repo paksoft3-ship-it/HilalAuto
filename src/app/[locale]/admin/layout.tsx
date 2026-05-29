@@ -86,7 +86,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Mobile Header */}
       <div className="md:hidden flex items-center justify-between p-16 bg-surface-container-lowest border-b border-[0.5px] border-border-default z-50 sticky top-0">
         <Link href={`/${locale}/admin`} className="font-bold text-[20px] text-on-surface">
-          Hazar<span className="text-primary">Al</span> Admin
+          Oto Grade Admin
         </Link>
         <button onClick={() => setMenuOpen(!menuOpen)} className="p-8 text-on-surface">
           {menuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -100,7 +100,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       )}>
         <div className="p-24 hidden md:block">
           <Link href={`/${locale}/admin`} className="font-bold text-[24px] text-on-surface tracking-[-1px]">
-            Hazar<span className="text-primary">Al</span> Admin
+            Oto Grade Admin
           </Link>
         </div>
         

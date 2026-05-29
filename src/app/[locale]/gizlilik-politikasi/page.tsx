@@ -10,7 +10,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   return {
     title: `Gizlilik Politikası — ${SITE_NAME}`,
-    description: "HazarAl gizlilik politikası ve kişisel veri işleme hakkında bilgi.",
+    description: "Oto Grade gizlilik politikası ve kişisel veri işleme hakkında bilgi.",
     alternates: { canonical: `${SITE_URL}/${locale}/gizlilik-politikasi` },
     robots: { index: false },
   };

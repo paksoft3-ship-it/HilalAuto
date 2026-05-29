@@ -19,8 +19,8 @@ interface Props { params: Promise<{ locale: string }> }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const title = "Nasıl Çalışır — HazarAl";
-  const description = "HazarAl ile hasarlı araç satış süreci. 6 adımda aracınızı satın, yerinden teslim ve hızlı ödeme.";
+  const title = "Nasıl Çalışır — Oto Grade";
+  const description = "Oto Grade ile hasarlı araç satış süreci. 6 adımda aracınızı satın, yerinden teslim ve hızlı ödeme.";
   return {
     title, description,
     alternates: { canonical: `${SITE_URL}/${locale}/nasil-calisir` },

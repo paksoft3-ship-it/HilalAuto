@@ -24,14 +24,14 @@ interface Props {
 }
 
 const SEO_TITLES: Record<string, string> = {
-  "kazali-arac-alimi": "Kazalı Araç Alanlar & Alımı | HazarAl",
-  "pert-arac-alimi": "Pert Araç Alanlar & Alımı | HazarAl",
-  "yanmis-arac-alimi": "Yanmış Araç Alımı | HazarAl",
-  "sel-hasarli-arac-alimi": "Sel Hasarlı Araç Alanlar | HazarAl",
-  "hurda-arac-alimi": "Hurda Araç Alanlar & Alımı | HazarAl",
-  "motor-arizali-arac-alimi": "Motor Arızalı Araç Alımı | HazarAl",
-  "cekme-belgeli-arac-alimi": "Çekme Belgeli Araç Alımı | HazarAl",
-  "agir-hasarli-arac-alimi": "Ağır Hasarlı Araç Alanlar | HazarAl",
+  "kazali-arac-alimi": "Kazalı Araç Alanlar & Alımı | Oto Grade",
+  "pert-arac-alimi": "Pert Araç Alanlar & Alımı | Oto Grade",
+  "yanmis-arac-alimi": "Yanmış Araç Alımı | Oto Grade",
+  "sel-hasarli-arac-alimi": "Sel Hasarlı Araç Alanlar | Oto Grade",
+  "hurda-arac-alimi": "Hurda Araç Alanlar & Alımı | Oto Grade",
+  "motor-arizali-arac-alimi": "Motor Arızalı Araç Alımı | Oto Grade",
+  "cekme-belgeli-arac-alimi": "Çekme Belgeli Araç Alımı | Oto Grade",
+  "agir-hasarli-arac-alimi": "Ağır Hasarlı Araç Alanlar | Oto Grade",
 };
 
 export function generateStaticParams() {
@@ -45,7 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const service = SERVICES[slug];
   if (!service) return {};
-  const title = SEO_TITLES[slug] ?? `${service.title} — HazarAl`;
+  const title = SEO_TITLES[slug] ?? `${service.title} — Oto Grade`;
   return {
     title,
     description: service.metaDescription,
@@ -101,7 +101,7 @@ export default async function ServicePage({ params }: Props) {
     description: service.metaDescription,
     provider: {
       "@type": "LocalBusiness",
-      name: "HazarAl",
+      name: "Oto Grade",
       url: SITE_URL,
       telephone: PHONE_NUMBER,
     },

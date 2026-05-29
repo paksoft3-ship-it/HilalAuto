@@ -22,6 +22,6 @@ export function slugify(text: string): string {
 }
 
 export function getAbsoluteUrl(path: string): string {
-  const base = process.env.NEXT_PUBLIC_SITE_URL ?? "https://hazaral.com";
+  const base = process.env.NEXT_PUBLIC_SITE_URL ?? "https://otograde.com";
   return `${base}${path.startsWith("/") ? path : `/${path}`}`;
 }

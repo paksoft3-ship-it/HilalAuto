@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Otograde OG app icon">
+  <title>Otograde OG icon</title>
+
+  <!-- Red rounded square background -->
+  <rect x="0" y="0" width="200" height="200" rx="40" fill="#C0392B"/>
+
+  <!-- OG monogram in white -->
+  <text
+    x="100" y="132"
+    text-anchor="middle"
+    font-family="'Inter','Helvetica Neue',Arial,sans-serif"
+    font-size="88"
+    font-weight="800"
+    fill="#FFFFFF"
+    letter-spacing="-3"
+  >OG</text>
+</svg>

@@ -35,11 +35,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const city = CITIES_DATA[slug];
   if (!city) return {};
   return {
-    title: `${city.name} Hasarlı Araç Alanlar — HazarAl`,
+    title: `${city.name} Hasarlı Araç Alanlar — Oto Grade`,
     description: city.metaDescription,
     alternates: { canonical: `${SITE_URL}/${locale}/sehir/${slug}` },
     openGraph: {
-      title: `${city.name} Hasarlı Araç Alanlar — HazarAl`,
+      title: `${city.name} Hasarlı Araç Alanlar — Oto Grade`,
       description: city.metaDescription,
       locale: "tr_TR",
       type: "website",
@@ -83,7 +83,7 @@ export default async function CityPage({ params }: Props) {
   const localBusinessSchema = {
     "@context": "https://schema.org",
     "@type": "AutoDealer",
-    name: `HazarAl — ${city.name} Hasarlı Araç Alımı`,
+    name: `Oto Grade — ${city.name} Hasarlı Araç Alımı`,
     description: city.metaDescription,
     url: `${SITE_URL}/tr/sehir/${slug}`,
     telephone: PHONE_NUMBER,

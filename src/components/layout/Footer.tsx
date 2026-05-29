@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Phone } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { routes, externalRoutes } from "@/lib/routes";
@@ -43,15 +44,16 @@ export function Footer({ locale = "tr" }: FooterProps) {
           <div className="flex flex-col gap-16">
             <Link
               href={routes.home(locale)}
-              aria-label="HazarAl - Ana Sayfa"
+              aria-label="Oto Grade - Ana Sayfa"
               className="inline-flex items-baseline"
             >
-              <span className="font-medium text-white text-[20px] tracking-[-1px]">
-                Hazar
-              </span>
-              <span className="font-medium text-primary text-[20px] tracking-[-1px]">
-                Al
-              </span>
+              <Image 
+                src="/images/logo/otograde-light.svg" 
+                alt="Oto Grade Logo" 
+                width={140} 
+                height={36} 
+                className="h-[36px] w-auto"
+              />
             </Link>
             <p className="text-[13px] text-[#AAAAAA] leading-relaxed max-w-[220px]">
               Hasarlı araç alım hizmetinde güvenilir adres. Türkiye genelinde hizmet.

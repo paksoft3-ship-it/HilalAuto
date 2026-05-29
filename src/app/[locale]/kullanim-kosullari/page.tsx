@@ -10,7 +10,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   return {
     title: `Kullanım Koşulları — ${SITE_NAME}`,
-    description: "HazarAl web sitesi kullanım koşulları ve hizmet şartları.",
+    description: "Oto Grade web sitesi kullanım koşulları ve hizmet şartları.",
     alternates: { canonical: `${SITE_URL}/${locale}/kullanim-kosullari` },
     robots: { index: false },
   };

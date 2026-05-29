@@ -31,7 +31,7 @@ Kazalı araç satışı, doğru bilgi ve hazırlıkla oldukça hızlı tamamlana
 
 Kazalı aracınızı satmak için önce değerini öğrenmeniz önemlidir. Birden fazla yerden teklif alarak karşılaştırma yapabilirsiniz.
 
-HazarAl üzerinden ücretsiz ve bağlayıcı olmayan teklif alabilirsiniz. Kısa formu doldurun, ekibimiz en kısa sürede size ulaşsın.
+Oto Grade üzerinden ücretsiz ve bağlayıcı olmayan teklif alabilirsiniz. Kısa formu doldurun, ekibimiz en kısa sürede size ulaşsın.
 
 ## Dikkat Edilmesi Gerekenler
 
@@ -59,7 +59,7 @@ Sigorta şirketiniz araç değerini ve hasar bedelini hesaplar. Hasar/değer ora
 
 Pert ilanından sonra aracı sigorta şirketine devredebilir veya kendi satabilirsiniz. Her iki seçeneğin avantajlarını değerlendirmenizi öneririz.
 
-HazarAl ile pert aracınız için ücretsiz teklif alabilirsiniz.
+Oto Grade ile pert aracınız için ücretsiz teklif alabilirsiniz.
     `,
   },
   {
@@ -82,7 +82,7 @@ Sel ve su baskını sonrası araçlar ciddi hasar görebilir. Motor, elektrik si
 
 ## Satış Seçenekleri
 
-Sel hasarlı araçları HazarAl gibi satın alma hizmetleri değerlendirir. Araç durumunuzu bildirin, ücretsiz teklif alın.
+Sel hasarlı araçları Oto Grade gibi satın alma hizmetleri değerlendirir. Araç durumunuzu bildirin, ücretsiz teklif alın.
     `,
   },
   {
@@ -102,7 +102,7 @@ Sel hasarlı araçları HazarAl gibi satın alma hizmetleri değerlendirir. Ara�
 
 ## Satış Süreci
 
-HazarAl çekme belgeli araçları da değerlendiriyor. Belge durumunuzu bildirin, size uygun teklif sunalım.
+Oto Grade çekme belgeli araçları da değerlendiriyor. Belge durumunuzu bildirin, size uygun teklif sunalım.
     `,
   },
   {
@@ -126,7 +126,7 @@ Trafik sigortası kapsamında karşı tarafın kusurlu olduğu durumlarda değer
 
 ## Hasarlı Araç Satışı
 
-Değer kaybı yaşayan aracınızı satmak istiyorsanız, HazarAl üzerinden ücretsiz teklif alabilirsiniz.
+Değer kaybı yaşayan aracınızı satmak istiyorsanız, Oto Grade üzerinden ücretsiz teklif alabilirsiniz.
     `,
   },
 ];

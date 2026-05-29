@@ -43,7 +43,7 @@ export function WhyChooseUs() {
 
   return (
     <section
-      aria-label="Neden HazarAl"
+      aria-label="Neden Oto Grade"
       className="bg-surface-container-lowest border-b border-[0.5px] border-border-default py-44 md:py-60"
     >
       <Container>
@@ -52,7 +52,7 @@ export function WhyChooseUs() {
             <div>
               <span className="text-[11px] font-medium text-primary uppercase tracking-wider mx-auto md:mx-0">NEDEN HAZARAL?</span>
               <h2 className="text-[28px] md:text-[32px] font-medium text-on-surface tracking-[-1.5px] mt-8 leading-tight">Hasarlı araç satışını hızlı, güvenli ve zahmetsiz hale getiriyoruz.</h2>
-              <p className="text-[14px] leading-relaxed text-muted-text mt-16 mx-auto md:mx-0 max-w-[700px]">Aracınız kazalı, pert, yanmış, sel hasarlı veya motor arızalı olabilir. HazarAl, süreci sizin için sadeleştirir: hızlı değerlendirme, yerinden alım, evrak desteği ve güvenli ödeme.</p>
+              <p className="text-[14px] leading-relaxed text-muted-text mt-16 mx-auto md:mx-0 max-w-[700px]">Aracınız kazalı, pert, yanmış, sel hasarlı veya motor arızalı olabilir. Oto Grade, süreci sizin için sadeleştirir: hızlı değerlendirme, yerinden alım, evrak desteği ve güvenli ödeme.</p>
             </div>
             <div className="flex flex-col sm:flex-row items-center gap-12 w-full">
               <Link href={routes.quote(locale)} className="w-full sm:w-auto text-center bg-primary text-on-primary px-24 py-16 rounded-btn font-medium text-[14px] hover:opacity-90 transition-opacity">

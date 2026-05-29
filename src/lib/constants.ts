@@ -1,5 +1,5 @@
-export const SITE_NAME = "HazarAl";
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://hazaral.com";
+export const SITE_NAME = "Oto Grade";
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://otograde.com";
 export const SITE_DESCRIPTION =
   "Kazalı, pert, yanmış, sel hasarlı veya hurda aracınızı değerinde alıyoruz. Ücretsiz teklif alın.";
 
@@ -94,4 +94,4 @@ export const GADS_ID = process.env.NEXT_PUBLIC_GADS_ID;
 export const GADS_CONVERSION_LABEL = process.env.NEXT_PUBLIC_GADS_CONVERSION_LABEL;
 
 export const OG_IMAGE_URL = `${SITE_URL}/opengraph-image`;
-export const TWITTER_HANDLE = "@hazaral";
+export const TWITTER_HANDLE = "@otograde";

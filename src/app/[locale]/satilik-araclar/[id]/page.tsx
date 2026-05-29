@@ -122,7 +122,7 @@ export default function CarDetailPage() {
             </div>
 
             <div className="bg-surface-container-lowest border border-[0.5px] border-border-default rounded-[14px] p-24">
-              <h3 className="text-[14px] font-medium text-on-surface mb-16">HazarAl Güvencesi</h3>
+              <h3 className="text-[14px] font-medium text-on-surface mb-16">Oto Grade Güvencesi</h3>
               <ul className="flex flex-col gap-12">
                 <li className="flex items-center gap-12 text-[13px] text-muted-text">
                   <CheckCircle size={16} className="text-primary" /> Şeffaf süreç ve adil fiyatlama

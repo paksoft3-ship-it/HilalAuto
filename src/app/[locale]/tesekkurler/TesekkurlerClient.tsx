@@ -43,7 +43,7 @@ export function TesekkurlerClient() {
                 Başvurunuz Alındı
               </h1>
               <p className="mt-16 text-[14px] text-text-muted max-w-[480px] mx-auto leading-relaxed">
-                HazarAl ekibi kısa sürede size telefon veya WhatsApp üzerinden
+                Oto Grade ekibi kısa sürede size telefon veya WhatsApp üzerinden
                 dönüş yapacaktır. Ortalama yanıt süremiz 1 saattir.
               </p>
             </div>

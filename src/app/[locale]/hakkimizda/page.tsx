@@ -18,8 +18,8 @@ interface Props { params: Promise<{ locale: string }> }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const title = "Hakkımızda — HazarAl";
-  const description = "HazarAl hakkında bilgi edinin. Türkiye genelinde hasarlı araç alım hizmetinde güvenilir adres.";
+  const title = "Hakkımızda — Oto Grade";
+  const description = "Oto Grade hakkında bilgi edinin. Türkiye genelinde hasarlı araç alım hizmetinde güvenilir adres.";
   return {
     title, description,
     alternates: { canonical: `${SITE_URL}/${locale}/hakkimizda` },
@@ -94,7 +94,7 @@ export default async function HakkimizdaPage({ params }: Props) {
                 Hikayemiz
               </h2>
               <p>
-                HazarAl, hasarlı araç satışının ne kadar karmaşık ve stresli olabileceğini gören bir ekip tarafından kuruldu. Kazalı araç sahiplerinin galeriler, çekiciler ve sigortacılar arasında sıkışıp kaldığını fark ettik.
+                Oto Grade, hasarlı araç satışının ne kadar karmaşık ve stresli olabileceğini gören bir ekip tarafından kuruldu. Kazalı araç sahiplerinin galeriler, çekiciler ve sigortacılar arasında sıkışıp kaldığını fark ettik.
               </p>
               <p>
                 Bu sorunu çözmek için tek bir hedefe odaklandık: hasarlı araç sahiplerine hızlı, adil ve şeffaf bir satış deneyimi sunmak. Bugün Türkiye&apos;nin her iline hizmet veriyoruz.

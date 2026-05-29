@@ -11,24 +11,29 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | HazarAl — Hasarlı Araç Alım",
-    default: "HazarAl — Hasarlı Araç Alım Merkezi",
+    template: "%s | Oto Grade — Hasarlı Araç Alım",
+    default: "Oto Grade — Hasarlı Araç Alım Merkezi",
   },
   description:
-    "HazarAl olarak Türkiye genelinde kazalı, pert, yanmış, sel hasarlı veya hurda aracınızı en iyi değerinde nakit olarak alıyoruz. Hızlı, güvenilir ve yasal süreçlerle aracınızı satın. Hemen ücretsiz teklif alın.",
-  keywords: ["kazalı araç alımı", "pert araç alan yerler", "hasarlı oto alım", "hurda araç satışı", "yanmış araç alım satım", "sel hasarlı araba", "motor arızalı araç alanlar", "ağır hasarlı araç", "hazaral"],
+    "Oto Grade olarak Türkiye genelinde kazalı, pert, yanmış, sel hasarlı veya hurda aracınızı en iyi değerinde nakit olarak alıyoruz. Hızlı, güvenilir ve yasal süreçlerle aracınızı satın. Hemen ücretsiz teklif alın.",
+  keywords: ["kazalı araç alımı", "pert araç alan yerler", "hasarlı oto alım", "hurda araç satışı", "yanmış araç alım satım", "sel hasarlı araba", "motor arızalı araç alanlar", "ağır hasarlı araç", "otograde"],
   openGraph: {
-    title: "HazarAl — Hasarlı Araç Alım Merkezi",
-    description: "Kazalı, pert, yanmış, sel hasarlı veya hurda aracınızı en iyi değerinde nakit olarak alıyoruz. Ücretsiz teklif alın.",
-    url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://hazaral.com",
-    siteName: "HazarAl",
+    title: "Oto Grade — Hasarlı Araç Alım Merkezi",
+    description: "Oto Grade olarak Türkiye genelinde kazalı, pert, yanmış, sel hasarlı veya hurda aracınızı en iyi değerinde nakit olarak alıyoruz.",
+    url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://otograde.com",
+    siteName: "Oto Grade",
     locale: "tr_TR",
     type: "website",
   },
-  alternates: {
-    canonical: process.env.NEXT_PUBLIC_SITE_URL ?? "https://hazaral.com",
+  icons: {
+    icon: [
+      { url: "/images/logo/otograde-favicon.svg", type: "image/svg+xml" }
+    ],
   },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://hazaral.com"),
+  alternates: {
+    canonical: process.env.NEXT_PUBLIC_SITE_URL ?? "https://otograde.com",
+  },
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://otograde.com"),
 };
 
 export default function RootLayout({

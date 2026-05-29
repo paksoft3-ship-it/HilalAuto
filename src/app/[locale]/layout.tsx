@@ -12,8 +12,8 @@ export function generateStaticParams() {
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | HazarAl — Hasarlı Araç Alım",
-    default: "HazarAl — Hasarlı Araç Alım",
+    template: "%s | Oto Grade — Hasarlı Araç Alım",
+    default: "Oto Grade — Hasarlı Araç Alım",
   },
 };
 

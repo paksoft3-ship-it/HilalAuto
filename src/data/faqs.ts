@@ -9,7 +9,7 @@ export const SITE_FAQ_ITEMS: FAQItem[] = [
     id: "f1",
     question: "Aracımı ne kadar sürede satabilirim?",
     answer:
-      "HazarAl ile aracınızı satmak oldukça hızlıdır. Formu doldurduktan sonra 1 saat içinde teklifimizi iletiriz. Kabul etmeniz durumunda 24 saat içinde satışı tamamlarız.",
+      "Oto Grade ile aracınızı satmak oldukça hızlıdır. Formu doldurduktan sonra 1 saat içinde teklifimizi iletiriz. Kabul etmeniz durumunda 24 saat içinde satışı tamamlarız.",
   },
   {
     id: "f2",

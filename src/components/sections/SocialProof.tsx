@@ -12,7 +12,7 @@ const TESTIMONIALS = [
     name: "Ahmet Y.",
     city: "İstanbul",
     vehicleType: "Kazalı Araç",
-    text: "Aracım kaza geçirmişti ve ne yapacağımı bilmiyordum. HazarAl ekibi çok hızlı dönüş yaptı, aracımı yerinden aldılar. Süreç çok rahat geçti.",
+    text: "Aracım kaza geçirmişti ve ne yapacağımı bilmiyordum. Oto Grade ekibi çok hızlı dönüş yaptı, aracımı yerinden aldılar. Süreç çok rahat geçti.",
     rating: 5,
   },
   {
@@ -20,7 +20,7 @@ const TESTIMONIALS = [
     name: "Fatma K.",
     city: "Ankara",
     vehicleType: "Pert Araç",
-    text: "Sigorta pert ilan etmişti, aracı ne yapacağımı bilemiyordum. HazarAl ile çok basit oldu, teklif aldım ve evrak sürecinde destek sağlandı.",
+    text: "Sigorta pert ilan etmişti, aracı ne yapacağımı bilemiyordum. Oto Grade ile çok basit oldu, teklif aldım ve evrak sürecinde destek sağlandı.",
     rating: 5,
   },
   {
@@ -28,7 +28,7 @@ const TESTIMONIALS = [
     name: "Murat D.",
     city: "İzmir",
     vehicleType: "Sel Hasarlı Araç",
-    text: "Sel basan aracımı satmak için birçok yeri aradım ama en hızlı ve güvenilir cevap HazarAl'dan geldi. Tavsiye ederim.",
+    text: "Sel basan aracımı satmak için birçok yeri aradım ama en hızlı ve güvenilir cevap Oto Grade'dan geldi. Tavsiye ederim.",
     rating: 5,
   },
 ];
@@ -57,7 +57,7 @@ export function SocialProof() {
         <SectionHeader
           badge="Referanslar"
           title="Müşterilerimiz Ne Diyor?"
-          subtitle="Binlerce araç sahibi HazarAl ile güvenle satış yaptı."
+          subtitle="Binlerce araç sahibi Oto Grade ile güvenle satış yaptı."
           className="mb-32 md:mb-44"
         />
 

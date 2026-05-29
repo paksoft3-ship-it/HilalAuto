@@ -26,13 +26,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!data) return {};
 
   return {
-    title: `${data.title} — HazarAl`,
+    title: `${data.title} — Oto Grade`,
     description: data.title,
     alternates: {
       canonical: `${SITE_URL}/${locale}/blog/${slug}`,
     },
     openGraph: {
-      title: `${data.title} — HazarAl`,
+      title: `${data.title} — Oto Grade`,
       description: data.title,
       locale: "tr_TR",
       type: "article",
@@ -60,7 +60,7 @@ export default async function BlogDetailPage({ params }: Props) {
     datePublished: blog.created_at,
     publisher: {
       "@type": "Organization",
-      name: "HazarAl",
+      name: "Oto Grade",
       url: SITE_URL,
     },
     ...(blog.image_url ? { image: blog.image_url } : {}),

@@ -23,7 +23,7 @@ interface HomePageProps {
 export async function generateMetadata({ params }: HomePageProps): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "hero" });
-  const title = "Hasarlı Araç Alanlar | Kazalı, Pert, Hurda Araç Alımı — HazarAl";
+  const title = "Hasarlı Araç Alanlar | Kazalı, Pert, Hurda Araç Alımı — Oto Grade";
   const description = t("description");
   const url = `${SITE_URL}/${locale}`;
 
@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: HomePageProps): Promise<Metad
       title,
       description,
       url,
-      siteName: "HazarAl",
+      siteName: "Oto Grade",
       locale: "tr_TR",
       type: "website",
       images: [{ url: OG_IMAGE_URL, width: 1200, height: 630, alt: title }],
@@ -59,7 +59,7 @@ export default async function HomePage({ params }: HomePageProps) {
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "HazarAl",
+    name: "Oto Grade",
     url: SITE_URL,
     logo: OG_IMAGE_URL,
     contactPoint: {
@@ -74,7 +74,7 @@ export default async function HomePage({ params }: HomePageProps) {
   const localBusinessSchema = {
     "@context": "https://schema.org",
     "@type": "AutoDealer",
-    name: "HazarAl — Hasarlı Araç Alım",
+    name: "Oto Grade — Hasarlı Araç Alım",
     description:
       "Türkiye genelinde kazalı, pert, yanmış, sel hasarlı ve hurda araç alım hizmeti. Ücretsiz teklif, yerinden teslim.",
     url: SITE_URL,
@@ -107,7 +107,7 @@ export default async function HomePage({ params }: HomePageProps) {
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "HazarAl",
+    name: "Oto Grade",
     url: SITE_URL,
     description: "Türkiye genelinde hasarlı araç alım hizmeti",
     inLanguage: "tr-TR",

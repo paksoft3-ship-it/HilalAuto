@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 72" width="320" height="72" role="img" aria-label="Otograde logo">
+  <title>Otograde</title>
+
+  <!-- Wordmark: Oto bold black + grade thin red -->
+  <text
+    x="0" y="46"
+    font-family="'Inter','Helvetica Neue',Arial,sans-serif"
+    font-size="48"
+    font-weight="800"
+    fill="#0D0D0D"
+    letter-spacing="-1.5"
+  >Oto</text>
+  <text
+    x="117" y="46"
+    font-family="'Inter','Helvetica Neue',Arial,sans-serif"
+    font-size="48"
+    font-weight="300"
+    fill="#C0392B"
+    letter-spacing="-1"
+  >grade</text>
+
+  <!-- Grade bar: A B C D E -->
+  <!-- A — green -->
+  <rect x="0"   y="56" width="44" height="4" rx="2" fill="#27AE60"/>
+  <!-- B — orange -->
+  <rect x="52"  y="56" width="44" height="4" rx="2" fill="#E67E22"/>
+  <!-- C — red (brand red) -->
+  <rect x="104" y="56" width="44" height="4" rx="2" fill="#C0392B"/>
+  <!-- D — light gray -->
+  <rect x="156" y="56" width="44" height="4" rx="2" fill="#D5D5D5"/>
+  <!-- E — lighter gray -->
+  <rect x="208" y="56" width="44" height="4" rx="2" fill="#E8E8E8"/>
+
+  <!-- Grade letters -->
+  <text x="18"  y="70" text-anchor="middle" font-family="'Inter','Helvetica Neue',Arial,sans-serif" font-size="9" font-weight="500" fill="#999" letter-spacing="0">A</text>
+  <text x="74"  y="70" text-anchor="middle" font-family="'Inter','Helvetica Neue',Arial,sans-serif" font-size="9" font-weight="500" fill="#999">B</text>
+  <text x="126" y="70" text-anchor="middle" font-family="'Inter','Helvetica Neue',Arial,sans-serif" font-size="9" font-weight="500" fill="#999">C</text>
+  <text x="178" y="70" text-anchor="middle" font-family="'Inter','Helvetica Neue',Arial,sans-serif" font-size="9" font-weight="500" fill="#999">D</text>
+  <text x="230" y="70" text-anchor="middle" font-family="'Inter','Helvetica Neue',Arial,sans-serif" font-size="9" font-weight="500" fill="#999">E</text>
+</svg>

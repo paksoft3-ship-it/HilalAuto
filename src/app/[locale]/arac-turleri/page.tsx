@@ -20,9 +20,9 @@ interface Props { params: Promise<{ locale: string }> }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const title = "Hasarlı Araç Türleri — Kazalı, Pert, Hurda Araç Alımı | HazarAl";
+  const title = "Hasarlı Araç Türleri — Kazalı, Pert, Hurda Araç Alımı | Oto Grade";
   const description =
-    "HazarAl olarak aldığımız hasarlı araç türleri: kazalı, pert, yanmış, sel hasarlı, hurda, motor arızalı ve daha fazlası. Ücretsiz teklif alın.";
+    "Oto Grade olarak aldığımız hasarlı araç türleri: kazalı, pert, yanmış, sel hasarlı, hurda, motor arızalı ve daha fazlası. Ücretsiz teklif alın.";
   return {
     title,
     description,
