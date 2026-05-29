@@ -13,7 +13,8 @@ import { WhyChooseUs } from "@/components/sections/WhyChooseUs";
 import { DarkCTAForm } from "@/components/sections/DarkCTAForm";
 import { FAQSection } from "@/components/sections/FAQSection";
 import { FinalCTA } from "@/components/sections/FinalCTA";
-import { SITE_URL, OG_IMAGE_URL, PHONE_NUMBER } from "@/lib/constants";
+import { OG_IMAGE_URL, PHONE_NUMBER, SITE_URL } from "@/lib/constants";
+import { localeUrl } from "@/lib/locale-url";
 
 interface HomePageProps {
   params: Promise<{ locale: string }>;
@@ -22,9 +23,10 @@ interface HomePageProps {
 export async function generateMetadata({ params }: HomePageProps): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "seo" });
-  const title = t("homeTitle", { default: "Hasarlı Araç Alanlar | Kazalı, Pert, Hurda Araç Alımı — Oto Grade" });
-  const description = t("homeDescription", { default: "Türkiye genelinde kazalı, pert, yanmış, sel hasarlı ve hurda araç alım hizmeti. Ücretsiz teklif, yerinden teslim." });
-  const url = `${SITE_URL}/${locale}`;
+  const title = t("homeTitle");
+  const description = t("homeDescription");
+  const url = localeUrl(locale, "/");
+  const isEn = locale === "en";
 
   return {
     title,
@@ -32,7 +34,9 @@ export async function generateMetadata({ params }: HomePageProps): Promise<Metad
     alternates: {
       canonical: url,
       languages: {
-        tr: `${SITE_URL}/tr`,
+        tr: localeUrl("tr", "/"),
+        en: localeUrl("en", "/"),
+        "x-default": localeUrl("tr", "/"),
       },
     },
     openGraph: {
@@ -40,7 +44,7 @@ export async function generateMetadata({ params }: HomePageProps): Promise<Metad
       description,
       url,
       siteName: "Oto Grade",
-      locale: "tr_TR",
+      locale: isEn ? "en_US" : "tr_TR",
       type: "website",
       images: [{ url: OG_IMAGE_URL, width: 1200, height: 630, alt: title }],
     },

@@ -20,6 +20,7 @@ import { QuickQuoteForm } from "@/components/forms/QuickQuoteForm";
 import { getCities, ALL_CITY_SLUGS } from "@/data/cities";
 import { SITE_FAQ_ITEMS } from "@/data/faqs";
 import { routes } from "@/lib/routes";
+import { localeUrl } from "@/lib/locale-url";
 import { CITIES, SITE_URL, PHONE_NUMBER } from "@/lib/constants";
 
 interface Props {
@@ -78,13 +79,13 @@ export default async function CityPage({ params }: Props) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: t("home", { default: "Ana Sayfa" }), item: `${SITE_URL}/${locale}` },
-      { "@type": "ListItem", position: 2, name: t("cities", { default: "Şehirler" }), item: `${SITE_URL}/${locale}/sehir` },
+      { "@type": "ListItem", position: 1, name: t("home", { default: "Ana Sayfa" }), item: localeUrl(locale, "/") },
+      { "@type": "ListItem", position: 2, name: t("cities", { default: "Şehirler" }), item: localeUrl(locale, "/sehir") },
       {
         "@type": "ListItem",
         position: 3,
         name: `${city.name} ${t("citySchemaName", { default: "Hasarlı Araç Alanlar" })}`,
-        item: `${SITE_URL}/${locale}/sehir/${slug}`,
+        item: localeUrl(locale, `/sehir/${slug}`),
       },
     ],
   };
@@ -94,7 +95,7 @@ export default async function CityPage({ params }: Props) {
     "@type": "AutoDealer",
     name: `Oto Grade — ${city.name} ${t("citySchemaLocalBusiness", { default: "Hasarlı Araç Alımı" })}`,
     description: city.metaDescription,
-    url: `${SITE_URL}/${locale}/sehir/${slug}`,
+    url: localeUrl(locale, `/sehir/${slug}`),
     telephone: PHONE_NUMBER,
     areaServed: {
       "@type": "City",

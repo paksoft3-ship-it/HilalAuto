@@ -7,6 +7,7 @@ import { Calendar, ArrowLeft, Share2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { Container } from "@/components/ui/Container";
 import { SITE_URL } from "@/lib/constants";
+import { localeUrl } from "@/lib/locale-url";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
@@ -31,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: `${data.title} — Oto Grade`,
     description: data.title,
     alternates: {
-      canonical: `${SITE_URL}/${locale}/blog/${slug}`,
+      canonical: localeUrl(locale, `/blog/${slug}`),
     },
     openGraph: {
       title: `${data.title} — Oto Grade`,

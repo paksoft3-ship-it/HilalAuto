@@ -15,6 +15,7 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Badge } from "@/components/ui/Badge";
 import { getCities } from "@/data/cities";
 import { routes, externalRoutes } from "@/lib/routes";
+import { localeUrl } from "@/lib/locale-url";
 import { SITE_URL, WHATSAPP_NUMBER } from "@/lib/constants";
 
 interface Props {
@@ -50,8 +51,8 @@ export default async function SehirlerPage({ params }: Props) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: t("home", { default: "Ana Sayfa" }), item: `${SITE_URL}/${locale}` },
-      { "@type": "ListItem", position: 2, name: t("cities", { default: "Şehirler" }), item: `${SITE_URL}/${locale}/sehir` },
+      { "@type": "ListItem", position: 1, name: t("home", { default: "Ana Sayfa" }), item: localeUrl(locale, "/") },
+      { "@type": "ListItem", position: 2, name: t("cities", { default: "Şehirler" }), item: localeUrl(locale, "/sehir") },
     ],
   };
 
@@ -63,7 +64,7 @@ export default async function SehirlerPage({ params }: Props) {
       "@type": "ListItem",
       position: i + 1,
       name: `${city.name} ${t("citySuffix", { default: "Hasarlı Araç Alanlar" })}`,
-      url: `${SITE_URL}/${locale}/sehir/${city.slug}`,
+      url: localeUrl(locale, `/sehir/${city.slug}`),
     })),
   };
 

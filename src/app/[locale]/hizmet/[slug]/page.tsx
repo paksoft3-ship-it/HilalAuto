@@ -20,6 +20,7 @@ import { Accordion } from "@/components/ui/Accordion";
 import { QuickQuoteForm } from "@/components/forms/QuickQuoteForm";
 import { getServices, ALL_SERVICE_SLUGS } from "@/data/services";
 import { routes, externalRoutes } from "@/lib/routes";
+import { localeUrl } from "@/lib/locale-url";
 import { SITE_URL, PHONE_NUMBER, WHATSAPP_NUMBER } from "@/lib/constants";
 
 interface Props {
@@ -96,9 +97,9 @@ export default async function ServicePage({ params }: Props) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: t("home", { default: "Ana Sayfa" }), item: `${SITE_URL}/${locale}` },
-      { "@type": "ListItem", position: 2, name: t("services", { default: "Hizmetler" }), item: `${SITE_URL}/${locale}/hizmet` },
-      { "@type": "ListItem", position: 3, name: service.title, item: `${SITE_URL}/${locale}/hizmet/${slug}` },
+      { "@type": "ListItem", position: 1, name: t("home", { default: "Ana Sayfa" }), item: localeUrl(locale, "/") },
+      { "@type": "ListItem", position: 2, name: t("services", { default: "Hizmetler" }), item: localeUrl(locale, "/hizmet") },
+      { "@type": "ListItem", position: 3, name: service.title, item: localeUrl(locale, `/hizmet/${slug}`) },
     ],
   };
 

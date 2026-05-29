@@ -9,6 +9,7 @@ import { MultiStepQuoteForm } from "@/components/forms/MultiStepQuoteForm";
 import { Container } from "@/components/ui/Container";
 import { Badge } from "@/components/ui/Badge";
 import { SITE_URL, WHATSAPP_NUMBER } from "@/lib/constants";
+import { getPathname } from "@/i18n/routing";
 import { externalRoutes } from "@/lib/routes";
 
 interface Props {
@@ -25,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title,
     description,
     alternates: {
-      canonical: `${SITE_URL}/${locale}/teklif-al`,
+      canonical: `${SITE_URL}${getPathname({ locale, href: "/teklif-al" })}`,
     },
     openGraph: {
       title,
