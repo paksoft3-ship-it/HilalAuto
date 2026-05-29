@@ -556,5 +556,21 @@
     "whatsapp": "WhatsApp ile Yaz",
     "formTitle": "Hızlı Teklif Formu",
     "formSub": "Bağlayıcı değil · Hızlı dönüş"
+  },
+  "citiesIndex": {
+    "home": "Ana Sayfa",
+    "cities": "Şehirler",
+    "listName": "Hizmet Verdiğimiz Şehirler",
+    "citySuffix": "Hasarlı Araç Alanlar",
+    "badge": "Şehirler",
+    "heroTitle": "Türkiyenin Her Yerinden Hasarlı Araç Alımı",
+    "heroDesc": "Nerede olursanız olun, kazalı veya arızalı aracınızı ücretsiz çekici hizmetimizle kapınızdan alıyor, ödemesini anında nakit yapıyoruz.",
+    "ctaQuote": "Ücretsiz Teklif Al",
+    "ctaWhatsappAria": "WhatsApp ile yazın",
+    "ctaWhatsapp": "WhatsApp ile Yaz",
+    "sectionTitle": "Hizmet Verdiğimiz Şehirler",
+    "sectionSubtitle": "Aşağıdan şehrinizi seçin, o şehre özel hasarlı araç alım sayfasına ulaşın.",
+    "districts": "ilçe",
+    "getQuote": "Teklif Al"
   }
 }
