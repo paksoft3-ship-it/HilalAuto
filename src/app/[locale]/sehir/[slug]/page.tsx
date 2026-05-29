@@ -43,7 +43,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${city.name} ${t("cityTitleSuffix", { default: "Hasarlı Araç Alanlar — Oto Grade" })}`,
     description: city.metaDescription,
-    alternates: { canonical: `${SITE_URL}${getPathname({ locale, href: { pathname: "/sehir/[slug]", params: { slug } } } as any)}` },
+    alternates: {
+      canonical: `${SITE_URL}${getPathname({ locale, href: { pathname: "/sehir/[slug]", params: { slug } } } as any)}`,
+      languages: {
+        tr: `${SITE_URL}${getPathname({ locale: "tr", href: { pathname: "/sehir/[slug]", params: { slug } } } as any)}`,
+        en: `${SITE_URL}${getPathname({ locale: "en", href: { pathname: "/sehir/[slug]", params: { slug } } } as any)}`,
+        "x-default": `${SITE_URL}${getPathname({ locale: "tr", href: { pathname: "/sehir/[slug]", params: { slug } } } as any)}`,
+      },
+    },
     openGraph: {
       title: `${city.name} ${t("cityTitleSuffix", { default: "Hasarlı Araç Alanlar — Oto Grade" })}`,
       description: city.metaDescription,

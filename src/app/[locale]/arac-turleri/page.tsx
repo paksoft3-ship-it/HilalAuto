@@ -28,7 +28,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title,
     description,
-    alternates: { canonical: `${SITE_URL}${getPathname({ locale, href: "/arac-turleri" })}` },
+    alternates: {
+      canonical: `${SITE_URL}${getPathname({ locale, href: "/arac-turleri" })}`,
+      languages: {
+        tr: `${SITE_URL}${getPathname({ locale: "tr", href: "/arac-turleri" })}`,
+        en: `${SITE_URL}${getPathname({ locale: "en", href: "/arac-turleri" })}`,
+        "x-default": `${SITE_URL}${getPathname({ locale: "tr", href: "/arac-turleri" })}`,
+      },
+    },
     openGraph: { title, description, locale: locale === "en" ? "en_US" : "tr_TR", type: "website" },
   };
 }

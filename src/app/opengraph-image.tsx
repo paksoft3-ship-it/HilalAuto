@@ -23,10 +23,10 @@ export default function OGImage() {
       >
         <div style={{ display: "flex", alignItems: "baseline", marginBottom: "24px" }}>
           <span style={{ fontSize: "88px", fontWeight: "600", color: "#111111", letterSpacing: "-4px" }}>
-            Hazar
+            Oto
           </span>
-          <span style={{ fontSize: "88px", fontWeight: "600", color: "#d97706", letterSpacing: "-4px" }}>
-            Al
+          <span style={{ fontSize: "88px", fontWeight: "600", color: "#E8380D", letterSpacing: "-4px" }}>
+            &nbsp;Grade
           </span>
         </div>
         <p

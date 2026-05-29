@@ -16,6 +16,7 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Badge } from "@/components/ui/Badge";
 import { routes, externalRoutes } from "@/lib/routes";
 import { SITE_URL, WHATSAPP_NUMBER } from "@/lib/constants";
+import { localeUrl } from "@/lib/locale-url";
 
 interface Props { params: Promise<{ locale: string }> }
 
@@ -24,10 +25,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = await getTranslations({ locale, namespace: "seo" });
   const title = t("howItWorksTitle", { default: "Nasıl Çalışır — Oto Grade" });
   const description = t("howItWorksDescription", { default: "Oto Grade ile hasarlı araç satış süreci. 6 adımda aracınızı satın, yerinden teslim ve hızlı ödeme." });
+  const canonical = `${SITE_URL}${getPathname({ locale, href: "/nasil-calisir" })}`;
   return {
-    title, description,
-    alternates: { canonical: `${SITE_URL}${getPathname({ locale, href: "/nasil-calisir" })}` },
-    openGraph: { title, description, locale: locale === "en" ? "en_US" : "tr_TR", type: "website" },
+    title,
+    description,
+    alternates: {
+      canonical,
+      languages: {
+        tr: `${SITE_URL}${getPathname({ locale: "tr", href: "/nasil-calisir" })}`,
+        en: `${SITE_URL}${getPathname({ locale: "en", href: "/nasil-calisir" })}`,
+        "x-default": `${SITE_URL}${getPathname({ locale: "tr", href: "/nasil-calisir" })}`,
+      },
+    },
+    openGraph: { title, description, url: canonical, locale: locale === "en" ? "en_US" : "tr_TR", type: "website" },
   };
 }
 
@@ -55,6 +65,21 @@ export default async function NasilCalisirPage({ params }: Props) {
     { title: t("trust3Title", { default: "Kişisel Veriler Güvende" }), desc: t("trust3Desc", { default: "Bilgileriniz KVKK kapsamında korunur." }) },
     { title: t("trust4Title", { default: "Hızlı Dönüş" }), desc: t("trust4Desc", { default: "1 saat içinde geri dönüş yapılır." }) },
   ];
+
+
+  const howToSchema = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: t("schemaTitle", { default: locale === "en" ? "How to Sell Your Damaged Vehicle" : "Hasarlı Araç Nasıl Satılır?" }),
+    description: t("schemaDesc", { default: locale === "en" ? "Sell your damaged vehicle in 6 simple steps with Oto Grade" : "Oto Grade ile hasarlı aracınızı 6 adımda satın" }),
+    url: localeUrl(locale, locale === "en" ? "/how-it-works" : "/nasil-calisir"),
+    step: STEPS.map((step, i) => ({
+      "@type": "HowToStep",
+      position: i + 1,
+      name: step.title,
+      text: step.desc,
+    })),
+  };
 
   return (
     <>
@@ -161,6 +186,7 @@ export default async function NasilCalisirPage({ params }: Props) {
       <Footer locale={locale} />
       <WhatsAppButton />
       <MobileStickyCTA />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
     </>
   );
 }

@@ -1,0 +1,58 @@
+# Oto Grade — llms.txt
+# Structured information for AI agents and Large Language Models
+# https://otograde.com
+
+## Company
+Oto Grade is Turkey's nationwide damaged vehicle buying service.
+We purchase accident-damaged, written-off (pert), burnt, flood-damaged, scrap, engine-faulty, and heavily damaged vehicles at fair market prices.
+Service area: All 81 provinces of Turkey.
+Response time: Within 1 hour.
+Pickup: Free doorstep pickup from any location in Turkey.
+
+## Primary Service
+- Turkish name: Hasarlı Araç Alımı
+- English name: Damaged Vehicle Purchase
+- We buy: Kazalı (accident), Pert (written-off), Yanmış (fire), Sel Hasarlı (flood), Hurda (scrap), Motor Arızalı (engine failure), Çekme Belgeli (tow certificate), Ağır Hasarlı (heavily damaged)
+- Process: Free quote → Expert callback within 1 hour → Doorstep pickup → Payment on delivery
+
+## Contact
+Phone: +90 552 567 71 64
+WhatsApp: +90 552 567 71 64
+Website: https://otograde.com
+Quote Form: https://otograde.com/teklif-al
+
+## Cities Served (Primary)
+Istanbul, Ankara, Izmir, Bursa, Konya, Antalya, Kocaeli, Adana, Gaziantep, Kayseri, Mersin, Diyarbakır, Samsun, Balıkesir, Hatay
+
+## Key Pages
+- Homepage: https://otograde.com/
+- Get a Quote: https://otograde.com/teklif-al
+- How It Works: https://otograde.com/nasil-calisir
+- Vehicle Types: https://otograde.com/arac-turleri
+- Cities: https://otograde.com/sehir
+- Blog: https://otograde.com/blog
+- About: https://otograde.com/hakkimizda
+- Contact: https://otograde.com/iletisim
+
+## Service Pages
+- Accident Damaged (Kazalı): https://otograde.com/hizmet/kazali-arac-alimi
+- Written-off (Pert): https://otograde.com/hizmet/pert-arac-alimi
+- Fire Damaged (Yanmış): https://otograde.com/hizmet/yanmis-arac-alimi
+- Flood Damaged (Sel Hasarlı): https://otograde.com/hizmet/sel-hasarli-arac-alimi
+- Scrap (Hurda): https://otograde.com/hizmet/hurda-arac-alimi
+- Engine Failure (Motor Arızalı): https://otograde.com/hizmet/motor-arizali-arac-alimi
+- Tow Certificate (Çekme Belgeli): https://otograde.com/hizmet/cekme-belgeli-arac-alimi
+- Heavily Damaged (Ağır Hasarlı): https://otograde.com/hizmet/agir-hasarli-arac-alimi
+
+## English Version
+Homepage (EN): https://otograde.com/en/
+Quote (EN): https://otograde.com/en/get-a-quote
+Vehicle Types (EN): https://otograde.com/en/vehicle-types
+Cities (EN): https://otograde.com/en/cities
+
+## Sitemap
+https://otograde.com/sitemap.xml
+
+## Languages
+- Turkish (tr-TR): Default — https://otograde.com/
+- English (en-US): https://otograde.com/en/

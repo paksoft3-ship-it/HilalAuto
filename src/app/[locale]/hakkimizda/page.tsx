@@ -14,7 +14,8 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Badge } from "@/components/ui/Badge";
 import { routes, externalRoutes } from "@/lib/routes";
-import { SITE_URL, WHATSAPP_NUMBER } from "@/lib/constants";
+import { SITE_URL, WHATSAPP_NUMBER, PHONE_NUMBER } from "@/lib/constants";
+import { localeUrl } from "@/lib/locale-url";
 
 interface Props { params: Promise<{ locale: string }> }
 
@@ -23,10 +24,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = await getTranslations({ locale, namespace: "seo" });
   const title = t("aboutTitle", { default: "Hakkımızda — Oto Grade" });
   const description = t("aboutDescription", { default: "Oto Grade hakkında bilgi edinin. Türkiye genelinde hasarlı araç alım hizmetinde güvenilir adres." });
+  const canonical = `${SITE_URL}${getPathname({ locale, href: "/hakkimizda" })}`;
   return {
-    title, description,
-    alternates: { canonical: `${SITE_URL}${getPathname({ locale, href: "/hakkimizda" })}` },
-    openGraph: { title, description, locale: locale === "en" ? "en_US" : "tr_TR", type: "website" },
+    title,
+    description,
+    alternates: {
+      canonical,
+      languages: {
+        tr: `${SITE_URL}${getPathname({ locale: "tr", href: "/hakkimizda" })}`,
+        en: `${SITE_URL}${getPathname({ locale: "en", href: "/hakkimizda" })}`,
+        "x-default": `${SITE_URL}${getPathname({ locale: "tr", href: "/hakkimizda" })}`,
+      },
+    },
+    openGraph: { title, description, url: canonical, locale: locale === "en" ? "en_US" : "tr_TR", type: "website" },
   };
 }
 
@@ -52,6 +62,24 @@ export default async function HakkimizdaPage({ params }: Props) {
     t("buy1", { default: "Kazalı araçlar" }), t("buy2", { default: "Pert araçlar" }), t("buy3", { default: "Yanmış araçlar" }), t("buy4", { default: "Sel hasarlı araçlar" }),
     t("buy5", { default: "Hurda araçlar" }), t("buy6", { default: "Motor arızalı araçlar" }), t("buy7", { default: "Çekme belgeli araçlar" }), t("buy8", { default: "Ağır hasarlı araçlar" }),
   ];
+
+  const aboutPageSchema = {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    name: t("hero.title", { default: "Hakkımızda" }),
+    url: localeUrl(locale, locale === "en" ? "/about-us" : "/hakkimizda"),
+    mainEntity: {
+      "@type": "Organization",
+      name: "Oto Grade",
+      url: SITE_URL,
+      telephone: PHONE_NUMBER,
+      description: t("story.p1", { default: "Oto Grade, hasarlı araç satışının karmaşık sürecini sadeleştirmek için kuruldu." }),
+      foundingDate: "2023",
+      areaServed: { "@type": "Country", name: "TR" },
+      serviceType: "Hasarlı Araç Alımı",
+    },
+  };
+
   return (
     <>
       <Navbar />
@@ -161,6 +189,7 @@ export default async function HakkimizdaPage({ params }: Props) {
       <Footer locale={locale} />
       <WhatsAppButton />
       <MobileStickyCTA />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutPageSchema) }} />
     </>
   );
 }

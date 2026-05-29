@@ -12,7 +12,8 @@ import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Container } from "@/components/ui/Container";
 import { Badge } from "@/components/ui/Badge";
 import { ContactForm } from "@/components/forms/ContactForm";
-import { PHONE_NUMBER, WHATSAPP_NUMBER, CITIES, SITE_URL } from "@/lib/constants";
+import { PHONE_NUMBER, WHATSAPP_NUMBER, SITE_URL, CITIES } from "@/lib/constants";
+import { localeUrl } from "@/lib/locale-url";
 import { externalRoutes, routes } from "@/lib/routes";
 import { Link } from "@/i18n/routing";
 import { FaWhatsapp } from 'react-icons/fa';
@@ -24,16 +25,48 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = await getTranslations({ locale, namespace: "seo" });
   const title = t("contactTitle", { default: "İletişim — Oto Grade" });
   const description = t("contactDescription", { default: "Oto Grade ile iletişime geçin. Telefon, WhatsApp veya form üzerinden bize ulaşın." });
+  const canonical = `${SITE_URL}${getPathname({ locale, href: "/iletisim" })}`;
   return {
-    title, description,
-    alternates: { canonical: `${SITE_URL}${getPathname({ locale, href: "/iletisim" })}` },
-    openGraph: { title, description, locale: locale === "en" ? "en_US" : "tr_TR", type: "website" },
+    title,
+    description,
+    alternates: {
+      canonical,
+      languages: {
+        tr: `${SITE_URL}${getPathname({ locale: "tr", href: "/iletisim" })}`,
+        en: `${SITE_URL}${getPathname({ locale: "en", href: "/iletisim" })}`,
+        "x-default": `${SITE_URL}${getPathname({ locale: "tr", href: "/iletisim" })}`,
+      },
+    },
+    openGraph: { title, description, url: canonical, locale: locale === "en" ? "en_US" : "tr_TR", type: "website" },
   };
 }
 
 export default async function IletisimPage({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "contact" });
+
+  const contactPageSchema = {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    name: t("title", { default: "Bize Ulaşın" }),
+    url: localeUrl(locale, locale === "en" ? "/contact" : "/iletisim"),
+    mainEntity: {
+      "@type": "LocalBusiness",
+      name: "Oto Grade",
+      url: SITE_URL,
+      telephone: PHONE_NUMBER,
+      contactPoint: [
+        {
+          "@type": "ContactPoint",
+          telephone: PHONE_NUMBER,
+          contactType: "customer service",
+          contactOption: "TollFree",
+          availableLanguage: ["Turkish", "English"],
+        },
+      ],
+    },
+  };
+
   return (
     <>
       <Navbar />
@@ -112,6 +145,7 @@ export default async function IletisimPage({ params }: Props) {
       <Footer locale={locale} />
       <WhatsAppButton />
       <MobileStickyCTA />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(contactPageSchema) }} />
     </>
   );
 }

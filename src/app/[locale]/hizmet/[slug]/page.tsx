@@ -55,7 +55,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: baseTitle,
     description: service.metaDescription,
-    alternates: { canonical: `${SITE_URL}${getPathname({ locale, href: { pathname: "/hizmet/[slug]", params: { slug } } } as any)}` },
+    alternates: {
+      canonical: `${SITE_URL}${getPathname({ locale, href: { pathname: "/hizmet/[slug]", params: { slug } } } as any)}`,
+      languages: {
+        tr: `${SITE_URL}${getPathname({ locale: "tr", href: { pathname: "/hizmet/[slug]", params: { slug } } } as any)}`,
+        en: `${SITE_URL}${getPathname({ locale: "en", href: { pathname: "/hizmet/[slug]", params: { slug } } } as any)}`,
+        "x-default": `${SITE_URL}${getPathname({ locale: "tr", href: { pathname: "/hizmet/[slug]", params: { slug } } } as any)}`,
+      },
+    },
     openGraph: {
       title: baseTitle,
       description: service.metaDescription,

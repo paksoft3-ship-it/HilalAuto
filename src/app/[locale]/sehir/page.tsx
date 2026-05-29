@@ -30,7 +30,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title,
     description,
-    alternates: { canonical: `${SITE_URL}${getPathname({ locale, href: "/sehir" })}` },
+    alternates: {
+      canonical: `${SITE_URL}${getPathname({ locale, href: "/sehir" })}`,
+      languages: {
+        tr: `${SITE_URL}${getPathname({ locale: "tr", href: "/sehir" })}`,
+        en: `${SITE_URL}${getPathname({ locale: "en", href: "/sehir" })}`,
+        "x-default": `${SITE_URL}${getPathname({ locale: "tr", href: "/sehir" })}`,
+      },
+    },
     openGraph: {
       title,
       description,
