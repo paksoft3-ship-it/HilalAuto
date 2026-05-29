@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Plus, Edit, Trash2, Image as ImageIcon, Eye, RefreshCw, Calendar } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { useParams } from "next/navigation";
 
 export default function AdminBlogs() {
@@ -122,7 +123,8 @@ export default function AdminBlogs() {
                     <td className="py-16 px-16 text-right">
                       <div className="flex items-center justify-end gap-12">
                         <Link 
-                          href={`/${blog.locale}/blog/${blog.slug}`} 
+                          href={{ pathname: "/blog/[slug]", params: { slug: blog.slug } }}
+                          locale={blog.locale as any}
                           target="_blank"
                           className="p-8 text-muted-text hover:text-primary transition-colors"
                           title="Görüntüle"

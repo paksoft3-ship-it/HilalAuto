@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Phone } from "lucide-react";
@@ -32,13 +32,13 @@ export function Footer({ locale = "tr" }: FooterProps) {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-[#111111] text-white pt-60 pb-16">
+    <footer className="bg-[#111111] text-white pt-60 pb-[calc(60px+env(safe-area-inset-bottom))] md:pb-0">
       <Container>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-44">
           {/* Brand */}
           <div className="flex flex-col gap-16">
             <Link
-              href={routes.home(locale)}
+              href={routes.home()}
               aria-label="Oto Grade - Ana Sayfa"
               className="inline-flex items-baseline"
             >
@@ -85,7 +85,7 @@ export function Footer({ locale = "tr" }: FooterProps) {
                 {SERVICES.map((s) => (
                   <li key={s.slug}>
                     <Link
-                      href={routes.service(locale, s.serviceSlug)}
+                      href={routes.service(s.serviceSlug)}
                       className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors"
                     >
                       {locale === "en" ? s.labelEn : s.label}
@@ -106,7 +106,7 @@ export function Footer({ locale = "tr" }: FooterProps) {
                 {CITIES.map((c) => (
                   <li key={c.slug}>
                     <Link
-                      href={routes.city(locale, c.slug)}
+                      href={routes.city(c.slug)}
                       className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors"
                     >
                       {c.label} {locale === "en" ? "Damaged Vehicle" : "Hasarlı Araç"}
@@ -124,19 +124,19 @@ export function Footer({ locale = "tr" }: FooterProps) {
             </p>
             <div className="flex flex-col gap-8">
               <Link
-                href={routes.contact(locale)}
+                href={routes.contact()}
                 className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors"
               >
                 {t("contact")}
               </Link>
               <Link
-                href={routes.about(locale)}
+                href={routes.about()}
                 className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors"
               >
                 {locale === "en" ? "About Us" : "Hakkımızda"}
               </Link>
               <Link
-                href={routes.blog(locale)}
+                href={routes.blog()}
                 className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors"
               >
                 Blog
@@ -148,19 +148,19 @@ export function Footer({ locale = "tr" }: FooterProps) {
             </p>
             <div className="flex flex-col gap-8">
               <Link
-                href={routes.kvkk(locale)}
+                href={routes.kvkk()}
                 className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors"
               >
                 {t("kvkk")}
               </Link>
               <Link
-                href={routes.privacy(locale)}
+                href={routes.privacy()}
                 className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors"
               >
                 {t("privacy")}
               </Link>
               <Link
-                href={routes.terms(locale)}
+                href={routes.terms()}
                 className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors"
               >
                 {t("terms")}

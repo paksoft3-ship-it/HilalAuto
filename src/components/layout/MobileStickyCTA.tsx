@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { Phone, ArrowRight } from "lucide-react";
 import { useParams } from "next/navigation";
 import { routes, externalRoutes } from "@/lib/routes";
@@ -8,12 +9,11 @@ import { PHONE_NUMBER, WHATSAPP_NUMBER } from "@/lib/constants";
 import { FaWhatsapp } from 'react-icons/fa';
 
 export function MobileStickyCTA() {
-  const params = useParams();
-  const locale = (params?.locale as string) ?? "tr";
+  // removed unused locale
 
   return (
     <div
-      className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-[0.5px] border-border-default"
+      className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-[0.5px] border-border-default pb-[max(0px,env(safe-area-inset-bottom))]"
       role="navigation"
       aria-label="Hızlı işlem çubuğu"
     >
@@ -37,7 +37,7 @@ export function MobileStickyCTA() {
           <span className="text-[11px] font-medium">WhatsApp</span>
         </a>
         <Link
-          href={routes.quote(locale)}
+          href={routes.quote()}
           className="flex flex-col items-center justify-center gap-4 py-12 bg-accent text-white hover:opacity-90 transition-opacity"
           aria-label="Ücretsiz teklif alın"
         >

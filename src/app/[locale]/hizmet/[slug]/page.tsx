@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any */
+import { getPathname } from "@/i18n/routing";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { Check, ArrowRight } from "lucide-react";
 import { FaWhatsapp } from 'react-icons/fa';
 import { Navbar } from "@/components/layout/Navbar";
@@ -52,7 +54,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: baseTitle,
     description: service.metaDescription,
-    alternates: { canonical: `${SITE_URL}/${locale}/hizmet/${slug}` },
+    alternates: { canonical: `${SITE_URL}${getPathname({ locale, href: { pathname: "/hizmet/[slug]", params: { slug } } } as any)}` },
     openGraph: {
       title: baseTitle,
       description: service.metaDescription,
@@ -159,7 +161,7 @@ export default async function ServicePage({ params }: Props) {
                 </ul>
 
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-12 w-full sm:w-auto">
-                  <Link href={routes.quote(locale)} className="w-full sm:w-auto inline-flex items-center justify-center gap-8 bg-primary text-white px-32 py-16 rounded-btn font-medium text-[14px] hover:opacity-90 transition-opacity">
+                  <Link href={routes.quote()} className="w-full sm:w-auto inline-flex items-center justify-center gap-8 bg-primary text-white px-32 py-16 rounded-btn font-medium text-[14px] hover:opacity-90 transition-opacity">
                     {t("ctaQuote", { default: "Ücretsiz Teklif Al" })} <ArrowRight size={16} strokeWidth={1.5} aria-hidden />
                   </Link>
                   <a
@@ -243,7 +245,7 @@ export default async function ServicePage({ params }: Props) {
               <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-16 w-full">
                 {relatedServices.map((s) => (
                   <li key={s.slug}>
-                    <Link href={routes.service(locale, s.slug)} className="flex items-center justify-between gap-8 p-24 bg-white border border-[0.5px] border-border-default rounded-card hover:border-accent-border hover:bg-accent-light transition-colors">
+                    <Link href={routes.service(s.slug)} className="flex items-center justify-between gap-8 p-24 bg-white border border-[0.5px] border-border-default rounded-card hover:border-accent-border hover:bg-accent-light transition-colors">
                       <p className="text-[14px] font-medium text-text-primary">{s.title}</p>
                       <ArrowRight size={15} strokeWidth={1.5} className="text-accent shrink-0" aria-hidden />
                     </Link>

@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars */
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, usePathname } from "next/navigation";
-import Link from "next/link";
+import { useRouter, usePathname } from "@/i18n/routing";
+import { Link } from "@/i18n/routing";
 import { supabase } from "@/lib/supabase";
 import {
   LayoutDashboard,
@@ -39,7 +40,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         // Find locale from pathname
         const match = pathname?.match(/^\/([a-z]{2})\//);
         const locale = match ? match[1] : "tr";
-        router.push(`/${locale}/admin/login`);
+        router.push('/admin/login', { locale: locale as any });
       } else {
         setAuthenticated(!!session);
       }
@@ -52,7 +53,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       if (!session && !isLoginPage) {
         const match = pathname?.match(/^\/([a-z]{2})\//);
         const locale = match ? match[1] : "tr";
-        router.push(`/${locale}/admin/login`);
+        router.push('/admin/login', { locale: locale as any });
       }
     });
 
@@ -85,7 +86,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <div className="min-h-screen bg-surface flex flex-col md:flex-row">
       {/* Mobile Header */}
       <div className="md:hidden flex items-center justify-between p-16 bg-surface-container-lowest border-b border-[0.5px] border-border-default z-50 sticky top-0">
-        <Link href={`/${locale}/admin`} className="font-bold text-[20px] text-on-surface">
+        <Link href="/admin" className="font-bold text-[20px] text-on-surface">
           Oto Grade Admin
         </Link>
         <button onClick={() => setMenuOpen(!menuOpen)} className="p-8 text-on-surface">
@@ -99,19 +100,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         menuOpen ? "translate-x-0" : "-translate-x-full"
       )}>
         <div className="p-24 hidden md:block">
-          <Link href={`/${locale}/admin`} className="font-bold text-[24px] text-on-surface tracking-[-1px]">
+          <Link href="/admin" className="font-bold text-[24px] text-on-surface tracking-[-1px]">
             Oto Grade Admin
           </Link>
         </div>
         
         <nav className="flex-1 py-16 flex flex-col gap-8 px-16 mt-60 md:mt-0">
           {NAV_ITEMS.map((item) => {
-            const href = `/${locale}${item.href}`;
-            const isActive = pathname === href || pathname?.startsWith(`${href}/`);
+            const isActive = pathname === item.href || pathname?.startsWith(`${item.href}/`);
             return (
               <Link
                 key={item.label}
-                href={href}
+                href={item.href as any}
                 onClick={() => setMenuOpen(false)}
                 className={cn(
                   "flex items-center gap-12 px-16 py-12 rounded-lg text-[14px] font-medium transition-colors",

@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import { useTranslations } from "next-intl";
 
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { useParams } from "next/navigation";
 import { ArrowLeft, FileText } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
@@ -33,14 +34,14 @@ export default function NotFound() {
             </div>
             <div className="flex flex-col sm:flex-row items-center gap-12 w-full justify-center">
               <Link
-                href={routes.home(locale)}
+                href={routes.home()}
                 className="inline-flex items-center gap-8 bg-accent text-white px-24 py-14 rounded-btn font-medium text-[14px] hover:opacity-90 transition-opacity w-full sm:w-auto justify-center"
               >
                 <ArrowLeft size={15} strokeWidth={1.5} aria-hidden />
                 {t("home", { default: "Ana Sayfaya Dön" })}
               </Link>
               <Link
-                href={routes.quote(locale)}
+                href={routes.quote()}
                 className="inline-flex items-center gap-8 bg-white border border-[0.5px] border-border-default text-text-primary px-24 py-14 rounded-btn font-medium text-[14px] hover:border-accent hover:text-accent transition-colors w-full sm:w-auto justify-center"
               >
                 <FileText size={15} strokeWidth={1.5} aria-hidden />

@@ -1,18 +1,19 @@
+/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any */
 export const routes = {
-  home: (locale: string) => `/${locale}`,
-  quote: (locale: string) => `/${locale}/teklif-al`,
-  howItWorks: (locale: string) => `/${locale}/nasil-calisir`,
-  about: (locale: string) => `/${locale}/hakkimizda`,
-  vehicleTypes: (locale: string) => `/${locale}/arac-turleri`,
-  contact: (locale: string) => `/${locale}/iletisim`,
-  blog: (locale: string) => `/${locale}/blog`,
-  blogPost: (locale: string, slug: string) => `/${locale}/blog/${slug}`,
-  service: (locale: string, slug: string) => `/${locale}/hizmet/${slug}`,
-  city: (locale: string, slug: string) => `/${locale}/sehir/${slug}`,
-  thankYou: (locale: string) => `/${locale}/tesekkurler`,
-  kvkk: (locale: string) => `/${locale}/kvkk`,
-  privacy: (locale: string) => `/${locale}/gizlilik-politikasi`,
-  terms: (locale: string) => `/${locale}/kullanim-kosullari`,
+  home: () => `/` as any,
+  quote: () => `/teklif-al` as any,
+  howItWorks: () => `/nasil-calisir` as any,
+  about: () => `/hakkimizda` as any,
+  vehicleTypes: () => `/arac-turleri` as any,
+  contact: () => `/iletisim` as any,
+  blog: () => `/blog` as any,
+  blogPost: (slug: string) => `/blog/${slug}` as any,
+  service: (slug: string) => `/hizmet/${slug}` as any,
+  city: (slug: string) => `/sehir/${slug}` as any,
+  thankYou: () => `/tesekkurler` as any,
+  kvkk: () => `/kvkk` as any,
+  privacy: () => `/gizlilik-politikasi` as any,
+  terms: () => `/kullanim-kosullari` as any,
 } as const;
 
 export const externalRoutes = {

@@ -1,3 +1,4 @@
+import { getPathname } from "@/i18n/routing";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/Navbar";
@@ -13,7 +14,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: t("privacyTitle", { default: `Gizlilik Politikası — ${SITE_NAME}` }),
     description: t("privacyDesc", { default: "Oto Grade gizlilik politikası ve kişisel veri işleme hakkında bilgi." }),
-    alternates: { canonical: `${SITE_URL}/${locale}/gizlilik-politikasi` },
+    alternates: { canonical: `${SITE_URL}${getPathname({ locale, href: "/gizlilik-politikasi" })}` },
     robots: { index: false },
   };
 }

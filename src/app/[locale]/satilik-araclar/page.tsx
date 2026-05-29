@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { useTranslations } from "next-intl";
@@ -5,7 +6,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { useParams } from "next/navigation";
 import { Search, Filter, Calendar, Wrench } from "lucide-react";
 
@@ -94,7 +95,7 @@ export default function MarketplacePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-24">
             {filteredCars.map((car) => (
               <Link 
-                href={`/${locale}/satilik-araclar/${car.id}`} 
+                href={{ pathname: "/satilik-araclar/[id]", params: { id: car.id.toString() } }}
                 key={car.id}
                 className="group bg-surface-container-lowest border border-[0.5px] border-border-default rounded-[14px] overflow-hidden hover:border-primary transition-colors flex flex-col"
               >

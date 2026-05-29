@@ -6,7 +6,7 @@ import { supabase } from "@/lib/supabase";
 import { Container } from "@/components/ui/Container";
 import { useParams, notFound } from "next/navigation";
 import { Wrench, Calendar, Tag, ShieldAlert, CheckCircle, ArrowLeft } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { externalRoutes } from "@/lib/routes";
 import { WHATSAPP_NUMBER } from "@/lib/constants";
 import { FaWhatsapp } from 'react-icons/fa';
@@ -54,7 +54,7 @@ export default function CarDetailPage() {
     <div className="bg-surface pb-60 pt-32">
       <Container>
         <Link 
-          href={`/${locale}/satilik-araclar`}
+          href="/satilik-araclar"
           className="inline-flex items-center gap-8 text-[13px] text-muted-text hover:text-on-surface transition-colors mb-32"
         >
           <ArrowLeft size={16} /> {t("back", { default: "İlanlara Dön" })}

@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -14,11 +15,11 @@ import { FaWhatsapp } from "react-icons/fa";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 
 const NAV_LINKS = [
-  { labelKey: "howItWorks", href: (locale: string) => routes.howItWorks(locale) },
-  { labelKey: "vehicleTypes", href: (locale: string) => routes.vehicleTypes(locale) },
+  { labelKey: "howItWorks", href: (locale: string) => routes.howItWorks() },
+  { labelKey: "vehicleTypes", href: (locale: string) => routes.vehicleTypes() },
   { labelKey: "cities", href: (locale: string) => `/${locale}/sehir` },
-  { labelKey: "blog", href: (locale: string) => routes.blog(locale) },
-  { labelKey: "about", href: (locale: string) => routes.about(locale) },
+  { labelKey: "blog", href: (locale: string) => routes.blog() },
+  { labelKey: "about", href: (locale: string) => routes.about() },
 ];
 
 export function Navbar() {
@@ -55,7 +56,7 @@ export function Navbar() {
 
           {/* Logo */}
           <Link
-            href={routes.home(locale)}
+            href={routes.home()}
             className="flex items-center shrink-0"
             aria-label="Oto Grade - Ana Sayfa"
           >
@@ -86,7 +87,7 @@ export function Navbar() {
                       {VEHICLE_TYPES.map((type) => (
                         <Link
                           key={type.slug}
-                          href={routes.service(locale, type.serviceSlug)}
+                          href={routes.service(type.serviceSlug)}
                           className="px-16 py-8 text-[13px] text-muted-text hover:bg-surface hover:text-primary transition-colors text-left"
                         >
                           {locale === "en" ? type.labelEn : type.label}
@@ -131,7 +132,7 @@ export function Navbar() {
               <span className="hidden xl:inline">{t("whatsapp")}</span>
             </a>
             <Link
-              href={routes.quote(locale)}
+              href={routes.quote()}
               className="inline-flex items-center justify-center bg-primary text-on-primary px-24 py-8 rounded-btn text-[13px] font-medium hover:opacity-90 transition-opacity"
             >
               {t("getQuote")}
@@ -198,7 +199,7 @@ export function Navbar() {
                         {VEHICLE_TYPES.map((type) => (
                           <Link
                             key={type.slug}
-                            href={routes.service(locale, type.serviceSlug)}
+                            href={routes.service(type.serviceSlug)}
                             onClick={closeMenu}
                             className="flex items-center justify-center px-12 py-10 bg-surface-container-lowest border border-[0.5px] border-border-default rounded-card text-[13px] font-medium text-on-surface hover:border-primary hover:text-primary transition-colors text-center"
                           >
@@ -247,7 +248,7 @@ export function Navbar() {
               </a>
             </div>
             <Link
-              href={routes.quote(locale)}
+              href={routes.quote()}
               onClick={closeMenu}
               className="flex items-center justify-center w-full bg-primary text-on-primary py-[14px] rounded-btn text-[14px] font-medium hover:opacity-90 transition-opacity"
             >

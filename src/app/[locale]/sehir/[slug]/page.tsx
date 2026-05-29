@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any */
+import { getPathname } from "@/i18n/routing";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { MapPin, ArrowRight } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -40,7 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${city.name} ${t("cityTitleSuffix", { default: "Hasarlı Araç Alanlar — Oto Grade" })}`,
     description: city.metaDescription,
-    alternates: { canonical: `${SITE_URL}/${locale}/sehir/${slug}` },
+    alternates: { canonical: `${SITE_URL}${getPathname({ locale, href: { pathname: "/sehir/[slug]", params: { slug } } } as any)}` },
     openGraph: {
       title: `${city.name} ${t("cityTitleSuffix", { default: "Hasarlı Araç Alanlar — Oto Grade" })}`,
       description: city.metaDescription,
@@ -167,7 +169,7 @@ export default async function CityPage({ params }: Props) {
             <ul className="grid grid-cols-2 md:grid-cols-3 gap-12">
               {VEHICLE_SERVICES.map(({ label, slug: sSlug }) => (
                 <li key={sSlug}>
-                  <Link href={routes.service(locale, sSlug)} className="flex items-center justify-between gap-8 p-16 bg-bg-surface border border-[0.5px] border-border-default rounded-card hover:border-accent-border hover:bg-accent-light transition-colors">
+                  <Link href={routes.service(sSlug)} className="flex items-center justify-between gap-8 p-16 bg-bg-surface border border-[0.5px] border-border-default rounded-card hover:border-accent-border hover:bg-accent-light transition-colors">
                     <span className="text-[13px] font-medium text-text-primary">{label}</span>
                     <ArrowRight size={14} strokeWidth={1.5} className="text-text-soft shrink-0" aria-hidden />
                   </Link>
@@ -188,7 +190,7 @@ export default async function CityPage({ params }: Props) {
               <ul className="flex flex-wrap gap-12 justify-center">
                 {nearbyCities.map(({ slug: cs, name }) => (
                   <li key={cs}>
-                    <Link href={routes.city(locale, cs)} className="inline-flex items-center gap-8 px-24 py-12 bg-white border border-[0.5px] border-border-default rounded-pill text-[13px] text-text-muted hover:border-accent hover:text-accent transition-colors">
+                    <Link href={routes.city(cs)} className="inline-flex items-center gap-8 px-24 py-12 bg-white border border-[0.5px] border-border-default rounded-pill text-[13px] text-text-muted hover:border-accent hover:text-accent transition-colors">
                       <MapPin size={13} strokeWidth={1.5} aria-hidden />
                       {name} {t("nearbyCityTag", { default: "Hasarlı Araç" })}
                     </Link>

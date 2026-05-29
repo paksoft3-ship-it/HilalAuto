@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import {
@@ -105,7 +106,7 @@ export function VehicleTypeCards() {
               viewport={{ once: true, margin: "-40px" }}
             >
               <Link
-                href={routes.service(locale, slug)}
+                href={routes.service(slug)}
                 className="group flex flex-col p-24 bg-surface border border-[0.5px] border-border-default rounded-[14px] hover:border-primary transition-colors h-full"
               >
                 <Icon

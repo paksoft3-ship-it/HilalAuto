@@ -1,3 +1,4 @@
+import { getPathname } from "@/i18n/routing";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/Navbar";
@@ -13,7 +14,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: t("kvkkTitle", { default: `KVKK Aydınlatma Metni — ${SITE_NAME}` }),
     description: t("kvkkDesc", { default: "Oto Grade KVKK Kişisel Verilerin Korunması Kanunu aydınlatma metni." }),
-    alternates: { canonical: `${SITE_URL}/${locale}/kvkk` },
+    alternates: { canonical: `${SITE_URL}${getPathname({ locale, href: "/kvkk" })}` },
     robots: { index: false },
   };
 }

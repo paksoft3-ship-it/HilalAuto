@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { useParams } from "next/navigation";
 import { CheckCircle, Phone, Home } from "lucide-react";
 import { motion } from "framer-motion";
@@ -72,7 +72,7 @@ export function TesekkurlerClient() {
                 {t("phone", { default: "Telefonla Ara" })}
               </a>
               <Link
-                href={routes.home(locale)}
+                href={routes.home()}
                 className="inline-flex items-center justify-center gap-8 bg-white border border-[0.5px] border-border-default text-text-primary px-32 py-16 rounded-btn text-[14px] hover:border-text-primary transition-colors"
               >
                 <Home size={16} strokeWidth={1.5} aria-hidden />

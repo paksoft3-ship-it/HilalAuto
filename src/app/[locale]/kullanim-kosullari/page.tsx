@@ -1,3 +1,4 @@
+import { getPathname } from "@/i18n/routing";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/Navbar";
@@ -13,7 +14,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: t("termsTitle", { default: `Kullanım Koşulları — ${SITE_NAME}` }),
     description: t("termsDesc", { default: "Oto Grade web sitesi kullanım koşulları ve hizmet şartları." }),
-    alternates: { canonical: `${SITE_URL}/${locale}/kullanim-kosullari` },
+    alternates: { canonical: `${SITE_URL}${getPathname({ locale, href: "/kullanim-kosullari" })}` },
     robots: { index: false },
   };
 }

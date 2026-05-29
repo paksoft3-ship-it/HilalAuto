@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
@@ -92,7 +93,7 @@ export function HowItWorks() {
             {t("ctaText", { default: "Aracınız için ücretsiz ve bağlayıcı olmayan teklif alın." })}
           </p>
           <Link
-            href={routes.quote(locale)}
+            href={routes.quote()}
             className="inline-flex items-center gap-8 bg-primary text-on-primary px-24 py-16 rounded-lg font-medium text-[14px] hover:opacity-90 transition-opacity whitespace-nowrap shrink-0 w-full sm:w-auto justify-center"
           >
             {t("ctaButton", { default: "Hemen Teklif Al" })}

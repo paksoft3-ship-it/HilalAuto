@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Container } from "@/components/ui/Container";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { useParams } from "next/navigation";
 import { Calendar, ArrowRight } from "lucide-react";
 import { FaWhatsapp } from 'react-icons/fa';
@@ -53,7 +54,7 @@ export default function BlogIndexPage() {
               </p>
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-12 mt-8 w-full sm:w-auto">
                 <Link
-                  href={routes.quote(locale)}
+                  href={routes.quote()}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-8 bg-primary text-white px-32 py-16 rounded-btn font-medium text-[14px] hover:opacity-90 transition-opacity"
                 >
                   {t("ctaQuote", { default: "Ücretsiz Teklif Al" })}
@@ -89,7 +90,7 @@ export default function BlogIndexPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-24">
               {blogs.map((blog) => (
                 <Link 
-                  href={`/${locale}/blog/${blog.slug}`} 
+                  href={{ pathname: "/blog/[slug]", params: { slug: blog.slug } }}
                   key={blog.id}
                   className="group bg-surface-container-lowest border border-[0.5px] border-border-default rounded-[14px] overflow-hidden hover:border-primary transition-colors flex flex-col"
                 >

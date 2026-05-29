@@ -1,6 +1,7 @@
+import { getPathname } from "@/i18n/routing";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { ArrowRight, Car, Flame, Droplets, Trash2, Wrench, FileX, AlertTriangle, ShieldAlert } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -27,7 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title,
     description,
-    alternates: { canonical: `${SITE_URL}/${locale}/arac-turleri` },
+    alternates: { canonical: `${SITE_URL}${getPathname({ locale, href: "/arac-turleri" })}` },
     openGraph: { title, description, locale: locale === "en" ? "en_US" : "tr_TR", type: "website" },
   };
 }
@@ -86,7 +87,7 @@ export default async function AracTurleriPage({ params }: Props) {
               </p>
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-12 mt-8 w-full sm:w-auto">
                 <Link
-                  href={routes.quote(locale)}
+                  href={routes.quote()}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-8 bg-primary text-white px-32 py-16 rounded-btn font-medium text-[14px] hover:opacity-90 transition-opacity"
                 >
                   {t("ctaQuote", { default: "Ücretsiz Teklif Al" })}
@@ -113,7 +114,7 @@ export default async function AracTurleriPage({ params }: Props) {
             <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-16">
               {VEHICLE_TYPES.map(({ icon: Icon, label, desc, slug }) => (
                 <li key={slug}>
-                  <Link href={routes.service(locale, slug)} className="group flex flex-col gap-16 p-24 bg-bg-primary border border-[0.5px] border-border-default rounded-card hover:border-accent-border hover:bg-accent-light transition-colors h-full">
+                  <Link href={routes.service(slug)} className="group flex flex-col gap-16 p-24 bg-bg-primary border border-[0.5px] border-border-default rounded-card hover:border-accent-border hover:bg-accent-light transition-colors h-full">
                     <div className="flex items-center justify-center w-[44px] h-[44px] bg-accent-light border border-[0.5px] border-accent-border rounded-full shrink-0 group-hover:bg-white transition-colors" aria-hidden>
                       <Icon size={20} strokeWidth={1.5} className="text-accent" />
                     </div>
@@ -138,7 +139,7 @@ export default async function AracTurleriPage({ params }: Props) {
             <ul className="flex flex-wrap gap-8 justify-center">
               {Object.entries(CITIES).map(([slug, name]) => (
                 <li key={slug}>
-                  <Link href={routes.city(locale, slug)} className="px-16 py-8 bg-white border border-[0.5px] border-border-default rounded-pill text-[13px] text-text-muted hover:border-accent hover:text-accent transition-colors">
+                  <Link href={routes.city(slug)} className="px-16 py-8 bg-white border border-[0.5px] border-border-default rounded-pill text-[13px] text-text-muted hover:border-accent hover:text-accent transition-colors">
                     {name}
                   </Link>
                 </li>

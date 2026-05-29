@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { Calendar, ArrowLeft, Share2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { Container } from "@/components/ui/Container";
@@ -74,7 +75,7 @@ export default async function BlogDetailPage({ params }: Props) {
       <main className="bg-surface pb-[76px] md:pb-0 pt-32">
         <Container>
           <Link
-            href={`/${locale}/blog`}
+            href="/blog"
             className="inline-flex items-center gap-8 text-[13px] text-muted-text hover:text-on-surface transition-colors mb-32"
           >
             <ArrowLeft size={16} /> {t("back", { default: "Blog'a Dön" })}

@@ -1,6 +1,7 @@
+import { getPathname } from "@/i18n/routing";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { MapPin, ArrowRight } from "lucide-react";
 import { FaWhatsapp } from 'react-icons/fa';
 import { Navbar } from "@/components/layout/Navbar";
@@ -28,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title,
     description,
-    alternates: { canonical: `${SITE_URL}/${locale}/sehir` },
+    alternates: { canonical: `${SITE_URL}${getPathname({ locale, href: "/sehir" })}` },
     openGraph: {
       title,
       description,
@@ -83,7 +84,7 @@ export default async function SehirlerPage({ params }: Props) {
               </p>
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-12 mt-8 w-full sm:w-auto">
                 <Link
-                  href={routes.quote(locale)}
+                  href={routes.quote()}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-8 bg-primary text-white px-32 py-16 rounded-btn font-medium text-[14px] hover:opacity-90 transition-opacity"
                 >
                   {t("ctaQuote", { default: "Ücretsiz Teklif Al" })}
@@ -117,7 +118,7 @@ export default async function SehirlerPage({ params }: Props) {
               {cities.map((city) => (
                 <li key={city.slug}>
                   <Link
-                    href={routes.city(locale, city.slug)}
+                    href={routes.city(city.slug)}
                     className="group flex flex-col gap-12 p-24 bg-bg-surface border border-[0.5px] border-border-default rounded-card hover:border-accent-border hover:bg-accent-light transition-colors h-full"
                   >
                     <div className="flex items-center gap-8">

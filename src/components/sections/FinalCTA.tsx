@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
@@ -42,7 +43,7 @@ export function FinalCTA() {
 
           <div className="flex flex-col sm:flex-row gap-12">
             <Link
-              href={routes.quote(locale)}
+              href={routes.quote()}
               className="inline-flex items-center justify-center gap-8 bg-accent text-white px-32 py-16 rounded-btn font-medium text-[14px] hover:opacity-90 transition-opacity"
             >
               {t("button")}

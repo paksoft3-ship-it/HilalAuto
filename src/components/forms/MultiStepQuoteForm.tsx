@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
+import { useRouter } from "@/i18n/routing";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion, AnimatePresence } from "framer-motion";
@@ -653,7 +655,7 @@ export function MultiStepQuoteForm() {
 
       const leadId = json.leadId ?? "unknown";
       trackLeadSuccess(leadId);
-      router.push(routes.thankYou(locale));
+      router.push(routes.thankYou());
     } catch {
       setSubmitError("Bağlantı hatası. Lütfen tekrar deneyin.");
       setSubmitting(false);

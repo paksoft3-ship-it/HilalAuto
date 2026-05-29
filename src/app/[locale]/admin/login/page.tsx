@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars */
 "use client";
 
 import { useState } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
+import { useRouter } from "@/i18n/routing";
 import { supabase } from "@/lib/supabase";
 import { Mail, Lock, AlertCircle } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
@@ -30,7 +32,7 @@ export default function AdminLogin() {
       setError("Giriş başarısız. Lütfen bilgilerinizi kontrol edin.");
       setLoading(false);
     } else {
-      router.push(`/${locale}/admin`);
+      router.push('/admin', { locale: locale as any });
     }
   }
 
@@ -38,7 +40,7 @@ export default function AdminLogin() {
     <div className="min-h-screen flex items-center justify-center bg-surface p-16">
       <div className="w-full max-w-[400px] bg-surface-container-lowest border border-[0.5px] border-border-default rounded-[14px] p-32 shadow-sm">
         <div className="text-center mb-32">
-          <Link href={`/${locale}`} className="inline-block text-[24px] font-bold text-on-surface tracking-[-1px] mb-8">
+          <Link href="/" className="inline-block text-[24px] font-bold text-on-surface tracking-[-1px] mb-8">
             Hazar<span className="text-primary">Al</span>
           </Link>
           <h1 className="text-[18px] font-medium text-on-surface">Yönetim Paneli</h1>

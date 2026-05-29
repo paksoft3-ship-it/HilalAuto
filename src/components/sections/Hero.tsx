@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { CheckCircle } from "lucide-react";
@@ -101,7 +101,7 @@ export function Hero() {
               transition={{ delay: 0.8, duration: 0.4 }}
             >
               <Link
-                href={routes.quote(locale)}
+                href={routes.quote()}
                 className="w-full sm:w-auto inline-flex items-center justify-center bg-primary text-on-primary px-32 py-16 rounded-btn font-medium text-[14px] hover:opacity-90 transition-opacity"
               >
                 {t("ctaQuote")}

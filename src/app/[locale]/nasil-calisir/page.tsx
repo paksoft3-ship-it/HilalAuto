@@ -1,6 +1,7 @@
+import { getPathname } from "@/i18n/routing";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { CheckCircle, ArrowRight } from "lucide-react";
 import { FaWhatsapp } from 'react-icons/fa';
 import { Navbar } from "@/components/layout/Navbar";
@@ -25,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description = t("howItWorksDescription", { default: "Oto Grade ile hasarlı araç satış süreci. 6 adımda aracınızı satın, yerinden teslim ve hızlı ödeme." });
   return {
     title, description,
-    alternates: { canonical: `${SITE_URL}/${locale}/nasil-calisir` },
+    alternates: { canonical: `${SITE_URL}${getPathname({ locale, href: "/nasil-calisir" })}` },
     openGraph: { title, description, locale: locale === "en" ? "en_US" : "tr_TR", type: "website" },
   };
 }
@@ -72,7 +73,7 @@ export default async function NasilCalisirPage({ params }: Props) {
               </p>
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-12 mt-8 w-full sm:w-auto">
                 <Link
-                  href={routes.quote(locale)}
+                  href={routes.quote()}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-8 bg-primary text-white px-32 py-16 rounded-btn font-medium text-[14px] hover:opacity-90 transition-opacity"
                 >
                   {t("ctaQuote", { default: "Ücretsiz Teklif Al" })}

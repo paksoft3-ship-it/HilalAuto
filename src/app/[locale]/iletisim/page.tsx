@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { getPathname } from "@/i18n/routing";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { Phone } from "lucide-react";
@@ -12,7 +14,7 @@ import { Badge } from "@/components/ui/Badge";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { PHONE_NUMBER, WHATSAPP_NUMBER, CITIES, SITE_URL } from "@/lib/constants";
 import { externalRoutes, routes } from "@/lib/routes";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { FaWhatsapp } from 'react-icons/fa';
 
 interface Props { params: Promise<{ locale: string }> }
@@ -24,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description = t("contactDescription", { default: "Oto Grade ile iletişime geçin. Telefon, WhatsApp veya form üzerinden bize ulaşın." });
   return {
     title, description,
-    alternates: { canonical: `${SITE_URL}/${locale}/iletisim` },
+    alternates: { canonical: `${SITE_URL}${getPathname({ locale, href: "/iletisim" })}` },
     openGraph: { title, description, locale: locale === "en" ? "en_US" : "tr_TR", type: "website" },
   };
 }
@@ -91,7 +93,7 @@ export default async function IletisimPage({ params }: Props) {
                   <ul className="flex flex-wrap gap-8">
                     {Object.entries(CITIES).map(([slug, name]) => (
                       <li key={slug}>
-                        <Link href={routes.city(locale, slug)} className="px-12 py-4 bg-white border border-[0.5px] border-border-default rounded-pill text-[12px] text-text-muted hover:border-accent hover:text-accent transition-colors">
+                        <Link href={routes.city(slug)} className="px-12 py-4 bg-white border border-[0.5px] border-border-default rounded-pill text-[12px] text-text-muted hover:border-accent hover:text-accent transition-colors">
                           {name}
                         </Link>
                       </li>

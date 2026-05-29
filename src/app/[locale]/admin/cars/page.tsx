@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Plus, Edit, Trash2, Image as ImageIcon, Eye, RefreshCw } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { useParams } from "next/navigation";
 
 export default function AdminCars() {
@@ -120,7 +121,7 @@ export default function AdminCars() {
                     <td className="py-16 px-16 text-right">
                       <div className="flex items-center justify-end gap-12">
                         <Link 
-                          href={`/${locale}/satilik-araclar/${car.id}`} 
+                          href={{ pathname: "/satilik-araclar/[id]", params: { id: car.id.toString() } }} 
                           target="_blank"
                           className="p-8 text-muted-text hover:text-primary transition-colors"
                           title="Görüntüle"
