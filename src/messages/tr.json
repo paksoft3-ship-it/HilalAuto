@@ -15,7 +15,13 @@
     "ctaQuote": "Ücretsiz Teklif Al",
     "ctaWhatsApp": "WhatsApp ile Yaz",
     "formTitle": "Ücretsiz Teklif Al",
-    "formSubtitle": "Bağlayıcı değil · Hızlı dönüş"
+    "formSubtitle": "Bağlayıcı değil · Hızlı dönüş",
+    "bullet1": "Türkiye geneli hizmet",
+    "bullet2": "Yerinden alım",
+    "bullet3": "Bağlayıcı değil, ücretsiz teklif",
+    "badge": "Hızlı & Güvenilir",
+    "bulletAria": "Öne çıkan özellikler",
+    "whatsappMessage": "Merhaba, hasarlı aracım için teklif almak istiyorum."
   },
   "form": {
     "brand": "Araç Markası",
@@ -41,17 +47,26 @@
     "brandPlaceholder": "Örn: Toyota",
     "modelPlaceholder": "Örn: Corolla",
     "phonePlaceholder": "05xx xxx xx xx",
-    "descriptionPlaceholder": "Aracınız hakkında ek bilgi verebilirsiniz..."
+    "descriptionPlaceholder": "Aracınız hakkında ek bilgi verebilirsiniz...",
+    "errorEmpty": "Lütfen tüm alanları doldurun.",
+    "errorGeneric": "Bir hata oluştu.",
+    "whatsappMessage": "Merhaba, {brand} ({year}) aracım için teklif almak istiyorum. Hasar: {damage}, Şehir: {city}. Telefonum: {phone}",
+    "ariaLabel": "Hızlı teklif formu",
+    "loading": "İşleniyor..."
   },
   "trustBar": {
     "item1": "Yerinden Alım",
     "item2": "Hızlı Değerleme",
     "item3": "Güvenli Evrak Süreci",
-    "item4": "WhatsApp Destek"
+    "item4": "WhatsApp Destek",
+    "item1Desc": "Aracınızı kapınızdan teslim alıyoruz.",
+    "item2Desc": "1 saat içinde teklifinizi iletiyoruz.",
+    "item3Desc": "Tüm belgelerde yanınızdayız.",
+    "item4Desc": "WhatsApp ve telefon ile yanınızdayız."
   },
   "vehicleTypes": {
-    "title": "Hangi Araçları Alıyoruz?",
-    "subtitle": "Her türlü hasarlı aracı değerinde alıyoruz.",
+    "title": "Aldığımız araç türleri",
+    "subtitle": "Her türlü hasarlı aracı değerinde alıyoruz. Aracınızın durumu ne olursa olsun teklif veririz.",
     "kazali": "Kazalı Araç",
     "pert": "Pert Araç",
     "yanmis": "Yanmış Araç",
@@ -59,7 +74,25 @@
     "hurda": "Hurda Araç",
     "motor": "Motor Arızalı Araç",
     "cekme": "Çekme Belgeli Araç",
-    "agir": "Ağır Hasarlı Araç"
+    "agir": "Ağır Hasarlı Araç",
+    "type1Label": "Kazalı Araç",
+    "type1Desc": "Trafik kazası sonucu hasarlanmış araçlar",
+    "type2Label": "Pert Araç",
+    "type2Desc": "Sigorta tarafından pert ilan edilmiş araçlar",
+    "type3Label": "Yanmış Araç",
+    "type3Desc": "Yangın hasarı görmüş araçlar",
+    "type4Label": "Sel Hasarlı Araç",
+    "type4Desc": "Su baskını veya sel nedeniyle zarar gören araçlar",
+    "type5Label": "Hurda Araç",
+    "type5Desc": "Ekonomik değerini yitirmiş araçlar",
+    "type6Label": "Motor Arızalı Araç",
+    "type6Desc": "Motor veya şanzıman arızası olan araçlar",
+    "type7Label": "Çekme Belgeli Araç",
+    "type7Desc": "Çekme kaydı bulunan araçlar",
+    "type8Label": "Ağır Hasarlı Araç",
+    "type8Desc": "Ciddi kaza hasarı bulunan araçlar",
+    "details": "Detaylı Bilgi",
+    "badge": "Araç Türleri"
   },
   "howItWorks": {
     "title": "Nasıl Çalışır?",
@@ -69,11 +102,24 @@
     "step2Title": "Uzmanımız Sizi Arasın",
     "step2Desc": "Ekibimiz en kısa sürede araç durumunu değerlendirip size teklif sunar.",
     "step3Title": "Aracınızı Alalım, Ödemenizi Yapın",
-    "step3Desc": "Anlaşma sağlandığında aracınızı yerinden teslim alır, ödemenizi yaparız."
+    "step3Desc": "Anlaşma sağlandığında aracınızı yerinden teslim alır, ödemenizi yaparız.",
+    "step1Time": "~2 dakika",
+    "step2Time": "1 saat içinde",
+    "step3Time": "24 saat içinde",
+    "badge": "Süreç",
+    "ctaText": "Aracınız için ücretsiz ve bağlayıcı olmayan teklif alın.",
+    "ctaButton": "Hemen Teklif Al"
   },
   "socialProof": {
     "title": "Müşterilerimiz Ne Diyor?",
-    "subtitle": "Binlerce araç sahibi Oto Grade ile güvenle satış yaptı."
+    "subtitle": "Binlerce araç sahibi Oto Grade ile güvenle satış yaptı.",
+    "vehicle1": "Kazalı Araç",
+    "text1": "Aracım kaza geçirmişti ve ne yapacağımı bilmiyordum. Oto Grade ekibi çok hızlı dönüş yaptı, aracımı yerinden aldılar. Süreç çok rahat geçti.",
+    "vehicle2": "Pert Araç",
+    "text2": "Sigorta pert ilan etmişti, aracı ne yapacağımı bilemiyordum. Oto Grade ile çok basit oldu, teklif aldım ve evrak sürecinde destek sağlandı.",
+    "vehicle3": "Sel Hasarlı Araç",
+    "text3": "Sel basan aracımı satmak için birçok yeri aradım ama en hızlı ve güvenilir cevap Oto Grade'dan geldi. Tavsiye ederim.",
+    "badge": "Referanslar"
   },
   "whyUs": {
     "title": "Neden Oto Grade?",
@@ -104,13 +150,21 @@
     "q7": "Ödeme ne zaman yapılır?",
     "a7": "Araç teslimi ve evrak süreci tamamlandıktan sonra ödeme anında gerçekleşir.",
     "q8": "WhatsApp ile iletişime geçebilir miyim?",
-    "a8": "Evet. WhatsApp numaramız üzerinden 7 gün bize ulaşabilirsiniz."
+    "a8": "Evet. WhatsApp numaramız üzerinden 7 gün bize ulaşabilirsiniz.",
+    "badge": "SIK SORULAN SORULAR",
+    "subtitle": "Aracınızı satmadan önce süreç, ödeme ve evrak adımları hakkında en çok sorulan soruları burada bulabilirsiniz.",
+    "contactTitle": "Cevabınızı bulamadınız mı?",
+    "contactDesc": "WhatsApp üzerinden bize yazın, aracınızın durumu hakkında hızlıca bilgi verelim.",
+    "whatsapp": "WhatsApp ile Yaz"
   },
   "cta": {
-    "title": "Aracınızı Satmaya Hazır mısınız?",
-    "subtitle": "Ücretsiz teklif alın, bağlayıcı değil.",
+    "title": "Aracınız İçin Teklif Almaya Hazır mısınız?",
+    "subtitle": "Ücretsiz teklif alın, bağlayıcı değil. Uzman ekibimiz kısa sürede size dönüş yapar.",
     "button": "Ücretsiz Teklif Al",
-    "whatsapp": "WhatsApp ile Yaz"
+    "whatsapp": "WhatsApp ile Yaz",
+    "badge": "Hemen Başlayın",
+    "whatsappMessage": "Merhaba, hasarlı aracım için teklif almak istiyorum.",
+    "note": "Teklif almak ücretsiz ve bağlayıcı değildir."
   },
   "footer": {
     "tagline": "Hasarlı araç alım hizmetinde güvenilir adres.",
@@ -144,5 +198,24 @@
     "formTitle": "İletişim Formu",
     "messagePlaceholder": "Mesajınızı yazın...",
     "sendButton": "Gönder"
+  },
+  "whyChooseUs": {
+    "badge": "NEDEN OTO GRADE?",
+    "title": "Hasarlı araç satışını hızlı, güvenli ve zahmetsiz hale getiriyoruz.",
+    "subtitle": "Aracınız kazalı, pert, yanmış, sel hasarlı veya motor arızalı olabilir. Oto Grade, süreci sizin için sadeleştirir: hızlı değerlendirme, yerinden alım, evrak desteği ve güvenli ödeme.",
+    "ctaQuote": "Hemen Teklif Al",
+    "ctaWhatsapp": "WhatsApp ile Yaz",
+    "note": "Ücretsiz değerlendirme • Bağlayıcı değil • Türkiye geneli hizmet",
+    "stat1": "araç değerlendirildi",
+    "stat2Title": "24 saat içinde",
+    "stat2": "tüm süreç tamamlanır",
+    "stat3Title": "Türkiye Geneli",
+    "stat3": "her noktadan alım"
+  },
+  "seo": {
+    "homeTitle": "Hasarlı Araç Alanlar | Kazalı, Pert, Hurda Araç Alımı — Oto Grade",
+    "homeDescription": "Türkiye genelinde kazalı, pert, yanmış, sel hasarlı ve hurda araç alım hizmeti. Ücretsiz teklif, yerinden teslim.",
+    "priceRange": "Ücretsiz Teklif",
+    "websiteDescription": "Türkiye genelinde hasarlı araç alım hizmeti"
   }
 }

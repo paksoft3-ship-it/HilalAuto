@@ -15,7 +15,13 @@
     "ctaQuote": "Get a Free Quote",
     "ctaWhatsApp": "Message on WhatsApp",
     "formTitle": "Get a Free Quote",
-    "formSubtitle": "Non-binding · Fast response"
+    "formSubtitle": "Non-binding · Fast response",
+    "bullet1": "Nationwide service",
+    "bullet2": "Doorstep pickup",
+    "bullet3": "Non-binding, free quote",
+    "badge": "Fast & Reliable",
+    "bulletAria": "Key features",
+    "whatsappMessage": "Hello, I would like to get a quote for my damaged vehicle."
   },
   "form": {
     "brand": "Vehicle Brand",
@@ -41,17 +47,26 @@
     "brandPlaceholder": "e.g. Toyota",
     "modelPlaceholder": "e.g. Corolla",
     "phonePlaceholder": "05xx xxx xx xx",
-    "descriptionPlaceholder": "You can provide additional information about your vehicle..."
+    "descriptionPlaceholder": "You can provide additional information about your vehicle...",
+    "errorEmpty": "Please fill in all fields.",
+    "errorGeneric": "An error occurred.",
+    "whatsappMessage": "Hello, I would like to get a quote for my {brand} ({year}). Damage: {damage}, City: {city}. My phone: {phone}",
+    "ariaLabel": "Quick quote form",
+    "loading": "Processing..."
   },
   "trustBar": {
     "item1": "Doorstep Pickup",
     "item2": "Fast Valuation",
     "item3": "Secure Paperwork",
-    "item4": "WhatsApp Support"
+    "item4": "WhatsApp Support",
+    "item1Desc": "We pick up your vehicle from your door.",
+    "item2Desc": "We provide your quote within 1 hour.",
+    "item3Desc": "We assist you with all documents.",
+    "item4Desc": "We support you via WhatsApp and phone."
   },
   "vehicleTypes": {
     "title": "What Vehicles Do We Buy?",
-    "subtitle": "We buy all types of damaged vehicles at fair prices.",
+    "subtitle": "We buy all types of damaged vehicles at their fair value. Whatever the condition of your vehicle, we will make an offer.",
     "kazali": "Accident Damaged",
     "pert": "Written Off",
     "yanmis": "Fire Damaged",
@@ -59,7 +74,25 @@
     "hurda": "Scrap",
     "motor": "Engine Failure",
     "cekme": "Tow Certificate",
-    "agir": "Heavily Damaged"
+    "agir": "Heavily Damaged",
+    "type1Label": "Accident Damaged",
+    "type1Desc": "Vehicles damaged as a result of a traffic accident",
+    "type2Label": "Written Off",
+    "type2Desc": "Vehicles declared a total loss by insurance",
+    "type3Label": "Fire Damaged",
+    "type3Desc": "Vehicles that have suffered fire damage",
+    "type4Label": "Flood Damaged",
+    "type4Desc": "Vehicles damaged by flooding",
+    "type5Label": "Scrap",
+    "type5Desc": "Vehicles that have lost their economic value",
+    "type6Label": "Engine Failure",
+    "type6Desc": "Vehicles with engine or transmission failure",
+    "type7Label": "Tow Certificate",
+    "type7Desc": "Vehicles with a tow certificate record",
+    "type8Label": "Heavily Damaged",
+    "type8Desc": "Vehicles with serious accident damage",
+    "details": "Details",
+    "badge": "Vehicle Types"
   },
   "howItWorks": {
     "title": "How It Works",
@@ -69,11 +102,24 @@
     "step2Title": "Our Expert Calls You",
     "step2Desc": "Our team evaluates the vehicle condition and makes you an offer as soon as possible.",
     "step3Title": "We Pick Up Your Vehicle and Pay",
-    "step3Desc": "Once agreed, we pick up your vehicle from your door and make payment."
+    "step3Desc": "Once agreed, we pick up your vehicle from your door and make payment.",
+    "step1Time": "~2 minutes",
+    "step2Time": "within 1 hour",
+    "step3Time": "within 24 hours",
+    "badge": "Process",
+    "ctaText": "Get a free and non-binding quote for your vehicle.",
+    "ctaButton": "Get a Quote Now"
   },
   "socialProof": {
     "title": "What Our Customers Say",
-    "subtitle": "Thousands of vehicle owners have sold safely with Oto Grade."
+    "subtitle": "Thousands of vehicle owners have sold safely with Oto Grade.",
+    "vehicle1": "Accident Damaged",
+    "text1": "My car was in an accident and I didn't know what to do. The Oto Grade team responded very quickly and picked up my car from my location. The process was very smooth.",
+    "vehicle2": "Written Off",
+    "text2": "The insurance declared it a total loss, I didn't know what to do with the car. It was very simple with Oto Grade, I got an offer and they provided support with the paperwork.",
+    "vehicle3": "Flood Damaged",
+    "text3": "I called many places to sell my flooded vehicle, but the fastest and most reliable answer came from Oto Grade. I recommend them.",
+    "badge": "Testimonials"
   },
   "whyUs": {
     "title": "Why Oto Grade?",
@@ -104,13 +150,21 @@
     "q7": "When is payment made?",
     "a7": "Payment is made immediately after vehicle handover and paperwork completion.",
     "q8": "Can I contact via WhatsApp?",
-    "a8": "Yes. You can reach us via WhatsApp 7 days a week."
+    "a8": "Yes. You can reach us via WhatsApp 7 days a week.",
+    "badge": "FREQUENTLY ASKED QUESTIONS",
+    "subtitle": "Find the most asked questions about the process, payment and paperwork before selling your vehicle here.",
+    "contactTitle": "Couldn't find your answer?",
+    "contactDesc": "Message us on WhatsApp, we will inform you quickly about your vehicle's condition.",
+    "whatsapp": "Message on WhatsApp"
   },
   "cta": {
-    "title": "Ready to Sell Your Vehicle?",
-    "subtitle": "Get a free quote, non-binding.",
+    "title": "Ready to Get a Quote for Your Vehicle?",
+    "subtitle": "Get a free quote, non-binding. Our expert team will get back to you shortly.",
     "button": "Get a Free Quote",
-    "whatsapp": "Message on WhatsApp"
+    "whatsapp": "Message on WhatsApp",
+    "badge": "Start Now",
+    "whatsappMessage": "Hello, I would like to get a quote for my damaged vehicle.",
+    "note": "Getting a quote is free and non-binding."
   },
   "footer": {
     "tagline": "Your trusted partner in damaged vehicle purchases.",
@@ -144,5 +198,24 @@
     "formTitle": "Contact Form",
     "messagePlaceholder": "Write your message...",
     "sendButton": "Send"
+  },
+  "whyChooseUs": {
+    "badge": "WHY OTO GRADE?",
+    "title": "We make selling damaged vehicles fast, safe and effortless.",
+    "subtitle": "Your vehicle may be accident-damaged, written-off, burnt, flood-damaged, or have engine failure. Oto Grade simplifies the process for you: quick evaluation, doorstep pickup, paperwork support, and secure payment.",
+    "ctaQuote": "Get a Quote Now",
+    "ctaWhatsapp": "Message on WhatsApp",
+    "note": "Free evaluation • Non-binding • Nationwide service",
+    "stat1": "vehicles evaluated",
+    "stat2Title": "within 24 hours",
+    "stat2": "entire process is completed",
+    "stat3Title": "Nationwide",
+    "stat3": "pickup from any location"
+  },
+  "seo": {
+    "homeTitle": "We Buy Damaged Vehicles | Accident, Written-Off, Scrap Vehicle Purchase — Oto Grade",
+    "homeDescription": "Nationwide service for buying accident-damaged, written-off, burnt, flood-damaged and scrap vehicles. Free quote, doorstep pickup.",
+    "priceRange": "Free Quote",
+    "websiteDescription": "Nationwide damaged vehicle purchasing service"
   }
 }
