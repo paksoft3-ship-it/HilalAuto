@@ -32,7 +32,7 @@ export function TrustBar() {
   return (
     <section
       aria-label={t("ariaLabel", { default: "Güven öğeleri" })}
-      className="bg-surface border-y border-[0.5px] border-border-default py-32"
+      className="bg-surface border-y border-[0.5px] border-border-default py-24"
     >
       <Container>
         <ul className="grid grid-cols-2 gap-y-32 gap-x-16 md:grid-cols-4 md:gap-32">

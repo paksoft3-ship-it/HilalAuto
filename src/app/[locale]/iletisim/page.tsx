@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { Phone } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
@@ -18,17 +19,19 @@ interface Props { params: Promise<{ locale: string }> }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const title = "İletişim — Oto Grade";
-  const description = "Oto Grade ile iletişime geçin. Telefon, WhatsApp veya form üzerinden bize ulaşın.";
+  const t = await getTranslations({ locale, namespace: "seo" });
+  const title = t("contactTitle", { default: "İletişim — Oto Grade" });
+  const description = t("contactDescription", { default: "Oto Grade ile iletişime geçin. Telefon, WhatsApp veya form üzerinden bize ulaşın." });
   return {
     title, description,
     alternates: { canonical: `${SITE_URL}/${locale}/iletisim` },
-    openGraph: { title, description, locale: locale === "tr" ? "tr_TR" : "en_US", type: "website" },
+    openGraph: { title, description, locale: locale === "en" ? "en_US" : "tr_TR", type: "website" },
   };
 }
 
 export default async function IletisimPage({ params }: Props) {
   const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "contact" });
   return (
     <>
       <Navbar />
@@ -36,12 +39,12 @@ export default async function IletisimPage({ params }: Props) {
         {/* Hero */}
         <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-44 md:py-60">
           <Container className="flex flex-col items-center text-center gap-16">
-            <Badge variant="accent">İletişim</Badge>
-            <h1 className="text-section-title-mobile md:text-[40px] font-medium tracking-heading text-text-primary max-w-[560px]">
-              Bize Ulaşın
+            <Badge variant="accent">{t("badge", { default: "İletişim" })}</Badge>
+            <h1 className="text-section-title-mobile md:text-[40px] font-medium tracking-heading text-text-primary w-full">
+              {t("title", { default: "Bize Ulaşın" })}
             </h1>
-            <p className="text-[14px] text-text-muted max-w-[440px] leading-relaxed">
-              Sorularınız için arayın, yazın veya formu doldurun. Hızlıca dönüş yapıyoruz.
+            <p className="text-[14px] text-text-muted leading-relaxed">
+              {t("subtitle", { default: "Sorularınız için arayın, yazın veya formu doldurun. Hızlıca dönüş yapıyoruz." })}
             </p>
           </Container>
         </section>
@@ -58,7 +61,7 @@ export default async function IletisimPage({ params }: Props) {
                     <Phone size={20} strokeWidth={1.5} className="text-accent" aria-hidden />
                   </div>
                   <div>
-                    <p className="text-[13px] font-medium text-text-primary group-hover:text-accent transition-colors">Telefonla Ara</p>
+                    <p className="text-[13px] font-medium text-text-primary group-hover:text-accent transition-colors">{t("phoneCta", { default: "Telefonla Ara" })}</p>
                     <p className="text-[13px] text-text-muted mt-4">{PHONE_NUMBER.replace("+90", "0")}</p>
                   </div>
                 </a>
@@ -69,22 +72,22 @@ export default async function IletisimPage({ params }: Props) {
                     <FaWhatsapp size={20} strokeWidth={1.5} className="text-whatsapp" aria-hidden />
                   </div>
                   <div>
-                    <p className="text-[13px] font-medium text-text-primary group-hover:text-whatsapp transition-colors">WhatsApp ile Yaz</p>
-                    <p className="text-[13px] text-text-muted mt-4">7 gün yanıt veriyoruz</p>
+                    <p className="text-[13px] font-medium text-text-primary group-hover:text-whatsapp transition-colors">{t("whatsappCta", { default: "WhatsApp ile Yaz" })}</p>
+                    <p className="text-[13px] text-text-muted mt-4">{t("whatsappSub", { default: "7 gün yanıt veriyoruz" })}</p>
                   </div>
                 </a>
 
                 {/* Contact form */}
                 <div className="p-24 bg-white border border-[0.5px] border-border-default rounded-card mt-8">
-                  <h2 className="text-[16px] font-medium text-text-primary mb-24">İletişim Formu</h2>
+                  <h2 className="text-[16px] font-medium text-text-primary mb-24">{t("formTitle", { default: "İletişim Formu" })}</h2>
                   <ContactForm />
                 </div>
               </div>
 
               {/* Sidebar: cities */}
-              <aside className="lg:col-span-5" aria-label="Hizmet verilen şehirler">
+              <aside className="lg:col-span-5" aria-label={t("citiesAria", { default: "Hizmet verilen şehirler" })}>
                 <div className="bg-bg-surface border border-[0.5px] border-border-default rounded-card p-24">
-                  <h2 className="text-[15px] font-medium text-text-primary mb-16">Hizmet Verdiğimiz Şehirler</h2>
+                  <h2 className="text-[15px] font-medium text-text-primary mb-16">{t("citiesTitle", { default: "Hizmet Verdiğimiz Şehirler" })}</h2>
                   <ul className="flex flex-wrap gap-8">
                     {Object.entries(CITIES).map(([slug, name]) => (
                       <li key={slug}>
@@ -94,7 +97,7 @@ export default async function IletisimPage({ params }: Props) {
                       </li>
                     ))}
                   </ul>
-                  <p className="text-[12px] text-text-soft mt-16">ve Türkiye&apos;nin tüm illeri</p>
+                  <p className="text-[12px] text-text-soft mt-16">{t("citiesSub", { default: "ve Türkiye'nin tüm illeri" })}</p>
                 </div>
               </aside>
             </div>

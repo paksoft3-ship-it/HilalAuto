@@ -46,10 +46,10 @@ export function WhyChooseUs() {
   return (
     <section
       aria-label={t("title", { default: "Neden Oto Grade" })}
-      className="bg-surface-container-lowest border-b border-[0.5px] border-border-default py-44 md:py-60"
+      className="bg-surface-container-lowest border-b border-[0.5px] border-border-default py-24 md:py-32"
     >
       <Container>
-        <div className="flex flex-col gap-44">
+        <div className="flex flex-col gap-24">
           <div className="flex flex-col gap-24 text-left">
             <div>
               <span className="text-[11px] font-medium text-primary uppercase tracking-wider mx-auto md:mx-0">{t("badge", { default: "NEDEN OTO GRADE?" })}</span>

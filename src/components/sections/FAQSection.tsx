@@ -23,10 +23,10 @@ export function FAQSection({ dark = false }: FAQSectionProps) {
   return (
     <section
       aria-label="Sık sorulan sorular"
-      className="bg-surface-container-lowest py-44 md:py-[100px] border-b border-[0.5px] border-border-default"
+      className="bg-surface-container-lowest py-24 md:py-32 border-b border-[0.5px] border-border-default"
     >
       <Container>
-        <div className="flex flex-col gap-44">
+        <div className="flex flex-col gap-24">
           <div className="flex flex-col gap-24 text-left">
             <div className="flex flex-col gap-8">
               <span className="text-[11px] font-medium text-primary uppercase tracking-wider mx-auto md:mx-0">{t("badge", { default: "SIK SORULAN SORULAR" })}</span>

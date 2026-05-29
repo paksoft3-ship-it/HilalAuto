@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Container } from "@/components/ui/Container";
@@ -13,6 +14,7 @@ export default function MarketplacePage() {
   const [cars, setCars] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const locale = useParams()?.locale as string ?? "tr";
+  const t = useTranslations("marketplace");
 
   // Basic filters
   const [searchTerm, setSearchTerm] = useState("");
@@ -45,9 +47,9 @@ export default function MarketplacePage() {
     <div className="bg-surface pb-60 pt-32">
       <Container>
         <SectionHeader
-          badge="İlanlar"
-          title="Satılık Hasarlı Araçlar"
-          subtitle="Geniş hasarlı araç envanterimizden size uygun olanı seçin ve hemen teklif verin."
+          badge={t("badge", { default: "İlanlar" })}
+          title={t("title", { default: "Satılık Hasarlı Araçlar" })}
+          subtitle={t("subtitle", { default: "Geniş hasarlı araç envanterimizden size uygun olanı seçin ve hemen teklif verin." })}
           align="left"
           className="mb-32"
         />
@@ -57,7 +59,7 @@ export default function MarketplacePage() {
             <Search className="absolute left-12 top-1/2 -translate-y-1/2 text-muted-text" size={16} />
             <input 
               type="text" 
-              placeholder="Marka, model veya başlık ara..."
+              placeholder={t("searchPlaceholder", { default: "Marka, model veya başlık ara..." })}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-40 pr-16 py-12 bg-surface border border-[0.5px] border-border-default rounded-input text-[14px] text-on-surface outline-none focus:border-primary transition-colors"
@@ -70,7 +72,7 @@ export default function MarketplacePage() {
               onChange={(e) => setDamageFilter(e.target.value)}
               className="w-full appearance-none pl-40 pr-16 py-12 bg-surface border border-[0.5px] border-border-default rounded-input text-[14px] text-on-surface outline-none focus:border-primary transition-colors cursor-pointer"
             >
-              <option value="all">Tüm Hasar Türleri</option>
+              <option value="all">{t("allDamageTypes", { default: "Tüm Hasar Türleri" })}</option>
               {damageTypes.map(type => (
                 <option key={type} value={type}>{type}</option>
               ))}
@@ -86,7 +88,7 @@ export default function MarketplacePage() {
           </div>
         ) : filteredCars.length === 0 ? (
           <div className="text-center py-60 bg-surface-container-lowest border border-[0.5px] border-border-default rounded-[14px]">
-            <p className="text-[14px] text-muted-text">Aradığınız kriterlere uygun araç bulunamadı.</p>
+            <p className="text-[14px] text-muted-text">{t("empty", { default: "Aradığınız kriterlere uygun araç bulunamadı." })}</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-24">
@@ -100,7 +102,7 @@ export default function MarketplacePage() {
                   {car.images && car.images.length > 0 ? (
                     <img src={car.images[0]} alt={car.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-muted-text text-[12px]">Görsel Yok</div>
+                    <div className="w-full h-full flex items-center justify-center text-muted-text text-[12px]">{t("noImage", { default: "Görsel Yok" })}</div>
                   )}
                   <div className="absolute top-12 right-12 bg-surface-container-lowest/90 backdrop-blur-sm px-8 py-4 rounded text-[11px] font-medium text-on-surface">
                     {car.damage_type}
@@ -115,14 +117,14 @@ export default function MarketplacePage() {
                       <Wrench size={12} /> {car.brand}
                     </div>
                     <div className="flex items-center gap-6 text-[12px] text-muted-text">
-                      <Calendar size={12} /> {car.model_year} Model
+                      <Calendar size={12} /> {car.model_year} {t("model", { default: "Model" })}
                     </div>
                   </div>
                   <div className="mt-16 pt-16 border-t border-[0.5px] border-border-default flex items-center justify-between">
                     <span className="text-[16px] font-bold text-primary">
-                      {new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 0 }).format(car.price)}
+                      {new Intl.NumberFormat(locale === "tr" ? "tr-TR" : "en-US", { style: 'currency', currency: 'TRY', maximumFractionDigits: 0 }).format(car.price)}
                     </span>
-                    <span className="text-[12px] font-medium text-on-surface">İncele &rarr;</span>
+                    <span className="text-[12px] font-medium text-on-surface">{t("view", { default: "İncele" })} &rarr;</span>
                   </div>
                 </div>
               </Link>

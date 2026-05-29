@@ -48,8 +48,8 @@ export function Hero() {
 
   return (
     <section aria-label="Hero bölümü">
-      <Container className="py-44 md:py-[100px]">
-        <div className="flex flex-col md:flex-row gap-44 md:gap-60 items-center">
+      <Container className="py-32 md:py-44">
+        <div className="flex flex-col md:flex-row gap-24 md:gap-32 items-center">
           {/* Left: content */}
           <div className="flex-1 w-full text-left">
             <motion.div

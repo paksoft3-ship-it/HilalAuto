@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -34,32 +35,36 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const city = CITIES_DATA[slug];
   if (!city) return {};
+  const t = await getTranslations({ locale, namespace: "seo" });
   return {
-    title: `${city.name} Hasarlı Araç Alanlar — Oto Grade`,
+    title: `${city.name} ${t("cityTitleSuffix", { default: "Hasarlı Araç Alanlar — Oto Grade" })}`,
     description: city.metaDescription,
     alternates: { canonical: `${SITE_URL}/${locale}/sehir/${slug}` },
     openGraph: {
-      title: `${city.name} Hasarlı Araç Alanlar — Oto Grade`,
+      title: `${city.name} ${t("cityTitleSuffix", { default: "Hasarlı Araç Alanlar — Oto Grade" })}`,
       description: city.metaDescription,
-      locale: "tr_TR",
+      locale: locale === "en" ? "en_US" : "tr_TR",
       type: "website",
     },
   };
 }
 
-const VEHICLE_SERVICES = [
-  { label: "Kazalı Araç", slug: "kazali-arac-alimi" },
-  { label: "Pert Araç", slug: "pert-arac-alimi" },
-  { label: "Yanmış Araç", slug: "yanmis-arac-alimi" },
-  { label: "Sel Hasarlı", slug: "sel-hasarli-arac-alimi" },
-  { label: "Hurda Araç", slug: "hurda-arac-alimi" },
-  { label: "Motor Arızalı", slug: "motor-arizali-arac-alimi" },
-];
-
 export default async function CityPage({ params }: Props) {
   const { locale, slug } = await params;
   const city = CITIES_DATA[slug];
   if (!city) notFound();
+
+  const t = await getTranslations({ locale, namespace: "cityPage" });
+  const tTypes = await getTranslations({ locale, namespace: "vehicleTypes" });
+
+  const VEHICLE_SERVICES = [
+    { label: tTypes("type1Label", { default: "Kazalı Araç" }), slug: "kazali-arac-alimi" },
+    { label: tTypes("type2Label", { default: "Pert Araç" }), slug: "pert-arac-alimi" },
+    { label: tTypes("type3Label", { default: "Yanmış Araç" }), slug: "yanmis-arac-alimi" },
+    { label: tTypes("type4Label", { default: "Sel Hasarlı" }), slug: "sel-hasarli-arac-alimi" },
+    { label: tTypes("type5Label", { default: "Hurda Araç" }), slug: "hurda-arac-alimi" },
+    { label: tTypes("type6Label", { default: "Motor Arızalı" }), slug: "motor-arizali-arac-alimi" },
+  ];
 
   const nearbyCities = city.nearbyCities
     .map((s) => ({ slug: s, name: CITIES[s] ?? s }))
@@ -69,13 +74,13 @@ export default async function CityPage({ params }: Props) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Ana Sayfa", item: `${SITE_URL}/tr` },
-      { "@type": "ListItem", position: 2, name: "Şehirler", item: `${SITE_URL}/tr/sehir` },
+      { "@type": "ListItem", position: 1, name: t("home", { default: "Ana Sayfa" }), item: `${SITE_URL}/${locale}` },
+      { "@type": "ListItem", position: 2, name: t("cities", { default: "Şehirler" }), item: `${SITE_URL}/${locale}/sehir` },
       {
         "@type": "ListItem",
         position: 3,
-        name: `${city.name} Hasarlı Araç Alanlar`,
-        item: `${SITE_URL}/tr/sehir/${slug}`,
+        name: `${city.name} ${t("citySchemaName", { default: "Hasarlı Araç Alanlar" })}`,
+        item: `${SITE_URL}/${locale}/sehir/${slug}`,
       },
     ],
   };
@@ -83,16 +88,16 @@ export default async function CityPage({ params }: Props) {
   const localBusinessSchema = {
     "@context": "https://schema.org",
     "@type": "AutoDealer",
-    name: `Oto Grade — ${city.name} Hasarlı Araç Alımı`,
+    name: `Oto Grade — ${city.name} ${t("citySchemaLocalBusiness", { default: "Hasarlı Araç Alımı" })}`,
     description: city.metaDescription,
-    url: `${SITE_URL}/tr/sehir/${slug}`,
+    url: `${SITE_URL}/${locale}/sehir/${slug}`,
     telephone: PHONE_NUMBER,
     areaServed: {
       "@type": "City",
       name: city.name,
       containedInPlace: { "@type": "Country", name: "TR" },
     },
-    priceRange: "Ücretsiz Teklif",
+    priceRange: t("citySchemaPrice", { default: "Ücretsiz Teklif" }),
   };
 
   const faqSchema = {
@@ -118,15 +123,15 @@ export default async function CityPage({ params }: Props) {
                   <Badge variant="accent"><MapPin size={11} aria-hidden className="mr-4" />{city.name}</Badge>
                 </div>
                 <h1 className="text-section-title-mobile md:text-[40px] font-medium tracking-heading text-text-primary mb-16">
-                  {city.name} Hasarlı Araç Alanlar
+                  {city.name} {t("heroTitle", { default: "Hasarlı Araç Alanlar" })}
                 </h1>
-                <p className="text-[14px] text-text-muted leading-relaxed max-w-[480px] mb-32">
+                <p className="text-[14px] text-text-muted leading-relaxed mb-32">
                   {city.description}
                 </p>
 
                 <div>
-                  <p className="text-[12px] font-medium text-text-primary uppercase tracking-wider mb-12">Hizmet Verilen İlçeler</p>
-                  <ul className="flex flex-wrap gap-8" aria-label={`${city.name} ilçeleri`}>
+                  <p className="text-[12px] font-medium text-text-primary uppercase tracking-wider mb-12">{t("districtsTitle", { default: "Hizmet Verilen İlçeler" })}</p>
+                  <ul className="flex flex-wrap gap-8" aria-label={`${city.name} ${t("districtsAria", { default: "ilçeleri" })}`}>
                     {city.districts.map((d) => (
                       <li key={d}>
                         <span className="px-12 py-4 bg-white border border-[0.5px] border-border-default rounded-pill text-[12px] text-text-muted">
@@ -141,9 +146,9 @@ export default async function CityPage({ params }: Props) {
               <div className="w-full lg:w-[400px] shrink-0">
                 <div className="bg-white border border-[0.5px] border-border-default rounded-card-lg p-24">
                   <h2 className="text-[16px] font-medium text-text-primary mb-4">
-                    {city.nameGenitive} Ücretsiz Teklif Al
+                    {city.nameGenitive} {t("formTitle", { default: "Ücretsiz Teklif Al" })}
                   </h2>
-                  <p className="text-[12px] text-text-soft mb-24">Bağlayıcı değil · Hızlı dönüş</p>
+                  <p className="text-[12px] text-text-soft mb-24">{t("formSub", { default: "Bağlayıcı değil · Hızlı dönüş" })}</p>
                   <QuickQuoteForm />
                 </div>
               </div>
@@ -156,7 +161,7 @@ export default async function CityPage({ params }: Props) {
         {/* Vehicle types */}
         <section className="py-44 md:py-60">
           <Container>
-            <SectionHeader title={`${city.nameGenitive} Aldığımız Araç Türleri`} subtitle="Her türlü hasarlı araç için teklif veriyoruz." align="left" className="mb-32 md:mb-44" />
+            <SectionHeader title={`${city.nameGenitive} ${t("typesTitle", { default: "Aldığımız Araç Türleri" })}`} subtitle={t("typesSubtitle", { default: "Her türlü hasarlı araç için teklif veriyoruz." })} align="left" className="mb-32 md:mb-44" />
             <ul className="grid grid-cols-2 md:grid-cols-3 gap-12">
               {VEHICLE_SERVICES.map(({ label, slug: sSlug }) => (
                 <li key={sSlug}>
@@ -177,13 +182,13 @@ export default async function CityPage({ params }: Props) {
         {nearbyCities.length > 0 && (
           <section className="py-44 md:py-60 bg-bg-surface border-b border-[0.5px] border-border-default">
             <Container>
-              <SectionHeader title="Yakın Şehirler" subtitle="Komşu illerde de hizmet veriyoruz." align="left" className="mb-24" />
+              <SectionHeader title={t("nearbyTitle", { default: "Yakın Şehirler" })} subtitle={t("nearbySubtitle", { default: "Komşu illerde de hizmet veriyoruz." })} align="left" className="mb-24" />
               <ul className="flex flex-wrap gap-12 justify-center">
                 {nearbyCities.map(({ slug: cs, name }) => (
                   <li key={cs}>
                     <Link href={routes.city(locale, cs)} className="inline-flex items-center gap-8 px-24 py-12 bg-white border border-[0.5px] border-border-default rounded-pill text-[13px] text-text-muted hover:border-accent hover:text-accent transition-colors">
                       <MapPin size={13} strokeWidth={1.5} aria-hidden />
-                      {name} Hasarlı Araç
+                      {name} {t("nearbyCityTag", { default: "Hasarlı Araç" })}
                     </Link>
                   </li>
                 ))}

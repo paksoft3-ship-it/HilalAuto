@@ -38,7 +38,7 @@ export function HowItWorks() {
   return (
     <section
       aria-label={t("title")}
-      className="bg-surface border-y border-[0.5px] border-border-default py-44 md:py-60"
+      className="bg-surface border-y border-[0.5px] border-border-default py-24 md:py-32"
     >
       <Container>
         <SectionHeader
@@ -46,7 +46,7 @@ export function HowItWorks() {
           title={t("title")}
           subtitle={t("subtitle")}
           align="left"
-          className="mb-32 md:mb-44"
+          className="mb-24 md:mb-32"
         />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
@@ -86,7 +86,7 @@ export function HowItWorks() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.3, duration: 0.4 }}
-          className="mt-32 md:mt-44 p-24 border border-[0.5px] border-border-default rounded-xl flex flex-col sm:flex-row items-center justify-between gap-16 bg-surface-container-lowest"
+          className="mt-24 p-24 border border-[0.5px] border-border-default rounded-xl flex flex-col sm:flex-row items-center justify-between gap-16 bg-surface-container-lowest"
         >
           <p className="text-[14px] text-on-surface text-left">
             {t("ctaText", { default: "Aracınız için ücretsiz ve bağlayıcı olmayan teklif alın." })}

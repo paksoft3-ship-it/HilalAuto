@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -44,6 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogDetailPage({ params }: Props) {
   const { locale, slug } = await params;
+  const t = await getTranslations({ locale, namespace: "blogDetail" });
 
   const { data: blog, error } = await supabase
     .from("hazaral_blogs")
@@ -75,7 +77,7 @@ export default async function BlogDetailPage({ params }: Props) {
             href={`/${locale}/blog`}
             className="inline-flex items-center gap-8 text-[13px] text-muted-text hover:text-on-surface transition-colors mb-32"
           >
-            <ArrowLeft size={16} /> Blog&apos;a Dön
+            <ArrowLeft size={16} /> {t("back", { default: "Blog'a Dön" })}
           </Link>
 
           <div className="flex flex-col gap-32">
@@ -100,7 +102,7 @@ export default async function BlogDetailPage({ params }: Props) {
               </div>
             )}
 
-            <div className="bg-surface-container-lowest border border-[0.5px] border-border-default rounded-[14px] p-24 md:p-32">
+            <div className="bg-surface-container-lowest border border-[0.5px] border-border-default rounded-[14px] p-16 md:p-24">
               <div
                 className="prose prose-sm md:prose-base prose-neutral max-w-none
                   prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-on-surface
@@ -111,7 +113,7 @@ export default async function BlogDetailPage({ params }: Props) {
             </div>
 
             <div className="flex items-center justify-between py-24 border-t border-[0.5px] border-border-default">
-              <span className="text-[14px] font-medium text-on-surface">Bu yazıyı paylaş:</span>
+              <span className="text-[14px] font-medium text-on-surface">{t("share", { default: "Bu yazıyı paylaş:" })}</span>
               <div className="flex items-center gap-16">
                 <Share2 size={20} className="text-muted-text" />
               </div>

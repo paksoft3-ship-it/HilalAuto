@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Car, Flame, Droplets, Trash2, Wrench, FileX, AlertTriangle, ShieldAlert } from "lucide-react";
@@ -20,30 +21,32 @@ interface Props { params: Promise<{ locale: string }> }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const title = "Hasarlı Araç Türleri — Kazalı, Pert, Hurda Araç Alımı | Oto Grade";
-  const description =
-    "Oto Grade olarak aldığımız hasarlı araç türleri: kazalı, pert, yanmış, sel hasarlı, hurda, motor arızalı ve daha fazlası. Ücretsiz teklif alın.";
+  const t = await getTranslations({ locale, namespace: "seo" });
+  const title = t("vehicleTypesTitle", { default: "Hasarlı Araç Türleri — Kazalı, Pert, Hurda Araç Alımı | Oto Grade" });
+  const description = t("vehicleTypesDescription", { default: "Oto Grade olarak aldığımız hasarlı araç türleri: kazalı, pert, yanmış, sel hasarlı, hurda, motor arızalı ve daha fazlası. Ücretsiz teklif alın." });
   return {
     title,
     description,
     alternates: { canonical: `${SITE_URL}/${locale}/arac-turleri` },
-    openGraph: { title, description, locale: "tr_TR", type: "website" },
+    openGraph: { title, description, locale: locale === "en" ? "en_US" : "tr_TR", type: "website" },
   };
 }
 
-const VEHICLE_TYPES = [
-  { icon: Car, label: "Kazalı Araç", desc: "Trafik kazası sonucu hasar görmüş araçlar. Hasar derecesine bakılmaksızın değerlendirme.", slug: "kazali-arac-alimi" },
-  { icon: ShieldAlert, label: "Pert Araç", desc: "Sigorta tarafından pert ilan edilmiş araçlar. Belge sürecinde destek sağlıyoruz.", slug: "pert-arac-alimi" },
-  { icon: Flame, label: "Yanmış Araç", desc: "Yangın hasarı görmüş araçlar. Kısmi veya tam yangın fark etmez.", slug: "yanmis-arac-alimi" },
-  { icon: Droplets, label: "Sel Hasarlı Araç", desc: "Su baskını veya sel nedeniyle zarar gören araçlar.", slug: "sel-hasarli-arac-alimi" },
-  { icon: Trash2, label: "Hurda Araç", desc: "Ekonomik değerini yitirmiş, hareket edemeyen araçlar.", slug: "hurda-arac-alimi" },
-  { icon: Wrench, label: "Motor Arızalı Araç", desc: "Motor veya şanzıman arızası olan araçlar.", slug: "motor-arizali-arac-alimi" },
-  { icon: FileX, label: "Çekme Belgeli Araç", desc: "Çekme kaydı bulunan araçlar. Tescil sürecinde yardımcı oluyoruz.", slug: "cekme-belgeli-arac-alimi" },
-  { icon: AlertTriangle, label: "Ağır Hasarlı Araç", desc: "Ciddi kaza hasarı bulunan araçlar. Araç durumunu fotoğrafla iletin.", slug: "agir-hasarli-arac-alimi" },
-];
-
 export default async function AracTurleriPage({ params }: Props) {
   const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "vehicleTypesPage" });
+  const tTypes = await getTranslations({ locale, namespace: "vehicleTypes" });
+
+  const VEHICLE_TYPES = [
+    { icon: Car, label: tTypes("type1Label", { default: "Kazalı Araç" }), desc: tTypes("type1Desc", { default: "Trafik kazası sonucu hasarlanmış araçlar" }), slug: "kazali-arac-alimi" },
+    { icon: ShieldAlert, label: tTypes("type2Label", { default: "Pert Araç" }), desc: tTypes("type2Desc", { default: "Sigorta tarafından pert ilan edilmiş araçlar" }), slug: "pert-arac-alimi" },
+    { icon: Flame, label: tTypes("type3Label", { default: "Yanmış Araç" }), desc: tTypes("type3Desc", { default: "Yangın hasarı görmüş araçlar" }), slug: "yanmis-arac-alimi" },
+    { icon: Droplets, label: tTypes("type4Label", { default: "Sel Hasarlı Araç" }), desc: tTypes("type4Desc", { default: "Su baskını veya sel nedeniyle zarar gören araçlar" }), slug: "sel-hasarli-arac-alimi" },
+    { icon: Trash2, label: tTypes("type5Label", { default: "Hurda Araç" }), desc: tTypes("type5Desc", { default: "Ekonomik değerini yitirmiş araçlar" }), slug: "hurda-arac-alimi" },
+    { icon: Wrench, label: tTypes("type6Label", { default: "Motor Arızalı Araç" }), desc: tTypes("type6Desc", { default: "Motor veya şanzıman arızası olan araçlar" }), slug: "motor-arizali-arac-alimi" },
+    { icon: FileX, label: tTypes("type7Label", { default: "Çekme Belgeli Araç" }), desc: tTypes("type7Desc", { default: "Çekme kaydı bulunan araçlar" }), slug: "cekme-belgeli-arac-alimi" },
+    { icon: AlertTriangle, label: tTypes("type8Label", { default: "Ağır Hasarlı Araç" }), desc: tTypes("type8Desc", { default: "Ciddi kaza hasarı bulunan araçlar" }), slug: "agir-hasarli-arac-alimi" },
+  ];
 
   const breadcrumbSchema = {
     "@context": "https://schema.org",
@@ -57,7 +60,7 @@ export default async function AracTurleriPage({ params }: Props) {
   const itemListSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "Hasarlı Araç Türleri",
+    name: t("schemaTitle", { default: "Hasarlı Araç Türleri" }),
     itemListElement: VEHICLE_TYPES.map(({ label, slug }, i) => ({
       "@type": "ListItem",
       position: i + 1,
@@ -73,20 +76,20 @@ export default async function AracTurleriPage({ params }: Props) {
         {/* Hero */}
         <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-44 md:py-60 mb-60">
           <Container>
-            <div className="flex flex-col items-start gap-16 max-w-[640px] w-full">
-              <Badge variant="accent">Araç Türleri</Badge>
+            <div className="flex flex-col items-start gap-16 w-full lg:w-3/4">
+              <Badge variant="accent">{t("badge", { default: "Araç Türleri" })}</Badge>
               <h1 className="text-section-title-mobile md:text-[40px] font-medium tracking-heading text-text-primary">
-                Her Türlü Hasarlı Aracı Değerinde Alıyoruz
+                {t("title", { default: "Her Türlü Hasarlı Aracı Değerinde Alıyoruz" })}
               </h1>
               <p className="text-[14px] text-text-muted leading-relaxed">
-                Kazalı, pert, yanmış, sel hasarlı veya arızalı fark etmez. Aracınızın durumunu bildirin, ücretsiz teklif alın.
+                {t("subtitle", { default: "Kazalı, pert, yanmış, sel hasarlı veya arızalı fark etmez. Aracınızın durumunu bildirin, ücretsiz teklif alın." })}
               </p>
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-12 mt-8 w-full sm:w-auto">
                 <Link
                   href={routes.quote(locale)}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-8 bg-primary text-white px-32 py-16 rounded-btn font-medium text-[14px] hover:opacity-90 transition-opacity"
                 >
-                  Ücretsiz Teklif Al
+                  {t("ctaQuote", { default: "Ücretsiz Teklif Al" })}
                   <ArrowRight size={16} strokeWidth={1.5} aria-hidden />
                 </Link>
                 <a
@@ -94,10 +97,10 @@ export default async function AracTurleriPage({ params }: Props) {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-8 bg-transparent border border-whatsapp-green text-whatsapp-green px-32 py-16 rounded-btn text-[14px] font-medium hover:bg-whatsapp-green hover:text-white transition-colors"
-                  aria-label="WhatsApp ile yazın"
+                  aria-label={t("ctaWhatsapp", { default: "WhatsApp ile yazın" })}
                 >
                   <FaWhatsapp size={16} aria-hidden />
-                  WhatsApp ile Yaz
+                  {t("ctaWhatsapp", { default: "WhatsApp ile Yaz" })}
                 </a>
               </div>
             </div>
@@ -119,7 +122,7 @@ export default async function AracTurleriPage({ params }: Props) {
                       <p className="text-[12px] text-text-muted leading-relaxed">{desc}</p>
                     </div>
                     <div className="flex items-center gap-4 text-[12px] text-accent font-medium">
-                      Detaylı Bilgi <ArrowRight size={12} strokeWidth={1.5} aria-hidden />
+                      {tTypes("details", { default: "Detaylı Bilgi" })} <ArrowRight size={12} strokeWidth={1.5} aria-hidden />
                     </div>
                   </Link>
                 </li>
@@ -131,7 +134,7 @@ export default async function AracTurleriPage({ params }: Props) {
         {/* City links */}
         <section className="bg-bg-surface border-y border-[0.5px] border-border-default py-44 md:py-60">
           <Container>
-            <SectionHeader title="Hizmet Verdiğimiz Şehirler" subtitle="Türkiye'nin büyük şehirlerinde yerinden alım hizmeti." align="left" className="mb-32" />
+            <SectionHeader title={t("citiesTitle", { default: "Hizmet Verdiğimiz Şehirler" })} subtitle={t("citiesSubtitle", { default: "Türkiye'nin büyük şehirlerinde yerinden alım hizmeti." })} align="left" className="mb-32" />
             <ul className="flex flex-wrap gap-8 justify-center">
               {Object.entries(CITIES).map(([slug, name]) => (
                 <li key={slug}>

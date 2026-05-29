@@ -20,10 +20,10 @@ export function DarkCTAForm() {
   return (
     <section
       aria-label="Teklif al bölümü"
-      className="bg-bg-dark py-44 md:py-60"
+      className="bg-bg-dark py-24 md:py-32"
     >
       <Container>
-        <div className="flex flex-col lg:flex-row gap-44 md:gap-60 items-start">
+        <div className="flex flex-col lg:flex-row gap-24 md:gap-32 items-start">
           {/* Left: copy */}
           <div className="flex-1">
             <motion.div
@@ -38,11 +38,11 @@ export function DarkCTAForm() {
               <h2 className="text-section-title-mobile md:text-section-title font-medium tracking-heading text-white">
                 Aracınızı Satmaya Hazır mısınız?
               </h2>
-              <p className="text-[14px] text-[#AAAAAA] mt-16 mb-32 leading-relaxed max-w-[440px]">
+              <p className="text-[14px] text-[#AAAAAA] mt-12 mb-24 leading-relaxed max-w-[440px]">
                 Kısa formu doldurun, uzman ekibimiz en kısa sürede size dönüş yapsın. Teklif almak tamamen ücretsiz ve bağlayıcı değil.
               </p>
 
-              <ul className="flex flex-col gap-12 mb-32" aria-label="Avantajlar">
+              <ul className="flex flex-col gap-8 mb-24" aria-label="Avantajlar">
                 {BULLETS.map((b) => (
                   <li key={b} className="flex items-center gap-8">
                     <CheckCircle

@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Container } from "@/components/ui/Container";
@@ -17,6 +18,7 @@ export default function CarDetailPage() {
   const params = useParams();
   const id = params?.id as string;
   const locale = params?.locale as string ?? "tr";
+  const t = useTranslations("marketplaceDetail");
 
   useEffect(() => {
     async function loadCar() {
@@ -55,7 +57,7 @@ export default function CarDetailPage() {
           href={`/${locale}/satilik-araclar`}
           className="inline-flex items-center gap-8 text-[13px] text-muted-text hover:text-on-surface transition-colors mb-32"
         >
-          <ArrowLeft size={16} /> İlanlara Dön
+          <ArrowLeft size={16} /> {t("back", { default: "İlanlara Dön" })}
         </Link>
 
         <div className="flex flex-col lg:flex-row gap-44">
@@ -65,14 +67,14 @@ export default function CarDetailPage() {
               {car.images && car.images.length > 0 ? (
                 <img src={car.images[0]} alt={car.title} className="w-full h-full object-cover" />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-muted-text bg-surface">Görsel Yok</div>
+                <div className="w-full h-full flex items-center justify-center text-muted-text bg-surface">{t("noImage", { default: "Görsel Yok" })}</div>
               )}
             </div>
             
             <div className="bg-surface-container-lowest border border-[0.5px] border-border-default rounded-[14px] p-32">
-              <h2 className="text-[18px] font-medium text-on-surface mb-16">İlan Açıklaması</h2>
+              <h2 className="text-[18px] font-medium text-on-surface mb-16">{t("descTitle", { default: "İlan Açıklaması" })}</h2>
               <div className="text-[14px] text-muted-text leading-relaxed whitespace-pre-wrap">
-                {car.description || "Bu ilan için henüz bir açıklama girilmemiştir."}
+                {car.description || t("noDesc", { default: "Bu ilan için henüz bir açıklama girilmemiştir." })}
               </div>
             </div>
           </div>
@@ -84,24 +86,24 @@ export default function CarDetailPage() {
                 {car.title}
               </h1>
               <div className="text-[28px] font-bold text-primary mb-24">
-                {new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 0 }).format(car.price)}
+                {new Intl.NumberFormat(locale === "tr" ? "tr-TR" : "en-US", { style: 'currency', currency: 'TRY', maximumFractionDigits: 0 }).format(car.price)}
               </div>
 
               <div className="flex flex-col gap-12 border-t border-[0.5px] border-border-default pt-24 mb-32">
                 <div className="flex items-center justify-between text-[13px]">
-                  <span className="text-muted-text flex items-center gap-8"><Wrench size={16} /> Marka</span>
+                  <span className="text-muted-text flex items-center gap-8"><Wrench size={16} /> {t("brand", { default: "Marka" })}</span>
                   <span className="font-medium text-on-surface">{car.brand}</span>
                 </div>
                 <div className="flex items-center justify-between text-[13px]">
-                  <span className="text-muted-text flex items-center gap-8"><Tag size={16} /> Model</span>
+                  <span className="text-muted-text flex items-center gap-8"><Tag size={16} /> {t("model", { default: "Model" })}</span>
                   <span className="font-medium text-on-surface">{car.model}</span>
                 </div>
                 <div className="flex items-center justify-between text-[13px]">
-                  <span className="text-muted-text flex items-center gap-8"><Calendar size={16} /> Yıl</span>
+                  <span className="text-muted-text flex items-center gap-8"><Calendar size={16} /> {t("year", { default: "Yıl" })}</span>
                   <span className="font-medium text-on-surface">{car.model_year}</span>
                 </div>
                 <div className="flex items-center justify-between text-[13px]">
-                  <span className="text-muted-text flex items-center gap-8"><ShieldAlert size={16} /> Hasar Durumu</span>
+                  <span className="text-muted-text flex items-center gap-8"><ShieldAlert size={16} /> {t("damageStatus", { default: "Hasar Durumu" })}</span>
                   <span className="font-medium text-on-surface">{car.damage_type}</span>
                 </div>
               </div>
@@ -113,22 +115,22 @@ export default function CarDetailPage() {
                   rel="noopener noreferrer"
                   className="w-full flex items-center justify-center gap-8 bg-whatsapp-green text-white px-24 py-16 rounded-btn text-[14px] font-medium hover:opacity-90 transition-opacity"
                 >
-                  <FaWhatsapp size={20} strokeWidth={1.5} /> WhatsApp ile Bilgi Al
+                  <FaWhatsapp size={20} strokeWidth={1.5} /> {t("whatsapp", { default: "WhatsApp ile Bilgi Al" })}
                 </a>
                 <p className="text-[11px] text-center text-muted-text">
-                  İlan ID: {car.id.slice(0, 8).toUpperCase()}
+                  {t("adId", { default: "İlan ID:" })} {car.id.slice(0, 8).toUpperCase()}
                 </p>
               </div>
             </div>
 
             <div className="bg-surface-container-lowest border border-[0.5px] border-border-default rounded-[14px] p-24">
-              <h3 className="text-[14px] font-medium text-on-surface mb-16">Oto Grade Güvencesi</h3>
+              <h3 className="text-[14px] font-medium text-on-surface mb-16">{t("trustTitle", { default: "Oto Grade Güvencesi" })}</h3>
               <ul className="flex flex-col gap-12">
                 <li className="flex items-center gap-12 text-[13px] text-muted-text">
-                  <CheckCircle size={16} className="text-primary" /> Şeffaf süreç ve adil fiyatlama
+                  <CheckCircle size={16} className="text-primary" /> {t("trust1", { default: "Şeffaf süreç ve adil fiyatlama" })}
                 </li>
                 <li className="flex items-center gap-12 text-[13px] text-muted-text">
-                  <CheckCircle size={16} className="text-primary" /> Noter ve evrak işlemleri desteği
+                  <CheckCircle size={16} className="text-primary" /> {t("trust2", { default: "Noter ve evrak işlemleri desteği" })}
                 </li>
               </ul>
             </div>

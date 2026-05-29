@@ -85,13 +85,13 @@ export function VehicleTypeCards() {
   ];
 
   return (
-    <section aria-label={t("title", { default: "Aldığımız araç türleri" })} className="bg-surface-container-lowest py-44 md:py-60">
+    <section aria-label={t("title", { default: "Aldığımız araç türleri" })} className="bg-surface-container-lowest py-24 md:py-32">
       <Container>
         <SectionHeader
           badge={t("badge", { default: "Araç Türleri" })}
           title={t("title", { default: "Hangi Araçları Alıyoruz?" })}
           subtitle={t("subtitle", { default: "Her türlü hasarlı aracı değerinde alıyoruz. Aracınızın durumu ne olursa olsun teklif veririz." })}
-          className="mb-32 md:mb-44"
+          className="mb-24"
         />
 
         <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 md:gap-16">

@@ -38,13 +38,13 @@ export function SocialProof() {
   ];
 
   return (
-    <section aria-label={t("title")} className="bg-bg-primary py-44 md:py-60">
+    <section aria-label={t("title")} className="bg-bg-primary py-24 md:py-32">
       <Container>
         <SectionHeader
           badge={t("badge", { default: "Referanslar" })}
           title={t("title")}
           subtitle={t("subtitle")}
-          className="mb-32 md:mb-44"
+          className="mb-24"
         />
 
         <ul className="grid grid-cols-1 md:grid-cols-3 gap-16">
