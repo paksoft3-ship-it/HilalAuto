@@ -215,7 +215,15 @@
     "stat2Title": "24 saat içinde",
     "stat2": "tüm süreç tamamlanır",
     "stat3Title": "Türkiye Geneli",
-    "stat3": "her noktadan alım"
+    "stat3": "her noktadan alım",
+    "item1Title": "Şeffaf Fiyatlandırma",
+    "item1Desc": "Gizli ücret yok, net teklif.",
+    "item2Title": "Yerinden Alım Kolaylığı",
+    "item2Desc": "Aracınızı kapınızdan teslim alıyoruz.",
+    "item3Title": "Evrak Sürecinde Destek",
+    "item3Desc": "Tüm evrak işlemlerinde yanınızdayız.",
+    "item4Title": "Hızlı İletişim",
+    "item4Desc": "WhatsApp ve telefon ile 7 gün ulaşın."
   },
   "seo": {
     "homeTitle": "Hasarlı Araç Alanlar | Kazalı, Pert, Hurda Araç Alımı — Oto Grade",

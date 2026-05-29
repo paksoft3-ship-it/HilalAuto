@@ -215,7 +215,15 @@
     "stat2Title": "within 24 hours",
     "stat2": "entire process is completed",
     "stat3Title": "Nationwide",
-    "stat3": "pickup from any location"
+    "stat3": "pickup from any location",
+    "item1Title": "Transparent Pricing",
+    "item1Desc": "No hidden fees, clear offer.",
+    "item2Title": "Doorstep Pickup",
+    "item2Desc": "We collect your vehicle from your door.",
+    "item3Title": "Paperwork Support",
+    "item3Desc": "We assist with all documentation.",
+    "item4Title": "Fast Communication",
+    "item4Desc": "Reach us via WhatsApp and phone 7 days a week."
   },
   "seo": {
     "homeTitle": "We Buy Damaged Vehicles | Accident, Written-Off, Scrap Vehicle Purchase — Oto Grade",
