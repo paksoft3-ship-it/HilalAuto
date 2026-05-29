@@ -138,20 +138,22 @@ export function Navbar() {
             </Link>
           </div>
 
-          {/* Mobile hamburger */}
-          <button
-            type="button"
-            onClick={() => setMenuOpen((v) => !v)}
-            className="md:hidden flex items-center justify-center w-[40px] h-[40px] text-on-surface rounded-btn hover:bg-surface transition-colors"
-            aria-expanded={menuOpen}
-            aria-controls="mobile-menu"
-            aria-label={menuOpen ? "Menüyü kapat" : "Menüyü aç"}
-          >
+          {/* Mobile actions (Language + Hamburger) */}
+          <div className="flex md:hidden items-center gap-8">
+            <LanguageSwitcher />
+            <button
+              type="button"
+              onClick={() => setMenuOpen((v) => !v)}
+              className="flex items-center justify-center w-[40px] h-[40px] text-on-surface rounded-btn hover:bg-surface transition-colors"
+              aria-expanded={menuOpen}
+              aria-controls="mobile-menu"
+              aria-label={menuOpen ? "Menüyü kapat" : "Menüyü aç"}
+            >
             {menuOpen
               ? <X size={22} strokeWidth={1.5} aria-hidden />
               : <Menu size={22} strokeWidth={1.5} aria-hidden />
-            }
-          </button>
+            </button>
+          </div>
         </div>
       </motion.nav>
 
