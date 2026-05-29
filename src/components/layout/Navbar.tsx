@@ -152,6 +152,7 @@ export function Navbar() {
             {menuOpen
               ? <X size={22} strokeWidth={1.5} aria-hidden />
               : <Menu size={22} strokeWidth={1.5} aria-hidden />
+            }
             </button>
           </div>
         </div>

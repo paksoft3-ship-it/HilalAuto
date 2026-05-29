@@ -63,14 +63,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const RELATED_SLUGS: Record<string, string[]> = {
-  "kazali-arac-alimi": ["pert-arac-alimi", "agir-hasarli-arac-alimi"],
-  "pert-arac-alimi": ["kazali-arac-alimi", "cekme-belgeli-arac-alimi"],
-  "yanmis-arac-alimi": ["sel-hasarli-arac-alimi", "hurda-arac-alimi"],
-  "sel-hasarli-arac-alimi": ["yanmis-arac-alimi", "motor-arizali-arac-alimi"],
-  "hurda-arac-alimi": ["motor-arizali-arac-alimi", "agir-hasarli-arac-alimi"],
-  "motor-arizali-arac-alimi": ["hurda-arac-alimi", "cekme-belgeli-arac-alimi"],
-  "cekme-belgeli-arac-alimi": ["pert-arac-alimi", "agir-hasarli-arac-alimi"],
-  "agir-hasarli-arac-alimi": ["kazali-arac-alimi", "pert-arac-alimi"],
+  "kazali-arac-alimi": ["pert-arac-alimi", "agir-hasarli-arac-alimi", "cekme-belgeli-arac-alimi", "hurda-arac-alimi"],
+  "pert-arac-alimi": ["kazali-arac-alimi", "cekme-belgeli-arac-alimi", "agir-hasarli-arac-alimi", "motor-arizali-arac-alimi"],
+  "yanmis-arac-alimi": ["sel-hasarli-arac-alimi", "hurda-arac-alimi", "agir-hasarli-arac-alimi", "pert-arac-alimi"],
+  "sel-hasarli-arac-alimi": ["yanmis-arac-alimi", "motor-arizali-arac-alimi", "hurda-arac-alimi", "kazali-arac-alimi"],
+  "hurda-arac-alimi": ["motor-arizali-arac-alimi", "agir-hasarli-arac-alimi", "yanmis-arac-alimi", "cekme-belgeli-arac-alimi"],
+  "motor-arizali-arac-alimi": ["hurda-arac-alimi", "cekme-belgeli-arac-alimi", "pert-arac-alimi", "kazali-arac-alimi"],
+  "cekme-belgeli-arac-alimi": ["pert-arac-alimi", "agir-hasarli-arac-alimi", "kazali-arac-alimi", "hurda-arac-alimi"],
+  "agir-hasarli-arac-alimi": ["kazali-arac-alimi", "pert-arac-alimi", "hurda-arac-alimi", "yanmis-arac-alimi"],
 };
 
 export default async function ServicePage({ params }: Props) {
@@ -229,7 +229,7 @@ export default async function ServicePage({ params }: Props) {
         <section className="py-24 md:py-32 border-b border-[0.5px] border-border-default">
           <Container>
             <SectionHeader title={t("faqTitle", { default: "Sık Sorulan Sorular" })} align="left" className="mb-32" />
-            <div className="max-w-[720px] mx-auto">
+            <div className="w-full max-w-[900px]">
               <Accordion items={service.faqs} />
             </div>
           </Container>
@@ -240,7 +240,7 @@ export default async function ServicePage({ params }: Props) {
           <section className="py-24 md:py-32 bg-bg-surface border-b border-[0.5px] border-border-default">
             <Container>
               <SectionHeader title={t("relatedTitle", { default: "İlgili Hizmetler" })} align="left" className="mb-32" />
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-16 max-w-[640px] mx-auto">
+              <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-16 w-full">
                 {relatedServices.map((s) => (
                   <li key={s.slug}>
                     <Link href={routes.service(locale, s.slug)} className="flex items-center justify-between gap-8 p-24 bg-white border border-[0.5px] border-border-default rounded-card hover:border-accent-border hover:bg-accent-light transition-colors">
