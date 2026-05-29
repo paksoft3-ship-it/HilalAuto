@@ -23,7 +23,7 @@ export function FAQSection({ dark = false }: FAQSectionProps) {
   return (
     <section
       aria-label="Sık sorulan sorular"
-      className="bg-surface-container-lowest py-24 md:py-32 border-b border-[0.5px] border-border-default"
+      className="bg-surface-container-lowest py-32 md:py-44 border-b border-[0.5px] border-border-default"
     >
       <Container>
         <div className="flex flex-col gap-24">

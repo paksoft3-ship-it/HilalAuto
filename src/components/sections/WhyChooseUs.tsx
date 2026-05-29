@@ -47,7 +47,7 @@ export function WhyChooseUs() {
   return (
     <section
       aria-label={t("title", { default: "Neden Oto Grade" })}
-      className="bg-surface-container-lowest border-b border-[0.5px] border-border-default py-24 md:py-32"
+      className="bg-surface-container-lowest border-b border-[0.5px] border-border-default py-32 md:py-44"
     >
       <Container>
         <div className="flex flex-col gap-24">

@@ -39,7 +39,7 @@ export default async function IletisimPage({ params }: Props) {
       <Navbar />
       <main className="pb-[76px] md:pb-0">
         {/* Hero */}
-        <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-24 md:py-32">
+        <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-32 md:py-44">
           <Container className="flex flex-col items-center text-center gap-16">
             <Badge variant="accent">{t("badge", { default: "İletişim" })}</Badge>
             <h1 className="text-section-title-mobile md:text-[40px] font-medium tracking-heading text-text-primary w-full">
@@ -52,7 +52,7 @@ export default async function IletisimPage({ params }: Props) {
         </section>
 
         {/* Contact options */}
-        <section className="py-24 md:py-32">
+        <section className="py-32 md:py-44">
           <Container>
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-32">
               {/* Contact cards + form */}

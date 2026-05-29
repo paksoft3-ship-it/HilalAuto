@@ -61,7 +61,7 @@ export default async function NasilCalisirPage({ params }: Props) {
       <Navbar />
       <main className="pb-[76px] md:pb-0">
         {/* Hero */}
-        <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-24 md:py-32">
+        <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-32 md:py-44">
           <Container>
             <div className="flex flex-col items-start gap-16 w-full lg:w-3/4">
               <Badge variant="accent">{t("badge", { default: "Nasıl Çalışır" })}</Badge>
@@ -95,9 +95,9 @@ export default async function NasilCalisirPage({ params }: Props) {
         </section>
 
         {/* Steps */}
-        <section className="py-24 md:py-32">
+        <section className="py-32 md:py-44">
           <Container>
-            <SectionHeader title={t("stepsTitle", { default: "6 Adımlı Süreç" })} subtitle={t("stepsSubtitle", { default: "Başvurudan ödemeye kadar her adım." })} align="left" className="mb-24" />
+            <SectionHeader title={t("stepsTitle", { default: "6 Adımlı Süreç" })} subtitle={t("stepsSubtitle", { default: "Başvurudan ödemeye kadar her adım." })} align="left" className="mb-32" />
             <ol className="flex flex-col gap-0" aria-label={t("stepsAria", { default: "Süreç adımları" })}>
               {STEPS.map((step, i) => (
                 <li key={step.num} className="flex gap-24 pb-32 relative">
@@ -121,7 +121,7 @@ export default async function NasilCalisirPage({ params }: Props) {
         </section>
 
         {/* Required info */}
-        <section className="bg-surface-container-lowest border-y border-[0.5px] border-border-default py-24 md:py-32">
+        <section className="bg-surface-container-lowest border-y border-[0.5px] border-border-default py-32 md:py-44">
           <Container>
             <div className="flex flex-col lg:flex-row gap-24 items-start">
               <div className="lg:w-[360px] shrink-0">
@@ -140,9 +140,9 @@ export default async function NasilCalisirPage({ params }: Props) {
         </section>
 
         {/* Trust */}
-        <section className="py-24 md:py-32">
+        <section className="py-32 md:py-44">
           <Container>
-            <SectionHeader title={t("trustTitle", { default: "Güvenli mi?" })} subtitle={t("trustSubtitle", { default: "Sürecimiz tamamen şeffaf ve güvenlidir." })} align="left" className="mb-24" />
+            <SectionHeader title={t("trustTitle", { default: "Güvenli mi?" })} subtitle={t("trustSubtitle", { default: "Sürecimiz tamamen şeffaf ve güvenlidir." })} align="left" className="mb-32" />
             <ul className="grid grid-cols-2 md:grid-cols-4 gap-16">
               {TRUST_ITEMS.map(({ title, desc }) => (
                 <li key={title} className="flex flex-col gap-8 p-24 bg-bg-surface border border-[0.5px] border-border-default rounded-card">

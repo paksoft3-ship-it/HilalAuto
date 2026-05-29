@@ -19,7 +19,7 @@ export function FinalCTA() {
   return (
     <section
       aria-label="Son çağrı"
-      className="bg-bg-surface py-24 md:py-32"
+      className="bg-bg-surface py-32 md:py-44"
     >
       <Container>
         <motion.div

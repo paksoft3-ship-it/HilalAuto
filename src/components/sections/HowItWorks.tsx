@@ -39,7 +39,7 @@ export function HowItWorks() {
   return (
     <section
       aria-label={t("title")}
-      className="bg-surface border-y border-[0.5px] border-border-default py-24 md:py-32"
+      className="bg-surface border-y border-[0.5px] border-border-default py-32 md:py-44"
     >
       <Container>
         <SectionHeader
@@ -47,7 +47,7 @@ export function HowItWorks() {
           title={t("title")}
           subtitle={t("subtitle")}
           align="left"
-          className="mb-24 md:mb-32"
+          className="mb-32"
         />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-16">

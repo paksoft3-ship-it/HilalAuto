@@ -72,7 +72,7 @@ export default async function SehirlerPage({ params }: Props) {
       <Navbar />
       <main className="pb-[76px] md:pb-0">
         {/* Hero */}
-        <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-24 md:py-32">
+        <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-32 md:py-44">
           <Container>
             <div className="flex flex-col items-start gap-16 max-w-[640px] w-full">
               <Badge variant="accent">{t("badge", { default: "Şehirler" })}</Badge>
@@ -106,7 +106,7 @@ export default async function SehirlerPage({ params }: Props) {
         </section>
 
         {/* City grid */}
-        <section className="py-24 md:py-32">
+        <section className="py-32 md:py-44">
           <Container>
             <SectionHeader
               title={t("sectionTitle", { default: "Hizmet Verdiğimiz Şehirler" })}

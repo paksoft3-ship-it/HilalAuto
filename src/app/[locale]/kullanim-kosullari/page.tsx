@@ -25,7 +25,7 @@ export default async function KullanimKosullariPage({ params }: Props) {
   return (
     <>
       <Navbar />
-      <main className="py-24 md:py-32 pb-[76px] md:pb-0">
+      <main className="py-32 md:py-44 pb-[76px] md:pb-0">
         <Container narrow>
           <h1 className="text-section-title-mobile md:text-section-title font-medium tracking-heading text-text-primary mb-32">
             {t("title", { default: "Kullanım Koşulları" })}

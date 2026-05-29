@@ -24,7 +24,7 @@ export function DarkCTAForm() {
   return (
     <section
       aria-label="Teklif al bölümü"
-      className="bg-bg-dark py-24 md:py-32"
+      className="bg-bg-dark py-32 md:py-44"
     >
       <Container>
         <div className="flex flex-col lg:flex-row gap-24 md:gap-32 items-start">
