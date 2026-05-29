@@ -48,7 +48,7 @@ export function Footer({ locale = "tr" }: FooterProps) {
               className="inline-flex items-baseline"
             >
               <Image 
-                src="/images/logo/otograde-light.svg" 
+                src="/images/logo/otograde-dark.svg" 
                 alt="Oto Grade Logo" 
                 width={140} 
                 height={36} 
