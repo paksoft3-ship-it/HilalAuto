@@ -5,7 +5,7 @@ import { Phone } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { routes, externalRoutes } from "@/lib/routes";
 import { PHONE_NUMBER, WHATSAPP_NUMBER, SITE_NAME, VEHICLE_TYPES } from "@/lib/constants";
-import { FaWhatsapp } from 'react-icons/fa';
+import { FaWhatsapp, FaTiktok, FaInstagram, FaFacebook, FaYoutube, FaLinkedin } from 'react-icons/fa';
 
 const SERVICES = VEHICLE_TYPES.slice(0, 6); // First 6 services
 
@@ -72,6 +72,47 @@ export function Footer({ locale = "tr" }: FooterProps) {
                 <FaWhatsapp size={14} strokeWidth={1.5} aria-hidden />
                 WhatsApp
               </a>
+            </div>
+
+            {/* Social Media */}
+            <div className="flex items-center gap-16 mt-8">
+              <a
+                href="https://www.instagram.com/otograde/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#AAAAAA] hover:text-[#E1306C] transition-colors"
+                aria-label="Instagram"
+              >
+                <FaInstagram size={20} />
+              </a>
+              <span
+                className="text-[#555555] cursor-not-allowed"
+                aria-label={locale === "en" ? "Facebook (Coming Soon)" : "Facebook (Yakında)"}
+                title={locale === "en" ? "Coming Soon" : "Yakında"}
+              >
+                <FaFacebook size={20} />
+              </span>
+              <span
+                className="text-[#555555] cursor-not-allowed"
+                aria-label={locale === "en" ? "YouTube (Coming Soon)" : "YouTube (Yakında)"}
+                title={locale === "en" ? "Coming Soon" : "Yakında"}
+              >
+                <FaYoutube size={20} />
+              </span>
+              <span
+                className="text-[#555555] cursor-not-allowed"
+                aria-label={locale === "en" ? "TikTok (Coming Soon)" : "TikTok (Yakında)"}
+                title={locale === "en" ? "Coming Soon" : "Yakında"}
+              >
+                <FaTiktok size={18} />
+              </span>
+              <span
+                className="text-[#555555] cursor-not-allowed"
+                aria-label={locale === "en" ? "LinkedIn (Coming Soon)" : "LinkedIn (Yakında)"}
+                title={locale === "en" ? "Coming Soon" : "Yakında"}
+              >
+                <FaLinkedin size={20} />
+              </span>
             </div>
           </div>
 
