@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { Plus, Edit, Trash2, Image as ImageIcon, Eye, RefreshCw, Calendar } from "lucide-react";
+import { Plus, Edit, Trash2, Image as ImageIcon, Eye, RefreshCw, Calendar, X } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import { useParams } from "next/navigation";
 
@@ -11,6 +11,17 @@ export default function AdminBlogs() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [blogs, setBlogs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [newBlog, setNewBlog] = useState({
+    title: "",
+    slug: "",
+    excerpt: "",
+    content: "",
+    image_url: "",
+    locale: "tr",
+    status: "published"
+  });
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const locale = useParams()?.locale as string ?? "tr";
 
@@ -40,6 +51,20 @@ export default function AdminBlogs() {
     }
   }
 
+  async function handleCreateBlog(e: React.FormEvent) {
+    e.preventDefault();
+    setSaving(true);
+    const { data, error } = await supabase.from("hazaral_blogs").insert([newBlog]).select();
+    if (!error && data) {
+      setBlogs([data[0], ...blogs]);
+      setIsModalOpen(false);
+      setNewBlog({ title: "", slug: "", excerpt: "", content: "", image_url: "", locale: "tr", status: "published" });
+    } else {
+      alert("Hata oluştu: " + error?.message);
+    }
+    setSaving(false);
+  }
+
   return (
     <div className="flex flex-col gap-32">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-16">
@@ -54,7 +79,10 @@ export default function AdminBlogs() {
           >
             <RefreshCw size={14} /> Yenile
           </button>
-          <button className="inline-flex items-center gap-8 px-16 py-8 bg-primary text-on-primary rounded-btn text-[13px] font-medium hover:opacity-90 transition-opacity">
+          <button 
+            onClick={() => setIsModalOpen(true)}
+            className="inline-flex items-center gap-8 px-16 py-8 bg-primary text-on-primary rounded-btn text-[13px] font-medium hover:opacity-90 transition-opacity"
+          >
             <Plus size={14} /> Yeni Yazı
           </button>
         </div>
@@ -146,6 +174,119 @@ export default function AdminBlogs() {
           </table>
         </div>
       </div>
+      </div>
+
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-16">
+          <div className="bg-surface w-full max-w-2xl rounded-2xl shadow-xl flex flex-col max-h-[90vh]">
+            <div className="p-24 border-b border-[0.5px] border-border-default flex items-center justify-between">
+              <h2 className="text-[18px] font-bold text-on-surface">Yeni Blog Yazısı</h2>
+              <button onClick={() => setIsModalOpen(false)} className="text-muted-text hover:text-on-surface">
+                <X size={20} />
+              </button>
+            </div>
+            
+            <form onSubmit={handleCreateBlog} className="flex-1 overflow-y-auto p-24 flex flex-col gap-24">
+              <div className="grid grid-cols-2 gap-16">
+                <div className="flex flex-col gap-8">
+                  <label className="text-[13px] font-medium text-on-surface">Başlık</label>
+                  <input
+                    required
+                    type="text"
+                    value={newBlog.title}
+                    onChange={(e) => setNewBlog({ ...newBlog, title: e.target.value })}
+                    className="w-full px-16 py-12 rounded-lg border border-[0.5px] border-border-default bg-surface text-[14px] outline-none focus:border-primary transition-colors"
+                  />
+                </div>
+                <div className="flex flex-col gap-8">
+                  <label className="text-[13px] font-medium text-on-surface">URL Yolu (Slug)</label>
+                  <input
+                    required
+                    type="text"
+                    value={newBlog.slug}
+                    onChange={(e) => setNewBlog({ ...newBlog, slug: e.target.value })}
+                    className="w-full px-16 py-12 rounded-lg border border-[0.5px] border-border-default bg-surface text-[14px] outline-none focus:border-primary transition-colors"
+                  />
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-8">
+                <label className="text-[13px] font-medium text-on-surface">Kısa Özet</label>
+                <textarea
+                  required
+                  rows={2}
+                  value={newBlog.excerpt}
+                  onChange={(e) => setNewBlog({ ...newBlog, excerpt: e.target.value })}
+                  className="w-full px-16 py-12 rounded-lg border border-[0.5px] border-border-default bg-surface text-[14px] outline-none focus:border-primary transition-colors resize-none"
+                />
+              </div>
+
+              <div className="flex flex-col gap-8">
+                <label className="text-[13px] font-medium text-on-surface">İçerik (HTML formatında)</label>
+                <textarea
+                  required
+                  rows={8}
+                  value={newBlog.content}
+                  onChange={(e) => setNewBlog({ ...newBlog, content: e.target.value })}
+                  className="w-full px-16 py-12 rounded-lg border border-[0.5px] border-border-default bg-surface text-[14px] outline-none focus:border-primary transition-colors font-mono"
+                />
+              </div>
+
+              <div className="grid grid-cols-3 gap-16">
+                <div className="flex flex-col gap-8">
+                  <label className="text-[13px] font-medium text-on-surface">Görsel Yolu (URL)</label>
+                  <input
+                    type="text"
+                    value={newBlog.image_url}
+                    onChange={(e) => setNewBlog({ ...newBlog, image_url: e.target.value })}
+                    placeholder="/images/blog/ornek.png"
+                    className="w-full px-16 py-12 rounded-lg border border-[0.5px] border-border-default bg-surface text-[14px] outline-none focus:border-primary transition-colors"
+                  />
+                </div>
+                <div className="flex flex-col gap-8">
+                  <label className="text-[13px] font-medium text-on-surface">Dil</label>
+                  <select
+                    value={newBlog.locale}
+                    onChange={(e) => setNewBlog({ ...newBlog, locale: e.target.value })}
+                    className="w-full px-16 py-12 rounded-lg border border-[0.5px] border-border-default bg-surface text-[14px] outline-none focus:border-primary transition-colors"
+                  >
+                    <option value="tr">Türkçe (tr)</option>
+                    <option value="en">İngilizce (en)</option>
+                  </select>
+                </div>
+                <div className="flex flex-col gap-8">
+                  <label className="text-[13px] font-medium text-on-surface">Durum</label>
+                  <select
+                    value={newBlog.status}
+                    onChange={(e) => setNewBlog({ ...newBlog, status: e.target.value })}
+                    className="w-full px-16 py-12 rounded-lg border border-[0.5px] border-border-default bg-surface text-[14px] outline-none focus:border-primary transition-colors"
+                  >
+                    <option value="published">Yayında</option>
+                    <option value="draft">Taslak</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="flex justify-end gap-12 pt-16 border-t border-[0.5px] border-border-default">
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  className="px-24 py-12 rounded-btn text-[14px] font-medium text-muted-text hover:bg-surface-container-lowest transition-colors"
+                >
+                  İptal
+                </button>
+                <button
+                  type="submit"
+                  disabled={saving}
+                  className="px-24 py-12 bg-primary text-on-primary rounded-btn text-[14px] font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
+                >
+                  {saving ? "Kaydediliyor..." : "Kaydet"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
