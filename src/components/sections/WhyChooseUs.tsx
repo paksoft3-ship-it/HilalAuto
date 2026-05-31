@@ -50,9 +50,8 @@ export function WhyChooseUs() {
       className="bg-surface-container-lowest border-b border-[0.5px] border-border-default py-32 md:py-44"
     >
       <Container>
-        <div className="flex flex-col lg:flex-row gap-32 items-start">
-          <div className="flex-1 flex flex-col gap-24">
-            <div className="flex flex-col gap-24 text-left">
+        <div className="flex flex-col gap-24">
+          <div className="flex flex-col gap-24 text-left">
             <div>
               <span className="text-[11px] font-medium text-primary uppercase tracking-wider mx-auto md:mx-0">{t("badge", { default: "NEDEN OTO GRADE?" })}</span>
               <h2 className="text-[28px] md:text-[32px] font-medium text-on-surface tracking-[-1.5px] mt-8 leading-tight">{t("title", { default: "Hasarlı araç satışını hızlı, güvenli ve zahmetsiz hale getiriyoruz." })}</h2>
@@ -87,18 +86,9 @@ export function WhyChooseUs() {
                 <p className="text-[13px] text-muted-text leading-relaxed">{desc}</p>
               </motion.div>
             ))}
-            </div>
           </div>
-          {/* <div className="w-full lg:w-[480px] shrink-0 h-[400px] lg:h-auto self-stretch">
-            <img 
-              src="/images/sections/why_choose_us_img.png" 
-              alt={t("title", { default: "Neden Oto Grade" })} 
-              className="w-full h-full object-cover rounded-[14px] shadow-sm"
-            />
-          </div> */}
-        </div>
 
-        <div className="mt-24 p-24 bg-surface border border-[0.5px] border-border-default rounded-[14px] flex flex-col md:flex-row gap-24 md:justify-around md:items-center">
+          <div className="mt-16 p-24 bg-surface border border-[0.5px] border-border-default rounded-[14px] flex flex-col md:flex-row gap-24 md:justify-around md:items-center">
             <div className="flex flex-col items-start text-left">
               <span className="text-[24px] font-bold text-on-surface">3.200+</span>
               <span className="text-[13px] text-muted-text mt-4">{t("stat1", { default: "araç değerlendirildi" })}</span>
@@ -112,6 +102,7 @@ export function WhyChooseUs() {
               <span className="text-[13px] text-muted-text mt-4">{t("stat3", { default: "her noktadan alım" })}</span>
             </div>
           </div>
+        </div>
       </Container>
     </section>
   );

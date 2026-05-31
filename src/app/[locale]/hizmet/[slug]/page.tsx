@@ -145,20 +145,15 @@ export default async function ServicePage({ params }: Props) {
       <Navbar />
       <main className="pb-[76px] md:pb-0">
         {/* Hero */}
-        <section className="relative py-32 md:py-44 overflow-hidden border-b border-[0.5px] border-border-default">
-          {/* <div 
-            className="absolute inset-0 z-0 bg-cover bg-center"
-            style={{ backgroundImage: "url('/images/sections/service_hero_bg.png')" }}
-          /> */}
-          <div className="absolute inset-0 z-0 bg-black/70" />
-          <Container className="relative z-10">
+        <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-32 md:py-44">
+          <Container>
             <div className="flex flex-col lg:flex-row gap-24 md:gap-32 items-start">
               <div className="flex flex-col items-start gap-16 w-full">
                 <Badge variant="accent" className="uppercase tracking-wide">{service.hero.badge}</Badge>
-                <h1 className="text-section-title-mobile md:text-section-title font-medium tracking-heading text-white leading-[1.1]">
+                <h1 className="text-section-title-mobile md:text-section-title font-medium tracking-heading text-text-primary leading-[1.1]">
                   {service.hero.heading}
                 </h1>
-                <p className="text-body-md text-white/80">
+                <p className="text-body-md text-text-muted">
                   {service.hero.description}
                 </p>
                 
@@ -168,7 +163,7 @@ export default async function ServicePage({ params }: Props) {
                       <div className="mt-4 w-16 h-16 rounded-full bg-accent-light border border-accent-border flex items-center justify-center shrink-0">
                         <Check size={10} strokeWidth={2.5} className="text-accent" aria-hidden />
                       </div>
-                      <span className="text-[14px] text-white/90">{label}</span>
+                      <span className="text-[14px] text-text-secondary">{label}</span>
                     </li>
                   ))}
                 </ul>

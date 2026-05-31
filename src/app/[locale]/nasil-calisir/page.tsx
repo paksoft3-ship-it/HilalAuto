@@ -86,19 +86,14 @@ export default async function NasilCalisirPage({ params }: Props) {
       <Navbar />
       <main className="pb-[76px] md:pb-0">
         {/* Hero */}
-        <section className="relative py-32 md:py-44 overflow-hidden border-b border-[0.5px] border-border-default">
-          {/* <div 
-            className="absolute inset-0 z-0 bg-cover bg-center"
-            style={{ backgroundImage: "url('/images/sections/how_hero_bg.png')" }}
-          /> */}
-          <div className="absolute inset-0 z-0 bg-black/70" />
-          <Container className="relative z-10">
+        <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-32 md:py-44">
+          <Container>
             <div className="flex flex-col items-start gap-16 w-full lg:w-3/4">
               <Badge variant="accent">{t("badge", { default: "Nasıl Çalışır" })}</Badge>
-              <h1 className="text-section-title-mobile md:text-[40px] font-medium tracking-heading text-white">
+              <h1 className="text-section-title-mobile md:text-[40px] font-medium tracking-heading text-text-primary">
                 {t("title", { default: "Hasarlı Aracınızı Satmak Artık Çok Daha Kolay" })}
               </h1>
-              <p className="text-[14px] text-white/80 leading-relaxed">
+              <p className="text-[14px] text-text-muted leading-relaxed">
                 {t("subtitle", { default: "Ekspertizden ödemeye kadar tüm süreci şeffaf ve güvenli bir şekilde yönetiyoruz. Siz sadece teklifimizi değerlendirin, gerisini bize bırakın." })}
               </p>
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-12 mt-8 w-full sm:w-auto">
@@ -153,21 +148,18 @@ export default async function NasilCalisirPage({ params }: Props) {
         {/* Required info */}
         <section className="bg-surface-container-lowest border-y border-[0.5px] border-border-default py-32 md:py-44">
           <Container>
-            <div className="flex flex-col lg:flex-row gap-32 items-start">
-              <div className="flex-1">
-                <SectionHeader title={t("reqTitle", { default: "Hangi Bilgiler Gerekli?" })} subtitle={t("reqSubtitle", { default: "Başvuru için ihtiyaç duyulan minimum bilgiler." })} align="left" className="mb-24" />
-                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-12">
-                  {REQUIRED_INFO.map((item) => (
-                    <li key={item} className="flex items-center gap-8">
-                      <CheckCircle size={15} strokeWidth={1.5} className="text-accent shrink-0" aria-hidden />
-                      <span className="text-[13px] text-text-primary">{item}</span>
-                    </li>
-                  ))}
-                </ul>
+            <div className="flex flex-col lg:flex-row gap-24 items-start">
+              <div className="lg:w-[360px] shrink-0">
+                <SectionHeader title={t("reqTitle", { default: "Hangi Bilgiler Gerekli?" })} subtitle={t("reqSubtitle", { default: "Başvuru için ihtiyaç duyulan minimum bilgiler." })} align="left" />
               </div>
-              {/* <div className="w-full lg:w-[480px] shrink-0 h-[300px] lg:h-auto self-stretch">
-                <img src="/images/sections/how_req_info.png" alt={t("reqTitle", { default: "Hangi Bilgiler Gerekli?" })} className="w-full h-full object-cover rounded-[14px] shadow-sm" />
-              </div> */}
+              <ul className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-12">
+                {REQUIRED_INFO.map((item) => (
+                  <li key={item} className="flex items-center gap-8">
+                    <CheckCircle size={15} strokeWidth={1.5} className="text-accent shrink-0" aria-hidden />
+                    <span className="text-[13px] text-text-primary">{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </Container>
         </section>

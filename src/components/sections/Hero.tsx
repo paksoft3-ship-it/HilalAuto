@@ -15,7 +15,7 @@ import { FaWhatsapp } from 'react-icons/fa';
 function AnimatedHeading({ heading, highlightWord }: { heading: string, highlightWord: string }) {
   const words = heading.split(" ");
   return (
-    <h1 className="text-[30px] leading-[1.1] md:text-hero-lg text-white mb-16 md:mb-24 font-medium tracking-[-1.5px]">
+    <h1 className="text-[30px] leading-[1.1] md:text-hero-lg text-on-surface mb-16 md:mb-24 font-medium tracking-[-1.5px]">
       {words.map((word, i) => (
         <motion.span
           key={i}
@@ -47,12 +47,8 @@ export function Hero() {
   ];
 
   return (
-    <section aria-label="Hero bölümü" className="relative bg-black overflow-hidden">
-      {/* <div 
-        className="absolute inset-0 z-0 opacity-40 bg-cover bg-center"
-        style={{ backgroundImage: "url('/images/sections/hero_bg_image.png')" }}
-      /> */}
-      <Container className="relative z-10 py-32 md:py-44">
+    <section aria-label="Hero bölümü">
+      <Container className="py-32 md:py-44">
         <div className="flex flex-col md:flex-row gap-24 md:gap-32 items-center">
           {/* Left: content */}
           <div className="flex-1 w-full text-left">
@@ -68,7 +64,7 @@ export function Hero() {
             <AnimatedHeading heading={t("heading")} highlightWord={locale === "en" ? "Fast" : "Hızlı"} />
 
             <motion.p
-              className="mt-16 md:mt-24 text-[14px] text-white/80 leading-relaxed max-w-[500px]"
+              className="mt-16 md:mt-24 text-[14px] text-secondary leading-relaxed max-w-[500px]"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.4 }}
@@ -92,7 +88,7 @@ export function Hero() {
                     className="text-primary shrink-0"
                     aria-hidden
                   />
-                  <span className="text-[13px] text-white/80">{item}</span>
+                  <span className="text-[13px] text-secondary">{item}</span>
                 </li>
               ))}
             </motion.ul>

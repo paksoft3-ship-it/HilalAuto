@@ -85,19 +85,14 @@ export default async function HakkimizdaPage({ params }: Props) {
       <Navbar />
       <main className="pb-[76px] md:pb-0">
         {/* Hero */}
-        <section className="relative py-32 md:py-44 overflow-hidden border-b border-[0.5px] border-border-default">
-          {/* <div 
-            className="absolute inset-0 z-0 bg-cover bg-center"
-            style={{ backgroundImage: "url('/images/sections/about_hero_bg.png')" }}
-          /> */}
-          <div className="absolute inset-0 z-0 bg-black/70" />
-          <Container className="relative z-10">
+        <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-32 md:py-44">
+          <Container>
             <div className="flex flex-col items-start gap-16 w-full lg:w-3/4">
               <Badge variant="accent">{t("badge", { default: "Hakkımızda" })}</Badge>
-              <h1 className="text-section-title-mobile md:text-[40px] font-medium tracking-heading text-white">
+              <h1 className="text-section-title-mobile md:text-[40px] font-medium tracking-heading text-text-primary">
                 {t("title", { default: "Hasarlı Araç Alımında Türkiye'nin Güvenilir Markası" })}
               </h1>
-              <p className="text-[14px] text-white/80 leading-relaxed">
+              <p className="text-[14px] text-text-muted leading-relaxed">
                 {t("subtitle", { default: "Yılların getirdiği otomotiv tecrübesiyle, hasarlı araç sahiplerine en doğru fiyatı ve en güvenli hizmeti sunuyoruz." })}
               </p>
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-12 mt-8 w-full sm:w-auto">
@@ -126,21 +121,16 @@ export default async function HakkimizdaPage({ params }: Props) {
         {/* Story */}
         <section className="py-32 md:py-44">
           <Container>
-            <div className="flex flex-col lg:flex-row gap-32 items-start">
-              <div className="flex-1 flex flex-col gap-24 text-[14px] text-muted-text leading-relaxed w-full">
-                <h2 className="text-section-title-mobile md:text-[28px] font-medium tracking-heading text-on-surface">
-                  {t("storyTitle", { default: "Hikayemiz" })}
-                </h2>
-                <p>
-                  {t("storyP1", { default: "Oto Grade, hasarlı araç satışının ne kadar karmaşık ve stresli olabileceğini gören bir ekip tarafından kuruldu. Kazalı araç sahiplerinin galeriler, çekiciler ve sigortacılar arasında sıkışıp kaldığını fark ettik." })}
-                </p>
-                <p>
-                  {t("storyP2", { default: "Bu sorunu çözmek için tek bir hedefe odaklandık: hasarlı araç sahiplerine hızlı, adil ve şeffaf bir satış deneyimi sunmak. Bugün Türkiye'nin her iline hizmet veriyoruz." })}
-                </p>
-              </div>
-              {/* <div className="w-full lg:w-[480px] shrink-0 h-[300px] lg:h-auto self-stretch">
-                <img src="/images/sections/about_story.png" alt={t("storyTitle", { default: "Hikayemiz" })} className="w-full h-full object-cover rounded-[14px] shadow-sm" />
-              </div> */}
+            <div className="flex flex-col gap-24 text-[14px] text-muted-text leading-relaxed w-full">
+              <h2 className="text-section-title-mobile md:text-[28px] font-medium tracking-heading text-on-surface">
+                {t("storyTitle", { default: "Hikayemiz" })}
+              </h2>
+              <p>
+                {t("storyP1", { default: "Oto Grade, hasarlı araç satışının ne kadar karmaşık ve stresli olabileceğini gören bir ekip tarafından kuruldu. Kazalı araç sahiplerinin galeriler, çekiciler ve sigortacılar arasında sıkışıp kaldığını fark ettik." })}
+              </p>
+              <p>
+                {t("storyP2", { default: "Bu sorunu çözmek için tek bir hedefe odaklandık: hasarlı araç sahiplerine hızlı, adil ve şeffaf bir satış deneyimi sunmak. Bugün Türkiye'nin her iline hizmet veriyoruz." })}
+              </p>
             </div>
           </Container>
         </section>

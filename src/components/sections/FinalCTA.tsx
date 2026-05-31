@@ -19,14 +19,9 @@ export function FinalCTA() {
   return (
     <section
       aria-label="Son çağrı"
-      className="relative py-32 md:py-44 overflow-hidden"
+      className="bg-bg-surface py-32 md:py-44"
     >
-      {/* <div 
-        className="absolute inset-0 z-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('/images/sections/final_cta_bg.png')" }}
-      /> */}
-      <div className="absolute inset-0 z-0 bg-black/60" />
-      <Container className="relative z-10">
+      <Container>
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -35,13 +30,13 @@ export function FinalCTA() {
           className="flex flex-col items-start text-left gap-24"
         >
           <div>
-            <span className="text-[11px] font-medium text-primary uppercase tracking-wider">
+            <span className="text-[11px] font-medium text-accent uppercase tracking-wider">
               {t("badge", { default: "Hemen Başlayın" })}
             </span>
-            <h2 className="mt-12 text-section-title-mobile md:text-section-title font-medium tracking-heading text-white">
+            <h2 className="mt-12 text-section-title-mobile md:text-section-title font-medium tracking-heading text-text-primary">
               {t("title")}
             </h2>
-            <p className="mt-16 text-[14px] text-white/80 max-w-[480px] mx-auto md:mx-0 leading-relaxed">
+            <p className="mt-16 text-[14px] text-text-muted max-w-[480px] mx-auto leading-relaxed">
               {t("subtitle")}
             </p>
           </div>
