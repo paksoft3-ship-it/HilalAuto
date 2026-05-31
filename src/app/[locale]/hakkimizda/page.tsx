@@ -126,16 +126,21 @@ export default async function HakkimizdaPage({ params }: Props) {
         {/* Story */}
         <section className="py-32 md:py-44">
           <Container>
-            <div className="flex flex-col gap-24 text-[14px] text-muted-text leading-relaxed w-full">
-              <h2 className="text-section-title-mobile md:text-[28px] font-medium tracking-heading text-on-surface">
-                {t("storyTitle", { default: "Hikayemiz" })}
-              </h2>
-              <p>
-                {t("storyP1", { default: "Oto Grade, hasarlı araç satışının ne kadar karmaşık ve stresli olabileceğini gören bir ekip tarafından kuruldu. Kazalı araç sahiplerinin galeriler, çekiciler ve sigortacılar arasında sıkışıp kaldığını fark ettik." })}
-              </p>
-              <p>
-                {t("storyP2", { default: "Bu sorunu çözmek için tek bir hedefe odaklandık: hasarlı araç sahiplerine hızlı, adil ve şeffaf bir satış deneyimi sunmak. Bugün Türkiye'nin her iline hizmet veriyoruz." })}
-              </p>
+            <div className="flex flex-col lg:flex-row gap-32 items-start">
+              <div className="flex-1 flex flex-col gap-24 text-[14px] text-muted-text leading-relaxed w-full">
+                <h2 className="text-section-title-mobile md:text-[28px] font-medium tracking-heading text-on-surface">
+                  {t("storyTitle", { default: "Hikayemiz" })}
+                </h2>
+                <p>
+                  {t("storyP1", { default: "Oto Grade, hasarlı araç satışının ne kadar karmaşık ve stresli olabileceğini gören bir ekip tarafından kuruldu. Kazalı araç sahiplerinin galeriler, çekiciler ve sigortacılar arasında sıkışıp kaldığını fark ettik." })}
+                </p>
+                <p>
+                  {t("storyP2", { default: "Bu sorunu çözmek için tek bir hedefe odaklandık: hasarlı araç sahiplerine hızlı, adil ve şeffaf bir satış deneyimi sunmak. Bugün Türkiye'nin her iline hizmet veriyoruz." })}
+                </p>
+              </div>
+              <div className="w-full lg:w-[480px] shrink-0 h-[300px] lg:h-auto self-stretch">
+                <img src="/images/sections/about_story.png" alt={t("storyTitle", { default: "Hikayemiz" })} className="w-full h-full object-cover rounded-[14px] shadow-sm" />
+              </div>
             </div>
           </Container>
         </section>

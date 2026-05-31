@@ -72,13 +72,18 @@ export default async function IletisimPage({ params }: Props) {
       <Navbar />
       <main className="pb-[76px] md:pb-0">
         {/* Hero */}
-        <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-32 md:py-44">
-          <Container className="flex flex-col items-center text-center gap-16">
+        <section className="relative py-32 md:py-44 overflow-hidden border-b border-[0.5px] border-border-default">
+          <div 
+            className="absolute inset-0 z-0 bg-cover bg-center"
+            style={{ backgroundImage: "url('/images/sections/contact_hero_bg.png')" }}
+          />
+          <div className="absolute inset-0 z-0 bg-black/60" />
+          <Container className="relative z-10 flex flex-col items-center text-center gap-16">
             <Badge variant="accent">{t("badge", { default: "İletişim" })}</Badge>
-            <h1 className="text-section-title-mobile md:text-[40px] font-medium tracking-heading text-text-primary w-full">
+            <h1 className="text-section-title-mobile md:text-[40px] font-medium tracking-heading text-white w-full">
               {t("title", { default: "Bize Ulaşın" })}
             </h1>
-            <p className="text-[14px] text-text-muted leading-relaxed">
+            <p className="text-[14px] text-white/80 leading-relaxed">
               {t("subtitle", { default: "Sorularınız için arayın, yazın veya formu doldurun. Hızlıca dönüş yapıyoruz." })}
             </p>
           </Container>
