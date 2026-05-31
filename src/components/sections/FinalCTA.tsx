@@ -21,10 +21,10 @@ export function FinalCTA() {
       aria-label="Son çağrı"
       className="relative py-32 md:py-44 overflow-hidden"
     >
-      <div 
+      {/* <div 
         className="absolute inset-0 z-0 bg-cover bg-center"
         style={{ backgroundImage: "url('/images/sections/final_cta_bg.png')" }}
-      />
+      /> */}
       <div className="absolute inset-0 z-0 bg-black/60" />
       <Container className="relative z-10">
         <motion.div

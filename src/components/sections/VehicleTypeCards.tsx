@@ -117,9 +117,9 @@ export function VehicleTypeCards() {
                 href={routes.service(slug)}
                 className="group flex flex-col bg-surface border border-[0.5px] border-border-default rounded-[14px] hover:border-primary transition-colors h-full overflow-hidden"
               >
-                <div className="w-full aspect-[16/9] relative overflow-hidden bg-surface-variant">
+                {/* <div className="w-full aspect-[16/9] relative overflow-hidden bg-surface-variant">
                   <img src={image} alt={label} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                </div>
+                </div> */}
                 <div className="p-24 flex flex-col flex-1">
                   <Icon
                     size={24}

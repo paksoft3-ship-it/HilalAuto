@@ -89,13 +89,13 @@ export function WhyChooseUs() {
             ))}
             </div>
           </div>
-          <div className="w-full lg:w-[480px] shrink-0 h-[400px] lg:h-auto self-stretch">
+          {/* <div className="w-full lg:w-[480px] shrink-0 h-[400px] lg:h-auto self-stretch">
             <img 
               src="/images/sections/why_choose_us_img.png" 
               alt={t("title", { default: "Neden Oto Grade" })} 
               className="w-full h-full object-cover rounded-[14px] shadow-sm"
             />
-          </div>
+          </div> */}
         </div>
 
         <div className="mt-24 p-24 bg-surface border border-[0.5px] border-border-default rounded-[14px] flex flex-col md:flex-row gap-24 md:justify-around md:items-center">

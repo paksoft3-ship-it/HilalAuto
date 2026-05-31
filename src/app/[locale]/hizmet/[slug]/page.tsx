@@ -146,10 +146,10 @@ export default async function ServicePage({ params }: Props) {
       <main className="pb-[76px] md:pb-0">
         {/* Hero */}
         <section className="relative py-32 md:py-44 overflow-hidden border-b border-[0.5px] border-border-default">
-          <div 
+          {/* <div 
             className="absolute inset-0 z-0 bg-cover bg-center"
             style={{ backgroundImage: "url('/images/sections/service_hero_bg.png')" }}
-          />
+          /> */}
           <div className="absolute inset-0 z-0 bg-black/70" />
           <Container className="relative z-10">
             <div className="flex flex-col lg:flex-row gap-24 md:gap-32 items-start">

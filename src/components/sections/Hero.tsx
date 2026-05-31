@@ -48,10 +48,10 @@ export function Hero() {
 
   return (
     <section aria-label="Hero bölümü" className="relative bg-black overflow-hidden">
-      <div 
+      {/* <div 
         className="absolute inset-0 z-0 opacity-40 bg-cover bg-center"
         style={{ backgroundImage: "url('/images/sections/hero_bg_image.png')" }}
-      />
+      /> */}
       <Container className="relative z-10 py-32 md:py-44">
         <div className="flex flex-col md:flex-row gap-24 md:gap-32 items-center">
           {/* Left: content */}

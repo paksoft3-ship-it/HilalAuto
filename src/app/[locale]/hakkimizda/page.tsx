@@ -86,10 +86,10 @@ export default async function HakkimizdaPage({ params }: Props) {
       <main className="pb-[76px] md:pb-0">
         {/* Hero */}
         <section className="relative py-32 md:py-44 overflow-hidden border-b border-[0.5px] border-border-default">
-          <div 
+          {/* <div 
             className="absolute inset-0 z-0 bg-cover bg-center"
             style={{ backgroundImage: "url('/images/sections/about_hero_bg.png')" }}
-          />
+          /> */}
           <div className="absolute inset-0 z-0 bg-black/70" />
           <Container className="relative z-10">
             <div className="flex flex-col items-start gap-16 w-full lg:w-3/4">
@@ -138,9 +138,9 @@ export default async function HakkimizdaPage({ params }: Props) {
                   {t("storyP2", { default: "Bu sorunu çözmek için tek bir hedefe odaklandık: hasarlı araç sahiplerine hızlı, adil ve şeffaf bir satış deneyimi sunmak. Bugün Türkiye'nin her iline hizmet veriyoruz." })}
                 </p>
               </div>
-              <div className="w-full lg:w-[480px] shrink-0 h-[300px] lg:h-auto self-stretch">
+              {/* <div className="w-full lg:w-[480px] shrink-0 h-[300px] lg:h-auto self-stretch">
                 <img src="/images/sections/about_story.png" alt={t("storyTitle", { default: "Hikayemiz" })} className="w-full h-full object-cover rounded-[14px] shadow-sm" />
-              </div>
+              </div> */}
             </div>
           </Container>
         </section>

@@ -73,10 +73,10 @@ export default async function IletisimPage({ params }: Props) {
       <main className="pb-[76px] md:pb-0">
         {/* Hero */}
         <section className="relative py-32 md:py-44 overflow-hidden border-b border-[0.5px] border-border-default">
-          <div 
+          {/* <div 
             className="absolute inset-0 z-0 bg-cover bg-center"
             style={{ backgroundImage: "url('/images/sections/contact_hero_bg.png')" }}
-          />
+          /> */}
           <div className="absolute inset-0 z-0 bg-black/60" />
           <Container className="relative z-10 flex flex-col items-center text-center gap-16">
             <Badge variant="accent">{t("badge", { default: "İletişim" })}</Badge>

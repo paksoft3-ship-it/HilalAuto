@@ -87,10 +87,10 @@ export default async function NasilCalisirPage({ params }: Props) {
       <main className="pb-[76px] md:pb-0">
         {/* Hero */}
         <section className="relative py-32 md:py-44 overflow-hidden border-b border-[0.5px] border-border-default">
-          <div 
+          {/* <div 
             className="absolute inset-0 z-0 bg-cover bg-center"
             style={{ backgroundImage: "url('/images/sections/how_hero_bg.png')" }}
-          />
+          /> */}
           <div className="absolute inset-0 z-0 bg-black/70" />
           <Container className="relative z-10">
             <div className="flex flex-col items-start gap-16 w-full lg:w-3/4">
@@ -165,9 +165,9 @@ export default async function NasilCalisirPage({ params }: Props) {
                   ))}
                 </ul>
               </div>
-              <div className="w-full lg:w-[480px] shrink-0 h-[300px] lg:h-auto self-stretch">
+              {/* <div className="w-full lg:w-[480px] shrink-0 h-[300px] lg:h-auto self-stretch">
                 <img src="/images/sections/how_req_info.png" alt={t("reqTitle", { default: "Hangi Bilgiler Gerekli?" })} className="w-full h-full object-cover rounded-[14px] shadow-sm" />
-              </div>
+              </div> */}
             </div>
           </Container>
         </section>
