@@ -40,48 +40,56 @@ export function VehicleTypeCards() {
       label: t("type1Label", { default: "Kazalı Araç" }),
       desc: t("type1Desc", { default: "Trafik kazası sonucu hasarlanmış araçlar" }),
       slug: "kazali-arac-alimi",
+      image: "/images/sections/type_kazali.png"
     },
     {
       icon: ShieldAlert,
       label: t("type2Label", { default: "Pert Araç" }),
       desc: t("type2Desc", { default: "Sigorta tarafından pert ilan edilmiş araçlar" }),
       slug: "pert-arac-alimi",
+      image: "/images/sections/type_pert.png"
     },
     {
       icon: Flame,
       label: t("type3Label", { default: "Yanmış Araç" }),
       desc: t("type3Desc", { default: "Yangın hasarı görmüş araçlar" }),
       slug: "yanmis-arac-alimi",
+      image: "/images/sections/type_yanmis.png"
     },
     {
       icon: Droplets,
       label: t("type4Label", { default: "Sel Hasarlı Araç" }),
       desc: t("type4Desc", { default: "Su baskını veya sel nedeniyle zarar gören araçlar" }),
       slug: "sel-hasarli-arac-alimi",
+      image: "/images/sections/type_sel.png"
     },
     {
       icon: Trash2,
       label: t("type5Label", { default: "Hurda Araç" }),
       desc: t("type5Desc", { default: "Ekonomik değerini yitirmiş araçlar" }),
       slug: "hurda-arac-alimi",
+      image: "/images/sections/type_hurda.png"
     },
     {
       icon: Wrench,
       label: t("type6Label", { default: "Motor Arızalı Araç" }),
       desc: t("type6Desc", { default: "Motor veya şanzıman arızası olan araçlar" }),
       slug: "motor-arizali-arac-alimi",
+      image: "/images/sections/type_motor.png"
     },
     {
       icon: FileX,
       label: t("type7Label", { default: "Çekme Belgeli Araç" }),
       desc: t("type7Desc", { default: "Çekme kaydı bulunan araçlar" }),
       slug: "cekme-belgeli-arac-alimi",
+      image: "/images/sections/type_cekme.png"
     },
     {
       icon: AlertTriangle,
       label: t("type8Label", { default: "Ağır Hasarlı Araç" }),
       desc: t("type8Desc", { default: "Ciddi kaza hasarı bulunan araçlar" }),
       slug: "agir-hasarli-arac-alimi",
+      image: "/images/sections/type_agir.png"
     },
   ];
 
@@ -95,8 +103,8 @@ export function VehicleTypeCards() {
           className="mb-32"
         />
 
-        <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 md:gap-16">
-          {vehicleTypes.map(({ icon: Icon, label, desc, slug }, i) => (
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-16">
+          {vehicleTypes.map(({ icon: Icon, label, desc, slug, image }, i) => (
             <motion.li
               key={slug}
               custom={i}
@@ -107,23 +115,28 @@ export function VehicleTypeCards() {
             >
               <Link
                 href={routes.service(slug)}
-                className="group flex flex-col p-24 bg-surface border border-[0.5px] border-border-default rounded-[14px] hover:border-primary transition-colors h-full"
+                className="group flex flex-col bg-surface border border-[0.5px] border-border-default rounded-[14px] hover:border-primary transition-colors h-full overflow-hidden"
               >
-                <Icon
-                  size={24}
-                  strokeWidth={1.5}
-                  className="text-primary mb-16 shrink-0"
-                  aria-hidden
-                />
-                <h3 className="text-[16px] font-medium text-on-surface mb-8 leading-snug">
-                  {label}
-                </h3>
-                <p className="text-[13px] text-muted-text mb-16 leading-relaxed">
-                  {desc}
-                </p>
-                <span className="mt-auto text-primary text-[13px] font-medium flex items-center gap-4">
-                  {t("details", { default: "Detaylı Bilgi" })} <ArrowRight size={16} />
-                </span>
+                <div className="w-full aspect-[16/9] relative overflow-hidden bg-surface-variant">
+                  <img src={image} alt={label} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                </div>
+                <div className="p-24 flex flex-col flex-1">
+                  <Icon
+                    size={24}
+                    strokeWidth={1.5}
+                    className="text-primary mb-16 shrink-0"
+                    aria-hidden
+                  />
+                  <h3 className="text-[16px] font-medium text-on-surface mb-8 leading-snug">
+                    {label}
+                  </h3>
+                  <p className="text-[13px] text-muted-text mb-16 leading-relaxed">
+                    {desc}
+                  </p>
+                  <span className="mt-auto text-primary text-[13px] font-medium flex items-center gap-4">
+                    {t("details", { default: "Detaylı Bilgi" })} <ArrowRight size={16} />
+                  </span>
+                </div>
               </Link>
             </motion.li>
           ))}

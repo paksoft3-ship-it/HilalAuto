@@ -24,9 +24,13 @@ export function DarkCTAForm() {
   return (
     <section
       aria-label="Teklif al bölümü"
-      className="bg-bg-dark py-32 md:py-44"
+      className="relative bg-bg-dark py-32 md:py-44 overflow-hidden"
     >
-      <Container>
+      <div 
+        className="absolute inset-0 z-0 opacity-40 bg-cover bg-center"
+        style={{ backgroundImage: "url('/images/sections/dark_cta_bg.png')" }}
+      />
+      <Container className="relative z-10">
         <div className="flex flex-col lg:flex-row gap-24 md:gap-32 items-start">
           {/* Left: copy */}
           <div className="flex-1">
