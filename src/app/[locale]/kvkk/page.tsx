@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "seo" });
   return {
-    title: t("kvkkTitle", { default: `KVKK Aydınlatma Metni — ${SITE_NAME}` }),
+    title: { absolute: t("kvkkTitle", { default: `KVKK Aydınlatma Metni — ${SITE_NAME}` }) },
     description: t("kvkkDesc", { default: "Oto Grade KVKK Kişisel Verilerin Korunması Kanunu aydınlatma metni." }),
     alternates: { canonical: `${SITE_URL}${getPathname({ locale, href: "/kvkk" })}` },
     robots: { index: false },

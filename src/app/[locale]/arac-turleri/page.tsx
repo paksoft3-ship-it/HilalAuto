@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const title = t("vehicleTypesTitle", { default: "Hasarlı Araç Türleri — Kazalı, Pert, Hurda Araç Alımı | Oto Grade" });
   const description = t("vehicleTypesDescription", { default: "Oto Grade olarak aldığımız hasarlı araç türleri: kazalı, pert, yanmış, sel hasarlı, hurda, motor arızalı ve daha fazlası. Ücretsiz teklif alın." });
   return {
-    title,
+    title: { absolute: title },
     description,
     alternates: {
       canonical: `${SITE_URL}${getPathname({ locale, href: "/arac-turleri" })}`,

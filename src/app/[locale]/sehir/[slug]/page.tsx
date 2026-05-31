@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!city) return {};
   const t = await getTranslations({ locale, namespace: "seo" });
   return {
-    title: `${city.name} ${t("cityTitleSuffix", { default: "Hasarlı Araç Alanlar — Oto Grade" })}`,
+    title: { absolute: `${city.name} ${t("cityTitleSuffix", { default: "Hasarlı Araç Alanlar — Oto Grade" })}` },
     description: city.metaDescription,
     alternates: {
       canonical: `${SITE_URL}${getPathname({ locale, href: { pathname: "/sehir/[slug]", params: { slug } } } as any)}`,

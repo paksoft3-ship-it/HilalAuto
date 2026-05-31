@@ -21,7 +21,7 @@ import { QuickQuoteForm } from "@/components/forms/QuickQuoteForm";
 import { getServices, ALL_SERVICE_SLUGS } from "@/data/services";
 import { routes, externalRoutes } from "@/lib/routes";
 import { localeUrl } from "@/lib/locale-url";
-import { SITE_URL, PHONE_NUMBER, WHATSAPP_NUMBER } from "@/lib/constants";
+import { SITE_URL, PHONE_NUMBER, WHATSAPP_NUMBER, OG_IMAGE_URL } from "@/lib/constants";
 
 interface Props {
   params: Promise<{ locale: string; slug: string }>;
@@ -53,7 +53,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const baseTitle = SEO_TITLES[slug] ?? `${service.title} — Oto Grade`;
   // You might optionally translate SEO_TITLES via t(`servicesSeo.${slug}`) later if needed, but for now we fallback to the default.
   return {
-    title: baseTitle,
+    title: { absolute: baseTitle },
     description: service.metaDescription,
     alternates: {
       canonical: `${SITE_URL}${getPathname({ locale, href: `/hizmet/${slug}` as any })}`,
@@ -68,6 +68,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: service.metaDescription,
       locale: locale === "en" ? "en_US" : "tr_TR",
       type: "website",
+      images: [{ url: OG_IMAGE_URL, width: 1200, height: 630, alt: baseTitle }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: baseTitle,
+      description: service.metaDescription,
+      images: [OG_IMAGE_URL],
     },
   };
 }

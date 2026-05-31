@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description = t("aboutDescription", { default: "Oto Grade hakkında bilgi edinin. Türkiye genelinde hasarlı araç alım hizmetinde güvenilir adres." });
   const canonical = `${SITE_URL}${getPathname({ locale, href: "/hakkimizda" })}`;
   return {
-    title,
+    title: { absolute: title },
     description,
     alternates: {
       canonical,

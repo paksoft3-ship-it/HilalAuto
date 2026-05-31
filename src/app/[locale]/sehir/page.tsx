@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const title = t("citiesTitleMeta", { default: "Türkiye Geneli Hasarlı Araç Alanlar — Tüm Şehirler | Oto Grade" });
   const description = t("citiesDescMeta", { default: "Oto Grade olarak Türkiye'nin 15 büyük şehrinde kazalı, pert ve hurda araç alım hizmeti veriyoruz. Şehrinizi seçin, ücretsiz teklif alın." });
   return {
-    title,
+    title: { absolute: title },
     description,
     alternates: {
       canonical: `${SITE_URL}${getPathname({ locale, href: "/sehir" })}`,

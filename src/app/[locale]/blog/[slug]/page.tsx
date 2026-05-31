@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/routing";
 import { Calendar, ArrowLeft, Share2, Clock, ChevronRight, ShieldCheck } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { Container } from "@/components/ui/Container";
-import { SITE_URL } from "@/lib/constants";
+import { SITE_URL, OG_IMAGE_URL } from "@/lib/constants";
 import { localeUrl } from "@/lib/locale-url";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -28,18 +29,35 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!data) return {};
 
+  const postTitle = `${data.title} — Oto Grade`;
+  const postDescription = data.excerpt || data.title;
+  const ogImages = data.image_url
+    ? [{ url: data.image_url, width: 1200, height: 630, alt: data.title }]
+    : [];
+
   return {
-    title: `${data.title} — Oto Grade`,
-    description: data.excerpt || data.title,
+    title: { absolute: postTitle },
+    description: postDescription,
     alternates: {
       canonical: localeUrl(locale, `/blog/${slug}`),
+      languages: {
+        tr: localeUrl("tr", `/blog/${slug}`),
+        en: localeUrl("en", `/blog/${slug}`),
+        "x-default": localeUrl("tr", `/blog/${slug}`),
+      },
     },
     openGraph: {
-      title: `${data.title} — Oto Grade`,
-      description: data.excerpt || data.title,
-      locale: "tr_TR",
+      title: postTitle,
+      description: postDescription,
+      locale: locale === "en" ? "en_US" : "tr_TR",
       type: "article",
-      images: data.image_url ? [{ url: data.image_url, width: 1200, height: 630, alt: data.title }] : [],
+      images: ogImages,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: postTitle,
+      description: postDescription,
+      images: data.image_url ? [data.image_url] : [],
     },
     robots: { index: true, follow: true },
   };
@@ -69,17 +87,48 @@ export default async function BlogDetailPage({ params }: Props) {
   const wordCount = blog.content ? blog.content.replace(/<[^>]*>?/gm, '').split(/\\s+/).length : 0;
   const readingTime = Math.max(1, Math.ceil(wordCount / 200));
 
+  const postUrl = localeUrl(locale, `/blog/${slug}`);
+
   const articleSchema = {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "BlogPosting",
+    "@id": postUrl,
     headline: blog.title,
+    description: blog.excerpt ?? blog.title,
+    url: postUrl,
+    mainEntityOfPage: { "@type": "WebPage", "@id": postUrl },
     datePublished: blog.created_at,
-    publisher: {
+    dateModified: (blog as Record<string, unknown>).updated_at ?? blog.created_at,
+    inLanguage: locale === "en" ? "en-US" : "tr-TR",
+    author: {
       "@type": "Organization",
       name: "Oto Grade",
       url: SITE_URL,
     },
-    ...(blog.image_url ? { image: blog.image_url } : {}),
+    publisher: {
+      "@type": "Organization",
+      name: "Oto Grade",
+      url: SITE_URL,
+      logo: {
+        "@type": "ImageObject",
+        url: OG_IMAGE_URL,
+        width: 1200,
+        height: 630,
+      },
+    },
+    ...(blog.image_url
+      ? { image: { "@type": "ImageObject", url: blog.image_url, width: 1200, height: 630 } }
+      : {}),
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Ana Sayfa", item: localeUrl(locale, "/") },
+      { "@type": "ListItem", position: 2, name: "Blog", item: localeUrl(locale, "/blog") },
+      { "@type": "ListItem", position: 3, name: blog.title, item: postUrl },
+    ],
   };
 
   const shareUrl = `${SITE_URL}${localeUrl(locale, `/blog/${slug}`)}`;
@@ -127,9 +176,15 @@ export default async function BlogDetailPage({ params }: Props) {
               </div>
 
               {blog.image_url && (
-                <div className="w-full aspect-[16/9] bg-surface-container-lowest border border-[0.5px] border-border-default rounded-[14px] overflow-hidden shadow-sm">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={blog.image_url} alt={blog.title} className="w-full h-full object-cover" />
+                <div className="w-full aspect-[16/9] bg-surface-container-lowest border border-[0.5px] border-border-default rounded-[14px] overflow-hidden shadow-sm relative">
+                  <Image
+                    src={blog.image_url}
+                    alt={blog.title}
+                    fill
+                    priority
+                    sizes="(max-width: 1024px) 100vw, 66vw"
+                    className="object-cover"
+                  />
                 </div>
               )}
 
@@ -216,8 +271,14 @@ export default async function BlogDetailPage({ params }: Props) {
                 {relatedBlogs.map((relBlog) => (
                   <Link href={{ pathname: "/blog/[slug]", params: { slug: relBlog.slug } }} key={relBlog.slug} className="group flex flex-col gap-16 bg-surface-container-lowest border border-[0.5px] border-border-default rounded-[14px] overflow-hidden hover:border-primary/50 transition-colors shadow-sm">
                     {relBlog.image_url ? (
-                      <div className="w-full aspect-[16/9] bg-surface-container-low overflow-hidden">
-                        <img src={relBlog.image_url} alt={relBlog.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <div className="w-full aspect-[16/9] bg-surface-container-low overflow-hidden relative">
+                        <Image
+                          src={relBlog.image_url}
+                          alt={relBlog.title}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
                       </div>
                     ) : (
                       <div className="w-full aspect-[16/9] bg-surface-container-high flex items-center justify-center">
@@ -249,6 +310,7 @@ export default async function BlogDetailPage({ params }: Props) {
       <WhatsAppButton />
       <MobileStickyCTA />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
     </>
   );
 }

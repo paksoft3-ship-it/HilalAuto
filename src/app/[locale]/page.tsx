@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: HomePageProps): Promise<Metad
   const isEn = locale === "en";
 
   return {
-    title,
+    title: { absolute: title },
     description,
     alternates: {
       canonical: url,
@@ -64,14 +64,24 @@ export default async function HomePage({ params }: HomePageProps) {
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": `${SITE_URL}/#organization`,
     name: "Oto Grade",
+    description: locale === "en"
+      ? "Turkey's nationwide damaged vehicle buying platform. We purchase accident-damaged, written-off, burnt, flood-damaged and scrap vehicles across all 81 provinces."
+      : "Türkiye genelinde hasarlı araç alım platformu. Kazalı, pert, yanmış, sel hasarlı ve hurda araçları tüm 81 ilde satın alıyoruz.",
     url: SITE_URL,
-    logo: OG_IMAGE_URL,
+    logo: {
+      "@type": "ImageObject",
+      url: OG_IMAGE_URL,
+      width: 1200,
+      height: 630,
+    },
     contactPoint: {
       "@type": "ContactPoint",
       telephone: PHONE_NUMBER,
       contactType: "customer service",
-      availableLanguage: "Turkish",
+      availableLanguage: ["Turkish", "English"],
+      areaServed: "TR",
     },
     sameAs: [],
   };
@@ -79,10 +89,26 @@ export default async function HomePage({ params }: HomePageProps) {
   const localBusinessSchema = {
     "@context": "https://schema.org",
     "@type": "AutoDealer",
+    "@id": `${SITE_URL}/#localbusiness`,
     name: "Oto Grade — Hasarlı Araç Alım",
     description: t("homeDescription", { default: "Türkiye genelinde kazalı, pert, yanmış, sel hasarlı ve hurda araç alım hizmeti. Ücretsiz teklif, yerinden teslim." }),
     url: SITE_URL,
     telephone: PHONE_NUMBER,
+    image: {
+      "@type": "ImageObject",
+      url: OG_IMAGE_URL,
+      width: 1200,
+      height: 630,
+    },
+    address: {
+      "@type": "PostalAddress",
+      addressCountry: "TR",
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: 39.9208,
+      longitude: 32.8541,
+    },
     priceRange: t("priceRange", { default: "Ücretsiz Teklif" }),
     openingHoursSpecification: {
       "@type": "OpeningHoursSpecification",
@@ -104,6 +130,8 @@ export default async function HomePage({ params }: HomePageProps) {
         { "@type": "Offer", itemOffered: { "@type": "Service", name: "Yanmış Araç Alımı" } },
         { "@type": "Offer", itemOffered: { "@type": "Service", name: "Sel Hasarlı Araç Alımı" } },
         { "@type": "Offer", itemOffered: { "@type": "Service", name: "Motor Arızalı Araç Alımı" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Çekme Belgeli Araç Alımı" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Ağır Hasarlı Araç Alımı" } },
       ],
     },
   };
@@ -111,10 +139,19 @@ export default async function HomePage({ params }: HomePageProps) {
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": `${SITE_URL}/#website`,
     name: "Oto Grade",
     url: SITE_URL,
     description: t("websiteDescription", { default: "Türkiye genelinde hasarlı araç alım hizmeti" }),
     inLanguage: locale === "en" ? "en-US" : "tr-TR",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${SITE_URL}/blog?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
   };
 
   const faqSchema = {

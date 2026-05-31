@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description = t("contactDescription", { default: "Oto Grade ile iletişime geçin. Telefon, WhatsApp veya form üzerinden bize ulaşın." });
   const canonical = `${SITE_URL}${getPathname({ locale, href: "/iletisim" })}`;
   return {
-    title,
+    title: { absolute: title },
     description,
     alternates: {
       canonical,

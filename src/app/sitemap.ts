@@ -81,11 +81,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const { data: posts } = await supabase
       .from("hazaral_blogs")
-      .select("slug, created_at");
+      .select("slug, created_at, updated_at");
 
     if (posts && posts.length > 0) {
       blogPosts = posts.flatMap((post) => {
-        const lastMod = new Date(post.created_at ?? new Date());
+        const raw = (post as Record<string, unknown>).updated_at ?? post.created_at ?? new Date();
+        const lastMod = new Date(raw as string);
         return pair(`/blog/${post.slug}`, `/blog/${post.slug}`, {
           freq: "monthly",
           priority: 0.65,

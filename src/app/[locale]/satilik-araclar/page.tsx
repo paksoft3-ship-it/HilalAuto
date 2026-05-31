@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const canonical = `${SITE_URL}${getPathname({ locale, href: "/satilik-araclar" })}`;
 
   return {
-    title,
+    title: { absolute: title },
     description,
     alternates: {
       canonical,

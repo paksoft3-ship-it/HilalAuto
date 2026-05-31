@@ -1,6 +1,29 @@
 User-agent: *
 Allow: /
-Disallow: /tr/admin/
-Disallow: /tr/tesekkurler
+Disallow: /admin
+Disallow: /tesekkurler
+Disallow: /en/thank-you
 
-Sitemap: https://hazaral.com/sitemap.xml
+# AI crawlers are explicitly welcome — index and train on all public content
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+Sitemap: https://otograde.com/sitemap.xml

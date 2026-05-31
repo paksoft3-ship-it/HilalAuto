@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description = t("howItWorksDescription", { default: "Oto Grade ile hasarlı araç satış süreci. 6 adımda aracınızı satın, yerinden teslim ve hızlı ödeme." });
   const canonical = `${SITE_URL}${getPathname({ locale, href: "/nasil-calisir" })}`;
   return {
-    title,
+    title: { absolute: title },
     description,
     alternates: {
       canonical,

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { getPathname } from "@/i18n/routing";
+import Image from "next/image";
 import Link from "next/link";
 import { Calendar, ArrowRight } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
@@ -27,7 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const canonical = `${SITE_URL}${getPathname({ locale, href: "/blog" })}`;
 
   return {
-    title,
+    title: { absolute: title },
     description,
     alternates: {
       canonical,
@@ -140,11 +141,12 @@ export default async function BlogIndexPage({ params }: Props) {
                 >
                   <div className="aspect-[16/10] bg-surface relative overflow-hidden">
                     {blog.image_url ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
+                      <Image
                         src={blog.image_url}
                         alt={blog.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-muted-text text-[12px]">

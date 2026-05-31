@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "seo" });
   return {
-    title: t("termsTitle", { default: `Kullanım Koşulları — ${SITE_NAME}` }),
+    title: { absolute: t("termsTitle", { default: `Kullanım Koşulları — ${SITE_NAME}` }) },
     description: t("termsDesc", { default: "Oto Grade web sitesi kullanım koşulları ve hizmet şartları." }),
     alternates: { canonical: `${SITE_URL}${getPathname({ locale, href: "/kullanim-kosullari" })}` },
     robots: { index: false },
