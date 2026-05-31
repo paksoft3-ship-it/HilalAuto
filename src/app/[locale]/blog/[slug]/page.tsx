@@ -3,7 +3,7 @@ import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/routing";
-import { Calendar, ArrowLeft, Share2, Clock, ChevronRight } from "lucide-react";
+import { Calendar, ArrowLeft, Share2, Clock, ChevronRight, ShieldCheck } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { Container } from "@/components/ui/Container";
 import { SITE_URL } from "@/lib/constants";
@@ -175,8 +175,8 @@ export default async function BlogDetailPage({ params }: Props) {
                 
                 {/* Author Block */}
                 <div className="bg-surface-container-lowest border border-[0.5px] border-border-default rounded-[16px] p-24 shadow-sm flex items-start gap-16">
-                  <div className="w-48 h-48 rounded-full bg-surface-container-high border-2 border-primary flex items-center justify-center overflow-hidden shrink-0">
-                    <img src="/images/logo/rounded.svg" alt="Oto Grade Uzman Ekibi" className="w-24 h-24 object-contain" />
+                  <div className="w-[64px] h-[64px] rounded-full bg-surface-container-high border-2 border-primary flex items-center justify-center overflow-hidden shrink-0">
+                    <ShieldCheck size={32} className="text-primary" />
                   </div>
                   <div>
                     <h4 className="font-bold text-[16px] text-on-surface mb-4">Oto Grade Uzman Ekibi</h4>
@@ -188,7 +188,7 @@ export default async function BlogDetailPage({ params }: Props) {
                 <div className="bg-[#1a1c1c] rounded-[16px] p-32 text-center shadow-xl relative overflow-hidden">
                   <div className="absolute inset-0 z-0 opacity-15 bg-primary" style={{ backgroundImage: "radial-gradient(circle at top right, var(--color-primary) 0%, transparent 70%)" }}></div>
                   <div className="relative z-10">
-                    <div className="w-56 h-56 mx-auto bg-primary/20 rounded-full flex items-center justify-center mb-16 text-primary">
+                    <div className="w-[56px] h-[56px] mx-auto bg-primary/20 rounded-full flex items-center justify-center mb-16 text-primary">
                       <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
                     </div>
                     <h3 className="text-[20px] font-bold text-white mb-12 leading-tight">Aracınızın Gerçek Değerini Öğrenin</h3>
