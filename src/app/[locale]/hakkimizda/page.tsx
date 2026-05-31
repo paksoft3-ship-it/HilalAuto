@@ -85,14 +85,19 @@ export default async function HakkimizdaPage({ params }: Props) {
       <Navbar />
       <main className="pb-[76px] md:pb-0">
         {/* Hero */}
-        <section className="bg-bg-surface border-b border-[0.5px] border-border-default py-32 md:py-44">
-          <Container>
+        <section className="relative py-32 md:py-44 overflow-hidden border-b border-[0.5px] border-border-default">
+          <div 
+            className="absolute inset-0 z-0 bg-cover bg-center"
+            style={{ backgroundImage: "url('/images/sections/about_hero_bg.png')" }}
+          />
+          <div className="absolute inset-0 z-0 bg-black/70" />
+          <Container className="relative z-10">
             <div className="flex flex-col items-start gap-16 w-full lg:w-3/4">
               <Badge variant="accent">{t("badge", { default: "Hakkımızda" })}</Badge>
-              <h1 className="text-section-title-mobile md:text-[40px] font-medium tracking-heading text-text-primary">
+              <h1 className="text-section-title-mobile md:text-[40px] font-medium tracking-heading text-white">
                 {t("title", { default: "Hasarlı Araç Alımında Türkiye'nin Güvenilir Markası" })}
               </h1>
-              <p className="text-[14px] text-text-muted leading-relaxed">
+              <p className="text-[14px] text-white/80 leading-relaxed">
                 {t("subtitle", { default: "Yılların getirdiği otomotiv tecrübesiyle, hasarlı araç sahiplerine en doğru fiyatı ve en güvenli hizmeti sunuyoruz." })}
               </p>
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-12 mt-8 w-full sm:w-auto">
