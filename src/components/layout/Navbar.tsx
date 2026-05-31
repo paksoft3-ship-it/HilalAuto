@@ -140,12 +140,14 @@ export function Navbar() {
           </div>
 
           {/* Mobile actions (Language + Hamburger) */}
-          <div className="flex md:hidden items-center gap-8">
-            <LanguageSwitcher />
+          <div className="flex lg:hidden items-center gap-8">
+            <div className="block md:hidden">
+              <LanguageSwitcher />
+            </div>
             <button
               type="button"
               onClick={() => setMenuOpen((v) => !v)}
-              className="flex items-center justify-center w-[40px] h-[40px] text-on-surface rounded-btn hover:bg-surface transition-colors"
+              className="flex items-center justify-center w-[40px] h-[40px] text-on-surface rounded-btn hover:bg-surface transition-colors ml-4 md:ml-0"
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
               aria-label={menuOpen ? "Menüyü kapat" : "Menüyü aç"}
@@ -165,7 +167,7 @@ export function Navbar() {
           id="mobile-menu"
           role="navigation"
           aria-label="Mobil navigasyon"
-          className="fixed top-[60px] left-0 right-0 bottom-0 z-[99] bg-surface-container-lowest flex flex-col md:hidden overflow-hidden"
+          className="fixed top-[60px] left-0 right-0 bottom-0 z-[99] bg-surface-container-lowest flex flex-col lg:hidden overflow-hidden"
         >
           {/* Scrollable nav links */}
           <div className="flex-1 overflow-y-auto">
@@ -226,7 +228,7 @@ export function Navbar() {
           </div>
 
           {/* Fixed CTA bar at the bottom — always fully visible */}
-          <div className="shrink-0 px-16 py-16 pb-[max(16px,env(safe-area-inset-bottom))] bg-surface border-t border-[0.5px] border-border-default flex flex-col gap-10">
+          <div className="shrink-0 px-16 py-16 pb-[max(16px,env(safe-area-inset-bottom))] bg-surface border-t border-[0.5px] border-border-default flex flex-col gap-10 md:hidden">
             <div className="grid grid-cols-2 gap-10">
               <a
                 href={externalRoutes.phone(PHONE_NUMBER)}
