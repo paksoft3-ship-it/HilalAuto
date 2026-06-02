@@ -64,7 +64,7 @@ export async function generateMetadata({ params }: HomePageProps): Promise<Metad
 
 // ── Server-side data fetching ──────────────────────────────────────────────────
 
-async function fetchHomeData(locale: string) {
+async function fetchHomeData() {
   try {
     const [
       { count: listingCount },
@@ -147,10 +147,9 @@ async function fetchHomeData(locale: string) {
 
 export default async function HomePage({ params }: HomePageProps) {
   const { locale } = await params;
-  const [t, faqT, { stats, featuredListings, recentListings }] = await Promise.all([
-    getTranslations({ locale, namespace: "seo" }),
+  const [faqT, { stats, featuredListings, recentListings }] = await Promise.all([
     getTranslations({ locale, namespace: "faq" }),
-    fetchHomeData(locale),
+    fetchHomeData(),
   ]);
 
   const organizationSchema = {

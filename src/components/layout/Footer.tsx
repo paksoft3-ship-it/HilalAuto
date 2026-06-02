@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { Phone } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { routes, externalRoutes } from "@/lib/routes";
-import { PHONE_NUMBER, WHATSAPP_NUMBER, SITE_NAME, VEHICLE_TYPES } from "@/lib/constants";
+import { PHONE_NUMBER, WHATSAPP_NUMBER, VEHICLE_TYPES } from "@/lib/constants";
 import { FaWhatsapp, FaTiktok, FaInstagram, FaFacebook, FaYoutube, FaLinkedin } from 'react-icons/fa';
 
 const SERVICES = VEHICLE_TYPES.slice(0, 6); // First 6 services
