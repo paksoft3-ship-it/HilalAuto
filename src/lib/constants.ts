@@ -69,6 +69,14 @@ export const CITIES: Record<string, string> = {
   hatay: "Hatay",
 };
 
+export const CAR_BRANDS = [
+  "Alfa Romeo", "Audi", "BMW", "Chevrolet", "Citroen", "Dacia",
+  "Fiat", "Ford", "Honda", "Hyundai", "Jaguar", "Jeep", "Kia",
+  "Land Rover", "Maserati", "Mazda", "Mercedes-Benz", "Mini", "Mitsubishi",
+  "Nissan", "Opel", "Peugeot", "Porsche", "Renault", "Saab", "Seat",
+  "Skoda", "Subaru", "Suzuki", "Tesla", "Toyota", "Volkswagen", "Volvo",
+] as const;
+
 export const FUEL_TYPES = ["Benzin", "Dizel", "LPG", "Hibrit", "Elektrik"] as const;
 export const TRANSMISSION_TYPES = ["Manuel", "Otomatik", "Yarı Otomatik"] as const;
 

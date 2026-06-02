@@ -53,6 +53,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...pair("/nasil-calisir",      "/how-it-works",        { freq: "monthly", priority: 0.75 }),
     ...pair("/blog",               "/blog",                { freq: "weekly",  priority: 0.70 }),
     ...pair("/satilik-araclar",    "/vehicles-for-sale",   { freq: "weekly",  priority: 0.70 }),
+    ...pair("/ara",                "/listings",            { freq: "daily",   priority: 0.90 }),
     ...pair("/hakkimizda",         "/about-us",            { freq: "monthly", priority: 0.60 }),
     ...pair("/iletisim",           "/contact",             { freq: "monthly", priority: 0.60 }),
     ...pair("/kvkk",               "/kvkk",                { freq: "yearly",  priority: 0.30 }),
@@ -98,5 +99,51 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Supabase unavailable at build time — blog posts excluded from sitemap
   }
 
-  return [...statics, ...services, ...cities, ...blogPosts];
+  // ── Active listings ──────────────────────────────────────────────────────────
+  let marketplaceListings: MetadataRoute.Sitemap = [];
+  try {
+    const { data: activeListing } = await supabase
+      .from("hazaral_listings")
+      .select("slug, created_at, updated_at")
+      .eq("status", "active");
+
+    if (activeListing && activeListing.length > 0) {
+      marketplaceListings = activeListing.flatMap((l) => {
+        const raw = (l as Record<string, unknown>).updated_at ?? l.created_at ?? new Date();
+        const lastMod = new Date(raw as string);
+        return pair(`/ara/${l.slug}`, `/listings/${l.slug}`, {
+          freq: "weekly",
+          priority: 0.80,
+          lastMod,
+        });
+      });
+    }
+  } catch {
+    // Supabase unavailable at build time
+  }
+
+  // ── Dealer profiles ──────────────────────────────────────────────────────────
+  let dealerProfiles: MetadataRoute.Sitemap = [];
+  try {
+    const { data: dealers } = await supabase
+      .from("hazaral_dealers")
+      .select("slug, updated_at")
+      .eq("is_approved", true)
+      .not("slug", "is", null);
+
+    if (dealers && dealers.length > 0) {
+      dealerProfiles = dealers.flatMap((d) => {
+        const lastMod = new Date((d.updated_at as string) ?? new Date());
+        return pair(`/bayi/${d.slug}`, `/dealer/${d.slug}`, {
+          freq: "weekly",
+          priority: 0.60,
+          lastMod,
+        });
+      });
+    }
+  } catch {
+    // Supabase unavailable at build time
+  }
+
+  return [...statics, ...services, ...cities, ...blogPosts, ...marketplaceListings, ...dealerProfiles];
 }

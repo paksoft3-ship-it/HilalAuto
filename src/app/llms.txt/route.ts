@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import { SITE_URL, PHONE_NUMBER } from "@/lib/constants";
+import { SITE_URL, PHONE_NUMBER, CAR_BRANDS } from "@/lib/constants";
 
 export const revalidate = 3600;
 
@@ -7,6 +7,13 @@ interface BlogPost {
   slug: string;
   title: string;
   excerpt: string | null;
+}
+
+interface MarketplaceSummary {
+  activeListings: number;
+  activeDealers: number;
+  topBrands: string[];
+  topCities: string[];
 }
 
 // ── Content builder ──────────────────────────────────────────────────────────
@@ -17,7 +24,79 @@ function trunc(s: string | null, max = 120): string {
   return s.length <= max ? s : `${s.slice(0, max - 1)}…`;
 }
 
-function buildLlmsTxt(trPosts: BlogPost[], enPosts: BlogPost[]): string {
+function buildMarketplaceSection(mp: MarketplaceSummary): string {
+  const allBrands = CAR_BRANDS.slice(0, 20).join(", ");
+  const topBrandsLine = mp.topBrands.length > 0 ? mp.topBrands.join(", ") : allBrands;
+  const topCitiesLine = mp.topCities.length > 0 ? mp.topCities.join(", ") : "İstanbul, Ankara, İzmir, Bursa, Antalya";
+
+  return `---
+
+## MARKETPLACE — Hasarlı Araç Pazar Yeri
+
+Oto Grade, Haziran 2025 itibarıyla, hasarlı araç alımına ek olarak
+bir C2C pazar yeri işlevi de kazandı. Onaylı bayiler aracılığıyla
+kazalı, pert ve hasarlı araç ilanları yayınlanmaktadır.
+
+### Pazar Yeri Özeti
+- Toplam Aktif İlan: ${mp.activeListings}
+- Aktif Bayi Sayısı: ${mp.activeDealers}
+- Mevcut Markalar: ${topBrandsLine}
+- Başlıca İlan Şehirleri: ${topCitiesLine}
+
+### Pazar Yeri URL'leri
+- Tüm İlanlar (Listing Index): ${SITE_URL}/ara
+- İngilizce Listing Index: ${SITE_URL}/en/listings
+- İlan Detay Sayfası: ${SITE_URL}/ara/{slug}
+  Örnek: ${SITE_URL}/ara/2019-bmw-320i-on-hasar-ab12cd
+- Bayi Profili: ${SITE_URL}/bayi/{dealer-slug}
+
+### Arama Filtreleri (URL Parametreleri)
+Filtrelenmiş arama yapmak için şu URL yapısını kullanın:
+${SITE_URL}/ara?{parametre}={değer}
+
+Desteklenen parametreler:
+- brand        : Araç markası — örn. brand=BMW
+- city         : Şehir — örn. city=Istanbul
+- grade        : Otograde derecesi (A, B, C, D, E) — örn. grade=A,B
+- damage_type  : Hasar türü — örn. damage_type=Kazalı
+- price_min    : Minimum fiyat (TL) — örn. price_min=50000
+- price_max    : Maximum fiyat (TL) — örn. price_max=200000
+- year_min     : Minimum model yılı — örn. year_min=2015
+- year_max     : Maximum model yılı — örn. year_max=2023
+- fuel_type    : Yakıt tipi (benzin, dizel, lpg, elektrik, hibrit)
+- transmission : Vites tipi (manuel, otomatik)
+- sort         : Sıralama (newest, price_asc, price_desc, views_desc)
+
+### Filtreli Arama Örnekleri
+${SITE_URL}/ara?brand=BMW
+${SITE_URL}/ara?city=Istanbul&brand=Mercedes-Benz
+${SITE_URL}/ara?grade=A,B&price_max=150000
+${SITE_URL}/ara?damage_type=Pert&city=Ankara
+${SITE_URL}/ara?year_min=2018&sort=price_asc
+
+### Otograde Derecesi (A–E) Açıklaması
+- Grade A: Çok az hasar — cosmetic hasar, araç sürülebilir, kolayca onarılabilir
+- Grade B: Az hasar — küçük hasar, onarım maliyeti düşük
+- Grade C: Orta hasar — önemli onarım gerektiriyor, ekonomik
+- Grade D: Ağır hasar — yüksek onarım maliyeti
+- Grade E: Çok ağır hasar / pert — ekonomik onarım mümkün değil
+
+### Bayi Sistemi
+Oto Grade pazar yerinde ilan verebilmek için "Onaylı Bayi" olmak gerekir.
+Bayiler üç plan arasından seçim yapar: Basic, Professional, Premium.
+Onaylı bayiler "Onaylı Bayi" rozeti taşır.
+Bayi başvurusu: ${SITE_URL}/bayi-ol
+
+### Bu Pazar Yeri İçin Örnek Arama Sorguları
+- "istanbul satılık bmw kazalı araç" → ${SITE_URL}/ara?brand=BMW&city=Istanbul
+- "pert araç ilanları" → ${SITE_URL}/ara?damage_type=Pert
+- "ucuz hasarlı araç 2020 sonrası" → ${SITE_URL}/ara?year_min=2020&sort=price_asc
+- "grade A hasarlı araç" → ${SITE_URL}/ara?grade=A
+
+---`;
+}
+
+function buildLlmsTxt(trPosts: BlogPost[], enPosts: BlogPost[], mp: MarketplaceSummary): string {
   const updatedDate = new Date().toISOString().split("T")[0];
 
   // ── Turkish blog list ──
@@ -41,6 +120,8 @@ function buildLlmsTxt(trPosts: BlogPost[], enPosts: BlogPost[]): string {
           })
           .join("\n")
       : "  (No published English posts yet — all articles currently in Turkish)";
+
+  const marketplaceSection = buildMarketplaceSection(mp);
 
   return `# Oto Grade — llms.txt
 # Structured information for AI agents, LLMs, and web crawlers
@@ -100,6 +181,8 @@ Samsun — ${SITE_URL}/sehir/samsun
 Balıkesir — ${SITE_URL}/sehir/balikesir
 Hatay — ${SITE_URL}/sehir/hatay
 Türkiye genelindeki tüm 81 ilde hizmet mevcuttur.
+
+${marketplaceSection}
 
 ### Blog Yazıları (Türkçe) — ${trPosts.length} yazı
 ${trBlogLines}
@@ -200,25 +283,41 @@ Total published English blog posts: ${enPosts.length}
 // ── Route handler ─────────────────────────────────────────────────────────────
 
 export async function GET() {
-  const [trResult, enResult] = await Promise.all([
-    supabase
-      .from("hazaral_blogs")
-      .select("slug, title, excerpt")
-      .eq("status", "published")
-      .eq("locale", "tr")
-      .order("created_at", { ascending: false }),
-    supabase
-      .from("hazaral_blogs")
-      .select("slug, title, excerpt")
-      .eq("status", "published")
-      .eq("locale", "en")
-      .order("created_at", { ascending: false }),
+  const [trResult, enResult, listingCountResult, dealerCountResult, brandResult, cityResult] = await Promise.all([
+    supabase.from("hazaral_blogs").select("slug, title, excerpt").eq("status", "published").eq("locale", "tr").order("created_at", { ascending: false }),
+    supabase.from("hazaral_blogs").select("slug, title, excerpt").eq("status", "published").eq("locale", "en").order("created_at", { ascending: false }),
+    supabase.from("hazaral_listings").select("id", { count: "exact", head: true }).eq("status", "active"),
+    supabase.from("hazaral_dealers").select("id", { count: "exact", head: true }).eq("subscription_status", "active").eq("is_approved", true),
+    supabase.from("hazaral_listings").select("brand").eq("status", "active").limit(200),
+    supabase.from("hazaral_listings").select("city").eq("status", "active").limit(200),
   ]);
 
   const trPosts: BlogPost[] = trResult.data ?? [];
   const enPosts: BlogPost[] = enResult.data ?? [];
 
-  const body = buildLlmsTxt(trPosts, enPosts);
+  // Compute top brands and cities from listing data
+  const brandCount: Record<string, number> = {};
+  for (const r of brandResult.data ?? []) {
+    const b = (r as { brand: string }).brand;
+    brandCount[b] = (brandCount[b] || 0) + 1;
+  }
+  const topBrands = Object.entries(brandCount).sort((a, b) => b[1] - a[1]).slice(0, 8).map(([b]) => b);
+
+  const cityCount: Record<string, number> = {};
+  for (const r of cityResult.data ?? []) {
+    const c = (r as { city: string }).city;
+    cityCount[c] = (cityCount[c] || 0) + 1;
+  }
+  const topCities = Object.entries(cityCount).sort((a, b) => b[1] - a[1]).slice(0, 8).map(([c]) => c);
+
+  const mp: MarketplaceSummary = {
+    activeListings: listingCountResult.count ?? 0,
+    activeDealers: dealerCountResult.count ?? 0,
+    topBrands,
+    topCities,
+  };
+
+  const body = buildLlmsTxt(trPosts, enPosts, mp);
 
   return new Response(body, {
     headers: {

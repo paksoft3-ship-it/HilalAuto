@@ -572,5 +572,14 @@
     "whatsapp": "Message on WhatsApp",
     "formTitle": "Quick Quote Form",
     "formSub": "Non-binding · Fast response"
+  },
+  "ara": {
+    "metaTitle": "Damaged Car Listings — Accident, Written-Off & Salvage Marketplace | Otograde",
+    "metaDescription": "Browse damaged, accident, written-off, and salvage car listings across Turkey. Otograde-graded, dealer listings, secure transactions."
+  },
+  "araDetail": {
+    "back": "Back to Listings",
+    "safetyNote": "Always arrange an independent inspection before purchasing.",
+    "similarTitle": "Similar Listings"
   }
 }

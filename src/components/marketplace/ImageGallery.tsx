@@ -1,0 +1,204 @@
+"use client";
+
+import { useState, useCallback, useEffect, useRef } from "react";
+import { ChevronLeft, ChevronRight, X, ZoomIn, Images } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+interface ImageGalleryProps {
+  images: string[];
+  title: string;
+  onImageViewed?: (count: number) => void;
+}
+
+export function ImageGallery({ images, title, onImageViewed }: ImageGalleryProps) {
+  const [current, setCurrent] = useState(0);
+  const [lightbox, setLightbox] = useState(false);
+  const maxViewed = useRef(1);
+
+  const touchStartX = useRef(0);
+
+  const total = images.length;
+
+  const go = useCallback(
+    (dir: 1 | -1) => {
+      setCurrent((prev) => {
+        const next = (prev + dir + total) % total;
+        const viewed = next + 1;
+        if (viewed > maxViewed.current) {
+          maxViewed.current = viewed;
+          onImageViewed?.(viewed);
+        }
+        return next;
+      });
+    },
+    [total, onImageViewed]
+  );
+
+  // Keyboard navigation in lightbox
+  useEffect(() => {
+    if (!lightbox) return;
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "ArrowRight") go(1);
+      if (e.key === "ArrowLeft") go(-1);
+      if (e.key === "Escape") setLightbox(false);
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [lightbox, go]);
+
+  // Lock scroll when lightbox open
+  useEffect(() => {
+    document.body.style.overflow = lightbox ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [lightbox]);
+
+  if (total === 0) {
+    return (
+      <div className="aspect-video bg-surface-container-low border border-[0.5px] border-border-default rounded-card flex items-center justify-center">
+        <span className="text-[14px] text-muted-text">Fotoğraf bulunmuyor</span>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      {/* Main gallery */}
+      <div className="flex flex-col gap-8">
+        {/* Primary image */}
+        <div
+          className="relative aspect-video bg-surface-container-low rounded-card overflow-hidden cursor-zoom-in group"
+          onClick={() => setLightbox(true)}
+          onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
+          onTouchEnd={(e) => {
+            const diff = touchStartX.current - e.changedTouches[0].clientX;
+            if (Math.abs(diff) > 50) go(diff > 0 ? 1 : -1);
+          }}
+        >
+          <img
+            src={images[current]}
+            alt={`${title} — fotoğraf ${current + 1}`}
+            className="w-full h-full object-cover"
+            draggable={false}
+          />
+
+          {/* Nav arrows */}
+          {total > 1 && (
+            <>
+              <button
+                onClick={(e) => { e.stopPropagation(); go(-1); }}
+                className="absolute left-8 top-1/2 -translate-y-1/2 w-[36px] h-[36px] rounded-full bg-black/50 hover:bg-black/70 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                aria-label="Önceki fotoğraf"
+              >
+                <ChevronLeft size={20} />
+              </button>
+              <button
+                onClick={(e) => { e.stopPropagation(); go(1); }}
+                className="absolute right-8 top-1/2 -translate-y-1/2 w-[36px] h-[36px] rounded-full bg-black/50 hover:bg-black/70 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                aria-label="Sonraki fotoğraf"
+              >
+                <ChevronRight size={20} />
+              </button>
+            </>
+          )}
+
+          {/* Badges */}
+          <div className="absolute top-12 left-12 flex items-center gap-8 bg-black/60 text-white text-[12px] px-10 py-6 rounded-full">
+            <Images size={13} /> {current + 1} / {total}
+          </div>
+
+          <div className="absolute bottom-12 right-12 opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="bg-black/60 text-white text-[11px] px-10 py-6 rounded-full flex items-center gap-6">
+              <ZoomIn size={12} /> Büyüt
+            </div>
+          </div>
+        </div>
+
+        {/* Thumbnail strip */}
+        {total > 1 && (
+          <div className="flex gap-6 overflow-x-auto pb-2 scrollbar-hide">
+            {images.map((src, i) => (
+              <button
+                key={i}
+                onClick={() => {
+                  setCurrent(i);
+                  const viewed = i + 1;
+                  if (viewed > maxViewed.current) {
+                    maxViewed.current = viewed;
+                    onImageViewed?.(viewed);
+                  }
+                }}
+                className={cn(
+                  "shrink-0 w-[64px] h-[48px] rounded overflow-hidden border-2 transition-colors",
+                  i === current ? "border-primary" : "border-transparent opacity-60 hover:opacity-100"
+                )}
+                aria-label={`Fotoğraf ${i + 1}`}
+              >
+                <img src={src} alt="" className="w-full h-full object-cover" />
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Lightbox */}
+      {lightbox && (
+        <div
+          className="fixed inset-0 z-[200] bg-black/95 flex items-center justify-center"
+          onClick={() => setLightbox(false)}
+          onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
+          onTouchEnd={(e) => {
+            const diff = touchStartX.current - e.changedTouches[0].clientX;
+            if (Math.abs(diff) > 50) go(diff > 0 ? 1 : -1);
+          }}
+        >
+          {/* Close */}
+          <button
+            onClick={() => setLightbox(false)}
+            className="absolute top-16 right-16 w-[40px] h-[40px] rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center z-10"
+            aria-label="Kapat"
+          >
+            <X size={20} />
+          </button>
+
+          {/* Counter */}
+          <div className="absolute top-16 left-16 text-white/70 text-[13px]">
+            {current + 1} / {total}
+          </div>
+
+          {/* Image */}
+          <div
+            className="max-w-[90vw] max-h-[90vh]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={images[current]}
+              alt={`${title} — fotoğraf ${current + 1}`}
+              className="max-w-full max-h-[90vh] object-contain"
+              draggable={false}
+            />
+          </div>
+
+          {/* Lightbox nav */}
+          {total > 1 && (
+            <>
+              <button
+                onClick={(e) => { e.stopPropagation(); go(-1); }}
+                className="absolute left-16 top-1/2 -translate-y-1/2 w-[48px] h-[48px] rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center"
+                aria-label="Önceki"
+              >
+                <ChevronLeft size={24} />
+              </button>
+              <button
+                onClick={(e) => { e.stopPropagation(); go(1); }}
+                className="absolute right-16 top-1/2 -translate-y-1/2 w-[48px] h-[48px] rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center"
+                aria-label="Sonraki"
+              >
+                <ChevronRight size={24} />
+              </button>
+            </>
+          )}
+        </div>
+      )}
+    </>
+  );
+}

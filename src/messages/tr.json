@@ -557,6 +557,15 @@
     "formTitle": "Hızlı Teklif Formu",
     "formSub": "Bağlayıcı değil · Hızlı dönüş"
   },
+  "ara": {
+    "metaTitle": "Hasarlı Araç İlanları — Kazalı, Pert, Hurda Araç Pazar Yeri | Otograde",
+    "metaDescription": "Türkiye genelinde kazalı, pert, hasarlı ve hurda araç ilanları. Otograde dereceli, bayiden alım, güvenli işlem."
+  },
+  "araDetail": {
+    "back": "İlanlara Dön",
+    "safetyNote": "Araç satın almadan önce ekspertiz yaptırınız.",
+    "similarTitle": "Benzer İlanlar"
+  },
   "citiesIndex": {
     "home": "Ana Sayfa",
     "cities": "Şehirler",

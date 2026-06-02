@@ -6,21 +6,20 @@ import { useRouter, usePathname } from "@/i18n/routing";
 import { Link } from "@/i18n/routing";
 import { supabase } from "@/lib/supabase";
 import {
-  LayoutDashboard,
-  Users,
-  Car,
-  FileText,
-  LogOut,
-  Menu,
-  X
+  LayoutDashboard, Users, Car, FileText, LogOut, Menu, X,
+  Building2, ClipboardList, CreditCard, BarChart3,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
-  { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
-  { label: "Talepler", href: "/admin/leads", icon: Users },
-  { label: "Araç İlanları", href: "/admin/cars", icon: Car },
-  { label: "Blog Yönetimi", href: "/admin/blogs", icon: FileText },
+  { label: "Dashboard",         href: "/admin",                   icon: LayoutDashboard },
+  { label: "Bayiler",           href: "/admin/bayiler",           icon: Building2 },
+  { label: "İlan Moderasyonu",  href: "/admin/ilanlar",           icon: ClipboardList },
+  { label: "Abonelikler",       href: "/admin/abonelikler",       icon: CreditCard },
+  { label: "Platform Analitik", href: "/admin/platform-analitik", icon: BarChart3 },
+  { label: "Talepler",          href: "/admin/leads",             icon: Users },
+  { label: "Araç İlanları",     href: "/admin/cars",              icon: Car },
+  { label: "Blog Yönetimi",     href: "/admin/blogs",             icon: FileText },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
