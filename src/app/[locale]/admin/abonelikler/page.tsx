@@ -3,9 +3,10 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Dealer } from "@/types/marketplace";
-import { CheckCircle, Clock, AlertTriangle, RefreshCw, Download, Bell } from "lucide-react";
+import { CheckCircle, Clock, AlertTriangle, RefreshCw, Download, Bell, X } from "lucide-react";
 import { externalRoutes } from "@/lib/routes";
 import { cn } from "@/lib/utils";
+import { logAdminAudit } from "@/lib/admin-audit-client";
 
 const PLANS = ["basic", "professional", "premium"] as const;
 const PLAN_PRICES = { basic: 4999, professional: 9999, premium: 19999 };
@@ -15,8 +16,21 @@ interface DealerWithPayment extends Dealer {
   _payment_note?: string;
 }
 
+type SubscriptionPayment = {
+  id: string;
+  dealer_id: string;
+  plan_slug: "basic" | "professional" | "premium";
+  provider: string;
+  status: string;
+  amount: number;
+  created_at: string;
+  checkout_url: string | null;
+  dealer?: { company_name: string; city: string } | null;
+};
+
 export default function AdminAbonelikler() {
   const [dealers, setDealers] = useState<DealerWithPayment[]>([]);
+  const [payments, setPayments] = useState<SubscriptionPayment[]>([]);
   const [loading, setLoading] = useState(true);
   const [activateTarget, setActivateTarget] = useState<DealerWithPayment | null>(null);
   const [activatePlan, setActivatePlan] = useState<"basic" | "professional" | "premium">("basic");
@@ -35,6 +49,14 @@ export default function AdminAbonelikler() {
       .order("subscription_status")
       .order("subscription_end");
     setDealers((data as DealerWithPayment[]) || []);
+
+    const { data: paymentData } = await supabase
+      .from("hazaral_subscription_payments")
+      .select("*, dealer:hazaral_dealers(company_name, city)")
+      .in("status", ["pending", "checkout_created"])
+      .order("created_at", { ascending: false })
+      .limit(20);
+    setPayments((paymentData as SubscriptionPayment[]) || []);
     setLoading(false);
   }
 
@@ -67,9 +89,17 @@ export default function AdminAbonelikler() {
 
     await supabase.from("hazaral_notifications").insert({
       dealer_id: activateTarget.id,
-      type: "listing_approved",
+      type: "subscription_activated",
       title: "Aboneliğiniz Aktifleştirildi",
       body: `${PLANS.find(p => p === activatePlan)} planı aktifleştirildi. ${PLAN_DAYS[activatePlan]} gün geçerlidir.`,
+    });
+
+    await logAdminAudit({
+      action: "subscription.activate",
+      entityType: "dealer",
+      entityId: activateTarget.id,
+      dealerId: activateTarget.id,
+      metadata: { company_name: activateTarget.company_name, plan: activatePlan, end: end.toISOString(), note: paymentNote || null },
     });
 
     setActivateTarget(null);
@@ -88,6 +118,14 @@ export default function AdminAbonelikler() {
       subscription_end: newEnd.toISOString(),
       subscription_status: "active",
     }).eq("id", extendTarget);
+
+    await logAdminAudit({
+      action: "subscription.extend",
+      entityType: "dealer",
+      entityId: extendTarget,
+      dealerId: extendTarget,
+      metadata: { days: parseInt(extendDays), new_end: newEnd.toISOString() },
+    });
     setExtendTarget(null);
     await load();
     setSaving(false);
@@ -109,8 +147,50 @@ export default function AdminAbonelikler() {
       });
       count++;
     }
+    await logAdminAudit({
+      action: "subscription.reminder",
+      entityType: "dealer",
+      metadata: { count, dealer_ids: targets.map((d) => d.id) },
+    });
     setRemindersSent(count);
     setSendingReminders(false);
+  }
+
+  async function markPaymentPaid(payment: SubscriptionPayment) {
+    setSaving(true);
+    const now = new Date();
+    const end = new Date(now.getTime() + PLAN_DAYS[payment.plan_slug] * 86400000);
+
+    await supabase.from("hazaral_subscription_payments").update({
+      status: "paid",
+      paid_at: now.toISOString(),
+    }).eq("id", payment.id);
+
+    await supabase.from("hazaral_dealers").update({
+      subscription_status: "active",
+      subscription_plan: payment.plan_slug,
+      subscription_start: now.toISOString(),
+      subscription_end: end.toISOString(),
+      is_approved: true,
+    }).eq("id", payment.dealer_id);
+
+    await supabase.from("hazaral_notifications").insert({
+      dealer_id: payment.dealer_id,
+      type: "subscription_activated",
+      title: "Aboneliğiniz Aktifleştirildi",
+      body: `${payment.plan_slug} planınız ${end.toLocaleDateString("tr-TR")} tarihine kadar aktifleştirildi.`,
+    });
+
+    await logAdminAudit({
+      action: "payment.paid",
+      entityType: "subscription_payment",
+      entityId: payment.id,
+      dealerId: payment.dealer_id,
+      metadata: { plan: payment.plan_slug, amount: payment.amount, provider: payment.provider },
+    });
+
+    await load();
+    setSaving(false);
   }
 
   function exportCSV() {
@@ -170,6 +250,51 @@ export default function AdminAbonelikler() {
           <AlertBox type="error" icon={<AlertTriangle size={14} />} message={`${expired.length} abonelik sona erdi`} />
         )}
       </div>
+
+      {payments.length > 0 && (
+        <div className="bg-surface-container-lowest border border-[0.5px] border-border-default rounded-card overflow-hidden">
+          <div className="p-16 border-b border-[0.5px] border-border-default">
+            <h2 className="text-[16px] font-semibold text-on-surface">Ödeme İstekleri</h2>
+            <p className="text-[12px] text-muted-text mt-3">Bayi panelinden başlatılan açık ödeme talepleri.</p>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse min-w-[780px]">
+              <thead>
+                <tr className="border-b border-[0.5px] border-border-default bg-surface">
+                  {["Bayi", "Plan", "Tutar", "Sağlayıcı", "Durum", "Tarih", "İşlem"].map((h) => (
+                    <th key={h} className="py-11 px-12 text-[10px] font-medium text-muted-text uppercase tracking-wider whitespace-nowrap">{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {payments.map((p) => (
+                  <tr key={p.id} className="border-b border-[0.5px] border-border-default last:border-0">
+                    <td className="py-12 px-12 text-[12px] font-medium text-on-surface">
+                      <div>{p.dealer?.company_name || "—"}</div>
+                      <div className="text-[10px] text-muted-text">{p.dealer?.city || ""}</div>
+                    </td>
+                    <td className="py-12 px-12 text-[12px] capitalize text-on-surface">{p.plan_slug}</td>
+                    <td className="py-12 px-12 text-[12px] text-primary font-semibold">{p.amount.toLocaleString("tr-TR")} TL</td>
+                    <td className="py-12 px-12 text-[12px] text-muted-text">{p.provider}</td>
+                    <td className="py-12 px-12 text-[12px] text-muted-text">{p.status}</td>
+                    <td className="py-12 px-12 text-[11px] text-muted-text">{new Date(p.created_at).toLocaleDateString("tr-TR")}</td>
+                    <td className="py-12 px-12">
+                      <button
+                        onClick={() => markPaymentPaid(p)}
+                        disabled={saving}
+                        className="inline-flex items-center gap-6 px-10 py-7 bg-green-600 text-white rounded-btn text-[11px] font-semibold hover:opacity-90 disabled:opacity-60"
+                      >
+                        <CheckCircle size={12} />
+                        Ödendi
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
 
       {/* Table */}
       <div className="bg-surface-container-lowest border border-[0.5px] border-border-default rounded-card overflow-hidden">
@@ -325,11 +450,18 @@ function AlertBox({ type, icon, message }: { type: string; icon: React.ReactNode
   );
 }
 
-function Modal({ title, children }: { title: string; children: React.ReactNode; onClose?: () => void }) {
+function Modal({ title, children, onClose }: { title: string; children: React.ReactNode; onClose?: () => void }) {
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center p-16 bg-black/50">
       <div className="bg-surface-container-lowest border border-[0.5px] border-border-default rounded-card w-full max-w-[480px] p-24">
-        <h3 className="text-[16px] font-semibold text-on-surface mb-14">{title}</h3>
+        <div className="flex items-center justify-between gap-12 mb-14">
+          <h3 className="text-[16px] font-semibold text-on-surface">{title}</h3>
+          {onClose && (
+            <button onClick={onClose} className="p-4 text-muted-text hover:text-on-surface" aria-label="Kapat">
+              <X size={18} />
+            </button>
+          )}
+        </div>
         {children}
       </div>
     </div>

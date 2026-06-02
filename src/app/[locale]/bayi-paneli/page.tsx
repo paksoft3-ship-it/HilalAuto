@@ -114,9 +114,14 @@ export default function DealerDashboard() {
 
       {/* Subscription status bar */}
       {dealer.subscription_end && daysLeft <= 14 && (
-        <div className="bg-amber-50 border border-amber-200 rounded-card p-14 flex items-center gap-12 text-[13px] text-amber-700">
-          <Clock size={15} />
-          Aboneliğiniz <strong>{daysLeft} gün</strong> içinde sona eriyor. Lütfen yenileyin.
+        <div className="bg-amber-50 border border-amber-200 rounded-card p-14 flex flex-col md:flex-row md:items-center gap-12 text-[13px] text-amber-700">
+          <div className="flex items-center gap-10">
+            <Clock size={15} />
+            Aboneliğiniz <strong>{daysLeft} gün</strong> içinde sona eriyor.
+          </div>
+          <Link href="/bayi-paneli/abonelik" className="md:ml-auto text-primary font-semibold hover:underline">
+            Hemen yenile
+          </Link>
         </div>
       )}
 

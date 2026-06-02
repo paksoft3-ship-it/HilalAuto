@@ -66,7 +66,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 function buildJsonLd(listing: Listing, locale: string) {
   const canonical = `${SITE_URL}${locale === "tr" ? "" : "/en"}/ara/${listing.slug}`;
 
-  // ── Car schema (Schema.org Vehicle subtype) ───────────────────────────────
+  // ── Product schema with vehicle-specific PropertyValue fields ─────────────
   const additionalProps = [
     ...(listing.damage_grade ? [{ "@type": "PropertyValue", name: "Otograde Derecesi", value: listing.damage_grade, description: "Otograde A–E hasar değerlendirme sistemi" }] : []),
     ...(listing.damage_type?.length ? [{ "@type": "PropertyValue", name: "Hasar Türü", value: listing.damage_type.join(", ") }] : []),
@@ -75,29 +75,23 @@ function buildJsonLd(listing: Listing, locale: string) {
     ...(listing.district ? [{ "@type": "PropertyValue", name: "İlçe", value: listing.district }] : []),
   ];
 
-  const car = {
+  const product = {
     "@context": "https://schema.org",
-    "@type": "Car",
+    "@type": "Product",
     name: listing.title,
     description: listing.damage_description || `${listing.year} ${listing.brand} ${listing.model} — ${listing.damage_type?.join(", ")}`,
     image: listing.images?.length ? listing.images : undefined,
     url: canonical,
+    sku: listing.id,
+    category: "Hasarlı Araç",
     brand: { "@type": "Brand", name: listing.brand },
     model: listing.model,
-    vehicleModelDate: String(listing.year),
-    ...(listing.km != null ? {
-      mileageFromOdometer: { "@type": "QuantitativeValue", value: listing.km, unitCode: "KMT" },
-    } : {}),
-    ...(listing.fuel_type ? { fuelType: listing.fuel_type } : {}),
-    ...(listing.transmission ? { vehicleTransmission: listing.transmission } : {}),
-    ...(listing.color ? { color: listing.color } : {}),
-    itemCondition: "https://schema.org/DamagedCondition",
-    vehicleSpecialUsage: "DamageOrAccident",
     offers: {
       "@type": "Offer",
       price: listing.asking_price.toString(),
       priceCurrency: "TRY",
       priceValidUntil: listing.expires_at ? listing.expires_at.split("T")[0] : undefined,
+      itemCondition: "https://schema.org/DamagedCondition",
       availability: listing.status === "active"
         ? "https://schema.org/InStock"
         : "https://schema.org/OutOfStock",
@@ -111,7 +105,14 @@ function buildJsonLd(listing: Listing, locale: string) {
         url: listing.dealer.slug ? `${SITE_URL}/bayi/${listing.dealer.slug}` : undefined,
       } : undefined,
     },
-    additionalProperty: additionalProps,
+    additionalProperty: [
+      { "@type": "PropertyValue", name: "Araç Tipi", value: "Hasarlı araç" },
+      { "@type": "PropertyValue", name: "Model Yılı", value: String(listing.year) },
+      ...(listing.km != null ? [{ "@type": "PropertyValue", name: "Kilometre", value: `${listing.km} km` }] : []),
+      ...(listing.fuel_type ? [{ "@type": "PropertyValue", name: "Yakıt", value: listing.fuel_type }] : []),
+      ...(listing.transmission ? [{ "@type": "PropertyValue", name: "Vites", value: listing.transmission }] : []),
+      ...additionalProps,
+    ],
   };
 
   // ── BreadcrumbList ────────────────────────────────────────────────────────
@@ -135,7 +136,7 @@ function buildJsonLd(listing: Listing, locale: string) {
     ...(listing.dealer.slug ? { url: `${SITE_URL}/bayi/${listing.dealer.slug}` } : {}),
   } : null;
 
-  return [car, breadcrumb, ...(dealer ? [dealer] : [])];
+  return [product, breadcrumb, ...(dealer ? [dealer] : [])];
 }
 
 export default async function ListingDetailPage({ params }: Props) {

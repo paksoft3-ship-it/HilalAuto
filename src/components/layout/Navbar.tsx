@@ -15,6 +15,8 @@ import { FaWhatsapp } from "react-icons/fa";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 
 const NAV_LINKS = [
+  { labelKey: "marketplace", href: (locale: string) => "/ara" },
+  { labelKey: "favorites", href: (locale: string) => "/favoriler" },
   { labelKey: "howItWorks", href: (locale: string) => routes.howItWorks() },
   { labelKey: "vehicleTypes", href: (locale: string) => routes.vehicleTypes() },
   { labelKey: "cities", href: (locale: string) => `/${locale}/sehir` },

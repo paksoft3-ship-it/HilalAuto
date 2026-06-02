@@ -2,6 +2,7 @@ import { Link } from "@/i18n/routing";
 import { Listing } from "@/types/marketplace";
 import { GradeBadge } from "./GradeBadge";
 import { DamageBadge } from "./DamageBadge";
+import { FavoriteButton } from "./FavoriteButton";
 import { MapPin, Eye, Fuel, Gauge, Star, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -31,13 +32,21 @@ export function ListingCard({ listing, className }: ListingCardProps) {
   const days = daysSince(listing.created_at);
 
   return (
-    <Link
-      href={{ pathname: "/ara/[slug]", params: { slug: listing.slug } } as never}
+    <article
       className={cn(
-        "group bg-surface-container-lowest border border-[0.5px] border-border-default rounded-card overflow-hidden hover:border-primary hover:shadow-sm transition-all duration-200 flex flex-col",
+        "group relative bg-surface-container-lowest border border-[0.5px] border-border-default rounded-card overflow-hidden hover:border-primary hover:shadow-sm transition-all duration-200",
         className
       )}
     >
+      <FavoriteButton
+        listingId={listing.id}
+        size="sm"
+        className="absolute right-8 top-8 z-20"
+      />
+      <Link
+        href={{ pathname: "/ara/[slug]", params: { slug: listing.slug } } as never}
+        className="flex h-full flex-col"
+      >
       {/* Image */}
       <div className="relative aspect-[4/3] bg-surface overflow-hidden">
         {coverImg ? (
@@ -62,7 +71,7 @@ export function ListingCard({ listing, className }: ListingCardProps) {
           )}
         </div>
 
-        <div className="absolute top-8 right-8">
+        <div className="absolute top-48 right-8">
           <GradeBadge grade={listing.damage_grade} size="sm" />
         </div>
 
@@ -134,6 +143,7 @@ export function ListingCard({ listing, className }: ListingCardProps) {
           </div>
         </div>
       </div>
-    </Link>
+      </Link>
+    </article>
   );
 }

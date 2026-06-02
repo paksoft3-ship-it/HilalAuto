@@ -6,6 +6,7 @@ import { ImageGallery } from "@/components/marketplace/ImageGallery";
 import { GradeBadge, GradeBar } from "@/components/marketplace/GradeBadge";
 import { DamageBadge } from "@/components/marketplace/DamageBadge";
 import { ContactCard } from "@/components/marketplace/ContactCard";
+import { FavoriteButton } from "@/components/marketplace/FavoriteButton";
 import { Container } from "@/components/ui/Container";
 import { Link } from "@/i18n/routing";
 import {
@@ -130,7 +131,7 @@ export function ListingDetailClient({ listing, dealer }: ListingDetailClientProp
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-end gap-12 border-t border-[0.5px] border-border-default pt-16">
+              <div className="flex flex-wrap items-end justify-between gap-12 border-t border-[0.5px] border-border-default pt-16">
                 <div>
                   <div className="text-[28px] font-bold text-primary">{formatPrice(listing.asking_price)}</div>
                   {listing.is_price_negotiable && (
@@ -139,6 +140,7 @@ export function ListingDetailClient({ listing, dealer }: ListingDetailClientProp
                     </div>
                   )}
                 </div>
+                <FavoriteButton listingId={listing.id} size="lg" showText />
               </div>
             </div>
 

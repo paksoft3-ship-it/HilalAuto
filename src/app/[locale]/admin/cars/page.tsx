@@ -1,22 +1,91 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { Plus, Edit, Trash2, Image as ImageIcon, Eye, RefreshCw } from "lucide-react";
+import { Plus, Edit, Trash2, Image as ImageIcon, Eye, RefreshCw, X } from "lucide-react";
 import { Link } from "@/i18n/routing";
-import { useParams } from "next/navigation";
+
+type CarRecord = {
+  id: string;
+  title: string;
+  brand: string;
+  model: string;
+  model_year: number;
+  damage_type: string;
+  price: number;
+  description: string | null;
+  images: string[] | null;
+  status: "available" | "sold" | "hidden";
+  created_at: string;
+};
+
+type CarForm = {
+  title: string;
+  brand: string;
+  model: string;
+  model_year: string;
+  damage_type: string;
+  price: string;
+  description: string;
+  images: string;
+  status: "available" | "sold" | "hidden";
+};
+
+const EMPTY_FORM: CarForm = {
+  title: "",
+  brand: "",
+  model: "",
+  model_year: "",
+  damage_type: "",
+  price: "",
+  description: "",
+  images: "",
+  status: "available",
+};
+
+function toImageArray(value: string) {
+  return value
+    .split(/\r?\n|,/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function toForm(car: CarRecord): CarForm {
+  return {
+    title: car.title || "",
+    brand: car.brand || "",
+    model: car.model || "",
+    model_year: car.model_year ? String(car.model_year) : "",
+    damage_type: car.damage_type || "",
+    price: car.price ? String(car.price) : "",
+    description: car.description || "",
+    images: (car.images || []).join("\n"),
+    status: car.status || "available",
+  };
+}
 
 export default function AdminCars() {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [cars, setCars] = useState<any[]>([]);
+  const [cars, setCars] = useState<CarRecord[]>([]);
   const [loading, setLoading] = useState(true);
-  const locale = useParams()?.locale as string ?? "tr";
+  const [saving, setSaving] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editingCar, setEditingCar] = useState<CarRecord | null>(null);
+  const [form, setForm] = useState<CarForm>(EMPTY_FORM);
 
   async function fetchCars() {
     setLoading(true);
-    const { data } = await supabase.from("hazaral_cars").select("*").order("created_at", { ascending: false });
-    setCars(data || []);
+    const { data, error } = await supabase
+      .from("hazaral_cars")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      alert("Araç ilanları yüklenirken hata oluştu: " + error.message);
+      setCars([]);
+    } else {
+      setCars((data as CarRecord[]) || []);
+    }
+
     setLoading(false);
   }
 
@@ -24,10 +93,82 @@ export default function AdminCars() {
     fetchCars();
   }, []);
 
-  async function updateStatus(id: string, newStatus: string) {
+  function openCreate() {
+    setEditingCar(null);
+    setForm(EMPTY_FORM);
+    setModalOpen(true);
+  }
+
+  function openEdit(car: CarRecord) {
+    setEditingCar(car);
+    setForm(toForm(car));
+    setModalOpen(true);
+  }
+
+  function closeModal() {
+    setModalOpen(false);
+    setEditingCar(null);
+    setForm(EMPTY_FORM);
+  }
+
+  async function saveCar(e: React.FormEvent) {
+    e.preventDefault();
+
+    const modelYear = Number(form.model_year);
+    const price = Number(form.price);
+
+    if (!Number.isInteger(modelYear) || modelYear < 1900 || modelYear > new Date().getFullYear() + 1) {
+      alert("Geçerli bir model yılı girin.");
+      return;
+    }
+
+    if (!Number.isFinite(price) || price <= 0) {
+      alert("Geçerli bir fiyat girin.");
+      return;
+    }
+
+    setSaving(true);
+
+    const payload = {
+      title: form.title.trim(),
+      brand: form.brand.trim(),
+      model: form.model.trim(),
+      model_year: modelYear,
+      damage_type: form.damage_type.trim(),
+      price,
+      description: form.description.trim() || null,
+      images: toImageArray(form.images),
+      status: form.status,
+    };
+
+    const request = editingCar
+      ? supabase.from("hazaral_cars").update(payload).eq("id", editingCar.id).select().single()
+      : supabase.from("hazaral_cars").insert(payload).select().single();
+
+    const { data, error } = await request;
+
+    if (error) {
+      alert("İlan kaydedilirken hata oluştu: " + error.message);
+      setSaving(false);
+      return;
+    }
+
+    if (editingCar) {
+      setCars((items) => items.map((item) => item.id === editingCar.id ? data as CarRecord : item));
+    } else {
+      setCars((items) => [data as CarRecord, ...items]);
+    }
+
+    setSaving(false);
+    closeModal();
+  }
+
+  async function updateStatus(id: string, newStatus: CarRecord["status"]) {
     const { error } = await supabase.from("hazaral_cars").update({ status: newStatus }).eq("id", id);
     if (!error) {
-      setCars(cars.map(car => car.id === id ? { ...car, status: newStatus } : car));
+      setCars((items) => items.map((car) => car.id === id ? { ...car, status: newStatus } : car));
+    } else {
+      alert("Durum güncellenirken hata oluştu: " + error.message);
     }
   }
 
@@ -35,7 +176,9 @@ export default function AdminCars() {
     if (!confirm("Bu ilanı silmek istediğinize emin misiniz?")) return;
     const { error } = await supabase.from("hazaral_cars").delete().eq("id", id);
     if (!error) {
-      setCars(cars.filter(car => car.id !== id));
+      setCars((items) => items.filter((car) => car.id !== id));
+    } else {
+      alert("İlan silinirken hata oluştu: " + error.message);
     }
   }
 
@@ -47,13 +190,16 @@ export default function AdminCars() {
           <p className="text-[14px] text-muted-text mt-4">Pazaryerinde sergilenen hasarlı araç ilanlarınızı yönetin.</p>
         </div>
         <div className="flex gap-12">
-          <button 
+          <button
             onClick={fetchCars}
             className="inline-flex items-center gap-8 px-16 py-8 bg-surface-container-lowest border border-[0.5px] border-border-default rounded-btn text-[13px] font-medium text-on-surface hover:bg-surface transition-colors"
           >
             <RefreshCw size={14} /> Yenile
           </button>
-          <button className="inline-flex items-center gap-8 px-16 py-8 bg-primary text-on-primary rounded-btn text-[13px] font-medium hover:opacity-90 transition-opacity">
+          <button
+            onClick={openCreate}
+            className="inline-flex items-center gap-8 px-16 py-8 bg-primary text-on-primary rounded-btn text-[13px] font-medium hover:opacity-90 transition-opacity"
+          >
             <Plus size={14} /> Yeni İlan Ekle
           </button>
         </div>
@@ -95,10 +241,10 @@ export default function AdminCars() {
                     </td>
                     <td className="py-16 px-16 text-[13px] text-on-surface">
                       <div className="font-medium">{car.title}</div>
-                      <div className="text-[11px] text-muted-text mt-4">{car.brand} • {car.model_year}</div>
+                      <div className="text-[11px] text-muted-text mt-4">{car.brand} {car.model} • {car.model_year}</div>
                     </td>
                     <td className="py-16 px-16 text-[13px] font-medium text-on-surface">
-                      {new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(car.price)}
+                      {new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY", maximumFractionDigits: 0 }).format(car.price)}
                     </td>
                     <td className="py-16 px-16 text-[13px] text-on-surface">
                       {car.damage_type}
@@ -106,11 +252,11 @@ export default function AdminCars() {
                     <td className="py-16 px-16">
                       <select
                         value={car.status}
-                        onChange={(e) => updateStatus(car.id, e.target.value)}
+                        onChange={(e) => updateStatus(car.id, e.target.value as CarRecord["status"])}
                         className={`text-[12px] font-medium outline-none cursor-pointer py-4 px-8 rounded-full border border-[0.5px] ${
-                          car.status === 'available' ? 'bg-green-50 text-green-600 border-green-200' :
-                          car.status === 'sold' ? 'bg-gray-100 text-gray-600 border-gray-200' :
-                          'bg-orange-50 text-orange-600 border-orange-200'
+                          car.status === "available" ? "bg-green-50 text-green-600 border-green-200" :
+                          car.status === "sold" ? "bg-gray-100 text-gray-600 border-gray-200" :
+                          "bg-orange-50 text-orange-600 border-orange-200"
                         }`}
                       >
                         <option value="available">Satışta</option>
@@ -120,15 +266,15 @@ export default function AdminCars() {
                     </td>
                     <td className="py-16 px-16 text-right">
                       <div className="flex items-center justify-end gap-12">
-                        <Link 
-                          href={{ pathname: "/satilik-araclar/[id]", params: { id: car.id.toString() } }} 
+                        <Link
+                          href={{ pathname: "/satilik-araclar/[id]", params: { id: car.id } }}
                           target="_blank"
                           className="p-8 text-muted-text hover:text-primary transition-colors"
                           title="Görüntüle"
                         >
                           <Eye size={16} />
                         </Link>
-                        <button className="p-8 text-muted-text hover:text-blue-500 transition-colors" title="Düzenle">
+                        <button onClick={() => openEdit(car)} className="p-8 text-muted-text hover:text-blue-500 transition-colors" title="Düzenle">
                           <Edit size={16} />
                         </button>
                         <button onClick={() => deleteCar(car.id)} className="p-8 text-muted-text hover:text-red-500 transition-colors" title="Sil">
@@ -143,6 +289,80 @@ export default function AdminCars() {
           </table>
         </div>
       </div>
+
+      {modalOpen && (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/50 p-16">
+          <div className="flex max-h-[92vh] w-full max-w-[760px] flex-col overflow-hidden rounded-card border border-[0.5px] border-border-default bg-surface-container-lowest shadow-xl">
+            <div className="flex items-center justify-between border-b border-[0.5px] border-border-default px-20 py-16">
+              <h2 className="text-[17px] font-semibold text-on-surface">
+                {editingCar ? "İlanı Düzenle" : "Yeni İlan Ekle"}
+              </h2>
+              <button onClick={closeModal} className="p-4 text-muted-text hover:text-on-surface">
+                <X size={20} />
+              </button>
+            </div>
+
+            <form onSubmit={saveCar} className="flex-1 overflow-y-auto p-20">
+              <div className="grid grid-cols-1 gap-16 md:grid-cols-2">
+                <Field label="İlan Başlığı *">
+                  <input required value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className={inputCls} />
+                </Field>
+                <Field label="Marka *">
+                  <input required value={form.brand} onChange={(e) => setForm({ ...form, brand: e.target.value })} className={inputCls} />
+                </Field>
+                <Field label="Model *">
+                  <input required value={form.model} onChange={(e) => setForm({ ...form, model: e.target.value })} className={inputCls} />
+                </Field>
+                <Field label="Model Yılı *">
+                  <input required type="number" min="1900" max={new Date().getFullYear() + 1} value={form.model_year} onChange={(e) => setForm({ ...form, model_year: e.target.value })} className={inputCls} />
+                </Field>
+                <Field label="Hasar Türü *">
+                  <input required value={form.damage_type} onChange={(e) => setForm({ ...form, damage_type: e.target.value })} placeholder="Kazalı, Pert, Sel Hasarlı..." className={inputCls} />
+                </Field>
+                <Field label="Fiyat (TL) *">
+                  <input required type="number" min="1" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} className={inputCls} />
+                </Field>
+                <Field label="Durum">
+                  <select value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value as CarForm["status"] })} className={inputCls}>
+                    <option value="available">Satışta</option>
+                    <option value="sold">Satıldı</option>
+                    <option value="hidden">Gizli</option>
+                  </select>
+                </Field>
+                <Field label="Görsel URL'leri">
+                  <textarea value={form.images} onChange={(e) => setForm({ ...form, images: e.target.value })} rows={3} placeholder="Her satıra bir görsel URL'si" className={textareaCls} />
+                </Field>
+                <div className="md:col-span-2">
+                  <Field label="Açıklama">
+                    <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} rows={5} className={textareaCls} />
+                  </Field>
+                </div>
+              </div>
+
+              <div className="mt-20 flex justify-end gap-10 border-t border-[0.5px] border-border-default pt-16">
+                <button type="button" onClick={closeModal} className="px-20 py-10 text-[13px] text-muted-text hover:text-on-surface">
+                  İptal
+                </button>
+                <button type="submit" disabled={saving} className="rounded-btn bg-primary px-22 py-10 text-[13px] font-semibold text-white hover:opacity-90 disabled:opacity-60">
+                  {saving ? "Kaydediliyor..." : editingCar ? "Değişiklikleri Kaydet" : "İlanı Ekle"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
+  );
+}
+
+const inputCls = "w-full px-14 py-10 rounded-input border border-[0.5px] border-border-default bg-surface text-[13px] outline-none focus:border-primary";
+const textareaCls = `${inputCls} resize-none`;
+
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <label className="flex flex-col gap-6">
+      <span className="text-[12px] font-medium text-on-surface">{label}</span>
+      {children}
+    </label>
   );
 }

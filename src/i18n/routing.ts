@@ -22,6 +22,7 @@ export const routing = defineRouting({
     "/kullanim-kosullari":  { tr: "/kullanim-kosullari",  en: "/terms-of-use" },
     "/satilik-araclar":      { tr: "/satilik-araclar",     en: "/vehicles-for-sale" },
     "/satilik-araclar/[id]": { tr: "/satilik-araclar/[id]",en: "/vehicles-for-sale/[id]" },
+    "/favoriler":            { tr: "/favoriler",            en: "/favorites" },
 
     // Service pages — specific paths so the slug itself is translated in English URLs
     // TR: /hizmet/<tr-slug>  →  EN: /en/service/<en-slug>
@@ -45,6 +46,7 @@ export const routing = defineRouting({
     "/bayi-paneli/ilan-duzenle/[id]":  "/bayi-paneli/ilan-duzenle/[id]",
     "/bayi-paneli/mesajlar":           "/bayi-paneli/mesajlar",
     "/bayi-paneli/analitik":           "/bayi-paneli/analitik",
+    "/bayi-paneli/abonelik":           "/bayi-paneli/abonelik",
     "/bayi-paneli/bildirimler":        "/bayi-paneli/bildirimler",
 
     "/admin":                    "/admin",
@@ -56,6 +58,7 @@ export const routing = defineRouting({
     "/admin/ilanlar":            "/admin/ilanlar",
     "/admin/abonelikler":        "/admin/abonelikler",
     "/admin/platform-analitik":  "/admin/platform-analitik",
+    "/admin/audit-loglari":      "/admin/audit-loglari",
   },
 });
 

@@ -7,6 +7,7 @@ export const NOTIFICATION_TYPES = [
   "listing_rejected",
   "subscription_expiring",
   "subscription_expired",
+  "subscription_activated",
   "new_message",
   "listing_featured",
 ] as const;

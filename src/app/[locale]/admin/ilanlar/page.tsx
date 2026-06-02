@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Listing } from "@/types/marketplace";
 import { GradeBadge } from "@/components/marketplace/GradeBadge";
 import { DamageBadge } from "@/components/marketplace/DamageBadge";
-import { CheckCircle, XCircle, Zap, RefreshCw, ExternalLink } from "lucide-react";
+import { CheckCircle, XCircle, Zap, RefreshCw, ExternalLink, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { logAdminAudit } from "@/lib/admin-audit-client";
 
 const STATUS_LABELS: Record<string, { label: string; cls: string }> = {
   active:         { label: "Yayında",     cls: "bg-green-100 text-green-700" },
@@ -54,7 +55,7 @@ export default function AdminIlanlar() {
   const [saving, setSaving] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  async function load(status = statusFilter) {
+  const load = useCallback(async (status = statusFilter) => {
     setLoading(true);
     let query = supabase
       .from("hazaral_listings")
@@ -67,23 +68,33 @@ export default function AdminIlanlar() {
     const { data } = await query;
     setListings((data as ListingWithDealer[]) || []);
     setLoading(false);
-  }
+  }, [statusFilter]);
 
-  useEffect(() => { load(); }, [statusFilter]);
+  useEffect(() => { load(); }, [load]);
 
   async function approve(id: string, dealerId: string) {
     setSaving(true);
     const listing = listings.find((l) => l.id === id);
     const { error } = await supabase.from("hazaral_listings").update({ status: "active" }).eq("id", id);
-    if (!error) await createDealerNotification({
-      dealer_id: dealerId,
-      type: "listing_approved",
-      title: "İlanınız Onaylandı",
-      body: listing?.title
-        ? `"${listing.title}" ilanınız incelendi ve yayına alındı.`
-        : "İlanınız incelendi ve yayına alındı.",
-      listing_id: id,
-    });
+    if (!error) {
+      await createDealerNotification({
+        dealer_id: dealerId,
+        type: "listing_approved",
+        title: "İlanınız Onaylandı",
+        body: listing?.title
+          ? `"${listing.title}" ilanınız incelendi ve yayına alındı.`
+          : "İlanınız incelendi ve yayına alındı.",
+        listing_id: id,
+      });
+      await logAdminAudit({
+        action: "listing.approve",
+        entityType: "listing",
+        entityId: id,
+        dealerId,
+        listingId: id,
+        metadata: { title: listing?.title, previous_status: listing?.status },
+      });
+    }
     await load();
     setSaving(false);
   }
@@ -96,15 +107,25 @@ export default function AdminIlanlar() {
       status: "rejected",
       rejection_reason: reason || null,
     }).eq("id", id);
-    if (!error) await createDealerNotification({
-      dealer_id: dealerId,
-      type: "listing_rejected",
-      title: "İlanınız Reddedildi",
-      body: reason
-        ? `Red sebebi: ${reason}`
-        : `${listing?.title ? `"${listing.title}" ilanınız ` : "İlanınız "}uygunluk kriterlerini karşılamadığı için reddedildi.`,
-      listing_id: id,
-    });
+    if (!error) {
+      await createDealerNotification({
+        dealer_id: dealerId,
+        type: "listing_rejected",
+        title: "İlanınız Reddedildi",
+        body: reason
+          ? `Red sebebi: ${reason}`
+          : `${listing?.title ? `"${listing.title}" ilanınız ` : "İlanınız "}uygunluk kriterlerini karşılamadığı için reddedildi.`,
+        listing_id: id,
+      });
+      await logAdminAudit({
+        action: "listing.reject",
+        entityType: "listing",
+        entityId: id,
+        dealerId,
+        listingId: id,
+        metadata: { title: listing?.title, reason },
+      });
+    }
     setRejectTarget(null);
     setRejectReason("");
     await load();
@@ -129,6 +150,14 @@ export default function AdminIlanlar() {
         body: `"${listing.title}" ilanınız ${featuredDays} gün boyunca öne çıkarıldı.`,
         listing_id: id,
       });
+      await logAdminAudit({
+        action: "listing.feature",
+        entityType: "listing",
+        entityId: id,
+        dealerId: listing.dealer_id,
+        listingId: id,
+        metadata: { title: listing.title, days: parseInt(featuredDays), featured_until: until },
+      });
     }
 
     setFeaturedTarget(null);
@@ -142,6 +171,15 @@ export default function AdminIlanlar() {
       status: "sold",
       sold_at: new Date().toISOString(),
     }).eq("id", id);
+    const listing = listings.find((l) => l.id === id);
+    await logAdminAudit({
+      action: "listing.sold",
+      entityType: "listing",
+      entityId: id,
+      dealerId: listing?.dealer_id,
+      listingId: id,
+      metadata: { title: listing?.title },
+    });
     await load();
   }
 
@@ -344,11 +382,18 @@ function Detail({ label, value }: { label: string; value: string }) {
   );
 }
 
-function Modal({ title, children }: { title: string; children: React.ReactNode; onClose?: () => void }) {
+function Modal({ title, children, onClose }: { title: string; children: React.ReactNode; onClose?: () => void }) {
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center p-16 bg-black/50">
       <div className="bg-surface-container-lowest border border-[0.5px] border-border-default rounded-card w-full max-w-[440px] p-24">
-        <h3 className="text-[16px] font-semibold text-on-surface mb-14">{title}</h3>
+        <div className="flex items-center justify-between gap-12 mb-14">
+          <h3 className="text-[16px] font-semibold text-on-surface">{title}</h3>
+          {onClose && (
+            <button onClick={onClose} className="p-4 text-muted-text hover:text-on-surface" aria-label="Kapat">
+              <X size={18} />
+            </button>
+          )}
+        </div>
         {children}
       </div>
     </div>

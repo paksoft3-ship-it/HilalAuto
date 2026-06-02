@@ -1,6 +1,8 @@
 {
   "nav": {
     "howItWorks": "How It Works",
+    "marketplace": "Listings",
+    "favorites": "Favorites",
     "vehicleTypes": "Vehicle Types",
     "cities": "Cities",
     "blog": "Blog",
@@ -63,7 +65,8 @@
     "item1Desc": "We pick up your vehicle from your door.",
     "item2Desc": "We provide your quote within 1 hour.",
     "item3Desc": "We assist you with all documents.",
-    "item4Desc": "We support you via WhatsApp and phone."
+    "item4Desc": "We support you via WhatsApp and phone.",
+    "ariaLabel": "Trust highlights"
   },
   "vehicleTypes": {
     "title": "What Vehicles Do We Buy?",
@@ -202,7 +205,11 @@
     "sendButton": "Send",
     "contactTitle": "Contact — Oto Grade",
     "contactDescription": "Contact Oto Grade. Reach us by phone, WhatsApp, or through the form.",
-    "whatsappSub": "We reply 7 days a week"
+    "whatsappSub": "We reply 7 days a week",
+    "badge": "Contact",
+    "citiesAria": "Cities served",
+    "citiesTitle": "Cities We Serve",
+    "citiesSub": "and all provinces of Turkey"
   },
   "whyChooseUs": {
     "badge": "WHY OTO GRADE?",
@@ -240,6 +247,15 @@
     "howItWorksDescription": "The damaged vehicle selling process with Oto Grade. Sell your vehicle in 6 steps with doorstep pickup and fast payment.",
     "contactTitle": "Contact — Oto Grade",
     "contactDescription": "Get in touch with Oto Grade. Contact us by phone, WhatsApp or form. We respond quickly.",
+    "privacyTitle": "Privacy Policy — Oto Grade",
+    "privacyDesc": "Information about Oto Grade's privacy policy and personal data processing.",
+    "termsTitle": "Terms of Use — Oto Grade",
+    "termsDesc": "Oto Grade website terms of use and service conditions.",
+    "kvkkTitle": "KVKK Clarification Text — Oto Grade",
+    "kvkkDesc": "Oto Grade KVKK Personal Data Protection Law clarification text.",
+    "cityTitleSuffix": "Damaged Vehicle Buyers — Oto Grade",
+    "citiesTitleMeta": "Nationwide Damaged Vehicle Buyers — Oto Grade",
+    "citiesDescMeta": "Oto Grade provides nationwide accident-damaged, written-off, scrap, and damaged vehicle buying services.",
     "citiesTitle": "Nationwide Damaged Vehicle Buyers — All Cities | Oto Grade",
     "citiesDescription": "Oto Grade provides accident, written-off and scrap vehicle buying services across 15 major cities in Turkey.",
     "quoteTitle": "Get a Free Quote — Damaged Vehicle | Oto Grade",
@@ -301,8 +317,8 @@
     "s8Content": "Under the KVKK/GDPR, you have the right to get information, correct, and delete your personal data. You can contact us to exercise these rights.",
     "s9Title": "9. Changes",
     "s9Content": "This policy may be updated from time to time. Users will be informed of significant changes.",
-    "privacyTitle": "Privacy Policy — ${SITE_NAME}",
-    "s1Content": "As ${SITE_NAME}, protecting the privacy of our users is our top priority. This policy explains how information collected when you visit our website or use our services is processed."
+    "privacyTitle": "Privacy Policy — Oto Grade",
+    "s1Content": "As Oto Grade, protecting the privacy of our users is our top priority. This policy explains how information collected when you visit our website or use our services is processed."
   },
   "servicePage": {
     "step1Desc": "Submit vehicle information via a short form.",
@@ -349,10 +365,10 @@
     "s7Content": "These terms of use may be changed without any notice. Your continued use of the site means you accept the updated terms.",
     "s8Title": "8. Governing Law",
     "s8Content": "These conditions are subject to the laws of the Republic of Turkey. Istanbul courts are authorized in disputes.",
-    "termsTitle": "Terms of Use — ${SITE_NAME}",
-    "s2Content": "${SITE_NAME} is a platform that mediates the purchase of damaged, accident, written-off, and used vehicles. Offers received through the website are non-binding and in the nature of a preliminary evaluation. The final offer is determined after the vehicle is inspected on site.",
-    "s4Content": "${SITE_NAME} takes utmost care regarding the accuracy, currency, and completeness of the information on the website, but cannot be held responsible for damages that may arise from errors or omissions. Site contents are for informational purposes.",
-    "s5Content": "All content on this website (texts, images, logos, design) belongs to ${SITE_NAME} and cannot be copied, distributed, or modified without permission."
+    "termsTitle": "Terms of Use — Oto Grade",
+    "s2Content": "Oto Grade is a platform that mediates the purchase of damaged, accident, written-off, and used vehicles. Offers received through the website are non-binding and in the nature of a preliminary evaluation. The final offer is determined after the vehicle is inspected on site.",
+    "s4Content": "Oto Grade takes utmost care regarding the accuracy, currency, and completeness of the information on the website, but cannot be held responsible for damages that may arise from errors or omissions. Site contents are for informational purposes.",
+    "s5Content": "All content on this website (texts, images, logos, design) belongs to Oto Grade and cannot be copied, distributed, or modified without permission."
   },
   "kvkk": {
     "kvkkDesc": "Oto Grade KVKK Personal Data Protection Law clarification text.",
@@ -375,8 +391,8 @@
     "s5i3": "To request the deletion or destruction of your personal data",
     "s6Title": "6. Contact",
     "s6Content": "You can contact us to exercise your rights. This text is not a final legal text; legal consultation is recommended.",
-    "kvkkTitle": "KVKK Clarification Text — ${SITE_NAME}",
-    "s1Content": "As ${SITE_NAME}, we have prepared this clarification text to inform you about the processing of your personal data under the Personal Data Protection Law (KVKK) No. 6698."
+    "kvkkTitle": "KVKK Clarification Text — Oto Grade",
+    "s1Content": "As Oto Grade, we have prepared this clarification text to inform you about the processing of your personal data under the Personal Data Protection Law (KVKK) No. 6698."
   },
   "marketplaceDetail": {
     "back": "Back to Listings",
@@ -458,6 +474,12 @@
     "getQuote": "Get a Quote"
   },
   "about": {
+    "hero": {
+      "title": "About Us"
+    },
+    "story": {
+      "p1": "Oto Grade was founded to simplify the complicated process of selling damaged vehicles."
+    },
     "stat1": "Vehicles purchased",
     "stat2": "Cities served",
     "stat3Val": "1 hour",
@@ -495,6 +517,10 @@
   "howItWorksPage": {
     "howItWorksTitle": "How It Works — Oto Grade",
     "howItWorksDescription": "The process of selling a damaged vehicle with Oto Grade. Sell your vehicle in 6 steps, door pickup and fast payment.",
+    "schemaTitle": "How to Sell Your Damaged Vehicle",
+    "schemaDesc": "Sell your damaged vehicle in 6 simple steps with Oto Grade",
+    "ctaQuote": "Get a Free Quote",
+    "ctaWhatsapp": "Message on WhatsApp",
     "step1Desc": "Submit your vehicle brand, damage type, city, and phone number via a short form. Non-binding, takes 2 minutes.",
     "step1Time": "~2 minutes",
     "step2Desc": "Our expert team reviews the information and photos you send and evaluates your vehicle.",

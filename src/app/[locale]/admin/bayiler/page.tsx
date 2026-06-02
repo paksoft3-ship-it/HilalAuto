@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Dealer } from "@/types/marketplace";
-import { CheckCircle, XCircle, ShieldCheck, RefreshCw, Download, Search } from "lucide-react";
+import { CheckCircle, XCircle, ShieldCheck, RefreshCw, Download, Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { logAdminAudit } from "@/lib/admin-audit-client";
 
 const STATUS_LABELS: Record<string, { label: string; cls: string }> = {
   pending:   { label: "Bekliyor",  cls: "bg-amber-100 text-amber-700" },
@@ -55,9 +56,17 @@ export default function AdminBayiler() {
     // Send notification
     await supabase.from("hazaral_notifications").insert({
       dealer_id: id,
-      type: "listing_approved",
+      type: "subscription_activated",
       title: "Başvurunuz Onaylandı",
       body: "Otograde bayi başvurunuz onaylandı. Artık ilan ekleyebilirsiniz.",
+    });
+
+    await logAdminAudit({
+      action: "dealer.approve",
+      entityType: "dealer",
+      entityId: id,
+      dealerId: id,
+      metadata: { company_name: dealer?.company_name, plan: dealer?.subscription_plan || "basic", subscription_end: end },
     });
 
     await load();
@@ -73,9 +82,18 @@ export default function AdminBayiler() {
 
     await supabase.from("hazaral_notifications").insert({
       dealer_id: id,
-      type: "listing_rejected",
+      type: "subscription_expired",
       title: "Hesabınız Askıya Alındı",
       body: suspendReason || "Hesabınız askıya alınmıştır. Detay için iletişime geçin.",
+    });
+
+    const dealer = dealers.find((d) => d.id === id);
+    await logAdminAudit({
+      action: "dealer.suspend",
+      entityType: "dealer",
+      entityId: id,
+      dealerId: id,
+      metadata: { company_name: dealer?.company_name, reason: suspendReason },
     });
 
     setSuspendTarget(null);
@@ -87,12 +105,28 @@ export default function AdminBayiler() {
   async function verify(id: string, current: boolean) {
     await supabase.from("hazaral_dealers").update({ is_verified: !current }).eq("id", id);
     setDealers((ds) => ds.map((d) => d.id === id ? { ...d, is_verified: !current } : d));
+    const dealer = dealers.find((d) => d.id === id);
+    await logAdminAudit({
+      action: "dealer.verify",
+      entityType: "dealer",
+      entityId: id,
+      dealerId: id,
+      metadata: { company_name: dealer?.company_name, is_verified: !current },
+    });
   }
 
   async function saveNote() {
     if (!noteTarget) return;
     setSaving(true);
     await supabase.from("hazaral_dealers").update({ notes: noteText }).eq("id", noteTarget);
+    const dealer = dealers.find((d) => d.id === noteTarget);
+    await logAdminAudit({
+      action: "dealer.note",
+      entityType: "dealer",
+      entityId: noteTarget,
+      dealerId: noteTarget,
+      metadata: { company_name: dealer?.company_name },
+    });
     setNoteTarget(null);
     setNoteText("");
     setSaving(false);
@@ -299,11 +333,18 @@ export default function AdminBayiler() {
   );
 }
 
-function Modal({ title, children }: { title: string; children: React.ReactNode; onClose?: () => void }) {
+function Modal({ title, children, onClose }: { title: string; children: React.ReactNode; onClose?: () => void }) {
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center p-16 bg-black/50">
       <div className="bg-surface-container-lowest border border-[0.5px] border-border-default rounded-card w-full max-w-[460px] p-24">
-        <h3 className="text-[16px] font-semibold text-on-surface mb-16">{title}</h3>
+        <div className="flex items-center justify-between gap-12 mb-16">
+          <h3 className="text-[16px] font-semibold text-on-surface">{title}</h3>
+          {onClose && (
+            <button onClick={onClose} className="p-4 text-muted-text hover:text-on-surface" aria-label="Kapat">
+              <X size={18} />
+            </button>
+          )}
+        </div>
         {children}
       </div>
     </div>

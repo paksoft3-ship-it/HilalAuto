@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Listing } from "@/types/marketplace";
 import { formatPrice } from "@/lib/dealer-utils";
@@ -26,17 +26,19 @@ export default function AnalitikPage() {
   const [avgTime, setAvgTime] = useState(0);
   const [, setAvgScroll] = useState(0);
 
-  useEffect(() => {
-    load();
-  }, [range]);
-
-  async function load() {
+  const load = useCallback(async () => {
     setLoading(true);
     const { data: { session } } = await supabase.auth.getSession();
-    if (!session) return;
+    if (!session) {
+      setLoading(false);
+      return;
+    }
 
     const { data: d } = await supabase.from("hazaral_dealers").select("id").eq("user_id", session.user.id).single();
-    if (!d) return;
+    if (!d) {
+      setLoading(false);
+      return;
+    }
 
     const since = new Date(Date.now() - range * 86400000).toISOString();
 
@@ -128,7 +130,11 @@ export default function AnalitikPage() {
     setAvgScroll(validScroll.length > 0 ? Math.round(validScroll.reduce((s, v) => s + v.scrolled_percent, 0) / validScroll.length) : 0);
 
     setLoading(false);
-  }
+  }, [range]);
+
+  useEffect(() => {
+    load();
+  }, [load]);
 
   const totalViews = viewsChart.reduce((s, r) => s + r.views, 0);
   const totalContacts = viewsChart.reduce((s, r) => s + r.contacts, 0);

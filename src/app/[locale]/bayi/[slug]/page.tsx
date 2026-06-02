@@ -5,7 +5,7 @@ import { Dealer, Listing } from "@/types/marketplace";
 import { SITE_URL } from "@/lib/constants";
 import { ListingCard } from "@/components/marketplace/ListingCard";
 import { Container } from "@/components/ui/Container";
-import { Star, MapPin, Phone, MessageCircle, Building2, Eye, Layers, Calendar } from "lucide-react";
+import { ShieldCheck, MapPin, Phone, MessageCircle, Building2, Eye, Layers, Calendar } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import { externalRoutes } from "@/lib/routes";
 
@@ -67,12 +67,70 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       url: canonical,
       locale: locale === "en" ? "en_US" : "tr_TR",
       type: "website",
+      images: dealer.logo_url ? [{ url: dealer.logo_url, width: 400, height: 400 }] : undefined,
+    },
+    twitter: {
+      card: "summary",
+      title,
+      description,
     },
   };
 }
 
+function buildDealerJsonLd(dealer: Dealer, listings: Listing[], locale: string) {
+  const canonical = `${SITE_URL}${locale === "tr" ? "" : "/en"}/bayi/${dealer.slug}`;
+  const dealerSchema = {
+    "@context": "https://schema.org",
+    "@type": ["AutoDealer", "LocalBusiness"],
+    "@id": `${canonical}#dealer`,
+    name: dealer.company_name,
+    description: dealer.description || `${dealer.city} hasarlı araç bayii`,
+    url: canonical,
+    image: dealer.logo_url || undefined,
+    telephone: dealer.phone,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: dealer.city,
+      addressRegion: dealer.district || undefined,
+      addressCountry: "TR",
+    },
+    areaServed: dealer.city,
+    ...(dealer.is_verified ? {
+      additionalProperty: [{
+        "@type": "PropertyValue",
+        name: "Otograde Doğrulama",
+        value: "Onaylı Bayi",
+      }],
+    } : {}),
+  };
+
+  const itemList = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: `${dealer.company_name} aktif ilanları`,
+    itemListElement: listings.map((listing, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      url: `${SITE_URL}${locale === "tr" ? "" : "/en"}/ara/${listing.slug}`,
+      name: listing.title,
+    })),
+  };
+
+  const breadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Oto Grade", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Hasarlı Araç İlanları", item: `${SITE_URL}/ara` },
+      { "@type": "ListItem", position: 3, name: dealer.company_name, item: canonical },
+    ],
+  };
+
+  return [dealerSchema, itemList, breadcrumb];
+}
+
 export default async function DealerProfilePage({ params }: Props) {
-  const { slug } = await params;
+  const { locale, slug } = await params;
   const result = await getData(slug);
 
   if (!result) notFound();
@@ -80,9 +138,13 @@ export default async function DealerProfilePage({ params }: Props) {
   const { dealer, listings } = result;
   const wa = dealer.whatsapp || dealer.phone.replace(/\D/g, "");
   const memberYear = new Date(dealer.created_at).getFullYear();
+  const schemas = buildDealerJsonLd(dealer, listings, locale);
 
   return (
     <div className="bg-surface pb-60 pt-32">
+      {schemas.map((schema, i) => (
+        <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+      ))}
       <Container>
         {/* Dealer header */}
         <div className="bg-surface-container-lowest border border-[0.5px] border-border-default rounded-card p-24 mb-32">
@@ -110,7 +172,7 @@ export default async function DealerProfilePage({ params }: Props) {
                 </h1>
                 {dealer.is_verified && (
                   <span className="inline-flex items-center gap-4 bg-primary/10 text-primary text-[11px] font-semibold px-10 py-4 rounded-full">
-                    <Star size={10} fill="currentColor" /> Onaylı Bayi
+                    <ShieldCheck size={12} /> Otograde Onaylı Bayi
                   </span>
                 )}
               </div>

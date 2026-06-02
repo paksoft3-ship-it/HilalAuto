@@ -12,8 +12,10 @@ export default function AdminBlogs() {
   const [blogs, setBlogs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [editingBlog, setEditingBlog] = useState<any | null>(null);
   const [saving, setSaving] = useState(false);
-  const [newBlog, setNewBlog] = useState({
+  const [blogForm, setBlogForm] = useState({
     title: "",
     slug: "",
     excerpt: "",
@@ -51,14 +53,64 @@ export default function AdminBlogs() {
     }
   }
 
-  async function handleCreateBlog(e: React.FormEvent) {
+  function resetForm() {
+    setBlogForm({ title: "", slug: "", excerpt: "", content: "", image_url: "", locale: "tr", status: "published" });
+    setEditingBlog(null);
+  }
+
+  function openCreateModal() {
+    resetForm();
+    setIsModalOpen(true);
+  }
+
+  function openEditModal(blog: any) {
+    setEditingBlog(blog);
+    setBlogForm({
+      title: blog.title || "",
+      slug: blog.slug || "",
+      excerpt: blog.excerpt || "",
+      content: blog.content || "",
+      image_url: blog.image_url || "",
+      locale: blog.locale || "tr",
+      status: blog.status || "published",
+    });
+    setIsModalOpen(true);
+  }
+
+  function closeModal() {
+    setIsModalOpen(false);
+    resetForm();
+  }
+
+  async function handleSaveBlog(e: React.FormEvent) {
     e.preventDefault();
     setSaving(true);
-    const { data, error } = await supabase.from("hazaral_blogs").insert([newBlog]).select();
+
+    const payload = {
+      title: blogForm.title.trim(),
+      slug: blogForm.slug.trim(),
+      excerpt: blogForm.excerpt.trim() || null,
+      content: blogForm.content,
+      image_url: blogForm.image_url.trim() || null,
+      locale: blogForm.locale,
+      status: blogForm.status,
+    };
+
+    const request = editingBlog
+      ? supabase.from("hazaral_blogs").update(payload).eq("id", editingBlog.id).select().single()
+      : supabase.from("hazaral_blogs").insert(payload).select().single();
+
+    const { data, error } = await request;
+
     if (!error && data) {
-      setBlogs([data[0], ...blogs]);
-      setIsModalOpen(false);
-      setNewBlog({ title: "", slug: "", excerpt: "", content: "", image_url: "", locale: "tr", status: "published" });
+      if (editingBlog) {
+        setBlogs(blogs.map((blog) => blog.id === editingBlog.id ? data : blog));
+      } else {
+        setBlogs([data, ...blogs]);
+      }
+      setSaving(false);
+      closeModal();
+      return;
     } else {
       alert("Hata oluştu: " + error?.message);
     }
@@ -80,7 +132,7 @@ export default function AdminBlogs() {
             <RefreshCw size={14} /> Yenile
           </button>
           <button 
-            onClick={() => setIsModalOpen(true)}
+            onClick={openCreateModal}
             className="inline-flex items-center gap-8 px-16 py-8 bg-primary text-on-primary rounded-btn text-[13px] font-medium hover:opacity-90 transition-opacity"
           >
             <Plus size={14} /> Yeni Yazı
@@ -159,7 +211,7 @@ export default function AdminBlogs() {
                         >
                           <Eye size={16} />
                         </Link>
-                        <button className="p-8 text-muted-text hover:text-blue-500 transition-colors" title="Düzenle">
+                        <button onClick={() => openEditModal(blog)} className="p-8 text-muted-text hover:text-blue-500 transition-colors" title="Düzenle">
                           <Edit size={16} />
                         </button>
                         <button onClick={() => deleteBlog(blog.id)} className="p-8 text-muted-text hover:text-red-500 transition-colors" title="Sil">
@@ -179,21 +231,21 @@ export default function AdminBlogs() {
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-16">
           <div className="bg-surface w-full max-w-2xl rounded-2xl shadow-xl flex flex-col max-h-[90vh]">
             <div className="p-24 border-b border-[0.5px] border-border-default flex items-center justify-between">
-              <h2 className="text-[18px] font-bold text-on-surface">Yeni Blog Yazısı</h2>
-              <button onClick={() => setIsModalOpen(false)} className="text-muted-text hover:text-on-surface">
+              <h2 className="text-[18px] font-bold text-on-surface">{editingBlog ? "Blog Yazısını Düzenle" : "Yeni Blog Yazısı"}</h2>
+              <button onClick={closeModal} className="text-muted-text hover:text-on-surface">
                 <X size={20} />
               </button>
             </div>
             
-            <form onSubmit={handleCreateBlog} className="flex-1 overflow-y-auto p-24 flex flex-col gap-24">
+            <form onSubmit={handleSaveBlog} className="flex-1 overflow-y-auto p-24 flex flex-col gap-24">
               <div className="grid grid-cols-2 gap-16">
                 <div className="flex flex-col gap-8">
                   <label className="text-[13px] font-medium text-on-surface">Başlık</label>
                   <input
                     required
                     type="text"
-                    value={newBlog.title}
-                    onChange={(e) => setNewBlog({ ...newBlog, title: e.target.value })}
+                    value={blogForm.title}
+                    onChange={(e) => setBlogForm({ ...blogForm, title: e.target.value })}
                     className="w-full px-16 py-12 rounded-lg border border-[0.5px] border-border-default bg-surface text-[14px] outline-none focus:border-primary transition-colors"
                   />
                 </div>
@@ -202,8 +254,8 @@ export default function AdminBlogs() {
                   <input
                     required
                     type="text"
-                    value={newBlog.slug}
-                    onChange={(e) => setNewBlog({ ...newBlog, slug: e.target.value })}
+                    value={blogForm.slug}
+                    onChange={(e) => setBlogForm({ ...blogForm, slug: e.target.value })}
                     className="w-full px-16 py-12 rounded-lg border border-[0.5px] border-border-default bg-surface text-[14px] outline-none focus:border-primary transition-colors"
                   />
                 </div>
@@ -214,8 +266,8 @@ export default function AdminBlogs() {
                 <textarea
                   required
                   rows={2}
-                  value={newBlog.excerpt}
-                  onChange={(e) => setNewBlog({ ...newBlog, excerpt: e.target.value })}
+                  value={blogForm.excerpt}
+                  onChange={(e) => setBlogForm({ ...blogForm, excerpt: e.target.value })}
                   className="w-full px-16 py-12 rounded-lg border border-[0.5px] border-border-default bg-surface text-[14px] outline-none focus:border-primary transition-colors resize-none"
                 />
               </div>
@@ -225,8 +277,8 @@ export default function AdminBlogs() {
                 <textarea
                   required
                   rows={8}
-                  value={newBlog.content}
-                  onChange={(e) => setNewBlog({ ...newBlog, content: e.target.value })}
+                  value={blogForm.content}
+                  onChange={(e) => setBlogForm({ ...blogForm, content: e.target.value })}
                   className="w-full px-16 py-12 rounded-lg border border-[0.5px] border-border-default bg-surface text-[14px] outline-none focus:border-primary transition-colors font-mono"
                 />
               </div>
@@ -236,8 +288,8 @@ export default function AdminBlogs() {
                   <label className="text-[13px] font-medium text-on-surface">Görsel Yolu (URL)</label>
                   <input
                     type="text"
-                    value={newBlog.image_url}
-                    onChange={(e) => setNewBlog({ ...newBlog, image_url: e.target.value })}
+                    value={blogForm.image_url}
+                    onChange={(e) => setBlogForm({ ...blogForm, image_url: e.target.value })}
                     placeholder="/images/blog/ornek.png"
                     className="w-full px-16 py-12 rounded-lg border border-[0.5px] border-border-default bg-surface text-[14px] outline-none focus:border-primary transition-colors"
                   />
@@ -245,8 +297,8 @@ export default function AdminBlogs() {
                 <div className="flex flex-col gap-8">
                   <label className="text-[13px] font-medium text-on-surface">Dil</label>
                   <select
-                    value={newBlog.locale}
-                    onChange={(e) => setNewBlog({ ...newBlog, locale: e.target.value })}
+                    value={blogForm.locale}
+                    onChange={(e) => setBlogForm({ ...blogForm, locale: e.target.value })}
                     className="w-full px-16 py-12 rounded-lg border border-[0.5px] border-border-default bg-surface text-[14px] outline-none focus:border-primary transition-colors"
                   >
                     <option value="tr">Türkçe (tr)</option>
@@ -256,8 +308,8 @@ export default function AdminBlogs() {
                 <div className="flex flex-col gap-8">
                   <label className="text-[13px] font-medium text-on-surface">Durum</label>
                   <select
-                    value={newBlog.status}
-                    onChange={(e) => setNewBlog({ ...newBlog, status: e.target.value })}
+                    value={blogForm.status}
+                    onChange={(e) => setBlogForm({ ...blogForm, status: e.target.value })}
                     className="w-full px-16 py-12 rounded-lg border border-[0.5px] border-border-default bg-surface text-[14px] outline-none focus:border-primary transition-colors"
                   >
                     <option value="published">Yayında</option>
@@ -269,7 +321,7 @@ export default function AdminBlogs() {
               <div className="flex justify-end gap-12 pt-16 border-t border-[0.5px] border-border-default">
                 <button
                   type="button"
-                  onClick={() => setIsModalOpen(false)}
+                  onClick={closeModal}
                   className="px-24 py-12 rounded-btn text-[14px] font-medium text-muted-text hover:bg-surface-container-lowest transition-colors"
                 >
                   İptal
@@ -279,7 +331,7 @@ export default function AdminBlogs() {
                   disabled={saving}
                   className="px-24 py-12 bg-primary text-on-primary rounded-btn text-[14px] font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
                 >
-                  {saving ? "Kaydediliyor..." : "Kaydet"}
+                  {saving ? "Kaydediliyor..." : editingBlog ? "Değişiklikleri Kaydet" : "Kaydet"}
                 </button>
               </div>
             </form>
