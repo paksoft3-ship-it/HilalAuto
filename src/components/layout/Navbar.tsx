@@ -11,40 +11,23 @@ import { routes, externalRoutes } from "@/lib/routes";
 import { PHONE_NUMBER, WHATSAPP_NUMBER, VEHICLE_TYPES } from "@/lib/constants";
 import { FaWhatsapp } from "react-icons/fa";
 
-// ── Grade bar sub-component ──────────────────────────────────────────────────
-function GradeBar({ width = 80 }: { width?: number }) {
-  return (
-    <div className="grade-bar overflow-hidden rounded-full" style={{ width }}>
-      <span style={{ backgroundColor: "#22C55E" }} />
-      <span style={{ backgroundColor: "#F97316" }} />
-      <span style={{ backgroundColor: "#EF4444" }} />
-      <span style={{ backgroundColor: "#475569" }} />
-      <span style={{ backgroundColor: "#94A3B8" }} />
-    </div>
-  );
-}
-
 // ── Text logo ────────────────────────────────────────────────────────────────
 function OtogradeLogo() {
   return (
-    <Link href={routes.home()} className="flex flex-col items-start" aria-label="Otograde Ana Sayfa">
-      <div className="flex items-center">
-        <span className="font-medium text-[#111111] text-[22px] tracking-[-1px]">Oto</span>
-        <span className="font-medium text-primary text-[22px] tracking-[-1px]">grade</span>
-      </div>
-      <GradeBar width={80} />
+    <Link href={routes.home()} className="flex items-center shrink-0" aria-label="Otograde Ana Sayfa">
+      <span className="font-medium text-[#111111] text-[22px] tracking-[-1px]">Oto</span>
+      <span className="font-medium text-primary text-[22px] tracking-[-1px]">grade</span>
     </Link>
   );
 }
 
 // ── Nav links ────────────────────────────────────────────────────────────────
 const NAV_LINKS = [
-  { labelKey: "marketplace", href: (_: string) => routes.marketplace() },
-  { labelKey: "howItWorks",  href: (_: string) => routes.howItWorks() },
-  { labelKey: "vehicleTypes", href: (_: string) => routes.vehicleTypes() }, // dropdown
-  { labelKey: "cities",      href: (_: string) => "/sehir" as any },
-  { labelKey: "blog",        href: (_: string) => routes.blog() },
-  { labelKey: "about",       href: (_: string) => routes.about() },
+  { labelKey: "marketplace",  href: (_: string) => routes.marketplace() },
+  { labelKey: "howItWorks",   href: (_: string) => routes.howItWorks() },
+  { labelKey: "vehicleTypes", href: (_: string) => routes.vehicleTypes() }, // gets dropdown
+  { labelKey: "cities",       href: (_: string) => "/sehir" as any },
+  { labelKey: "blog",         href: (_: string) => routes.blog() },
 ];
 
 // ── Favorites count from session ─────────────────────────────────────────────
@@ -110,7 +93,7 @@ export function Navbar() {
                     <div key={link.labelKey} className="relative group h-full flex items-center">
                       <Link
                         href={link.href(locale)}
-                        className="text-[13px] text-[#888888] hover:text-primary transition-colors flex items-center gap-4 py-20"
+                        className="text-[13px] text-[#111111] hover:text-primary transition-colors flex items-center gap-4 py-20"
                       >
                         {t(link.labelKey as never)}
                         <ChevronDown size={13} className="group-hover:rotate-180 transition-transform duration-200" />
@@ -133,7 +116,7 @@ export function Navbar() {
                   <Link
                     key={link.labelKey}
                     href={link.href(locale)}
-                    className="text-[13px] text-[#888888] hover:text-primary transition-colors"
+                    className="text-[13px] text-[#111111] hover:text-primary transition-colors"
                   >
                     {t(link.labelKey as never)}
                   </Link>
@@ -275,8 +258,6 @@ export function Navbar() {
             <Link href={"/sehir" as any} onClick={closeMenu} className="mobile-link">{t("cities")}</Link>
             {/* Blog */}
             <Link href={routes.blog()} onClick={closeMenu} className="mobile-link">{t("blog")}</Link>
-            {/* Hakkımızda */}
-            <Link href={routes.about()} onClick={closeMenu} className="mobile-link">{t("about")}</Link>
           </div>
 
           {/* CTA bar */}
