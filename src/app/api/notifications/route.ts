@@ -6,6 +6,9 @@ import {
   getDealerFromRequest,
   isAdminRequest,
   isNotificationType,
+  emailDealer,
+  dealerListingApprovedEmail,
+  dealerListingRejectedEmail,
 } from "@/lib/notifications";
 
 const DEFAULT_LIMIT = 20;
@@ -79,6 +82,48 @@ export async function POST(req: NextRequest) {
   const notification = await createNotification(dealerId, type, title, body, listingId);
   if (!notification) {
     return NextResponse.json({ error: "Bildirim oluşturulamadı" }, { status: 500 });
+  }
+
+  // Send email for listing approval/rejection events
+  if (type === "listing_approved" || type === "listing_rejected") {
+    const { data: dealer } = await supabaseAdmin
+      .from("hazaral_dealers")
+      .select("email, company_name")
+      .eq("id", dealerId)
+      .single();
+
+    if (dealer?.email) {
+      let listingTitle = title;
+      let listingSlug = "";
+
+      if (listingId) {
+        const { data: listing } = await supabaseAdmin
+          .from("hazaral_listings")
+          .select("title, slug")
+          .eq("id", listingId)
+          .single();
+        if (listing) {
+          listingTitle = listing.title;
+          listingSlug = listing.slug;
+        }
+      }
+
+      if (type === "listing_approved") {
+        emailDealer(
+          dealer.email,
+          "İlanınız Onaylandı — Otograde",
+          dealerListingApprovedEmail(dealer.company_name, listingTitle, listingSlug),
+        ).catch(() => {});
+      } else {
+        // Extract rejection reason from body: "Red sebebi: ..." or body itself
+        const reason = body.startsWith("Red sebebi:") ? body.replace("Red sebebi:", "").trim() : body;
+        emailDealer(
+          dealer.email,
+          "İlanınız Reddedildi — Otograde",
+          dealerListingRejectedEmail(dealer.company_name, listingTitle, reason),
+        ).catch(() => {});
+      }
+    }
   }
 
   return NextResponse.json({ ok: true, notification });

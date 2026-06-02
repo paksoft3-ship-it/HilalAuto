@@ -6,7 +6,7 @@ import { Listing } from "@/types/marketplace";
 import { GradeBadge } from "@/components/marketplace/GradeBadge";
 import { Link } from "@/i18n/routing";
 import { formatPrice, daysBetween } from "@/lib/dealer-utils";
-import { Plus, Edit, Trash2, Eye, EyeOff, RefreshCw } from "lucide-react";
+import { Plus, Edit, Trash2, Eye, EyeOff, RefreshCw, Zap, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const STATUS_LABELS: Record<string, { label: string; cls: string }> = {
@@ -18,27 +18,45 @@ const STATUS_LABELS: Record<string, { label: string; cls: string }> = {
   expired:        { label: "Süresi Doldu", cls: "bg-gray-100 text-gray-500" },
 };
 
+type PlanInfo = { can_feature_listings: boolean; featured_slots: number };
+
 export default function IlanlarimPage() {
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
   const [, setDealerId] = useState("");
+  const [planInfo, setPlanInfo] = useState<PlanInfo | null>(null);
+  const [featureTarget, setFeatureTarget] = useState<Listing | null>(null);
+  const [featuring, setFeaturing] = useState(false);
+  const [featureMsg, setFeatureMsg] = useState("");
 
   async function load() {
     setLoading(true);
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) return;
 
-    const { data: d } = await supabase.from("hazaral_dealers").select("id").eq("user_id", session.user.id).single();
+    const { data: d } = await supabase
+      .from("hazaral_dealers")
+      .select("id, subscription_plan")
+      .eq("user_id", session.user.id)
+      .single();
     if (!d) return;
     setDealerId(d.id);
 
-    const { data } = await supabase
-      .from("hazaral_listings")
-      .select("*")
-      .eq("dealer_id", d.id)
-      .order("created_at", { ascending: false });
+    const [{ data: listingData }, { data: planData }] = await Promise.all([
+      supabase
+        .from("hazaral_listings")
+        .select("*")
+        .eq("dealer_id", d.id)
+        .order("created_at", { ascending: false }),
+      supabase
+        .from("hazaral_subscription_plans")
+        .select("can_feature_listings, featured_slots")
+        .eq("slug", d.subscription_plan || "basic")
+        .single(),
+    ]);
 
-    setListings((data as Listing[]) || []);
+    setListings((listingData as Listing[]) || []);
+    if (planData) setPlanInfo(planData as PlanInfo);
     setLoading(false);
   }
 
@@ -55,6 +73,33 @@ export default function IlanlarimPage() {
     const { error } = await supabase.from("hazaral_listings").delete().eq("id", id);
     if (!error) setListings((ls) => ls.filter((l) => l.id !== id));
   }
+
+  async function featureListing() {
+    if (!featureTarget) return;
+    setFeaturing(true);
+    setFeatureMsg("");
+
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) { setFeaturing(false); return; }
+
+    const res = await fetch(`/api/dealer/listings/${featureTarget.id}/feature`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${session.access_token}` },
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      setFeatureMsg(data.error || "Öne çıkarma başarısız.");
+    } else {
+      setFeatureTarget(null);
+      await load();
+    }
+    setFeaturing(false);
+  }
+
+  const activeFeaturedCount = listings.filter(
+    (l) => l.is_featured && l.featured_until && new Date(l.featured_until) > new Date()
+  ).length;
 
   const conv = (l: Listing) => l.view_count > 0
     ? ((l.whatsapp_click_count + l.phone_click_count) / l.view_count * 100).toFixed(1)
@@ -85,6 +130,14 @@ export default function IlanlarimPage() {
                 {["İlan", "Durum", "Fiyat", "Görüntülenme", "WhatsApp", "Dönüşüm", "Son Kullanma", "İşlemler"].map((h) => (
                   <th key={h} className="py-12 px-14 text-[11px] font-medium text-muted-text uppercase tracking-wider whitespace-nowrap">{h}</th>
                 ))}
+                {planInfo?.can_feature_listings && (
+                  <th className="py-12 px-14 text-[11px] font-medium text-muted-text uppercase tracking-wider whitespace-nowrap">
+                    Öne Çıkar
+                    <span className="ml-6 text-[10px] text-muted-text font-normal">
+                      ({activeFeaturedCount}/{planInfo.featured_slots})
+                    </span>
+                  </th>
+                )}
               </tr>
             </thead>
             <tbody>
@@ -149,6 +202,25 @@ export default function IlanlarimPage() {
                         </button>
                       </div>
                     </td>
+                    {planInfo?.can_feature_listings && (
+                      <td className="py-12 px-14">
+                        {l.status === "active" && (
+                          l.is_featured && l.featured_until && new Date(l.featured_until) > new Date() ? (
+                            <span className="inline-flex items-center gap-5 text-[11px] text-amber-600 font-medium">
+                              <Zap size={12} className="fill-amber-500 text-amber-500" />
+                              Öne Çıkıyor
+                            </span>
+                          ) : (
+                            <button
+                              onClick={() => { setFeatureTarget(l); setFeatureMsg(""); }}
+                              className="inline-flex items-center gap-5 px-10 py-5 border border-amber-300 text-amber-600 rounded-full text-[11px] font-medium hover:bg-amber-50 transition-colors"
+                            >
+                              <Zap size={12} /> Öne Çıkar
+                            </button>
+                          )
+                        )}
+                      </td>
+                    )}
                   </tr>
                 );
               })}
@@ -156,6 +228,39 @@ export default function IlanlarimPage() {
           </table>
         </div>
       </div>
+
+      {/* Feature listing modal */}
+      {featureTarget && (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-16 bg-black/50">
+          <div className="bg-surface-container-lowest border border-[0.5px] border-border-default rounded-card w-full max-w-[420px] p-24">
+            <div className="flex items-center justify-between mb-14">
+              <h3 className="text-[16px] font-semibold text-on-surface">İlanı Öne Çıkar</h3>
+              <button onClick={() => setFeatureTarget(null)} className="p-4 text-muted-text hover:text-on-surface">
+                <X size={18} />
+              </button>
+            </div>
+            <p className="text-[13px] text-muted-text mb-6">
+              <strong className="text-on-surface">&ldquo;{featureTarget.title}&rdquo;</strong> ilanı 7 gün boyunca arama sonuçlarının üstünde gösterilecek.
+            </p>
+            <p className="text-[12px] text-muted-text mb-16">
+              Kullanılan slot: {activeFeaturedCount} / {planInfo?.featured_slots}
+            </p>
+            {featureMsg && (
+              <div className="bg-red-50 text-red-600 text-[12px] p-10 rounded-lg mb-14">{featureMsg}</div>
+            )}
+            <div className="flex gap-10 justify-end">
+              <button onClick={() => setFeatureTarget(null)} className="px-20 py-10 text-[13px] text-muted-text">İptal</button>
+              <button
+                onClick={featureListing}
+                disabled={featuring}
+                className="flex items-center gap-8 px-20 py-10 bg-amber-500 text-white text-[13px] font-semibold rounded-btn hover:opacity-90 disabled:opacity-60"
+              >
+                <Zap size={14} /> {featuring ? "İşleniyor..." : "Öne Çıkar (7 gün)"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

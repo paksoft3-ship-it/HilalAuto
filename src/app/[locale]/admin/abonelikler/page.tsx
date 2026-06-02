@@ -40,6 +40,8 @@ export default function AdminAbonelikler() {
   const [saving, setSaving] = useState(false);
   const [remindersSent, setRemindersSent] = useState(0);
   const [sendingReminders, setSendingReminders] = useState(false);
+  const [runningExpiry, setRunningExpiry] = useState(false);
+  const [expiryResult, setExpiryResult] = useState<string | null>(null);
 
   async function load() {
     setLoading(true);
@@ -193,6 +195,31 @@ export default function AdminAbonelikler() {
     setSaving(false);
   }
 
+  async function runExpiryCheck() {
+    setRunningExpiry(true);
+    setExpiryResult(null);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await fetch("/api/cron/expire-listings", {
+        method: "POST",
+        headers: session ? { Authorization: `Bearer ${session.access_token}` } : {},
+      });
+      const data = await res.json();
+      if (data.summary) {
+        const { listingsExpired = 0, dealersExpired = 0, listingsExpiredByDealerExpiry = 0, listingsUnfeatured = 0 } = data.summary;
+        setExpiryResult(
+          `Tamamlandı: ${listingsExpired} ilan süresi doldu, ${dealersExpired} bayi aboneliği bitti (${listingsExpiredByDealerExpiry} ek ilan kaldırıldı), ${listingsUnfeatured} öne çıkarma sona erdi.`
+        );
+      } else {
+        setExpiryResult("Tamamlandı.");
+      }
+      await load();
+    } catch {
+      setExpiryResult("Hata oluştu.");
+    }
+    setRunningExpiry(false);
+  }
+
   function exportCSV() {
     const header = "Firma,Plan,Başlangıç,Bitiş,Durum,Tutar";
     const rows = dealers.map((d) =>
@@ -224,6 +251,14 @@ export default function AdminAbonelikler() {
           <button onClick={exportCSV} className="flex items-center gap-8 px-14 py-8 border border-[0.5px] border-border-default rounded-btn text-[12px] text-muted-text bg-surface-container-lowest hover:border-primary">
             <Download size={12} /> CSV
           </button>
+          <button
+            onClick={runExpiryCheck}
+            disabled={runningExpiry}
+            className="flex items-center gap-8 px-14 py-8 border border-[0.5px] border-border-default rounded-btn text-[12px] text-muted-text bg-surface-container-lowest hover:border-primary disabled:opacity-60"
+            title="Süresi dolan ilanları ve abonelikleri kapat"
+          >
+            <RefreshCw size={12} className={runningExpiry ? "animate-spin" : ""} /> Süreleri Kontrol Et
+          </button>
           {expiringSoon.length > 0 && (
             <button
               onClick={sendExpiryReminders}
@@ -240,6 +275,9 @@ export default function AdminAbonelikler() {
 
       {/* Alerts */}
       <div className="flex flex-col gap-10">
+        {expiryResult && (
+          <AlertBox type="info" icon={<CheckCircle size={14} />} message={expiryResult} />
+        )}
         {pending.length > 0 && (
           <AlertBox type="info" icon={<Clock size={14} />} message={`${pending.length} bayi ödeme onayı bekliyor`} />
         )}
