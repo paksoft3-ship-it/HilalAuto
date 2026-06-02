@@ -9,7 +9,12 @@
     "about": "Hakkımızda",
     "getQuote": "Teklif Al",
     "call": "Ara",
-    "whatsapp": "WhatsApp"
+    "whatsapp": "WhatsApp",
+    "dealerLogin": "Bayi Girişi",
+    "becomeDealer": "Bayi Ol",
+    "dealers": "Bayiler",
+    "sellVehicle": "Araç Sat",
+    "favoritesLabel": "Favoriler"
   },
   "hero": {
     "heading": "Hasarlı Aracınız İçin Hızlı ve Güvenli Teklif Alın",
@@ -233,8 +238,8 @@
     "item4Desc": "WhatsApp ve telefon ile 7 gün ulaşın."
   },
   "seo": {
-    "homeTitle": "Hasarlı Araç Alanlar | Kazalı, Pert, Hurda Araç Alımı — Oto Grade",
-    "homeDescription": "Türkiye genelinde kazalı, pert, yanmış, sel hasarlı ve hurda araç alım hizmeti. Ücretsiz teklif, yerinden teslim.",
+    "homeTitle": "Otograde — Türkiye'nin Hasarlı Araç Pazaryeri",
+    "homeDescription": "Onaylı bayilerden kazalı, pert, hurda araçlar. Grade sistemiyle şeffaf değerleme. Hasarlı araç al veya aracınızı anında satın.",
     "priceRange": "Ücretsiz Teklif",
     "websiteDescription": "Türkiye genelinde hasarlı araç alım hizmeti",
     "vehicleTypesTitle": "Hasarlı Araç Türleri — Kazalı, Pert, Hurda Araç Alımı | Oto Grade",

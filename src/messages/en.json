@@ -9,7 +9,12 @@
     "about": "About Us",
     "getQuote": "Get a Quote",
     "call": "Call",
-    "whatsapp": "WhatsApp"
+    "whatsapp": "WhatsApp",
+    "dealerLogin": "Dealer Login",
+    "becomeDealer": "Become a Dealer",
+    "dealers": "Dealers",
+    "sellVehicle": "Sell Vehicle",
+    "favoritesLabel": "Favorites"
   },
   "hero": {
     "heading": "Get a Fast and Secure Quote for Your Damaged Vehicle",
@@ -233,8 +238,8 @@
     "item4Desc": "Reach us via WhatsApp and phone 7 days a week."
   },
   "seo": {
-    "homeTitle": "We Buy Damaged Vehicles | Accident, Written-Off, Scrap Vehicle Purchase — Oto Grade",
-    "homeDescription": "Nationwide service for buying accident-damaged, written-off, burnt, flood-damaged and scrap vehicles. Free quote, doorstep pickup.",
+    "homeTitle": "Otograde — Turkey's Damaged Vehicle Marketplace",
+    "homeDescription": "Buy accident-damaged, written-off, scrap vehicles from verified dealers. Transparent A-E grade system. Browse listings or sell your damaged car instantly.",
     "priceRange": "Free Quote",
     "websiteDescription": "Nationwide damaged vehicle purchasing service",
     "vehicleTypesTitle": "Damaged Vehicle Types — Accident, Written-Off, Scrap Vehicle Purchase | Oto Grade",

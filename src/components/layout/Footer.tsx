@@ -158,9 +158,39 @@ export function Footer({ locale = "tr" }: FooterProps) {
             </nav>
           </div>
 
-          {/* Contact + Legal */}
+          {/* Marketplace + Contact */}
           <div className="flex flex-col gap-16">
             <p className="text-[13px] font-medium text-white uppercase tracking-wider">
+              {locale === "en" ? "Marketplace" : "Pazaryeri"}
+            </p>
+            <div className="flex flex-col gap-8">
+              <Link
+                href={routes.marketplace()}
+                className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors"
+              >
+                {locale === "en" ? "Listings" : "İlanlar"}
+              </Link>
+              <Link
+                href={("/bayiler") as never}
+                className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors"
+              >
+                {locale === "en" ? "Dealers" : "Bayiler"}
+              </Link>
+              <Link
+                href={routes.becomeDealer()}
+                className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors"
+              >
+                {locale === "en" ? "Become a Dealer" : "Bayi Ol"}
+              </Link>
+              <Link
+                href={routes.dealerPanel()}
+                className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors"
+              >
+                {locale === "en" ? "Dealer Login" : "Bayi Girişi"}
+              </Link>
+            </div>
+
+            <p className="text-[13px] font-medium text-white uppercase tracking-wider mt-4">
               {t("contact")}
             </p>
             <div className="flex flex-col gap-8">
@@ -222,7 +252,7 @@ export function Footer({ locale = "tr" }: FooterProps) {
       <div className="border-t border-white/10 mt-60">
         <Container className="py-24 flex flex-col sm:flex-row items-center justify-between gap-16">
           <p className="text-[12px] text-[#888888]">
-            © {year} {SITE_NAME}. {t("rights")}
+            © {year} Otograde — {locale === "en" ? "Turkey's Damaged Vehicle Marketplace" : "Türkiye'nin Hasarlı Araç Pazaryeri"}
           </p>
           <a
             href="https://paksoft.com.tr"
