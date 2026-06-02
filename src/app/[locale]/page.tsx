@@ -10,11 +10,10 @@ import { MarketplaceHowItWorks } from "@/components/sections/MarketplaceHowItWor
 import { GradeExplainer } from "@/components/sections/GradeExplainer";
 import { DirectBuyingCTA } from "@/components/sections/DirectBuyingCTA";
 import { RecentListings } from "@/components/sections/RecentListings";
-import { VehicleTypeCards } from "@/components/sections/VehicleTypeCards";
-import { TrustBar } from "@/components/sections/TrustBar";
-import { SocialProof } from "@/components/sections/SocialProof";
-import { FAQSection } from "@/components/sections/FAQSection";
-import { FinalCTA } from "@/components/sections/FinalCTA";
+import { ServiceCategories } from "@/components/sections/ServiceCategories";
+import { CityHub } from "@/components/sections/CityHub";
+import { HomeFAQ } from "@/components/sections/HomeFAQ";
+import { FinalCTABand } from "@/components/sections/FinalCTABand";
 import { supabaseAdmin } from "@/lib/supabase";
 import { type CardListing } from "@/components/marketplace/HomepageListingCard";
 import { OG_IMAGE_URL, PHONE_NUMBER, SITE_URL } from "@/lib/constants";
@@ -54,15 +53,14 @@ export async function generateMetadata({ params }: HomePageProps): Promise<Metad
       type: "website",
       images: [{ url: OG_IMAGE_URL, width: 1200, height: 630, alt: title }],
     },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-    },
+    twitter: { card: "summary_large_image", title, description },
   };
 }
 
-// ── Server-side data fetching ──────────────────────────────────────────────────
+// ── Data fetching ──────────────────────────────────────────────────────────────
+
+const LISTING_FIELDS =
+  "id, slug, title, brand, model, year, km, fuel_type, city, damage_grade, damage_type, asking_price, is_featured, primary_image, images, view_count, created_at, dealer:hazaral_dealers(company_name, is_verified)";
 
 async function fetchHomeData() {
   try {
@@ -89,14 +87,14 @@ async function fetchHomeData() {
         .limit(500),
       supabaseAdmin
         .from("hazaral_listings")
-        .select("id, slug, title, brand, model, year, km, fuel_type, city, damage_grade, damage_type, asking_price, is_featured, primary_image, images, view_count, dealer:hazaral_dealers(company_name, is_verified)")
+        .select(LISTING_FIELDS)
         .eq("status", "active")
         .eq("is_featured", true)
         .order("featured_until", { ascending: false })
         .limit(6),
       supabaseAdmin
         .from("hazaral_listings")
-        .select("id, slug, title, brand, model, year, km, fuel_type, city, damage_grade, damage_type, asking_price, is_featured, primary_image, images, view_count, dealer:hazaral_dealers(company_name, is_verified)")
+        .select(LISTING_FIELDS)
         .eq("status", "active")
         .order("created_at", { ascending: false })
         .limit(6),
@@ -104,39 +102,29 @@ async function fetchHomeData() {
 
     const cityCount = new Set((cityRows || []).map((r: { city: string }) => r.city)).size;
 
-    // Fill featured up to 6 with recent if not enough
+    // Fill featured up to 6 with most recent if needed
     let featured = ((featuredRows || []) as unknown) as CardListing[];
     if (featured.length < 6) {
-      const featuredIds = featured.map((l) => l.id);
-      const fillQuery = supabaseAdmin
+      const ids = featured.map((l) => l.id);
+      const q = supabaseAdmin
         .from("hazaral_listings")
-        .select("id, slug, title, brand, model, year, km, fuel_type, city, damage_grade, damage_type, asking_price, is_featured, primary_image, images, view_count, dealer:hazaral_dealers(company_name, is_verified)")
+        .select(LISTING_FIELDS)
         .eq("status", "active")
         .order("created_at", { ascending: false })
         .limit(6 - featured.length);
-
-      if (featuredIds.length > 0) {
-        fillQuery.not("id", "in", `(${featuredIds.join(",")})`);
-      }
-
-      const { data: fillRows } = await fillQuery;
-      featured = [...featured, ...(((fillRows || []) as unknown) as CardListing[])];
+      if (ids.length > 0) q.not("id", "in", `(${ids.join(",")})`);
+      const { data: fill } = await q;
+      featured = [...featured, ...(((fill || []) as unknown) as CardListing[])];
     }
 
-    const stats: HeroStats = {
-      listingCount: listingCount ?? 0,
-      dealerCount: dealerCount ?? 0,
-      cityCount,
-    };
-
     return {
-      stats,
+      stats: { listingCount: listingCount ?? 0, dealerCount: dealerCount ?? 0, cityCount } as HeroStats,
       featuredListings: featured.slice(0, 6),
       recentListings: ((recentRows || []) as unknown) as CardListing[],
     };
   } catch {
     return {
-      stats: { listingCount: 0, dealerCount: 0, cityCount: 0 },
+      stats: { listingCount: 0, dealerCount: 0, cityCount: 0 } as HeroStats,
       featuredListings: [] as CardListing[],
       recentListings: [] as CardListing[],
     };
@@ -147,8 +135,7 @@ async function fetchHomeData() {
 
 export default async function HomePage({ params }: HomePageProps) {
   const { locale } = await params;
-  const [faqT, { stats, featuredListings, recentListings }] = await Promise.all([
-    getTranslations({ locale, namespace: "faq" }),
+  const [{ stats, featuredListings, recentListings }] = await Promise.all([
     fetchHomeData(),
   ]);
 
@@ -157,9 +144,10 @@ export default async function HomePage({ params }: HomePageProps) {
     "@type": "Organization",
     "@id": `${SITE_URL}/#organization`,
     name: "Otograde",
-    description: locale === "en"
-      ? "Turkey's damaged vehicle marketplace. Buy and sell accident-damaged, written-off, scrap vehicles with transparent A-E grade system and verified dealers."
-      : "Otograde, Türkiye'nin hasarlı araç pazaryeri. Kazalı, pert, hurda araçlar için A'dan E'ye grade sistemiyle şeffaf değerleme platformu.",
+    description:
+      locale === "en"
+        ? "Turkey's damaged vehicle marketplace. Transparent A-E grade system, verified dealers."
+        : "Otograde, Türkiye'nin hasarlı araç pazaryeri. A'dan E'ye grade sistemiyle şeffaf değerleme.",
     url: SITE_URL,
     logo: { "@type": "ImageObject", url: OG_IMAGE_URL, width: 1200, height: 630 },
     contactPoint: {
@@ -169,7 +157,6 @@ export default async function HomePage({ params }: HomePageProps) {
       availableLanguage: ["Turkish", "English"],
       areaServed: "TR",
     },
-    sameAs: [],
   };
 
   const websiteSchema = {
@@ -178,77 +165,53 @@ export default async function HomePage({ params }: HomePageProps) {
     "@id": `${SITE_URL}/#website`,
     name: "Otograde",
     url: SITE_URL,
-    description: locale === "en"
-      ? "Turkey's damaged vehicle marketplace"
-      : "Türkiye'nin hasarlı araç pazaryeri",
     inLanguage: locale === "en" ? "en-US" : "tr-TR",
     potentialAction: {
       "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: `${SITE_URL}/ara?brand={search_term_string}`,
-      },
+      target: { "@type": "EntryPoint", urlTemplate: `${SITE_URL}/ara?brand={search_term_string}` },
       "query-input": "required name=search_term_string",
     },
-  };
-
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: Array.from({ length: 8 }).map((_, i) => ({
-      "@type": "Question",
-      name: faqT(`q${i + 1}` as never),
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: faqT(`a${i + 1}` as never),
-      },
-    })),
   };
 
   return (
     <>
       <Navbar />
-      <main className="pb-[76px] md:pb-0">
-        {/* Hero — white background, marketplace search */}
+      <main className="pb-[60px] md:pb-0">
+        {/* 1 — Hero + stats bar */}
         <MarketplaceHero stats={stats} />
 
-        {/* Featured listings from DB */}
+        {/* 2 — Featured listings */}
         <FeaturedListings listings={featuredListings} />
 
-        {/* How it works — two-column buyer/seller */}
+        {/* 3 — How it works (with Alıcılar/Bayiler tabs) */}
         <MarketplaceHowItWorks />
 
-        {/* Grade explainer */}
+        {/* 4 — Grade system explainer */}
         <GradeExplainer />
 
-        {/* Direct buying — red CTA band (secondary action) */}
+        {/* 5 — Dark CTA with quick offer form */}
         <DirectBuyingCTA />
 
-        {/* Recent listings from DB */}
+        {/* 6 — Recently listed */}
         <RecentListings listings={recentListings} />
 
-        {/* SEO sections — kept below fold */}
-        <VehicleTypeCards />
-        <TrustBar />
-        <SocialProof />
-        <FAQSection />
-        <FinalCTA />
+        {/* 7 — Service categories */}
+        <ServiceCategories />
+
+        {/* 8 — City hub (server component, fetches DB) */}
+        <CityHub />
+
+        {/* 9 — FAQ */}
+        <HomeFAQ />
+
+        {/* 10 — Final CTA band */}
+        <FinalCTABand />
       </main>
       <Footer locale={locale} />
       <WhatsAppButton />
       <MobileStickyCTA />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
     </>
   );
 }

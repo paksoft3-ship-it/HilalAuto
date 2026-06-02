@@ -1,35 +1,50 @@
 import { Link } from "@/i18n/routing";
+import { ArrowRight } from "lucide-react";
 import { HomepageListingCard, type CardListing } from "@/components/marketplace/HomepageListingCard";
 
 interface Props {
   listings: CardListing[];
 }
 
-export function FeaturedListings({ listings }: Props) {
-  if (listings.length === 0) return null;
-
+function SkeletonCard() {
   return (
-    <section aria-label="Öne çıkan ilanlar" className="bg-white py-40 md:py-48">
-      <div className="mx-auto max-w-[1180px] px-16 md:px-32">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-24">
-          <h2 className="text-[20px] md:text-[22px] font-medium" style={{ color: "#0D0D0D" }}>
-            Öne Çıkan İlanlar
-          </h2>
+    <div className="bg-white border-[0.5px] border-[#EEEEEE] rounded-xl overflow-hidden animate-pulse">
+      <div className="h-[200px] bg-[#F3F3F4]" />
+      <div className="p-16 flex flex-col gap-10">
+        <div className="h-4 bg-[#F3F3F4] rounded w-3/4" />
+        <div className="h-3 bg-[#F3F3F4] rounded w-1/2" />
+        <div className="h-4 bg-[#F3F3F4] rounded w-1/3" />
+      </div>
+    </div>
+  );
+}
+
+export function FeaturedListings({ listings }: Props) {
+  return (
+    <section className="py-60 bg-white" aria-label="Öne çıkan ilanlar">
+      <div className="max-w-[1180px] mx-auto px-16 md:px-32">
+        <div className="flex justify-between items-end mb-32">
+          <div>
+            <span className="text-[11px] font-medium text-primary uppercase tracking-wider">
+              Haftanın Fırsatları
+            </span>
+            <h2 className="text-[32px] font-medium text-[#111111] tracking-[-1.5px] mt-8">
+              Öne Çıkan İlanlar
+            </h2>
+          </div>
           <Link
             href="/ara"
-            className="text-[13px] font-medium hover:opacity-75 transition-opacity"
-            style={{ color: "#C0392B" }}
+            className="text-primary text-[13px] font-medium flex items-center gap-4 hover:underline"
           >
-            Tümünü gör →
+            Tüm İlanları Gör <ArrowRight size={16} aria-hidden />
           </Link>
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16">
-          {listings.map((listing) => (
-            <HomepageListingCard key={listing.id} listing={listing} />
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-24">
+          {listings.length > 0
+            ? listings.map((l) => <HomepageListingCard key={l.id} listing={l} />)
+            : Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)
+          }
         </div>
       </div>
     </section>

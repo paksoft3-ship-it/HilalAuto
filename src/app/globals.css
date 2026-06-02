@@ -87,6 +87,14 @@
   }
 }
 
+.grade-bar {
+  height: 3px;
+  width: 100%;
+  display: flex;
+  margin-top: 2px;
+}
+.grade-bar span { flex: 1; height: 100%; }
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

@@ -1,48 +1,49 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { Link } from "@/i18n/routing";
-import { Phone, ArrowRight } from "lucide-react";
-import { useParams } from "next/navigation";
-import { routes, externalRoutes } from "@/lib/routes";
+import { Phone, PlusCircle } from "lucide-react";
+import { externalRoutes } from "@/lib/routes";
 import { PHONE_NUMBER, WHATSAPP_NUMBER } from "@/lib/constants";
-import { FaWhatsapp } from 'react-icons/fa';
+import { FaWhatsapp } from "react-icons/fa";
 
 export function MobileStickyCTA() {
-  // removed unused locale
-
   return (
     <div
-      className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-[0.5px] border-border-default pb-[max(0px,env(safe-area-inset-bottom))]"
+      className="fixed bottom-0 left-0 w-full z-[100] md:hidden bg-white border-t-[0.5px] border-[#EEEEEE] h-[60px] px-8"
       role="navigation"
-      aria-label="Hızlı işlem çubuğu"
+      aria-label="Mobil hızlı işlemler"
     >
-      <div className="grid grid-cols-3 gap-0">
+      <div className="grid grid-cols-3 h-full items-center gap-8">
+        {/* Call */}
         <a
           href={externalRoutes.phone(PHONE_NUMBER)}
-          className="flex flex-col items-center justify-center gap-4 py-12 text-text-muted hover:text-accent hover:bg-bg-surface transition-colors border-r border-[0.5px] border-border-default"
-          aria-label="Bizi arayın"
+          className="flex flex-col items-center justify-center gap-4 h-full text-[#111111]"
+          aria-label="Ara"
         >
-          <Phone size={18} strokeWidth={1.5} aria-hidden />
+          <Phone size={20} strokeWidth={1.5} aria-hidden />
           <span className="text-[11px] font-medium">Ara</span>
         </a>
+
+        {/* WhatsApp */}
         <a
           href={externalRoutes.whatsapp(WHATSAPP_NUMBER)}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex flex-col items-center justify-center gap-4 py-12 text-whatsapp hover:bg-bg-surface transition-colors border-r border-[0.5px] border-border-default"
-          aria-label="WhatsApp ile yazın"
+          className="flex flex-col items-center justify-center gap-4 h-full text-whatsapp-green"
+          aria-label="WhatsApp"
         >
-          <FaWhatsapp size={18} strokeWidth={1.5} aria-hidden />
+          <FaWhatsapp size={20} aria-hidden />
           <span className="text-[11px] font-medium">WhatsApp</span>
         </a>
+
+        {/* İlan Ver */}
         <Link
-          href={routes.quote()}
-          className="flex flex-col items-center justify-center gap-4 py-12 bg-accent text-white hover:opacity-90 transition-opacity"
-          aria-label="Ücretsiz teklif alın"
+          href={"/bayi-paneli/ilan-ekle" as never}
+          className="flex flex-col items-center justify-center gap-4 bg-primary text-white h-[44px] rounded-lg mx-4"
+          aria-label="İlan ver"
         >
-          <ArrowRight size={18} strokeWidth={1.5} aria-hidden />
-          <span className="text-[11px] font-medium">Teklif Al</span>
+          <PlusCircle size={18} aria-hidden />
+          <span className="text-[11px] font-medium">İlan Ver</span>
         </Link>
       </div>
     </div>

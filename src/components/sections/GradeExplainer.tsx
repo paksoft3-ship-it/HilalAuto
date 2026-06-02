@@ -1,78 +1,63 @@
+import { GRADE_COLORS } from "@/lib/grades";
+
 const GRADES = [
   {
-    grade: "A",
-    topBorder: "#27AE60",
-    letterColor: "#27AE60",
-    title: "Çok az hasar",
-    desc: "Kozmetik hasar, kolayca onarılır",
+    grade: "A" as const,
+    title: "Hafif Hasar",
+    desc: "Düşük onarım maliyetli, yürür aksamı sağlam, minimal kaporta işlemli araçlar.",
   },
   {
-    grade: "B",
-    topBorder: "#E67E22",
-    letterColor: "#E67E22",
-    title: "Orta hasar",
-    desc: "Tamirli veya onarılabilir hasar",
+    grade: "B" as const,
+    title: "Orta Hasar",
+    desc: "Kaporta ve mekanik onarım gerektiren, parça değişimi olan standart kazalılar.",
   },
   {
-    grade: "C",
-    topBorder: "#C0392B",
-    letterColor: "#C0392B",
-    title: "Ağır hasar",
-    desc: "Pert belgeli veya ciddi hasar",
+    grade: "C" as const,
+    title: "Ağır Hasar",
+    desc: "Şasi veya hava yastığı işlemi görmüş, yüksek onarım maliyetli ağır hasarlı araçlar.",
   },
   {
-    grade: "D",
-    topBorder: "#94A3B8",
-    letterColor: "#94A3B8",
-    title: "Çok ağır hasar",
-    desc: "Büyük onarım gerektirir",
+    grade: "D" as const,
+    title: "Pert Kayıtlı",
+    desc: "Sigorta şirketi tarafından pert kararı verilmiş, onarımı ekonomik olmayan araçlar.",
   },
   {
-    grade: "E",
-    topBorder: "#CBD5E1",
-    letterColor: "#CBD5E1",
-    title: "Hurda",
-    desc: "Parça veya hurda amaçlı",
+    grade: "E" as const,
+    title: "Hurda / Yedek",
+    desc: "Sadece yedek parça olarak değerlendirilebilir, trafiğe çıkması uygun olmayan araçlar.",
   },
 ] as const;
 
 export function GradeExplainer() {
   return (
-    <section aria-label="Otograde sistemi" className="bg-white py-40 md:py-48">
-      <div className="mx-auto max-w-[1180px] px-16 md:px-32">
-        {/* Header */}
-        <div className="mb-28 max-w-[560px]">
-          <h2 className="text-[20px] md:text-[24px] font-medium mb-8" style={{ color: "#0D0D0D" }}>
-            Otograde Sistemi — Şeffaf Değerleme
+    <section className="bg-white py-60" aria-label="Grade sistemi">
+      <div className="max-w-[1180px] mx-auto px-16 md:px-32">
+        <div className="text-center mb-44">
+          <span className="text-[11px] font-medium text-primary uppercase tracking-wider">
+            ŞEFFAF DEĞERLEME
+          </span>
+          <h2 className="text-[32px] font-medium text-[#111111] tracking-[-1.5px] mt-8">
+            Otograde Grade Sistemi Nedir?
           </h2>
-          <p className="text-[14px] leading-relaxed" style={{ color: "#64748B" }}>
-            Her araç bağımsız olarak değerlendirilir ve A&apos;dan E&apos;ye grade verilir
-          </p>
         </div>
 
-        {/* Grade cards */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-12">
-          {GRADES.map(({ grade, topBorder, letterColor, title, desc }) => (
-            <div
-              key={grade}
-              className="bg-white rounded-[12px] overflow-hidden pt-0"
-              style={{ border: "1px solid #E5E5E5" }}
-            >
-              {/* Colored top border */}
-              <div className="h-[3px] w-full" style={{ background: topBorder }} />
-              <div className="p-16 flex flex-col gap-6">
-                <span
-                  className="text-[28px] font-bold leading-none"
-                  style={{ color: letterColor }}
-                  aria-hidden
-                >
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-16">
+          {GRADES.map(({ grade, title, desc }) => {
+            const color = GRADE_COLORS[grade];
+            return (
+              <div
+                key={grade}
+                className="bg-white p-24 rounded-lg border-[0.5px] border-[#EEEEEE]"
+                style={{ borderTop: `4px solid ${color}` }}
+              >
+                <div className="text-[32px] font-medium mb-8" style={{ color }}>
                   {grade}
-                </span>
-                <h3 className="text-[13px] font-medium" style={{ color: "#0D0D0D" }}>{title}</h3>
-                <p className="text-[11px] leading-snug" style={{ color: "#64748B" }}>{desc}</p>
+                </div>
+                <h4 className="text-[14px] font-medium text-[#111111] mb-8">{title}</h4>
+                <p className="text-[11px] text-[#888888] leading-relaxed">{desc}</p>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

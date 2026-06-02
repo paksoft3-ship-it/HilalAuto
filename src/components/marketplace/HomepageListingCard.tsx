@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
-import { Eye } from "lucide-react";
+import { Eye, ShieldCheck, User, Car } from "lucide-react";
+import { GRADE_COLORS } from "@/lib/grades";
 import type { DamageGrade } from "@/types/marketplace";
 
 export type CardListing = {
@@ -20,118 +21,112 @@ export type CardListing = {
   primary_image: string | null;
   images: string[];
   view_count: number;
+  created_at?: string;
   dealer?: { company_name: string; is_verified: boolean } | null;
 };
 
-const GRADE_BADGE: Record<DamageGrade, string> = {
-  A: "#27AE60",
-  B: "#E67E22",
-  C: "#C0392B",
-  D: "#94A3B8",
-  E: "#CBD5E1",
-};
-
-function formatPrice(n: number) {
-  return new Intl.NumberFormat("tr-TR").format(n) + " ₺";
+function timeAgo(dateStr: string): string {
+  const diff = Date.now() - new Date(dateStr).getTime();
+  const mins = Math.floor(diff / 60000);
+  if (mins < 60) return `${mins || 1} dakika önce`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `${hrs} saat önce`;
+  return `${Math.floor(hrs / 24)} gün önce`;
 }
 
-export function HomepageListingCard({ listing }: { listing: CardListing }) {
+export function HomepageListingCard({
+  listing,
+  showTimeAgo = false,
+}: {
+  listing: CardListing;
+  showTimeAgo?: boolean;
+}) {
   const coverImg = listing.primary_image || listing.images?.[0] || null;
-  const gradeBg = listing.damage_grade ? GRADE_BADGE[listing.damage_grade] : null;
+  const gradeColor = listing.damage_grade ? GRADE_COLORS[listing.damage_grade] : null;
 
   return (
-    <article
-      className="group bg-white rounded-[12px] overflow-hidden transition-all duration-200 hover:shadow-md"
-      style={{ border: "1px solid #E5E5E5" }}
-    >
+    <article className="group bg-white border-[0.5px] border-[#EEEEEE] rounded-xl overflow-hidden hover:border-primary transition-colors">
       <Link
         href={{ pathname: "/ara/[slug]", params: { slug: listing.slug } } as never}
         className="flex flex-col h-full"
       >
         {/* Image */}
-        <div className="relative h-[160px] overflow-hidden" style={{ background: "#F8F8F8" }}>
+        <div className="relative h-[200px] bg-[#F3F3F4] flex items-center justify-center overflow-hidden">
           {coverImg ? (
             <Image
               src={coverImg}
               alt={`${listing.year} ${listing.brand} ${listing.model}`}
               fill
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              className="object-cover group-hover:scale-[1.03] transition-transform duration-500"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="object-cover group-hover:scale-[1.02] transition-transform duration-500"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#CBD5E1" strokeWidth="1.5" aria-hidden>
-                <path d="M19 17H5M19 17a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2m14 0v2a1 1 0 01-1 1H6a1 1 0 01-1-1v-2" />
-                <circle cx="7.5" cy="17" r="1.5" />
-                <circle cx="16.5" cy="17" r="1.5" />
-                <path d="M5 11l2-4h10l2 4" />
-              </svg>
+            <Car size={48} className="text-[#AAAAAA]" aria-hidden />
+          )}
+
+          {/* Featured badge — top left */}
+          {listing.is_featured && (
+            <div className="absolute top-12 left-12 px-8 py-4 bg-[rgba(17,17,17,0.8)] text-white text-[10px] font-medium rounded uppercase">
+              Öne Çıkan
             </div>
           )}
 
-          {/* Grade badge — top left */}
-          {gradeBg && listing.damage_grade && (
+          {/* Grade badge — top right */}
+          {gradeColor && listing.damage_grade && (
             <div
-              className="absolute top-8 left-8 w-[26px] h-[26px] rounded-full flex items-center justify-center text-white text-[11px] font-bold shadow-sm"
-              style={{ backgroundColor: gradeBg }}
+              className="absolute top-12 right-12 w-[32px] h-[32px] rounded-full flex items-center justify-center text-white text-[14px] font-medium"
+              style={{ backgroundColor: gradeColor }}
               aria-label={`Grade ${listing.damage_grade}`}
             >
               {listing.damage_grade}
             </div>
           )}
-
-          {/* Featured badge — top right */}
-          {listing.is_featured && (
-            <div
-              className="absolute top-8 right-8 px-8 py-[3px] rounded text-[10px] font-semibold"
-              style={{ background: "#0D0D0D", color: "#C0392B" }}
-            >
-              Öne Çıkan
-            </div>
-          )}
         </div>
 
         {/* Body */}
-        <div className="p-12 flex flex-col gap-8 flex-1">
-          <h3 className="text-[13px] font-medium leading-snug line-clamp-2" style={{ color: "#0D0D0D" }}>
+        <div className="p-16 flex flex-col gap-0 flex-1">
+          <h3 className="text-[16px] font-medium text-[#111111] mb-8 line-clamp-1">
             {listing.year} {listing.brand} {listing.model}
             {listing.damage_type[0] ? ` — ${listing.damage_type[0]}` : ""}
           </h3>
 
-          {/* Tags */}
-          <div className="flex items-center flex-wrap gap-4">
+          <div className="flex flex-wrap gap-8 mb-12">
             {listing.km !== null && (
-              <Tag>{new Intl.NumberFormat("tr-TR").format(listing.km)} km</Tag>
+              <Tag>{new Intl.NumberFormat("tr-TR").format(listing.km)} KM</Tag>
             )}
             {listing.fuel_type && <Tag className="capitalize">{listing.fuel_type}</Tag>}
             <Tag>{listing.city}</Tag>
           </div>
 
-          {/* Price */}
-          <p className="text-[15px] font-medium mt-auto" style={{ color: "#C0392B" }}>
-            {formatPrice(listing.asking_price)}
-          </p>
+          <div className="text-primary text-[18px] font-medium mb-12">
+            {new Intl.NumberFormat("tr-TR").format(listing.asking_price)} TL
+          </div>
 
-          {/* Footer */}
-          <div
-            className="flex items-center justify-between mt-4 pt-8 border-t"
-            style={{ borderColor: "#E5E5E5" }}
-          >
-            <div className="flex items-center gap-6 min-w-0">
+          <div className="pt-12 border-t-[0.5px] border-[#EEEEEE] flex justify-between items-center mt-auto">
+            <div className="flex items-center gap-4">
               {listing.dealer?.is_verified ? (
                 <>
-                  <span className="w-[6px] h-[6px] rounded-full bg-green-500 shrink-0" aria-hidden />
-                  <span className="text-[11px] truncate" style={{ color: "#64748B" }}>Onaylı Bayi</span>
+                  <ShieldCheck size={14} className="text-blue-500 shrink-0" aria-hidden />
+                  <span className="text-[11px] font-medium text-[#555555]">Onaylı Bayi</span>
                 </>
               ) : (
-                <span className="text-[11px] truncate max-w-[120px]" style={{ color: "#64748B" }}>
-                  {listing.dealer?.company_name || ""}
-                </span>
+                <>
+                  <User size={14} className="text-[#AAAAAA] shrink-0" aria-hidden />
+                  <span className="text-[11px] font-medium text-[#555555] truncate max-w-[100px]">
+                    {listing.dealer?.company_name || "Bayi"}
+                  </span>
+                </>
               )}
             </div>
-            <div className="flex items-center gap-4 shrink-0" style={{ color: "#94A3B8" }}>
-              <Eye size={12} aria-hidden />
-              <span className="text-[11px]">{listing.view_count}</span>
+            <div className="flex items-center gap-4 text-[#AAAAAA]">
+              {showTimeAgo && listing.created_at ? (
+                <span className="text-[11px]">{timeAgo(listing.created_at)}</span>
+              ) : (
+                <>
+                  <Eye size={14} aria-hidden />
+                  <span className="text-[11px]">{listing.view_count}</span>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -142,10 +137,7 @@ export function HomepageListingCard({ listing }: { listing: CardListing }) {
 
 function Tag({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <span
-      className={`inline-block px-8 py-[3px] rounded text-[11px] ${className ?? ""}`}
-      style={{ background: "#F8F8F8", color: "#64748B" }}
-    >
+    <span className={`text-[12px] text-[#888888] bg-[#F9F9F9] px-8 py-2 rounded ${className ?? ""}`}>
       {children}
     </span>
   );
