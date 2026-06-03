@@ -81,11 +81,11 @@ export function Navbar() {
         <div className="flex justify-between items-center h-full px-16 md:px-32 max-w-[1180px] mx-auto">
 
           {/* Logo + center links group */}
-          <div className="flex items-center gap-32">
+          <div className="flex items-center gap-24">
             <OtogradeLogo />
 
-            {/* Desktop center links — hardcoded to avoid next-intl Link type edge cases */}
-            <div className="hidden lg:flex items-center gap-24 h-full">
+            {/* Desktop center links */}
+            <div className="hidden lg:flex items-center gap-20 h-full">
               <a href="/ara" className="text-[13px] font-medium text-[#111111] hover:text-primary transition-colors">
                 İlanlar
               </a>
@@ -122,64 +122,23 @@ export function Navbar() {
           </div>
 
           {/* Desktop right actions */}
-          <div className="hidden md:flex items-center gap-12">
-            {/* Group 1: Language + Favorites */}
-            <div className="flex items-center gap-8 border-r-[0.5px] border-[#EEEEEE] pr-12">
-              <button className="flex items-center gap-4 text-[#888888] hover:text-[#111111] transition-colors">
-                <Globe size={16} aria-hidden />
-                <span className="text-[12px] font-medium uppercase">
-                  {locale === "en" ? "EN" : "TR"}
-                </span>
-              </button>
-              <Link
-                href={"/favoriler" as any}
-                className="relative text-[#888888] hover:text-primary transition-colors"
-                aria-label="Favoriler"
-              >
-                <Heart size={18} strokeWidth={1.5} aria-hidden />
-                {favoriteCount > 0 && (
-                  <span className="absolute -top-[3px] -right-[3px] w-[14px] h-[14px] rounded-full bg-primary text-white text-[8px] font-bold flex items-center justify-center">
-                    {favoriteCount > 9 ? "9+" : favoriteCount}
-                  </span>
-                )}
-              </Link>
-            </div>
-
-            {/* Group 2: Phone + WhatsApp */}
-            <div className="flex items-center gap-8 border-r-[0.5px] border-[#EEEEEE] pr-12">
-              <a
-                href={externalRoutes.phone(PHONE_NUMBER)}
-                className="text-[#111111] text-[13px] font-medium hover:text-primary transition-colors hidden xl:block"
-                aria-label="Telefon"
-              >
-                {PHONE_NUMBER.replace("+90", "0")}
-              </a>
-              <a
-                href={externalRoutes.whatsapp(WHATSAPP_NUMBER)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-whatsapp-green hover:opacity-80 transition-opacity"
-                aria-label="WhatsApp"
-              >
-                <FaWhatsapp size={20} aria-hidden />
-              </a>
-            </div>
-
-            {/* Group 3: Bayi Ol + Araç Sat */}
-            <div className="flex items-center gap-8">
-              <Link
-                href={routes.becomeDealer()}
-                className="bg-white border-[0.5px] border-[#EEEEEE] text-[#111111] px-16 rounded-lg text-[13px] font-medium h-[40px] flex items-center justify-center hover:bg-gray-50 transition-colors"
-              >
-                {t("becomeDealer")}
-              </Link>
-              <Link
-                href={routes.quote()}
-                className="bg-primary text-white px-20 rounded-lg font-medium text-[13px] hover:opacity-90 transition-opacity h-[40px] flex items-center justify-center"
-              >
-                {t("sellVehicle")}
-              </Link>
-            </div>
+          <div className="hidden md:flex items-center gap-8">
+            <button className="flex items-center gap-4 text-[#888888] hover:text-[#111111] transition-colors px-8">
+              <Globe size={15} aria-hidden />
+              <span className="text-[12px] font-medium uppercase">{locale === "en" ? "EN" : "TR"}</span>
+            </button>
+            <Link
+              href={routes.becomeDealer()}
+              className="border-[0.5px] border-[#DDDDDD] text-[#111111] px-14 py-8 rounded-lg text-[13px] font-medium hover:bg-[#FAFAFA] transition-colors whitespace-nowrap"
+            >
+              {t("becomeDealer")}
+            </Link>
+            <Link
+              href={routes.quote()}
+              className="bg-primary text-white px-14 py-8 rounded-lg text-[13px] font-medium hover:opacity-90 transition-opacity whitespace-nowrap"
+            >
+              {t("sellVehicle")}
+            </Link>
           </div>
 
           {/* Mobile hamburger */}
