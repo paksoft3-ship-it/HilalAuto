@@ -2,6 +2,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -11,12 +12,18 @@ import { routes, externalRoutes } from "@/lib/routes";
 import { PHONE_NUMBER, WHATSAPP_NUMBER, VEHICLE_TYPES } from "@/lib/constants";
 import { FaWhatsapp } from "react-icons/fa";
 
-// ── Text logo ────────────────────────────────────────────────────────────────
+// ── Logo ─────────────────────────────────────────────────────────────────────
 function OtogradeLogo() {
   return (
     <Link href={routes.home()} className="flex items-center shrink-0" aria-label="Otograde Ana Sayfa">
-      <span className="font-medium text-[#111111] text-[22px] tracking-[-1px]">Oto</span>
-      <span className="font-medium text-primary text-[22px] tracking-[-1px]">grade</span>
+      <Image
+        src="/images/logo/otograde-navbar.svg"
+        alt="Otograde"
+        width={140}
+        height={36}
+        className="h-[36px] w-auto"
+        priority
+      />
     </Link>
   );
 }

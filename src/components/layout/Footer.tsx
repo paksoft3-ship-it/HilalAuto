@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { Phone } from "lucide-react";
@@ -37,9 +38,14 @@ export function Footer({ locale = "tr" }: FooterProps) {
 
           {/* Brand */}
           <div className="flex flex-col gap-16">
-            <Link href={routes.home()} className="flex items-center" aria-label="Otograde Ana Sayfa">
-              <span className="font-medium text-white text-[22px] tracking-[-1px]">Oto</span>
-              <span className="font-medium text-primary text-[22px] tracking-[-1px]">grade</span>
+            <Link href={routes.home()} aria-label="Otograde Ana Sayfa">
+              <Image
+                src="/images/logo/otograde-dark.svg"
+                alt="Otograde"
+                width={140}
+                height={36}
+                className="h-[36px] w-auto"
+              />
             </Link>
             <p className="text-[13px] text-[#AAAAAA] leading-relaxed max-w-[220px]">
               {t("tagline")}
