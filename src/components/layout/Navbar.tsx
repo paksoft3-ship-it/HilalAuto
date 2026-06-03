@@ -21,14 +21,6 @@ function OtogradeLogo() {
   );
 }
 
-// ── Nav links ────────────────────────────────────────────────────────────────
-const NAV_LINKS = [
-  { labelKey: "marketplace",  href: (_: string) => routes.marketplace() },
-  { labelKey: "howItWorks",   href: (_: string) => routes.howItWorks() },
-  { labelKey: "vehicleTypes", href: (_: string) => routes.vehicleTypes() }, // gets dropdown
-  { labelKey: "cities",       href: (_: string) => "/sehir" as any },
-  { labelKey: "blog",         href: (_: string) => routes.blog() },
-];
 
 // ── Favorites count from session ─────────────────────────────────────────────
 function useFavoriteCount() {
@@ -85,43 +77,40 @@ export function Navbar() {
           <div className="flex items-center gap-32">
             <OtogradeLogo />
 
-            {/* Desktop center links */}
-            <div className="hidden lg:flex gap-24">
-              {NAV_LINKS.map((link) => {
-                if (link.labelKey === "vehicleTypes") {
-                  return (
-                    <div key={link.labelKey} className="relative group h-full flex items-center">
-                      <Link
-                        href={link.href(locale)}
-                        className="text-[13px] text-[#111111] hover:text-primary transition-colors flex items-center gap-4 py-20"
-                      >
-                        {t(link.labelKey as never)}
-                        <ChevronDown size={13} className="group-hover:rotate-180 transition-transform duration-200" />
-                      </Link>
-                      <div className="absolute top-full left-1/2 -translate-x-1/2 w-[220px] bg-white border-[0.5px] border-[#EEEEEE] rounded-lg shadow-sm opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 flex flex-col py-8 z-50">
-                        {VEHICLE_TYPES.map((type) => (
-                          <Link
-                            key={type.slug}
-                            href={routes.service(type.serviceSlug)}
-                            className="px-16 py-8 text-[13px] text-[#888888] hover:bg-[#FAFAFA] hover:text-primary transition-colors"
-                          >
-                            {locale === "en" ? type.labelEn : type.label}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  );
-                }
-                return (
-                  <Link
-                    key={link.labelKey}
-                    href={link.href(locale)}
-                    className="text-[13px] text-[#111111] hover:text-primary transition-colors"
-                  >
-                    {t(link.labelKey as never)}
-                  </Link>
-                );
-              })}
+            {/* Desktop center links — hardcoded to avoid next-intl Link type edge cases */}
+            <div className="hidden lg:flex items-center gap-24 h-full">
+              <a href="/ara" className="text-[13px] font-medium text-[#111111] hover:text-primary transition-colors">
+                İlanlar
+              </a>
+              <a href="/nasil-calisir" className="text-[13px] font-medium text-[#111111] hover:text-primary transition-colors">
+                Nasıl Çalışır
+              </a>
+
+              {/* Araç Türleri with dropdown */}
+              <div className="relative group h-full flex items-center">
+                <a href="/arac-turleri" className="text-[13px] font-medium text-[#111111] hover:text-primary transition-colors flex items-center gap-4">
+                  Araç Türleri
+                  <ChevronDown size={13} className="group-hover:rotate-180 transition-transform duration-200" />
+                </a>
+                <div className="absolute top-full left-1/2 -translate-x-1/2 w-[220px] bg-white border-[0.5px] border-[#EEEEEE] rounded-lg shadow-sm opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 flex flex-col py-8 z-50">
+                  {VEHICLE_TYPES.map((type) => (
+                    <a
+                      key={type.slug}
+                      href={`/hizmet/${type.serviceSlug}`}
+                      className="px-16 py-8 text-[13px] text-[#555555] hover:bg-[#FAFAFA] hover:text-primary transition-colors"
+                    >
+                      {locale === "en" ? type.labelEn : type.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+
+              <a href="/sehir" className="text-[13px] font-medium text-[#111111] hover:text-primary transition-colors">
+                Şehirler
+              </a>
+              <a href="/blog" className="text-[13px] font-medium text-[#111111] hover:text-primary transition-colors">
+                Blog
+              </a>
             </div>
           </div>
 
