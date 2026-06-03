@@ -78,14 +78,14 @@ export function Navbar() {
         )}
         aria-label="Ana navigasyon"
       >
-        <div className="flex justify-between items-center h-full px-16 md:px-32 max-w-[1180px] mx-auto">
+        <div className="flex justify-between items-center h-full px-16 md:px-32 w-full">
 
           {/* Logo + center links group */}
           <div className="flex items-center gap-24">
             <OtogradeLogo />
 
             {/* Desktop center links */}
-            <div className="hidden lg:flex items-center gap-20 h-full">
+            <div className="hidden lg:flex items-center gap-16 h-full">
               <a href="/ara" className="text-[13px] font-medium text-[#111111] hover:text-primary transition-colors">
                 İlanlar
               </a>
@@ -129,13 +129,13 @@ export function Navbar() {
             </button>
             <Link
               href={routes.becomeDealer()}
-              className="border-[0.5px] border-[#DDDDDD] text-[#111111] px-14 py-8 rounded-lg text-[13px] font-medium hover:bg-[#FAFAFA] transition-colors whitespace-nowrap"
+              className="border-[0.5px] border-[#DDDDDD] text-[#111111] px-10 py-[5px] rounded text-[12px] font-medium hover:bg-[#FAFAFA] transition-colors whitespace-nowrap"
             >
               {t("becomeDealer")}
             </Link>
             <Link
               href={routes.quote()}
-              className="bg-primary text-white px-14 py-8 rounded-lg text-[13px] font-medium hover:opacity-90 transition-opacity whitespace-nowrap"
+              className="bg-primary text-white px-10 py-[5px] rounded text-[12px] font-medium hover:opacity-90 transition-opacity whitespace-nowrap"
             >
               {t("sellVehicle")}
             </Link>

@@ -2,7 +2,6 @@ import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { Phone } from "lucide-react";
-import { Container } from "@/components/ui/Container";
 import { routes, externalRoutes } from "@/lib/routes";
 import { PHONE_NUMBER, WHATSAPP_NUMBER, VEHICLE_TYPES } from "@/lib/constants";
 import { FaWhatsapp, FaTiktok, FaInstagram, FaFacebook, FaYoutube, FaLinkedin } from "react-icons/fa";
@@ -33,7 +32,7 @@ export function Footer({ locale = "tr" }: FooterProps) {
 
   return (
     <footer className="bg-[#111111] text-white pt-60 pb-[calc(60px+env(safe-area-inset-bottom))] md:pb-0">
-      <Container>
+      <div className="px-16 md:px-32 w-full">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-44">
 
           {/* Brand */}
@@ -181,11 +180,11 @@ export function Footer({ locale = "tr" }: FooterProps) {
             </div>
           </div>
         </div>
-      </Container>
+      </div>
 
       {/* Bottom bar */}
       <div className="border-t border-white/10 mt-60">
-        <Container className="py-24 flex flex-col sm:flex-row items-center justify-between gap-16">
+        <div className="px-16 md:px-32 w-full py-24 flex flex-col sm:flex-row items-center justify-between gap-16">
           <p className="text-[12px] text-[#888888]">
             © {year} Otograde — {locale === "en" ? "Turkey's Damaged Vehicle Marketplace" : "Türkiye'nin Hasarlı Araç Pazaryeri"}
           </p>
@@ -200,7 +199,7 @@ export function Footer({ locale = "tr" }: FooterProps) {
             </span>
             <span className="text-primary font-bold text-[13px] tracking-wide">PakSoft</span>
           </a>
-        </Container>
+        </div>
       </div>
     </footer>
   );
