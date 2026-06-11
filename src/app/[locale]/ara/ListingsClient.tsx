@@ -316,20 +316,20 @@ export function ListingsClient({ initialListings, initialTotal, availableBrands 
       {/* Price range */}
       <div className="flex flex-col gap-8">
         <label className="text-[11px] font-semibold text-muted-text uppercase tracking-wider">{text.priceRange}</label>
-        <div className="flex gap-8">
+        <div className="grid grid-cols-2 gap-8">
           <input
             type="number"
             placeholder={text.min}
             value={priceMin}
             onChange={(e) => updateFilter("price_min", e.target.value)}
-            className="flex-1 px-12 py-8 bg-surface border border-[0.5px] border-border-default rounded-input text-[13px] outline-none focus:border-primary"
+            className="w-full min-w-0 px-12 py-8 bg-surface border border-[0.5px] border-border-default rounded-input text-[13px] outline-none focus:border-primary"
           />
           <input
             type="number"
             placeholder={text.max}
             value={priceMax}
             onChange={(e) => updateFilter("price_max", e.target.value)}
-            className="flex-1 px-12 py-8 bg-surface border border-[0.5px] border-border-default rounded-input text-[13px] outline-none focus:border-primary"
+            className="w-full min-w-0 px-12 py-8 bg-surface border border-[0.5px] border-border-default rounded-input text-[13px] outline-none focus:border-primary"
           />
         </div>
       </div>
@@ -337,7 +337,7 @@ export function ListingsClient({ initialListings, initialTotal, availableBrands 
       {/* Year range */}
       <div className="flex flex-col gap-8">
         <label className="text-[11px] font-semibold text-muted-text uppercase tracking-wider">{text.yearRange}</label>
-        <div className="flex gap-8">
+        <div className="grid grid-cols-2 gap-8">
           <input
             type="number"
             placeholder="2000"
@@ -345,7 +345,7 @@ export function ListingsClient({ initialListings, initialTotal, availableBrands 
             max={2026}
             value={yearMin}
             onChange={(e) => updateFilter("year_min", e.target.value)}
-            className="flex-1 px-12 py-8 bg-surface border border-[0.5px] border-border-default rounded-input text-[13px] outline-none focus:border-primary"
+            className="w-full min-w-0 px-12 py-8 bg-surface border border-[0.5px] border-border-default rounded-input text-[13px] outline-none focus:border-primary"
           />
           <input
             type="number"
@@ -354,7 +354,7 @@ export function ListingsClient({ initialListings, initialTotal, availableBrands 
             max={2026}
             value={yearMax}
             onChange={(e) => updateFilter("year_max", e.target.value)}
-            className="flex-1 px-12 py-8 bg-surface border border-[0.5px] border-border-default rounded-input text-[13px] outline-none focus:border-primary"
+            className="w-full min-w-0 px-12 py-8 bg-surface border border-[0.5px] border-border-default rounded-input text-[13px] outline-none focus:border-primary"
           />
         </div>
       </div>
