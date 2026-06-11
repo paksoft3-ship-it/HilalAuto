@@ -3,7 +3,7 @@ import { Link } from "@/i18n/routing";
 export function FinalCTABand() {
   return (
     <section className="py-16 md:py-24 bg-white" aria-label="Son çağrı">
-      <div className="max-w-[1180px] mx-auto px-16 md:px-32">
+      <div className="max-w-[1240px] mx-auto px-16 md:px-24">
         <div className="bg-[#FFF2EF] border-[0.5px] border-[#FFCDC4] rounded-2xl p-32 md:p-60 text-center">
           <h2 className="text-[32px] font-medium text-[#111111] tracking-[-1.5px]">
             Hasarlı aracınızın değerini bugün öğrenin.

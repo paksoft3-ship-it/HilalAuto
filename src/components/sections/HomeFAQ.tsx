@@ -31,7 +31,7 @@ export function HomeFAQ() {
       className="py-60 bg-[#FAFAFA] border-t-[0.5px] border-[#EEEEEE]"
       aria-label="Sık sorulan sorular"
     >
-      <div className="max-w-[1180px] mx-auto px-16 md:px-32">
+      <div className="max-w-[1240px] mx-auto px-16 md:px-24">
         <div className="text-center mb-44">
           <span className="text-[11px] font-medium text-primary uppercase tracking-wider">
             YARDIM

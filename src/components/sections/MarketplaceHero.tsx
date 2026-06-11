@@ -15,7 +15,7 @@ export function MarketplaceHero({ stats }: { stats: HeroStats }) {
     <>
       {/* Hero */}
       <section className="bg-white pt-60 pb-32" aria-label={t("heroAria")}>
-        <div className="max-w-[1180px] mx-auto px-16 md:px-32 flex flex-col items-center text-center">
+        <div className="max-w-[1240px] mx-auto px-16 md:px-24 flex flex-col items-center text-center">
           {/* Pill badge */}
           <div className="inline-flex px-12 py-4 bg-[#FFF2EF] border-[0.5px] border-[#FFCDC4] rounded-full mb-24">
             <span className="text-primary text-[11px] font-medium uppercase tracking-wider">
@@ -44,7 +44,7 @@ export function MarketplaceHero({ stats }: { stats: HeroStats }) {
 
       {/* Stats bar */}
       <div className="w-full bg-[#FAFAFA] border-y-[0.5px] border-[#EEEEEE] py-24">
-        <div className="max-w-[1180px] mx-auto px-16 md:px-32">
+        <div className="max-w-[1240px] mx-auto px-16 md:px-24">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-24">
             <StatItem value={stats.listingCount > 0 ? `${stats.listingCount}+` : "—"} label={t("activeListings")} />
             <StatItem value={stats.dealerCount > 0 ? `${stats.dealerCount}+` : "—"} label={t("verifiedDealers")} />

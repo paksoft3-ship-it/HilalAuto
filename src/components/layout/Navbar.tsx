@@ -77,7 +77,7 @@ export function Navbar() {
         )}
         aria-label={t("mainNavigation")}
       >
-        <div className="flex justify-between items-center h-full px-16 md:px-32 w-full">
+        <div className="mx-auto flex h-full w-full max-w-[1240px] items-center justify-between px-16 md:px-24">
 
           {/* Left: Logo */}
           <div className="flex lg:flex-1 justify-start items-center">

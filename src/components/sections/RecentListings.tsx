@@ -25,7 +25,7 @@ export function RecentListings({ listings }: Props) {
 
   return (
     <section className="py-60 bg-white" aria-label={t("recentAria")}>
-      <div className="max-w-[1180px] mx-auto px-16 md:px-32">
+      <div className="max-w-[1240px] mx-auto px-16 md:px-24">
         <div className="flex justify-between items-end mb-32">
           <div>
             <span className="text-[11px] font-medium text-primary uppercase tracking-wider">

@@ -73,7 +73,7 @@ export default async function BayilerPage({ params }: Props) {
       <main className="pb-[76px] md:pb-0">
         {/* Header */}
         <div className="bg-white border-b" style={{ borderColor: "#E5E5E5" }}>
-          <div className="mx-auto max-w-[1180px] px-16 md:px-32 py-32 md:py-40">
+          <div className="mx-auto max-w-[1240px] px-16 md:px-24 py-32 md:py-40">
             <h1 className="text-[24px] md:text-[28px] font-medium mb-8" style={{ color: "#0D0D0D" }}>
               {isEn ? "Verified Dealers" : "Onaylı Bayiler"}
             </h1>
@@ -86,7 +86,7 @@ export default async function BayilerPage({ params }: Props) {
         </div>
 
         {/* Dealer grid */}
-        <div className="mx-auto max-w-[1180px] px-16 md:px-32 py-32 md:py-40">
+        <div className="mx-auto max-w-[1240px] px-16 md:px-24 py-32 md:py-40">
           {rows.length === 0 ? (
             <div className="text-center py-48" style={{ color: "#64748B" }}>
               <p className="text-[16px]">{isEn ? "No dealers found." : "Henüz kayıtlı bayi yok."}</p>
@@ -102,7 +102,7 @@ export default async function BayilerPage({ params }: Props) {
 
         {/* Become a dealer CTA */}
         <div className="border-t py-32 md:py-40" style={{ background: "#F8F8F8", borderColor: "#E5E5E5" }}>
-          <div className="mx-auto max-w-[1180px] px-16 md:px-32 flex flex-col md:flex-row items-start md:items-center justify-between gap-16">
+          <div className="mx-auto max-w-[1240px] px-16 md:px-24 flex flex-col md:flex-row items-start md:items-center justify-between gap-16">
             <div>
               <h2 className="text-[18px] font-medium mb-4" style={{ color: "#0D0D0D" }}>
                 {isEn ? "Want to list your vehicles?" : "Araçlarınızı listelemek ister misiniz?"}

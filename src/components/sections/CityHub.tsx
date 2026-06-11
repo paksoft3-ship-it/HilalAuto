@@ -54,7 +54,7 @@ export async function CityHub() {
 
   return (
     <section className="py-60 bg-white" aria-label="Şehirler">
-      <div className="max-w-[1180px] mx-auto px-16 md:px-32">
+      <div className="max-w-[1240px] mx-auto px-16 md:px-24">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-32 gap-16">
           <div className="max-w-[600px]">
             <span className="text-[11px] font-medium text-primary uppercase tracking-wider">

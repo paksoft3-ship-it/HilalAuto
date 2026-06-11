@@ -34,7 +34,7 @@ export function DirectBuyingCTA() {
 
   return (
     <section className="bg-[#111111] py-60" aria-label="Hızlı teklif al">
-      <div className="max-w-[1180px] mx-auto px-16 md:px-32 flex flex-col md:flex-row items-start justify-between gap-44">
+      <div className="max-w-[1240px] mx-auto px-16 md:px-24 flex flex-col md:flex-row items-start justify-between gap-44">
         {/* Left */}
         <div className="max-w-[500px]">
           <span className="text-[11px] font-medium text-primary uppercase tracking-wider">

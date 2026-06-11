@@ -170,7 +170,7 @@ export default async function ListingDetailPage({ params }: Props) {
         <ListingDetailClient listing={listing} dealer={listing.dealer!} locale={locale} />
 
         <div className="bg-surface pt-0 pb-60">
-          <div className="mx-auto max-w-[1180px] px-16 md:px-32">
+          <div className="mx-auto max-w-[1240px] px-16 md:px-24">
             <Suspense fallback={null}>
               <SimilarListings
                 currentId={listing.id}

@@ -34,7 +34,7 @@ export function Footer(props: FooterProps = {}) {
 
   return (
     <footer className="bg-[#111111] text-white pt-60 pb-[calc(60px+env(safe-area-inset-bottom))] md:pb-0">
-      <div className="px-16 md:px-32 w-full">
+      <div className="mx-auto w-full max-w-[1240px] px-16 md:px-24">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-44">
 
           {/* Brand */}
@@ -186,7 +186,7 @@ export function Footer(props: FooterProps = {}) {
 
       {/* Bottom bar */}
       <div className="border-t border-white/10 mt-60">
-        <div className="px-16 md:px-32 w-full py-24 flex flex-col sm:flex-row items-center justify-between gap-16">
+        <div className="mx-auto flex w-full max-w-[1240px] flex-col items-center justify-between gap-16 px-16 py-24 md:px-24 sm:flex-row">
           <p className="text-[12px] text-[#888888]">
             © {year} Otograde — {t("marketplaceSuffix")}
           </p>

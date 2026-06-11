@@ -9,7 +9,7 @@ export function MarketplaceHowItWorks() {
       className="bg-[#FAFAFA] py-60 border-y-[0.5px] border-[#EEEEEE]"
       aria-label={t("howItWorksAria")}
     >
-      <div className="max-w-[1180px] mx-auto px-16 md:px-32">
+      <div className="max-w-[1240px] mx-auto px-16 md:px-24">
         <div className="flex flex-col items-center text-center mb-8">
           <span className="text-[11px] font-medium text-primary uppercase tracking-wider">
             {t("howItWorksEyebrow")}

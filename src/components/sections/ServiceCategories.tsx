@@ -18,7 +18,7 @@ export function ServiceCategories() {
       className="py-60 bg-[#FAFAFA] border-y-[0.5px] border-[#EEEEEE]"
       aria-label="Hizmet kapsamı"
     >
-      <div className="max-w-[1180px] mx-auto px-16 md:px-32">
+      <div className="max-w-[1240px] mx-auto px-16 md:px-24">
         <div className="flex flex-col mb-32">
           <span className="text-[11px] font-medium text-primary uppercase tracking-wider">
             HİZMET KAPSAMI

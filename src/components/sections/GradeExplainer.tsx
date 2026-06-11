@@ -31,7 +31,7 @@ const GRADES = [
 export function GradeExplainer() {
   return (
     <section className="bg-white py-60" aria-label="Grade sistemi">
-      <div className="max-w-[1180px] mx-auto px-16 md:px-32">
+      <div className="max-w-[1240px] mx-auto px-16 md:px-24">
         <div className="text-center mb-44">
           <span className="text-[11px] font-medium text-primary uppercase tracking-wider">
             ŞEFFAF DEĞERLEME
