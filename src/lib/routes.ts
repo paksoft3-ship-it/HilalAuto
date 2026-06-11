@@ -5,6 +5,7 @@ export const routes = {
   howItWorks: () => `/nasil-calisir` as any,
   about: () => `/hakkimizda` as any,
   vehicleTypes: () => `/arac-turleri` as any,
+  cities: () => `/sehir` as any,
   contact: () => `/iletisim` as any,
   blog: () => `/blog` as any,
   blogPost: (slug: string) => `/blog/${slug}` as any,

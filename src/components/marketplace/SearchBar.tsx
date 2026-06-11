@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
 import { Search, Car, MapPin, Banknote } from "lucide-react";
 
 export function SearchBar() {
   const router = useRouter();
+  const t = useTranslations("marketplaceHome");
   const [query, setQuery] = useState("");
   const [city, setCity] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
@@ -28,8 +30,8 @@ export function SearchBar() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-          placeholder="Marka veya Model"
-          aria-label="Araç markası veya modeli"
+          placeholder={t("searchBrand")}
+          aria-label={t("searchBrandAria")}
           className="w-full border-none bg-transparent text-[14px] text-[#111111] placeholder-[#AAAAAA] outline-none"
         />
       </div>
@@ -41,8 +43,8 @@ export function SearchBar() {
           value={city}
           onChange={(e) => setCity(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-          placeholder="Şehir"
-          aria-label="Şehir"
+          placeholder={t("searchCity")}
+          aria-label={t("searchCity")}
           className="w-full border-none bg-transparent text-[14px] text-[#111111] placeholder-[#AAAAAA] outline-none"
         />
       </div>
@@ -54,8 +56,8 @@ export function SearchBar() {
           value={maxPrice}
           onChange={(e) => setMaxPrice(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-          placeholder="Fiyat Aralığı"
-          aria-label="Maksimum fiyat"
+          placeholder={t("searchPrice")}
+          aria-label={t("searchPriceAria")}
           className="w-full border-none bg-transparent text-[14px] text-[#111111] placeholder-[#AAAAAA] outline-none"
         />
       </div>
@@ -64,10 +66,10 @@ export function SearchBar() {
       <button
         onClick={handleSearch}
         className="flex items-center justify-center gap-8 bg-primary text-white px-32 py-12 rounded-lg font-medium text-[14px] hover:opacity-90 transition-opacity shrink-0 mt-4 md:mt-0"
-        aria-label="Araç ara"
+        aria-label={t("searchAria")}
       >
         <Search size={16} aria-hidden />
-        Ara
+        {t("searchButton")}
       </button>
     </div>
   );

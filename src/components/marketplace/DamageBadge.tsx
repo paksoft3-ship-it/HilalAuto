@@ -1,4 +1,6 @@
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
+import { findDamageFilterOption } from "@/lib/listing-filters";
 
 interface DamageBadgeProps {
   type: string;
@@ -19,7 +21,33 @@ function getColor(type: string): string {
   return "bg-surface border-border-default text-muted-text";
 }
 
+function normalize(value: string): string {
+  return value
+    .toLocaleLowerCase("tr")
+    .replace(/ğ/g, "g")
+    .replace(/ü/g, "u")
+    .replace(/ş/g, "s")
+    .replace(/ı/g, "i")
+    .replace(/ö/g, "o")
+    .replace(/ç/g, "c");
+}
+
+function damageKey(type: string): string | null {
+  const option = findDamageFilterOption(type);
+  if (option) return option.slug;
+
+  const normalized = normalize(type);
+  if (normalized.includes("on ") || normalized.includes("onden") || normalized.includes("front")) return "front";
+  if (normalized.includes("arka") || normalized.includes("rear")) return "rear";
+  if (normalized.includes("yan ") || normalized.includes("yandan") || normalized.includes("side")) return "side";
+  if (normalized.includes("tramer")) return "tramer";
+  return null;
+}
+
 export function DamageBadge({ type, className }: DamageBadgeProps) {
+  const t = useTranslations("damageTypeLabels");
+  const key = damageKey(type);
+
   return (
     <span
       className={cn(
@@ -28,7 +56,7 @@ export function DamageBadge({ type, className }: DamageBadgeProps) {
         className
       )}
     >
-      {type}
+      {key ? t(key) : type}
     </span>
   );
 }

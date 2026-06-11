@@ -1,4 +1,5 @@
 import { Link } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
 import { Listing } from "@/types/marketplace";
 import { GradeBadge } from "./GradeBadge";
 import { DamageBadge } from "./DamageBadge";
@@ -28,8 +29,13 @@ function daysSince(dateStr: string): number {
 }
 
 export function ListingCard({ listing, className }: ListingCardProps) {
+  const t = useTranslations("listingCard");
   const coverImg = listing.primary_image || listing.images?.[0] || null;
   const days = daysSince(listing.created_at);
+  const fuelLabel = (value: string) => {
+    const known = ["benzin", "dizel", "lpg", "elektrik", "hibrit"];
+    return known.includes(value) ? t(`fuel.${value}`) : value;
+  };
 
   return (
     <article
@@ -58,7 +64,7 @@ export function ListingCard({ listing, className }: ListingCardProps) {
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-surface-container-low">
-            <span className="text-[12px] text-muted-text">Fotoğraf Yok</span>
+            <span className="text-[12px] text-muted-text">{t("noPhoto")}</span>
           </div>
         )}
 
@@ -66,32 +72,32 @@ export function ListingCard({ listing, className }: ListingCardProps) {
         <div className="absolute top-8 left-8 flex flex-col gap-6">
           {listing.is_featured && (
             <span className="inline-flex items-center gap-4 bg-amber-500 text-white text-[10px] font-semibold px-8 py-3 rounded-full">
-              <Zap size={9} /> ÖNE ÇIKAN
+              <Zap size={9} /> {t("featured")}
             </span>
           )}
         </div>
 
-        <div className="absolute top-48 right-8">
+        <div className="absolute top-[48px] right-8">
           <GradeBadge grade={listing.damage_grade} size="sm" />
         </div>
 
         {/* Image count */}
         {listing.images.length > 1 && (
-          <div className="absolute bottom-8 right-8 bg-black/60 text-white text-[10px] px-6 py-3 rounded">
-            {listing.images.length} fotoğraf
+          <div className="absolute bottom-8 right-8 bg-black/60 text-white text-[10px] px-[6px] py-[3px] rounded">
+            {t("photo", { count: listing.images.length })}
           </div>
         )}
       </div>
 
       {/* Body */}
-      <div className="p-14 flex flex-col flex-1 gap-8">
+      <div className="p-12 flex flex-col flex-1 gap-8">
         {/* Title */}
         <h3 className="text-[14px] font-semibold text-on-surface line-clamp-2 leading-snug">
           {listing.title}
         </h3>
 
         {/* Specs row */}
-        <div className="flex items-center gap-10 text-[11px] text-muted-text flex-wrap">
+        <div className="flex items-center gap-8 text-[11px] text-muted-text flex-wrap">
           {listing.km != null && (
             <span className="flex items-center gap-4">
               <Gauge size={11} /> {formatKm(listing.km)}
@@ -99,7 +105,7 @@ export function ListingCard({ listing, className }: ListingCardProps) {
           )}
           {listing.fuel_type && (
             <span className="flex items-center gap-4">
-              <Fuel size={11} /> {listing.fuel_type}
+              <Fuel size={11} /> {fuelLabel(listing.fuel_type)}
             </span>
           )}
           <span className="flex items-center gap-4">
@@ -122,23 +128,23 @@ export function ListingCard({ listing, className }: ListingCardProps) {
         )}
 
         {/* Footer */}
-        <div className="mt-auto pt-10 border-t border-[0.5px] border-border-default flex items-center justify-between">
+        <div className="mt-auto pt-8 border-t border-[0.5px] border-border-default flex items-center justify-between">
           <div>
             <div className="text-[16px] font-bold text-primary">{formatPrice(listing.asking_price)}</div>
             {listing.is_price_negotiable && (
-              <div className="text-[10px] text-muted-text">Pazarlık payı var</div>
+              <div className="text-[10px] text-muted-text">{t("negotiable")}</div>
             )}
           </div>
           <div className="flex flex-col items-end gap-4">
             {listing.dealer?.is_verified && (
               <span className="inline-flex items-center gap-4 text-[10px] font-medium text-primary">
-                <Star size={9} fill="currentColor" /> Onaylı Bayi
+                <Star size={9} fill="currentColor" /> {t("verifiedDealer")}
               </span>
             )}
             <div className="flex items-center gap-4 text-[10px] text-muted-text">
               <Eye size={10} /> {listing.view_count}
               <span className="mx-4">·</span>
-              {days === 0 ? "Bugün" : `${days}g önce`}
+              {days === 0 ? t("today") : t("daysAgo", { days })}
             </div>
           </div>
         </div>

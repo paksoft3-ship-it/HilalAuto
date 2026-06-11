@@ -4,18 +4,18 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
-import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { Menu, X, Phone, ChevronDown, Heart, Globe } from "lucide-react";
+import { Menu, X, Phone, ChevronDown, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { routes, externalRoutes } from "@/lib/routes";
 import { PHONE_NUMBER, WHATSAPP_NUMBER, VEHICLE_TYPES } from "@/lib/constants";
 import { FaWhatsapp } from "react-icons/fa";
+import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 
 // ── Logo ─────────────────────────────────────────────────────────────────────
-function OtogradeLogo() {
+function OtogradeLogo({ ariaLabel }: { ariaLabel: string }) {
   return (
-    <Link href={routes.home()} className="flex items-center shrink-0" aria-label="Otograde Ana Sayfa">
+    <Link href={routes.home()} className="flex items-center shrink-0" aria-label={ariaLabel}>
       <Image
         src="/images/logo/otograde-navbar.svg"
         alt="Otograde"
@@ -47,9 +47,8 @@ function useFavoriteCount() {
 
 // ── Navbar ───────────────────────────────────────────────────────────────────
 export function Navbar() {
-  const params = useParams();
-  const locale = (params?.locale as string) ?? "tr";
   const t = useTranslations("nav");
+  const tVehicleTypes = useTranslations("vehicleTypes");
   const [menuOpen, setMenuOpen] = useState(false);
   const [vehicleTypesOpen, setVehicleTypesOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -76,82 +75,81 @@ export function Navbar() {
           "bg-white fixed top-0 w-full z-[100] border-b-[0.5px] border-[#EEEEEE] h-[60px] transition-shadow duration-200",
           scrolled && "shadow-[0_1px_8px_rgba(0,0,0,0.06)]"
         )}
-        aria-label="Ana navigasyon"
+        aria-label={t("mainNavigation")}
       >
         <div className="flex justify-between items-center h-full px-16 md:px-32 w-full">
 
-          {/* Logo + center links group */}
-          <div className="flex items-center gap-24">
-            <OtogradeLogo />
+          {/* Left: Logo */}
+          <div className="flex lg:flex-1 justify-start items-center">
+            <OtogradeLogo ariaLabel={t("homeAria")} />
+          </div>
 
-            {/* Desktop center links */}
-            <div className="hidden lg:flex items-center gap-16 h-full">
-              <a href="/ara" className="text-[13px] font-medium text-[#111111] hover:text-primary transition-colors">
-                İlanlar
-              </a>
-              <a href="/nasil-calisir" className="text-[13px] font-medium text-[#111111] hover:text-primary transition-colors">
-                Nasıl Çalışır
-              </a>
+          {/* Center: Desktop links */}
+          <div className="hidden lg:flex items-center justify-center gap-16 h-full flex-shrink-0">
+            <Link href={routes.marketplace()} className="text-[13px] font-medium text-[#111111] hover:text-primary transition-colors">
+              {t("marketplace")}
+            </Link>
+            <Link href={routes.howItWorks()} className="text-[13px] font-medium text-[#111111] hover:text-primary transition-colors">
+              {t("howItWorks")}
+            </Link>
 
-              {/* Araç Türleri with dropdown */}
-              <div className="relative group h-full flex items-center">
-                <a href="/arac-turleri" className="text-[13px] font-medium text-[#111111] hover:text-primary transition-colors flex items-center gap-4">
-                  Araç Türleri
-                  <ChevronDown size={13} className="group-hover:rotate-180 transition-transform duration-200" />
-                </a>
-                <div className="absolute top-full left-1/2 -translate-x-1/2 w-[220px] bg-white border-[0.5px] border-[#EEEEEE] rounded-lg shadow-sm opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 flex flex-col py-8 z-50">
-                  {VEHICLE_TYPES.map((type) => (
-                    <a
-                      key={type.slug}
-                      href={`/hizmet/${type.serviceSlug}`}
-                      className="px-16 py-8 text-[13px] text-[#555555] hover:bg-[#FAFAFA] hover:text-primary transition-colors"
-                    >
-                      {locale === "en" ? type.labelEn : type.label}
-                    </a>
-                  ))}
-                </div>
+            {/* Araç Türleri with dropdown */}
+            <div className="relative group h-full flex items-center">
+              <Link href={routes.vehicleTypes()} className="text-[13px] font-medium text-[#111111] hover:text-primary transition-colors flex items-center gap-4">
+                {t("vehicleTypes")}
+                <ChevronDown size={13} className="group-hover:rotate-180 transition-transform duration-200" />
+              </Link>
+              <div className="absolute top-full left-1/2 -translate-x-1/2 w-[220px] bg-white border-[0.5px] border-[#EEEEEE] rounded-lg shadow-sm opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 flex flex-col py-8 z-50">
+                {VEHICLE_TYPES.map((type) => (
+                  <Link
+                    key={type.slug}
+                    href={routes.service(type.serviceSlug)}
+                    className="px-16 py-8 text-[13px] text-[#555555] hover:bg-[#FAFAFA] hover:text-primary transition-colors"
+                  >
+                    {tVehicleTypes(type.slug)}
+                  </Link>
+                ))}
               </div>
-
-              <a href="/sehir" className="text-[13px] font-medium text-[#111111] hover:text-primary transition-colors">
-                Şehirler
-              </a>
-              <a href="/blog" className="text-[13px] font-medium text-[#111111] hover:text-primary transition-colors">
-                Blog
-              </a>
             </div>
+
+            <Link href={routes.cities()} className="text-[13px] font-medium text-[#111111] hover:text-primary transition-colors">
+              {t("cities")}
+            </Link>
+            <Link href={routes.blog()} className="text-[13px] font-medium text-[#111111] hover:text-primary transition-colors">
+              {t("blog")}
+            </Link>
           </div>
 
-          {/* Desktop right actions */}
-          <div className="hidden md:flex items-center gap-8">
-            <button className="flex items-center gap-4 text-[#888888] hover:text-[#111111] transition-colors px-8">
-              <Globe size={15} aria-hidden />
-              <span className="text-[12px] font-medium uppercase">{locale === "en" ? "EN" : "TR"}</span>
+          {/* Right: Actions */}
+          <div className="flex lg:flex-1 justify-end items-center gap-8">
+            <div className="hidden md:flex items-center gap-8">
+              <LanguageSwitcher compact />
+              <Link
+                href={routes.becomeDealer()}
+                className="border-[0.5px] border-[#DDDDDD] text-[#111111] px-10 py-[5px] rounded text-[12px] font-medium hover:bg-[#FAFAFA] transition-colors whitespace-nowrap"
+              >
+                {t("becomeDealer")}
+              </Link>
+              <Link
+                href={routes.quote()}
+                className="bg-primary text-white px-10 py-[5px] rounded text-[12px] font-medium hover:opacity-90 transition-opacity whitespace-nowrap"
+              >
+                {t("sellVehicle")}
+              </Link>
+            </div>
+
+            {/* Mobile hamburger */}
+            <button
+              type="button"
+              onClick={() => setMenuOpen((v) => !v)}
+              className="md:hidden flex items-center justify-center w-[40px] h-[40px] text-[#111111] rounded hover:bg-[#FAFAFA] transition-colors"
+              aria-expanded={menuOpen}
+              aria-controls="mobile-menu"
+              aria-label={menuOpen ? t("closeMenu") : t("openMenu")}
+            >
+              {menuOpen ? <X size={22} strokeWidth={1.5} /> : <Menu size={22} strokeWidth={1.5} />}
             </button>
-            <Link
-              href={routes.becomeDealer()}
-              className="border-[0.5px] border-[#DDDDDD] text-[#111111] px-10 py-[5px] rounded text-[12px] font-medium hover:bg-[#FAFAFA] transition-colors whitespace-nowrap"
-            >
-              {t("becomeDealer")}
-            </Link>
-            <Link
-              href={routes.quote()}
-              className="bg-primary text-white px-10 py-[5px] rounded text-[12px] font-medium hover:opacity-90 transition-opacity whitespace-nowrap"
-            >
-              {t("sellVehicle")}
-            </Link>
           </div>
-
-          {/* Mobile hamburger */}
-          <button
-            type="button"
-            onClick={() => setMenuOpen((v) => !v)}
-            className="md:hidden flex items-center justify-center w-[40px] h-[40px] text-[#111111] rounded hover:bg-[#FAFAFA] transition-colors"
-            aria-expanded={menuOpen}
-            aria-controls="mobile-menu"
-            aria-label={menuOpen ? "Menüyü kapat" : "Menüyü aç"}
-          >
-            {menuOpen ? <X size={22} strokeWidth={1.5} /> : <Menu size={22} strokeWidth={1.5} />}
-          </button>
         </div>
       </nav>
 
@@ -160,7 +158,7 @@ export function Navbar() {
         <div
           id="mobile-menu"
           role="navigation"
-          aria-label="Mobil navigasyon"
+          aria-label={t("mobileNavigation")}
           className="fixed top-[60px] left-0 right-0 bottom-0 z-[99] bg-white flex flex-col lg:hidden overflow-hidden"
         >
           <div className="flex-1 overflow-y-auto">
@@ -203,16 +201,19 @@ export function Navbar() {
                       onClick={closeMenu}
                       className="flex items-center justify-center px-12 py-10 bg-white border-[0.5px] border-[#EEEEEE] rounded-lg text-[13px] font-medium text-[#111111] hover:border-primary hover:text-primary transition-colors text-center"
                     >
-                      {locale === "en" ? type.labelEn : type.label}
+                      {tVehicleTypes(type.slug)}
                     </Link>
                   ))}
                 </div>
               )}
             </div>
             {/* Şehirler */}
-            <Link href={"/sehir" as any} onClick={closeMenu} className="mobile-link">{t("cities")}</Link>
+            <Link href={routes.cities()} onClick={closeMenu} className="mobile-link">{t("cities")}</Link>
             {/* Blog */}
             <Link href={routes.blog()} onClick={closeMenu} className="mobile-link">{t("blog")}</Link>
+            <div className="px-24 py-16 border-b-[0.5px] border-[#EEEEEE]">
+              <LanguageSwitcher />
+            </div>
           </div>
 
           {/* CTA bar */}

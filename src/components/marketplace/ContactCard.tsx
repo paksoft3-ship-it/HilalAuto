@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Dealer, Listing } from "@/types/marketplace";
 import { FaWhatsapp } from "react-icons/fa";
 import { Phone, Send, Link2, Heart, Star, MapPin, Flag, EyeOff } from "lucide-react";
@@ -17,9 +18,11 @@ interface ContactCardProps {
   listing: Listing;
   dealer: Dealer;
   sessionId: string;
+  locale?: string;
 }
 
 export function ContactCard({ listing, dealer, sessionId }: ContactCardProps) {
+  const t = useTranslations("contactCard");
   const [phoneRevealed, setPhoneRevealed] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -30,7 +33,24 @@ export function ContactCard({ listing, dealer, sessionId }: ContactCardProps) {
 
   const phone = dealer.phone;
   const wa = dealer.whatsapp || dealer.phone.replace(/\D/g, "");
-  const waMessage = `Merhaba, ${listing.title} ilanınız hakkında bilgi almak istiyorum. (İlan: ${listing.slug})`;
+  const text = {
+    verified: t("verified"),
+    whatsapp: t("whatsapp"),
+    showPhone: t("showPhone"),
+    messageTitle: t("messageTitle"),
+    name: t("name"),
+    phone: t("phone"),
+    message: t("message"),
+    sent: t("sent"),
+    error: t("error"),
+    sending: t("sending"),
+    submit: t("submit"),
+    copied: t("copied"),
+    copy: t("copy"),
+    favorite: t("favorite"),
+    report: t("report"),
+  };
+  const waMessage = t("whatsappMessage", { title: listing.title, slug: listing.slug });
 
   async function handleWhatsApp() {
     await trackWhatsAppClick(listing.id, dealer.id);
@@ -82,7 +102,7 @@ export function ContactCard({ listing, dealer, sessionId }: ContactCardProps) {
       );
       setMsgSent(true);
     } catch {
-      setMsgError("Mesaj gönderilemedi. Lütfen tekrar deneyin.");
+      setMsgError(text.error);
     }
     setMsgSending(false);
   }
@@ -90,7 +110,7 @@ export function ContactCard({ listing, dealer, sessionId }: ContactCardProps) {
   return (
     <div className="flex flex-col gap-16">
       {/* Dealer info */}
-      <div className="bg-surface-container-lowest border border-[0.5px] border-border-default rounded-card p-20">
+      <div className="bg-surface-container-lowest border border-[0.5px] border-border-default rounded-card p-24">
         <div className="flex items-center gap-12 mb-16">
           {dealer.logo_url ? (
             <img
@@ -109,7 +129,7 @@ export function ContactCard({ listing, dealer, sessionId }: ContactCardProps) {
             </div>
             {dealer.is_verified && (
               <div className="flex items-center gap-4 text-[11px] text-primary font-medium">
-                <Star size={10} fill="currentColor" /> Onaylı Bayi
+                <Star size={10} fill="currentColor" /> {text.verified}
               </div>
             )}
             <div className="flex items-center gap-4 text-[11px] text-muted-text mt-2">
@@ -122,15 +142,15 @@ export function ContactCard({ listing, dealer, sessionId }: ContactCardProps) {
         {/* WhatsApp */}
         <button
           onClick={handleWhatsApp}
-          className="w-full flex items-center justify-center gap-10 bg-[#25D366] hover:opacity-90 text-white py-14 rounded-btn text-[14px] font-semibold transition-opacity mb-10"
+          className="w-full flex items-center justify-center gap-8 bg-[#25D366] hover:opacity-90 text-white px-16 py-12 rounded-btn text-[14px] font-semibold transition-opacity mb-8"
         >
-          <FaWhatsapp size={20} /> WhatsApp ile Yaz
+          <FaWhatsapp size={20} /> {text.whatsapp}
         </button>
 
         {/* Phone reveal */}
         <button
           onClick={handlePhoneReveal}
-          className="w-full flex items-center justify-center gap-10 bg-surface-container-lowest border border-[0.5px] border-border-default hover:border-primary hover:text-primary text-on-surface py-12 rounded-btn text-[13px] font-medium transition-colors"
+          className="w-full flex items-center justify-center gap-8 bg-surface-container-lowest border border-[0.5px] border-border-default hover:border-primary hover:text-primary text-on-surface px-16 py-12 rounded-btn text-[13px] font-medium transition-colors"
         >
           {phoneRevealed ? (
             <>
@@ -141,55 +161,55 @@ export function ContactCard({ listing, dealer, sessionId }: ContactCardProps) {
             </>
           ) : (
             <>
-              <EyeOff size={15} /> Telefonu Göster
+              <EyeOff size={15} /> {text.showPhone}
             </>
           )}
         </button>
       </div>
 
       {/* Message form */}
-      <div className="bg-surface-container-lowest border border-[0.5px] border-border-default rounded-card p-20">
+      <div className="bg-surface-container-lowest border border-[0.5px] border-border-default rounded-card p-24">
         <h3 className="text-[14px] font-semibold text-on-surface mb-14 flex items-center gap-8">
-          <Send size={15} className="text-primary" /> Mesaj Gönder
+          <Send size={15} className="text-primary" /> {text.messageTitle}
         </h3>
 
         {msgSent ? (
           <div className="bg-green-50 text-green-700 text-[13px] p-12 rounded-lg text-center">
-            Mesajınız iletildi. Bayi en kısa sürede dönüş yapacak.
+            {text.sent}
           </div>
         ) : (
-          <form onSubmit={handleMessage} className="flex flex-col gap-10">
+          <form onSubmit={handleMessage} className="flex flex-col gap-8">
             <input
               type="text"
-              placeholder="Ad Soyad"
+              placeholder={text.name}
               required
               value={msgForm.name}
               onChange={(e) => setMsgForm({ ...msgForm, name: e.target.value })}
-              className="w-full px-14 py-10 bg-surface border border-[0.5px] border-border-default rounded-input text-[13px] text-on-surface outline-none focus:border-primary transition-colors"
+              className="w-full px-12 py-8 bg-surface border border-[0.5px] border-border-default rounded-input text-[13px] text-on-surface outline-none focus:border-primary transition-colors"
             />
             <input
               type="tel"
-              placeholder="Telefon"
+              placeholder={text.phone}
               required
               value={msgForm.phone}
               onChange={(e) => setMsgForm({ ...msgForm, phone: e.target.value })}
-              className="w-full px-14 py-10 bg-surface border border-[0.5px] border-border-default rounded-input text-[13px] text-on-surface outline-none focus:border-primary transition-colors"
+              className="w-full px-12 py-8 bg-surface border border-[0.5px] border-border-default rounded-input text-[13px] text-on-surface outline-none focus:border-primary transition-colors"
             />
             <textarea
-              placeholder="Mesajınız..."
+              placeholder={text.message}
               required
               rows={3}
               value={msgForm.message}
               onChange={(e) => setMsgForm({ ...msgForm, message: e.target.value })}
-              className="w-full px-14 py-10 bg-surface border border-[0.5px] border-border-default rounded-input text-[13px] text-on-surface outline-none focus:border-primary transition-colors resize-none"
+              className="w-full px-12 py-8 bg-surface border border-[0.5px] border-border-default rounded-input text-[13px] text-on-surface outline-none focus:border-primary transition-colors resize-none"
             />
             {msgError && <p className="text-[12px] text-red-600">{msgError}</p>}
             <button
               type="submit"
               disabled={msgSending}
-              className="w-full bg-primary text-white py-10 rounded-btn text-[13px] font-semibold hover:opacity-90 transition-opacity disabled:opacity-60"
+              className="w-full bg-primary text-white py-12 rounded-btn text-[13px] font-semibold hover:opacity-90 transition-opacity disabled:opacity-60"
             >
-              {msgSending ? "Gönderiliyor..." : "Mesaj Gönder"}
+              {msgSending ? text.sending : text.submit}
             </button>
           </form>
         )}
@@ -199,26 +219,26 @@ export function ContactCard({ listing, dealer, sessionId }: ContactCardProps) {
       <div className="flex items-center gap-8">
         <button
           onClick={handleCopyLink}
-          className="flex-1 flex items-center justify-center gap-8 bg-surface-container-lowest border border-[0.5px] border-border-default hover:border-primary py-10 rounded-btn text-[12px] font-medium text-on-surface transition-colors"
+          className="flex-1 flex items-center justify-center gap-8 bg-surface-container-lowest border border-[0.5px] border-border-default hover:border-primary py-8 rounded-btn text-[12px] font-medium text-on-surface transition-colors"
         >
-          <Link2 size={13} /> {copied ? "Kopyalandı!" : "Linki Kopyala"}
+          <Link2 size={13} /> {copied ? text.copied : text.copy}
         </button>
         <button
           onClick={handleFavorite}
           className={cn(
-            "flex items-center justify-center gap-8 bg-surface-container-lowest border border-[0.5px] px-16 py-10 rounded-btn text-[12px] font-medium transition-colors",
+            "flex items-center justify-center gap-8 bg-surface-container-lowest border border-[0.5px] px-16 py-8 rounded-btn text-[12px] font-medium transition-colors",
             isFavorite
               ? "border-red-400 text-red-500"
               : "border-border-default text-muted-text hover:border-red-300 hover:text-red-400"
           )}
-          aria-label="Favorilere ekle"
+          aria-label={text.favorite}
         >
           <Heart size={13} fill={isFavorite ? "currentColor" : "none"} />
         </button>
         <button
-          className="flex items-center justify-center gap-8 bg-surface-container-lowest border border-[0.5px] border-border-default hover:border-red-300 hover:text-red-400 px-16 py-10 rounded-btn text-[12px] font-medium text-muted-text transition-colors"
-          title="İlanı şikayet et"
-          aria-label="Şikayet et"
+          className="flex items-center justify-center gap-8 bg-surface-container-lowest border border-[0.5px] border-border-default hover:border-red-300 hover:text-red-400 px-16 py-8 rounded-btn text-[12px] font-medium text-muted-text transition-colors"
+          title={text.report}
+          aria-label={text.report}
         >
           <Flag size={13} />
         </button>

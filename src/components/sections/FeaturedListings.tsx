@@ -1,6 +1,7 @@
 import { Link } from "@/i18n/routing";
 import { ArrowRight } from "lucide-react";
 import { HomepageListingCard, type CardListing } from "@/components/marketplace/HomepageListingCard";
+import { useTranslations } from "next-intl";
 
 interface Props {
   listings: CardListing[];
@@ -20,23 +21,25 @@ function SkeletonCard() {
 }
 
 export function FeaturedListings({ listings }: Props) {
+  const t = useTranslations("marketplaceHome");
+
   return (
-    <section className="py-60 bg-white" aria-label="Öne çıkan ilanlar">
+    <section className="py-60 bg-white" aria-label={t("featuredAria")}>
       <div className="max-w-[1180px] mx-auto px-16 md:px-32">
         <div className="flex justify-between items-end mb-32">
           <div>
             <span className="text-[11px] font-medium text-primary uppercase tracking-wider">
-              Haftanın Fırsatları
+              {t("featuredEyebrow")}
             </span>
             <h2 className="text-[32px] font-medium text-[#111111] tracking-[-1.5px] mt-8">
-              Öne Çıkan İlanlar
+              {t("featuredTitle")}
             </h2>
           </div>
           <Link
             href="/ara"
             className="text-primary text-[13px] font-medium flex items-center gap-4 hover:underline"
           >
-            Tüm İlanları Gör <ArrowRight size={16} aria-hidden />
+            {t("viewAllListings")} <ArrowRight size={16} aria-hidden />
           </Link>
         </div>
 

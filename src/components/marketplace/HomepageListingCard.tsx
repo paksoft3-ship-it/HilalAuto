@@ -1,7 +1,9 @@
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
 import { Eye, ShieldCheck, User, Car } from "lucide-react";
 import { GRADE_COLORS } from "@/lib/grades";
+import { findDamageFilterOption } from "@/lib/listing-filters";
 import type { DamageGrade } from "@/types/marketplace";
 
 export type CardListing = {
@@ -25,13 +27,15 @@ export type CardListing = {
   dealer?: { company_name: string; is_verified: boolean } | null;
 };
 
-function timeAgo(dateStr: string): string {
-  const diff = Date.now() - new Date(dateStr).getTime();
-  const mins = Math.floor(diff / 60000);
-  if (mins < 60) return `${mins || 1} dakika önce`;
-  const hrs = Math.floor(mins / 60);
-  if (hrs < 24) return `${hrs} saat önce`;
-  return `${Math.floor(hrs / 24)} gün önce`;
+function normalize(value: string): string {
+  return value
+    .toLocaleLowerCase("tr")
+    .replace(/ğ/g, "g")
+    .replace(/ü/g, "u")
+    .replace(/ş/g, "s")
+    .replace(/ı/g, "i")
+    .replace(/ö/g, "o")
+    .replace(/ç/g, "c");
 }
 
 export function HomepageListingCard({
@@ -41,8 +45,34 @@ export function HomepageListingCard({
   listing: CardListing;
   showTimeAgo?: boolean;
 }) {
+  const t = useTranslations("marketplaceHome");
+  const tListing = useTranslations("listingCard");
+  const tDamage = useTranslations("damageTypeLabels");
   const coverImg = listing.primary_image || listing.images?.[0] || null;
   const gradeColor = listing.damage_grade ? GRADE_COLORS[listing.damage_grade] : null;
+  const timeAgo = (dateStr: string): string => {
+    const diff = Date.now() - new Date(dateStr).getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 60) return t("minutesAgo", { count: mins || 1 });
+    const hrs = Math.floor(mins / 60);
+    if (hrs < 24) return t("hoursAgo", { count: hrs });
+    return t("daysAgo", { count: Math.floor(hrs / 24) });
+  };
+  const fuelLabel = (value: string) => {
+    const known = ["benzin", "dizel", "lpg", "elektrik", "hibrit"];
+    return known.includes(value) ? tListing(`fuel.${value}`) : value;
+  };
+  const damageLabel = (value: string) => {
+    const option = findDamageFilterOption(value);
+    if (option) return tDamage(option.slug);
+
+    const normalized = normalize(value);
+    if (normalized.includes("on ") || normalized.includes("onden") || normalized.includes("front")) return tDamage("front");
+    if (normalized.includes("arka") || normalized.includes("rear")) return tDamage("rear");
+    if (normalized.includes("yan ") || normalized.includes("yandan") || normalized.includes("side")) return tDamage("side");
+    if (normalized.includes("tramer")) return tDamage("tramer");
+    return value;
+  };
 
   return (
     <article className="group bg-white border-[0.5px] border-[#EEEEEE] rounded-xl overflow-hidden hover:border-primary transition-colors">
@@ -67,7 +97,7 @@ export function HomepageListingCard({
           {/* Featured badge — top left */}
           {listing.is_featured && (
             <div className="absolute top-12 left-12 px-8 py-4 bg-[rgba(17,17,17,0.8)] text-white text-[10px] font-medium rounded uppercase">
-              Öne Çıkan
+              {t("cardFeatured")}
             </div>
           )}
 
@@ -87,14 +117,14 @@ export function HomepageListingCard({
         <div className="p-16 flex flex-col gap-0 flex-1">
           <h3 className="text-[16px] font-medium text-[#111111] mb-8 line-clamp-1">
             {listing.year} {listing.brand} {listing.model}
-            {listing.damage_type[0] ? ` — ${listing.damage_type[0]}` : ""}
+            {listing.damage_type[0] ? ` — ${damageLabel(listing.damage_type[0])}` : ""}
           </h3>
 
           <div className="flex flex-wrap gap-8 mb-12">
             {listing.km !== null && (
               <Tag>{new Intl.NumberFormat("tr-TR").format(listing.km)} KM</Tag>
             )}
-            {listing.fuel_type && <Tag className="capitalize">{listing.fuel_type}</Tag>}
+            {listing.fuel_type && <Tag>{fuelLabel(listing.fuel_type)}</Tag>}
             <Tag>{listing.city}</Tag>
           </div>
 
@@ -107,13 +137,13 @@ export function HomepageListingCard({
               {listing.dealer?.is_verified ? (
                 <>
                   <ShieldCheck size={14} className="text-blue-500 shrink-0" aria-hidden />
-                  <span className="text-[11px] font-medium text-[#555555]">Onaylı Bayi</span>
+                  <span className="text-[11px] font-medium text-[#555555]">{t("verifiedDealer")}</span>
                 </>
               ) : (
                 <>
                   <User size={14} className="text-[#AAAAAA] shrink-0" aria-hidden />
                   <span className="text-[11px] font-medium text-[#555555] truncate max-w-[100px]">
-                    {listing.dealer?.company_name || "Bayi"}
+                    {listing.dealer?.company_name || t("dealerFallback")}
                   </span>
                 </>
               )}

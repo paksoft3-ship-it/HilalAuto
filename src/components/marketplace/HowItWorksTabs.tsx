@@ -1,47 +1,23 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 
-const BUYER_STEPS = [
-  {
-    num: "01",
-    title: "Grade Arama",
-    desc: "Aradığınız hasar durumuna (Grade) göre binlerce ilan arasından filtreleme yapın.",
-  },
-  {
-    num: "02",
-    title: "İlan İncele",
-    desc: "Onaylı bayiler tarafından sağlanan detaylı fotoğrafları ve hasar raporlarını inceleyin.",
-  },
-  {
-    num: "03",
-    title: "İletişim Kur",
-    desc: "Bayi ile doğrudan iletişime geçin, pazarlığınızı yapın ve aracınızı güvenle satın alın.",
-  },
-];
-
-const DEALER_STEPS = [
-  {
-    num: "01",
-    title: "Hesap Oluştur",
-    desc: "Bayi başvurusu yapın, belgelerinizi yükleyin, 24 saat içinde onay alın.",
-  },
-  {
-    num: "02",
-    title: "İlan Oluştur",
-    desc: "Aracı grade'leyin, fotoğraf yükleyin, fiyat belirleyin ve ilanı yayınlayın.",
-  },
-  {
-    num: "03",
-    title: "Müşteri Bul",
-    desc: "Binlerce potansiyel alıcıya ulaşın, mesajları yönetin, satışı tamamlayın.",
-  },
-];
-
 export function HowItWorksTabs() {
+  const t = useTranslations("marketplaceHome");
   const [tab, setTab] = useState<"buyer" | "dealer">("buyer");
-  const steps = tab === "buyer" ? BUYER_STEPS : DEALER_STEPS;
+  const buyerSteps = [
+    { num: "01", title: t("buyerStep1Title"), desc: t("buyerStep1Desc") },
+    { num: "02", title: t("buyerStep2Title"), desc: t("buyerStep2Desc") },
+    { num: "03", title: t("buyerStep3Title"), desc: t("buyerStep3Desc") },
+  ];
+  const dealerSteps = [
+    { num: "01", title: t("dealerStep1Title"), desc: t("dealerStep1Desc") },
+    { num: "02", title: t("dealerStep2Title"), desc: t("dealerStep2Desc") },
+    { num: "03", title: t("dealerStep3Title"), desc: t("dealerStep3Desc") },
+  ];
+  const steps = tab === "buyer" ? buyerSteps : dealerSteps;
 
   return (
     <>
@@ -57,7 +33,7 @@ export function HowItWorksTabs() {
           )}
           aria-pressed={tab === "buyer"}
         >
-          Alıcılar İçin
+          {t("buyerTab")}
         </button>
         <button
           onClick={() => setTab("dealer")}
@@ -69,7 +45,7 @@ export function HowItWorksTabs() {
           )}
           aria-pressed={tab === "dealer"}
         >
-          Bayiler İçin
+          {t("dealerTab")}
         </button>
       </div>
 

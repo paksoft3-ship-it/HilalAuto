@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { WHATSAPP_NUMBER } from "@/lib/constants";
 import { externalRoutes } from "@/lib/routes";
 import { FaWhatsapp } from 'react-icons/fa';
+import { useTranslations } from "next-intl";
 
 interface WhatsAppButtonProps {
   message?: string;
@@ -13,6 +14,8 @@ interface WhatsAppButtonProps {
 }
 
 export function WhatsAppButton({ message, className }: WhatsAppButtonProps) {
+  const tHero = useTranslations("hero");
+  const tFooter = useTranslations("footer");
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -22,7 +25,7 @@ export function WhatsAppButton({ message, className }: WhatsAppButtonProps) {
 
   const href = externalRoutes.whatsapp(
     WHATSAPP_NUMBER,
-    message ?? "Merhaba, hasarlı aracım için teklif almak istiyorum."
+    message ?? tHero("whatsappMessage")
   );
 
   if (!visible) return null;
@@ -32,7 +35,7 @@ export function WhatsAppButton({ message, className }: WhatsAppButtonProps) {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="WhatsApp ile yazın"
+      aria-label={tFooter("whatsappAria")}
       className={cn(
         "hidden md:flex fixed bottom-32 right-32 z-50",
         "items-center justify-center",

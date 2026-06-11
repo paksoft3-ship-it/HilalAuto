@@ -1,20 +1,23 @@
 "use client";
 
-import { useState, useEffect, useCallback, useTransition } from "react";
+import { useState, useEffect, useCallback, useTransition, useMemo } from "react";
 import { useRouter, usePathname } from "@/i18n/routing";
 import { useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Container } from "@/components/ui/Container";
 import { ListingCard } from "@/components/marketplace/ListingCard";
 import { GradeBadge } from "@/components/marketplace/GradeBadge";
 import { Listing, DamageGrade, LISTINGS_PER_PAGE } from "@/types/marketplace";
 import { supabase } from "@/lib/supabase";
-import { CITIES, DAMAGE_TYPES } from "@/lib/constants";
+import { CITIES } from "@/lib/constants";
 import { CAR_BRANDS } from "@/lib/constants";
 import { Search, SlidersHorizontal, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { DAMAGE_FILTER_OPTIONS, parseDamageFilters } from "@/lib/listing-filters";
 
 interface ListingsClientProps {
   initialListings: Listing[];
+  initialTotal: number;
   availableBrands: string[];
   initialParams?: Record<string, string>;
 }
@@ -22,26 +25,21 @@ interface ListingsClientProps {
 const GRADES: DamageGrade[] = ["A", "B", "C", "D", "E"];
 const FUEL_TYPES = ["benzin", "dizel", "lpg", "elektrik", "hibrit"] as const;
 const TRANSMISSIONS = ["manuel", "otomatik"] as const;
-
-const SORT_OPTIONS = [
-  { value: "newest", label: "En Yeni" },
-  { value: "price_asc", label: "En Ucuz" },
-  { value: "price_desc", label: "En Pahalı" },
-  { value: "views_desc", label: "En Çok Görüntülenen" },
-] as const;
+const DAMAGE_SLUGS = new Set(DAMAGE_FILTER_OPTIONS.map((option) => option.slug));
 
 function formatPrice(n: number) {
   return new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY", maximumFractionDigits: 0 }).format(n);
 }
 
-export function ListingsClient({ initialListings, availableBrands }: ListingsClientProps) {
+export function ListingsClient({ initialListings, initialTotal, availableBrands }: ListingsClientProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const t = useTranslations("listingsPage");
   const [, startTransition] = useTransition();
 
   const [listings, setListings] = useState<Listing[]>(initialListings);
-  const [total, setTotal] = useState(initialListings.length >= LISTINGS_PER_PAGE ? -1 : initialListings.length);
+  const [total, setTotal] = useState(initialTotal);
   const [loading, setLoading] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
 
@@ -61,6 +59,87 @@ export function ListingsClient({ initialListings, availableBrands }: ListingsCli
   const page = parseInt(getParam("page") || "1", 10);
 
   const brands = availableBrands.length > 0 ? availableBrands : CAR_BRANDS;
+  const damageLabel = useCallback((slug: string, fallback?: string) => (
+    DAMAGE_SLUGS.has(slug) ? t(`damage.${slug}.label`) : fallback ?? slug
+  ), [t]);
+  const damageTitle = useCallback((slug: string, fallback: string) => (
+    DAMAGE_SLUGS.has(slug) ? t(`damage.${slug}.title`) : fallback
+  ), [t]);
+  const damageDescription = useCallback((slug: string, fallback: string) => (
+    DAMAGE_SLUGS.has(slug) ? t(`damage.${slug}.description`) : fallback
+  ), [t]);
+  const fuelLabel = useCallback((value: string) => (
+    FUEL_TYPES.includes(value as typeof FUEL_TYPES[number]) ? t(`fuel.${value}`) : value
+  ), [t]);
+  const transmissionLabel = useCallback((value: string) => (
+    TRANSMISSIONS.includes(value as typeof TRANSMISSIONS[number]) ? t(`transmissionTypes.${value}`) : value
+  ), [t]);
+  const text = useMemo(() => ({
+    baseTitle: t("baseTitle"),
+    baseDescription: t("baseDescription"),
+    multipleDamageDescription: t("multipleDamageDescription"),
+    brandPlaceholder: t("brandPlaceholder"),
+    cityPlaceholder: t("cityPlaceholder"),
+    filters: t("filters"),
+    clear: t("clear"),
+    make: t("make"),
+    allMakes: t("allMakes"),
+    city: t("city"),
+    allCities: t("allCities"),
+    grade: t("grade"),
+    damageType: t("damageType"),
+    priceRange: t("priceRange"),
+    yearRange: t("yearRange"),
+    fuelType: t("fuelType"),
+    transmission: t("transmission"),
+    loading: t("loading"),
+    vehicleFound: (count: number) => t("vehicleFound", { count }),
+    vehicleCount: (count: number) => t("vehicleCount", { count }),
+    filterButton: t("filterButton"),
+    emptyTitle: t("emptyTitle"),
+    emptyDescription: t("emptyDescription"),
+    clearFilters: t("clearFilters"),
+    min: t("min"),
+    max: t("max"),
+    newest: t("newest"),
+    priceAsc: t("priceAsc"),
+    priceDesc: t("priceDesc"),
+    viewsDesc: t("viewsDesc"),
+    popularDamageTypes: t("popularDamageTypes"),
+  }), [t]);
+  const sortOptions = useMemo(() => [
+    { value: "newest", label: text.newest },
+    { value: "price_asc", label: text.priceAsc },
+    { value: "price_desc", label: text.priceDesc },
+    { value: "views_desc", label: text.viewsDesc },
+  ] as const, [text]);
+  const damageFilters = useMemo(() => parseDamageFilters(damageType), [damageType]);
+  const damageSlugArr = useMemo(() => damageFilters.map((filter) => filter.slug), [damageFilters]);
+  const damageMatchValues = useMemo(
+    () => Array.from(new Set(damageFilters.flatMap((filter) => filter.matchValues))),
+    [damageFilters]
+  );
+  const heroCopy = useMemo(() => {
+    if (damageFilters.length === 1) {
+      return {
+        title: damageTitle(damageFilters[0].slug, damageFilters[0].title),
+        description: damageDescription(damageFilters[0].slug, damageFilters[0].description),
+      };
+    }
+
+    if (damageFilters.length > 1) {
+      const types = damageFilters.map((filter) => damageLabel(filter.slug, filter.label)).join(", ");
+      return {
+        title: t("multipleDamageTitle", { types }),
+        description: text.multipleDamageDescription,
+      };
+    }
+
+    return {
+      title: text.baseTitle,
+      description: text.baseDescription,
+    };
+  }, [damageDescription, damageFilters, damageLabel, damageTitle, t, text]);
 
   function buildParams(overrides: Record<string, string>) {
     const current = new URLSearchParams(searchParams.toString());
@@ -75,7 +154,7 @@ export function ListingsClient({ initialListings, availableBrands }: ListingsCli
   function updateFilter(key: string, value: string) {
     const q = buildParams({ [key]: value });
     startTransition(() => {
-      router.replace(`${pathname as string}?${q}` as never);
+      router.replace((q ? `${pathname as string}?${q}` : pathname) as never);
     });
   }
 
@@ -85,8 +164,20 @@ export function ListingsClient({ initialListings, availableBrands }: ListingsCli
     updateFilter(key, next.join(","));
   }
 
-  const activeFiltersCount = [brand, city, grade, damageType, fuelType, transmission, priceMin, priceMax, yearMin, yearMax]
-    .filter(Boolean).length;
+  function toggleDamageType(slug: string) {
+    const next = damageSlugArr.includes(slug)
+      ? damageSlugArr.filter((value) => value !== slug)
+      : [...damageSlugArr, slug];
+    updateFilter("damage_type", next.join(","));
+  }
+
+  function selectDamageType(slug: string) {
+    const next = damageSlugArr.length === 1 && damageSlugArr[0] === slug ? "" : slug;
+    updateFilter("damage_type", next);
+  }
+
+  const activeFiltersCount = [brand, city, grade, fuelType, transmission, priceMin, priceMax, yearMin, yearMax]
+    .filter(Boolean).length + damageFilters.length;
 
   const fetchListings = useCallback(async () => {
     setLoading(true);
@@ -105,6 +196,7 @@ export function ListingsClient({ initialListings, availableBrands }: ListingsCli
       if (yearMin) query = query.gte("year", parseInt(yearMin));
       if (yearMax) query = query.lte("year", parseInt(yearMax));
       if (grade) query = query.in("damage_grade", grade.split(","));
+      if (damageMatchValues.length > 0) query = query.overlaps("damage_type", damageMatchValues);
 
       switch (sort) {
         case "price_asc":  query = query.order("asking_price", { ascending: true }); break;
@@ -119,13 +211,7 @@ export function ListingsClient({ initialListings, availableBrands }: ListingsCli
 
       const { data, count } = await query;
 
-      let result = (data as Listing[]) || [];
-
-      // Client-side filter for damage_type (array overlap)
-      if (damageType) {
-        const selected = damageType.split(",");
-        result = result.filter((l) => l.damage_type.some((d) => selected.includes(d)));
-      }
+      const result = (data as Listing[]) || [];
 
       setListings(result);
       setTotal(count ?? result.length);
@@ -133,7 +219,7 @@ export function ListingsClient({ initialListings, availableBrands }: ListingsCli
       setListings([]);
     }
     setLoading(false);
-  }, [brand, city, grade, damageType, fuelType, transmission, priceMin, priceMax, yearMin, yearMax, sort, page]);
+  }, [brand, city, grade, damageMatchValues, fuelType, transmission, priceMin, priceMax, yearMin, yearMax, sort, page]);
 
   // Fetch on filter/page change (skip on first render if we have initial data)
   useEffect(() => {
@@ -146,44 +232,42 @@ export function ListingsClient({ initialListings, availableBrands }: ListingsCli
   const totalPages = total > 0 ? Math.ceil(total / LISTINGS_PER_PAGE) : 1;
 
   const gradeArr = grade ? grade.split(",") as DamageGrade[] : [];
-  const damageArr = damageType ? damageType.split(",") : [];
-
   const FilterPanel = () => (
-    <div className="flex flex-col gap-20">
+    <div className="flex flex-col gap-16">
       <div className="flex items-center justify-between">
-        <h2 className="text-[14px] font-semibold text-on-surface">Filtreler</h2>
+        <h2 className="text-[14px] font-semibold text-on-surface">{text.filters}</h2>
         {activeFiltersCount > 0 && (
           <button
             onClick={() => startTransition(() => router.replace(pathname as never))}
             className="text-[12px] text-primary flex items-center gap-4 hover:underline"
           >
-            <X size={12} /> Temizle ({activeFiltersCount})
+            <X size={12} /> {text.clear} ({activeFiltersCount})
           </button>
         )}
       </div>
 
       {/* Brand */}
       <div className="flex flex-col gap-8">
-        <label className="text-[11px] font-semibold text-muted-text uppercase tracking-wider">Marka</label>
+        <label className="text-[11px] font-semibold text-muted-text uppercase tracking-wider">{text.make}</label>
         <select
           value={brand}
           onChange={(e) => updateFilter("brand", e.target.value)}
-          className="w-full px-12 py-10 bg-surface border border-[0.5px] border-border-default rounded-input text-[13px] text-on-surface outline-none focus:border-primary"
+          className="w-full px-12 py-8 bg-surface border border-[0.5px] border-border-default rounded-input text-[13px] text-on-surface outline-none focus:border-primary"
         >
-          <option value="">Tüm Markalar</option>
+          <option value="">{text.allMakes}</option>
           {brands.map((b) => <option key={b} value={b}>{b}</option>)}
         </select>
       </div>
 
       {/* City */}
       <div className="flex flex-col gap-8">
-        <label className="text-[11px] font-semibold text-muted-text uppercase tracking-wider">Şehir</label>
+        <label className="text-[11px] font-semibold text-muted-text uppercase tracking-wider">{text.city}</label>
         <select
           value={city}
           onChange={(e) => updateFilter("city", e.target.value)}
-          className="w-full px-12 py-10 bg-surface border border-[0.5px] border-border-default rounded-input text-[13px] text-on-surface outline-none focus:border-primary"
+          className="w-full px-12 py-8 bg-surface border border-[0.5px] border-border-default rounded-input text-[13px] text-on-surface outline-none focus:border-primary"
         >
-          <option value="">Tüm Şehirler</option>
+          <option value="">{text.allCities}</option>
           {Object.entries(CITIES).map(([slug, label]) => (
             <option key={slug} value={label}>{label}</option>
           ))}
@@ -192,14 +276,14 @@ export function ListingsClient({ initialListings, availableBrands }: ListingsCli
 
       {/* Grade */}
       <div className="flex flex-col gap-8">
-        <label className="text-[11px] font-semibold text-muted-text uppercase tracking-wider">Otograde Derecesi</label>
+        <label className="text-[11px] font-semibold text-muted-text uppercase tracking-wider">{text.grade}</label>
         <div className="flex gap-6 flex-wrap">
           {GRADES.map((g) => (
             <button
               key={g}
               onClick={() => toggleMulti("grade", g, grade)}
               className={cn(
-                "flex items-center gap-6 px-10 py-6 rounded-full border text-[12px] font-medium transition-colors",
+                "flex items-center gap-4 px-12 py-[6px] rounded-full border text-[12px] font-medium transition-colors",
                 gradeArr.includes(g)
                   ? "border-primary bg-primary/10 text-primary"
                   : "border-border-default text-muted-text hover:border-primary"
@@ -213,17 +297,17 @@ export function ListingsClient({ initialListings, availableBrands }: ListingsCli
 
       {/* Damage type */}
       <div className="flex flex-col gap-8">
-        <label className="text-[11px] font-semibold text-muted-text uppercase tracking-wider">Hasar Türü</label>
+        <label className="text-[11px] font-semibold text-muted-text uppercase tracking-wider">{text.damageType}</label>
         <div className="flex flex-col gap-6">
-          {DAMAGE_TYPES.map((d) => (
-            <label key={d} className="flex items-center gap-8 cursor-pointer">
+          {DAMAGE_FILTER_OPTIONS.map((d) => (
+            <label key={d.slug} className="flex items-center gap-8 cursor-pointer">
               <input
                 type="checkbox"
-                checked={damageArr.includes(d)}
-                onChange={() => toggleMulti("damage_type", d, damageType)}
+                checked={damageSlugArr.includes(d.slug)}
+                onChange={() => toggleDamageType(d.slug)}
                 className="w-[14px] h-[14px] accent-primary"
               />
-              <span className="text-[13px] text-on-surface">{d}</span>
+              <span className="text-[13px] text-on-surface">{damageLabel(d.slug, d.label)}</span>
             </label>
           ))}
         </div>
@@ -231,28 +315,28 @@ export function ListingsClient({ initialListings, availableBrands }: ListingsCli
 
       {/* Price range */}
       <div className="flex flex-col gap-8">
-        <label className="text-[11px] font-semibold text-muted-text uppercase tracking-wider">Fiyat Aralığı (TL)</label>
+        <label className="text-[11px] font-semibold text-muted-text uppercase tracking-wider">{text.priceRange}</label>
         <div className="flex gap-8">
           <input
             type="number"
-            placeholder="Min"
+            placeholder={text.min}
             value={priceMin}
             onChange={(e) => updateFilter("price_min", e.target.value)}
-            className="flex-1 px-10 py-8 bg-surface border border-[0.5px] border-border-default rounded-input text-[13px] outline-none focus:border-primary"
+            className="flex-1 px-12 py-8 bg-surface border border-[0.5px] border-border-default rounded-input text-[13px] outline-none focus:border-primary"
           />
           <input
             type="number"
-            placeholder="Max"
+            placeholder={text.max}
             value={priceMax}
             onChange={(e) => updateFilter("price_max", e.target.value)}
-            className="flex-1 px-10 py-8 bg-surface border border-[0.5px] border-border-default rounded-input text-[13px] outline-none focus:border-primary"
+            className="flex-1 px-12 py-8 bg-surface border border-[0.5px] border-border-default rounded-input text-[13px] outline-none focus:border-primary"
           />
         </div>
       </div>
 
       {/* Year range */}
       <div className="flex flex-col gap-8">
-        <label className="text-[11px] font-semibold text-muted-text uppercase tracking-wider">Yıl Aralığı</label>
+        <label className="text-[11px] font-semibold text-muted-text uppercase tracking-wider">{text.yearRange}</label>
         <div className="flex gap-8">
           <input
             type="number"
@@ -261,7 +345,7 @@ export function ListingsClient({ initialListings, availableBrands }: ListingsCli
             max={2026}
             value={yearMin}
             onChange={(e) => updateFilter("year_min", e.target.value)}
-            className="flex-1 px-10 py-8 bg-surface border border-[0.5px] border-border-default rounded-input text-[13px] outline-none focus:border-primary"
+            className="flex-1 px-12 py-8 bg-surface border border-[0.5px] border-border-default rounded-input text-[13px] outline-none focus:border-primary"
           />
           <input
             type="number"
@@ -270,14 +354,14 @@ export function ListingsClient({ initialListings, availableBrands }: ListingsCli
             max={2026}
             value={yearMax}
             onChange={(e) => updateFilter("year_max", e.target.value)}
-            className="flex-1 px-10 py-8 bg-surface border border-[0.5px] border-border-default rounded-input text-[13px] outline-none focus:border-primary"
+            className="flex-1 px-12 py-8 bg-surface border border-[0.5px] border-border-default rounded-input text-[13px] outline-none focus:border-primary"
           />
         </div>
       </div>
 
       {/* Fuel type */}
       <div className="flex flex-col gap-8">
-        <label className="text-[11px] font-semibold text-muted-text uppercase tracking-wider">Yakıt Tipi</label>
+        <label className="text-[11px] font-semibold text-muted-text uppercase tracking-wider">{text.fuelType}</label>
         <div className="flex flex-col gap-6">
           {FUEL_TYPES.map((f) => (
             <label key={f} className="flex items-center gap-8 cursor-pointer">
@@ -288,7 +372,7 @@ export function ListingsClient({ initialListings, availableBrands }: ListingsCli
                 onChange={() => updateFilter("fuel_type", fuelType === f ? "" : f)}
                 className="accent-primary"
               />
-              <span className="text-[13px] text-on-surface capitalize">{f}</span>
+              <span className="text-[13px] text-on-surface">{fuelLabel(f)}</span>
             </label>
           ))}
         </div>
@@ -296,20 +380,20 @@ export function ListingsClient({ initialListings, availableBrands }: ListingsCli
 
       {/* Transmission */}
       <div className="flex flex-col gap-8">
-        <label className="text-[11px] font-semibold text-muted-text uppercase tracking-wider">Vites</label>
+        <label className="text-[11px] font-semibold text-muted-text uppercase tracking-wider">{text.transmission}</label>
         <div className="flex gap-8">
           {TRANSMISSIONS.map((tr) => (
             <button
               key={tr}
               onClick={() => updateFilter("transmission", transmission === tr ? "" : tr)}
               className={cn(
-                "flex-1 py-8 rounded-btn border text-[12px] font-medium transition-colors capitalize",
+                "flex-1 py-8 rounded-btn border text-[12px] font-medium transition-colors",
                 transmission === tr
                   ? "border-primary bg-primary/10 text-primary"
                   : "border-border-default text-muted-text hover:border-primary"
               )}
             >
-              {tr}
+              {transmissionLabel(tr)}
             </button>
           ))}
         </div>
@@ -323,21 +407,21 @@ export function ListingsClient({ initialListings, availableBrands }: ListingsCli
       <div className="bg-surface-container-lowest border-b border-[0.5px] border-border-default pt-32 pb-24">
         <Container>
           <h1 className="text-[28px] md:text-[36px] font-bold text-on-surface tracking-[-1px] mb-4">
-            Hasarlı Araç İlanları
+            {heroCopy.title}
           </h1>
-          <p className="text-[14px] text-muted-text mb-20">
-            Kazalı, pert, hasarlı ve hurda araçlar — Otograde güvencesiyle.
+          <p className="text-[14px] text-muted-text mb-24">
+            {heroCopy.description}
           </p>
-          <div className="flex flex-col md:flex-row gap-10">
+          <div className="flex flex-col md:flex-row gap-12">
             {/* Brand quick search */}
             <div className="relative flex-1">
-              <Search className="absolute left-14 top-1/2 -translate-y-1/2 text-muted-text" size={16} />
+              <Search className="absolute left-16 top-1/2 -translate-y-1/2 text-muted-text" size={16} />
               <select
                 value={brand}
                 onChange={(e) => updateFilter("brand", e.target.value)}
-                className="w-full appearance-none pl-42 pr-16 py-14 bg-white border border-[0.5px] border-border-default rounded-input text-[14px] text-on-surface outline-none focus:border-primary shadow-sm"
+                className="w-full appearance-none pl-44 pr-16 py-12 bg-white border border-[0.5px] border-border-default rounded-input text-[14px] text-on-surface outline-none focus:border-primary shadow-sm"
               >
-                <option value="">Marka seçin...</option>
+                <option value="">{text.brandPlaceholder}</option>
                 {brands.map((b) => <option key={b} value={b}>{b}</option>)}
               </select>
             </div>
@@ -347,9 +431,9 @@ export function ListingsClient({ initialListings, availableBrands }: ListingsCli
               <select
                 value={city}
                 onChange={(e) => updateFilter("city", e.target.value)}
-                className="w-full appearance-none px-14 py-14 bg-white border border-[0.5px] border-border-default rounded-input text-[14px] text-on-surface outline-none focus:border-primary shadow-sm"
+                className="w-full appearance-none px-16 py-12 bg-white border border-[0.5px] border-border-default rounded-input text-[14px] text-on-surface outline-none focus:border-primary shadow-sm"
               >
-                <option value="">Şehir seçin...</option>
+                <option value="">{text.cityPlaceholder}</option>
                 {Object.entries(CITIES).map(([slug, label]) => (
                   <option key={slug} value={label}>{label}</option>
                 ))}
@@ -361,11 +445,35 @@ export function ListingsClient({ initialListings, availableBrands }: ListingsCli
               <select
                 value={sort}
                 onChange={(e) => updateFilter("sort", e.target.value)}
-                className="w-full appearance-none px-14 py-14 bg-white border border-[0.5px] border-border-default rounded-input text-[14px] text-on-surface outline-none focus:border-primary shadow-sm"
+                className="w-full appearance-none px-16 py-12 bg-white border border-[0.5px] border-border-default rounded-input text-[14px] text-on-surface outline-none focus:border-primary shadow-sm"
               >
-                {SORT_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+                {sortOptions.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
               </select>
             </div>
+          </div>
+
+          <div className="mt-14 flex flex-wrap items-center gap-8">
+            <span className="text-[12px] font-medium text-muted-text">
+              {text.popularDamageTypes}
+            </span>
+            {DAMAGE_FILTER_OPTIONS.map((option) => {
+              const active = damageSlugArr.includes(option.slug);
+              return (
+                <button
+                  key={option.slug}
+                  type="button"
+                  onClick={() => selectDamageType(option.slug)}
+                  className={cn(
+                    "inline-flex h-[30px] items-center rounded-full border px-12 text-[12px] font-medium transition-colors",
+                    active
+                      ? "border-primary bg-primary text-white"
+                      : "border-border-default bg-white text-on-surface hover:border-primary hover:text-primary"
+                  )}
+                >
+                  {damageLabel(option.slug, option.label)}
+                </button>
+              );
+            })}
           </div>
 
           {/* Active filter chips */}
@@ -373,13 +481,13 @@ export function ListingsClient({ initialListings, availableBrands }: ListingsCli
             <div className="flex flex-wrap gap-6 mt-12">
               {brand && <Chip label={brand} onRemove={() => updateFilter("brand", "")} />}
               {city && <Chip label={city} onRemove={() => updateFilter("city", "")} />}
-              {gradeArr.map((g) => <Chip key={g} label={`Grade ${g}`} onRemove={() => toggleMulti("grade", g, grade)} />)}
-              {damageArr.map((d) => <Chip key={d} label={d} onRemove={() => toggleMulti("damage_type", d, damageType)} />)}
-              {priceMin && <Chip label={`Min ${formatPrice(parseInt(priceMin))}`} onRemove={() => updateFilter("price_min", "")} />}
-              {priceMax && <Chip label={`Max ${formatPrice(parseInt(priceMax))}`} onRemove={() => updateFilter("price_max", "")} />}
+              {gradeArr.map((g) => <Chip key={g} label={t("gradeChip", { grade: g })} onRemove={() => toggleMulti("grade", g, grade)} />)}
+              {damageFilters.map((d) => <Chip key={d.slug} label={damageLabel(d.slug, d.label)} onRemove={() => toggleDamageType(d.slug)} />)}
+              {priceMin && <Chip label={t("minPriceChip", { price: formatPrice(parseInt(priceMin)) })} onRemove={() => updateFilter("price_min", "")} />}
+              {priceMax && <Chip label={t("maxPriceChip", { price: formatPrice(parseInt(priceMax)) })} onRemove={() => updateFilter("price_max", "")} />}
               {yearMin && <Chip label={`${yearMin}+`} onRemove={() => updateFilter("year_min", "")} />}
-              {fuelType && <Chip label={fuelType} onRemove={() => updateFilter("fuel_type", "")} />}
-              {transmission && <Chip label={transmission} onRemove={() => updateFilter("transmission", "")} />}
+              {fuelType && <Chip label={fuelLabel(fuelType)} onRemove={() => updateFilter("fuel_type", "")} />}
+              {transmission && <Chip label={transmissionLabel(transmission)} onRemove={() => updateFilter("transmission", "")} />}
             </div>
           )}
         </Container>
@@ -389,7 +497,7 @@ export function ListingsClient({ initialListings, availableBrands }: ListingsCli
         <div className="flex gap-32">
           {/* Filter sidebar — desktop */}
           <aside className="hidden lg:block w-[240px] shrink-0">
-            <div className="sticky top-[76px] bg-surface-container-lowest border border-[0.5px] border-border-default rounded-card p-20 overflow-y-auto max-h-[calc(100vh-100px)]">
+            <div className="sticky top-[76px] bg-surface-container-lowest border border-[0.5px] border-border-default rounded-card p-16 overflow-y-auto max-h-[calc(100vh-100px)]">
               <FilterPanel />
             </div>
           </aside>
@@ -399,14 +507,14 @@ export function ListingsClient({ initialListings, availableBrands }: ListingsCli
             {/* Mobile filter button */}
             <div className="flex items-center justify-between mb-16 lg:hidden">
               <p className="text-[13px] text-muted-text">
-                {loading ? "Yükleniyor..." : total > 0 ? `${total} araç bulundu` : `${listings.length} araç`}
+                {loading ? text.loading : total > 0 ? text.vehicleFound(total) : text.vehicleCount(listings.length)}
               </p>
               <button
                 onClick={() => setFiltersOpen(true)}
                 className="flex items-center gap-8 px-16 py-8 bg-surface-container-lowest border border-[0.5px] border-border-default rounded-btn text-[13px] font-medium text-on-surface"
               >
                 <SlidersHorizontal size={14} />
-                Filtrele
+                {text.filterButton}
                 {activeFiltersCount > 0 && (
                   <span className="w-[18px] h-[18px] bg-primary text-white rounded-full text-[10px] flex items-center justify-center">
                     {activeFiltersCount}
@@ -418,7 +526,7 @@ export function ListingsClient({ initialListings, availableBrands }: ListingsCli
             {/* Desktop result count */}
             <div className="hidden lg:flex items-center justify-between mb-16">
               <p className="text-[13px] text-muted-text">
-                {loading ? "Yükleniyor..." : total > 0 ? `${total} araç bulundu` : `${listings.length} araç`}
+                {loading ? text.loading : total > 0 ? text.vehicleFound(total) : text.vehicleCount(listings.length)}
               </p>
             </div>
 
@@ -431,13 +539,13 @@ export function ListingsClient({ initialListings, availableBrands }: ListingsCli
               </div>
             ) : listings.length === 0 ? (
               <div className="text-center py-60 bg-surface-container-lowest border border-[0.5px] border-border-default rounded-card">
-                <p className="text-[16px] font-medium text-on-surface mb-8">Araç bulunamadı</p>
-                <p className="text-[13px] text-muted-text mb-20">Filtreleri değiştirerek tekrar deneyin.</p>
+                <p className="text-[16px] font-medium text-on-surface mb-8">{text.emptyTitle}</p>
+                <p className="text-[13px] text-muted-text mb-24">{text.emptyDescription}</p>
                 <button
                   onClick={() => startTransition(() => router.replace(pathname as never))}
-                  className="px-20 py-10 bg-primary text-white rounded-btn text-[13px] font-medium hover:opacity-90"
+                  className="px-24 py-12 bg-primary text-white rounded-btn text-[13px] font-medium hover:opacity-90"
                 >
-                  Filtreleri Temizle
+                  {text.clearFilters}
                 </button>
               </div>
             ) : (
@@ -492,9 +600,9 @@ export function ListingsClient({ initialListings, availableBrands }: ListingsCli
       {filtersOpen && (
         <div className="fixed inset-0 z-[150] flex">
           <div className="absolute inset-0 bg-black/40" onClick={() => setFiltersOpen(false)} />
-          <div className="relative ml-auto w-[80vw] max-w-[340px] h-full bg-surface-container-lowest overflow-y-auto p-20 flex flex-col gap-0 shadow-xl">
-            <div className="flex items-center justify-between mb-20">
-              <h2 className="text-[16px] font-semibold text-on-surface">Filtreler</h2>
+          <div className="relative ml-auto w-[80vw] max-w-[340px] h-full bg-surface-container-lowest overflow-y-auto p-16 flex flex-col gap-0 shadow-xl">
+            <div className="flex items-center justify-between mb-16">
+              <h2 className="text-[16px] font-semibold text-on-surface">{text.filters}</h2>
               <button onClick={() => setFiltersOpen(false)} className="text-muted-text hover:text-on-surface">
                 <X size={22} />
               </button>
@@ -502,9 +610,9 @@ export function ListingsClient({ initialListings, availableBrands }: ListingsCli
             <FilterPanel />
             <button
               onClick={() => setFiltersOpen(false)}
-              className="mt-20 w-full bg-primary text-white py-14 rounded-btn text-[14px] font-semibold hover:opacity-90"
+              className="mt-16 w-full bg-primary text-white py-12 rounded-btn text-[14px] font-semibold hover:opacity-90"
             >
-              Filtrele
+              {text.filterButton}
             </button>
           </div>
         </div>
@@ -515,7 +623,7 @@ export function ListingsClient({ initialListings, availableBrands }: ListingsCli
 
 function Chip({ label, onRemove }: { label: string; onRemove: () => void }) {
   return (
-    <span className="inline-flex items-center gap-6 px-10 py-4 bg-primary/10 text-primary rounded-full text-[12px] font-medium">
+    <span className="inline-flex items-center gap-4 px-12 py-4 bg-primary/10 text-primary rounded-full text-[12px] font-medium">
       {label}
       <button onClick={onRemove} className="hover:opacity-70">
         <X size={11} />

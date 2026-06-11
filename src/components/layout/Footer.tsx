@@ -26,8 +26,10 @@ interface FooterProps {
   locale?: string;
 }
 
-export function Footer({ locale = "tr" }: FooterProps) {
+export function Footer(props: FooterProps = {}) {
+  void props;
   const t = useTranslations("footer");
+  const tVehicleTypes = useTranslations("vehicleTypes");
   const year = new Date().getFullYear();
 
   return (
@@ -37,7 +39,7 @@ export function Footer({ locale = "tr" }: FooterProps) {
 
           {/* Brand */}
           <div className="flex flex-col gap-16">
-            <Link href={routes.home()} aria-label="Otograde Ana Sayfa">
+            <Link href={routes.home()} aria-label={t("homeAria")}>
               <Image
                 src="/images/logo/otograde-dark.svg"
                 alt="Otograde"
@@ -53,7 +55,7 @@ export function Footer({ locale = "tr" }: FooterProps) {
               <a
                 href={externalRoutes.phone(PHONE_NUMBER)}
                 className="inline-flex items-center gap-8 text-[13px] text-[#AAAAAA] hover:text-white transition-colors"
-                aria-label="Telefon numaramız"
+                aria-label={t("phoneAria")}
               >
                 <Phone size={14} strokeWidth={1.5} aria-hidden />
                 {PHONE_NUMBER.replace("+90", "0")}
@@ -63,7 +65,7 @@ export function Footer({ locale = "tr" }: FooterProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-8 text-[13px] text-[#AAAAAA] hover:text-whatsapp-green transition-colors"
-                aria-label="WhatsApp ile yazın"
+                aria-label={t("whatsappAria")}
               >
                 <FaWhatsapp size={14} aria-hidden />
                 WhatsApp
@@ -81,16 +83,16 @@ export function Footer({ locale = "tr" }: FooterProps) {
               >
                 <FaInstagram size={20} />
               </a>
-              <span className="text-[#555555] cursor-not-allowed" title={locale === "en" ? "Coming Soon" : "Yakında"}>
+              <span className="text-[#555555] cursor-not-allowed" title={t("comingSoon")}>
                 <FaFacebook size={20} />
               </span>
-              <span className="text-[#555555] cursor-not-allowed" title={locale === "en" ? "Coming Soon" : "Yakında"}>
+              <span className="text-[#555555] cursor-not-allowed" title={t("comingSoon")}>
                 <FaYoutube size={20} />
               </span>
-              <span className="text-[#555555] cursor-not-allowed" title={locale === "en" ? "Coming Soon" : "Yakında"}>
+              <span className="text-[#555555] cursor-not-allowed" title={t("comingSoon")}>
                 <FaTiktok size={18} />
               </span>
-              <span className="text-[#555555] cursor-not-allowed" title={locale === "en" ? "Coming Soon" : "Yakında"}>
+              <span className="text-[#555555] cursor-not-allowed" title={t("comingSoon")}>
                 <FaLinkedin size={20} />
               </span>
             </div>
@@ -109,7 +111,7 @@ export function Footer({ locale = "tr" }: FooterProps) {
                       href={routes.service(s.serviceSlug)}
                       className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors"
                     >
-                      {locale === "en" ? s.labelEn : s.label}
+                      {tVehicleTypes(s.slug)}
                     </Link>
                   </li>
                 ))}
@@ -130,7 +132,7 @@ export function Footer({ locale = "tr" }: FooterProps) {
                       href={routes.city(c.slug)}
                       className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors"
                     >
-                      {c.label} {locale === "en" ? "Damaged Vehicle" : "Hasarlı Araç"}
+                      {c.label} {t("damagedVehicle")}
                     </Link>
                   </li>
                 ))}
@@ -141,20 +143,20 @@ export function Footer({ locale = "tr" }: FooterProps) {
           {/* Platform + İletişim + Legal */}
           <div className="flex flex-col gap-16">
             <p className="text-[13px] font-medium text-white uppercase tracking-wider">
-              Platform
+              {t("platform")}
             </p>
             <div className="flex flex-col gap-8">
               <Link href={routes.marketplace()} className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors">
-                İlanlar
+                {t("listings")}
               </Link>
               <Link href={routes.becomeDealer()} className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors">
-                Bayi Ol
+                {t("becomeDealer")}
               </Link>
               <Link href={routes.dealerPanel()} className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors">
-                Bayi Girişi
+                {t("dealerLogin")}
               </Link>
               <Link href={routes.about()} className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors">
-                {locale === "en" ? "About Us" : "Hakkımızda"}
+                {t("about")}
               </Link>
               <Link href={routes.blog()} className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors">
                 Blog
@@ -165,7 +167,7 @@ export function Footer({ locale = "tr" }: FooterProps) {
             </div>
 
             <p className="text-[13px] font-medium text-white uppercase tracking-wider mt-8">
-              {locale === "en" ? "Legal" : "Yasal"}
+              {t("legal")}
             </p>
             <div className="flex flex-col gap-8">
               <Link href={routes.kvkk()} className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors">
@@ -186,7 +188,7 @@ export function Footer({ locale = "tr" }: FooterProps) {
       <div className="border-t border-white/10 mt-60">
         <div className="px-16 md:px-32 w-full py-24 flex flex-col sm:flex-row items-center justify-between gap-16">
           <p className="text-[12px] text-[#888888]">
-            © {year} Otograde — {locale === "en" ? "Turkey's Damaged Vehicle Marketplace" : "Türkiye'nin Hasarlı Araç Pazaryeri"}
+            © {year} Otograde — {t("marketplaceSuffix")}
           </p>
           <a
             href="https://paksoft.com.tr"
@@ -195,7 +197,7 @@ export function Footer({ locale = "tr" }: FooterProps) {
             className="flex items-center group text-[12px]"
           >
             <span className="text-[#888888] mr-8 group-hover:text-primary transition-colors">
-              {locale === "en" ? "Developed by PakSoft" : "PakSoft tarafından geliştirildi"}
+              {t("developedBy")}
             </span>
             <span className="text-primary font-bold text-[13px] tracking-wide">PakSoft</span>
           </a>

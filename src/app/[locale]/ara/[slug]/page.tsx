@@ -6,6 +6,9 @@ import { SITE_URL, SITE_NAME } from "@/lib/constants";
 import { ListingDetailClient } from "./ListingDetailClient";
 import { SimilarListings } from "@/components/marketplace/SimilarListings";
 import { Suspense } from "react";
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
+import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 
 interface Props {
   params: Promise<{ locale: string; slug: string }>;
@@ -27,6 +30,14 @@ async function getListing(slug: string): Promise<Listing | null> {
   }
 }
 
+function listingPath(locale: string, slug: string): string {
+  return locale === "en" ? `/en/listings/${slug}` : `/ara/${slug}`;
+}
+
+function listingsPath(locale: string): string {
+  return locale === "en" ? "/en/listings" : "/ara";
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const listing = await getListing(slug);
@@ -38,7 +49,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const gradeLabel = listing.damage_grade ? GRADE_COLORS[listing.damage_grade].label : "";
   const title = `${listing.year} ${listing.brand} ${listing.model} — ${listing.damage_type.slice(0, 2).join(", ")} | Otograde`;
   const description = `${listing.city}${listing.district ? " / " + listing.district : ""} — ${listing.year} ${listing.brand} ${listing.model}. ${gradeLabel}. ${new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY", maximumFractionDigits: 0 }).format(listing.asking_price)} TL.`;
-  const canonical = `${SITE_URL}${locale === "tr" ? "" : "/en"}/ara/${slug}`;
+  const canonical = `${SITE_URL}${listingPath(locale, slug)}`;
   const ogImage = listing.primary_image || listing.images?.[0] || `${SITE_URL}/opengraph-image`;
 
   return {
@@ -64,7 +75,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 function buildJsonLd(listing: Listing, locale: string) {
-  const canonical = `${SITE_URL}${locale === "tr" ? "" : "/en"}/ara/${listing.slug}`;
+  const canonical = `${SITE_URL}${listingPath(locale, listing.slug)}`;
+  const listingIndexUrl = `${SITE_URL}${listingsPath(locale)}`;
 
   // ── Product schema with vehicle-specific PropertyValue fields ─────────────
   const additionalProps = [
@@ -102,7 +114,7 @@ function buildJsonLd(listing: Listing, locale: string) {
         ...(listing.dealer.is_verified ? { hasCredential: { "@type": "EducationalOccupationalCredential", credentialCategory: "Otograde Onaylı Bayi" } } : {}),
         address: { "@type": "PostalAddress", addressLocality: listing.dealer.city, addressCountry: "TR" },
         telephone: listing.dealer.phone,
-        url: listing.dealer.slug ? `${SITE_URL}/bayi/${listing.dealer.slug}` : undefined,
+        url: listing.dealer.slug ? `${SITE_URL}${locale === "en" ? "/en/dealer" : "/bayi"}/${listing.dealer.slug}` : undefined,
       } : undefined,
     },
     additionalProperty: [
@@ -121,7 +133,7 @@ function buildJsonLd(listing: Listing, locale: string) {
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: SITE_NAME, item: SITE_URL },
-      { "@type": "ListItem", position: 2, name: "Hasarlı Araç İlanları", item: `${SITE_URL}/ara` },
+      { "@type": "ListItem", position: 2, name: locale === "en" ? "Damaged Vehicle Listings" : "Hasarlı Araç İlanları", item: listingIndexUrl },
       { "@type": "ListItem", position: 3, name: listing.title, item: canonical },
     ],
   };
@@ -133,7 +145,7 @@ function buildJsonLd(listing: Listing, locale: string) {
     name: listing.dealer.company_name,
     address: { "@type": "PostalAddress", addressLocality: listing.dealer.city, addressCountry: "TR" },
     telephone: listing.dealer.phone,
-    ...(listing.dealer.slug ? { url: `${SITE_URL}/bayi/${listing.dealer.slug}` } : {}),
+    ...(listing.dealer.slug ? { url: `${SITE_URL}${locale === "en" ? "/en/dealer" : "/bayi"}/${listing.dealer.slug}` } : {}),
   } : null;
 
   return [product, breadcrumb, ...(dealer ? [dealer] : [])];
@@ -149,23 +161,29 @@ export default async function ListingDetailPage({ params }: Props) {
 
   return (
     <>
+      <Navbar />
       {schemas.map((s, i) => (
         <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }} />
       ))}
 
-      <ListingDetailClient listing={listing} dealer={listing.dealer!} />
+      <main>
+        <ListingDetailClient listing={listing} dealer={listing.dealer!} locale={locale} />
 
-      <div className="bg-surface pt-0 pb-60">
-        <div className="mx-auto max-w-[1180px] px-16 md:px-32">
-          <Suspense fallback={null}>
-            <SimilarListings
-              currentId={listing.id}
-              brand={listing.brand}
-              grade={listing.damage_grade}
-            />
-          </Suspense>
+        <div className="bg-surface pt-0 pb-60">
+          <div className="mx-auto max-w-[1180px] px-16 md:px-32">
+            <Suspense fallback={null}>
+              <SimilarListings
+                currentId={listing.id}
+                brand={listing.brand}
+                grade={listing.damage_grade}
+                locale={locale}
+              />
+            </Suspense>
+          </div>
         </div>
-      </div>
+      </main>
+      <Footer locale={locale} />
+      <WhatsAppButton />
     </>
   );
 }

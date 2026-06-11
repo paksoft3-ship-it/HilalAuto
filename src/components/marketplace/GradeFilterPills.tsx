@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
 import { GRADE_COLORS } from "@/lib/grades";
 import type { DamageGrade } from "@/types/marketplace";
 
@@ -9,6 +10,7 @@ const GRADES: DamageGrade[] = ["A", "B", "C", "D", "E"];
 
 export function GradeFilterPills() {
   const router = useRouter();
+  const t = useTranslations("marketplaceHome");
   const [active, setActive] = useState<DamageGrade | null>(null);
 
   function handleClick(grade: DamageGrade) {
@@ -23,7 +25,7 @@ export function GradeFilterPills() {
 
   return (
     <div className="flex flex-wrap items-center justify-center gap-12 mt-24">
-      <span className="text-[12px] font-medium text-[#888888]">Grade filtrele:</span>
+      <span className="text-[12px] font-medium text-[#888888]">{t("gradeFilter")}</span>
       {GRADES.map((grade) => {
         const color = GRADE_COLORS[grade];
         const isActive = active === grade;
@@ -38,9 +40,9 @@ export function GradeFilterPills() {
               color: isActive ? "#ffffff" : color,
             }}
             aria-pressed={isActive}
-            aria-label={`Grade ${grade} filtresi`}
+            aria-label={t("gradeFilterAria", { grade })}
           >
-            Grade {grade}
+            {t("gradeButton", { grade })}
           </button>
         );
       })}

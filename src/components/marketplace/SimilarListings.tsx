@@ -1,20 +1,23 @@
 import { Listing } from "@/types/marketplace";
 import { ListingCard } from "./ListingCard";
 import { supabaseAdmin } from "@/lib/supabase";
+import { getTranslations } from "next-intl/server";
 
 interface SimilarListingsProps {
   currentId: string;
   brand: string;
   grade: string | null;
+  locale?: string;
 }
 
-export async function SimilarListings({ currentId, brand, grade }: SimilarListingsProps) {
+export async function SimilarListings({ currentId, brand, grade, locale = "tr" }: SimilarListingsProps) {
+  const t = await getTranslations({ locale, namespace: "similarListings" });
   let listings: Listing[] = [];
 
   try {
     const { data } = await supabaseAdmin
       .from("hazaral_listings")
-      .select("*, dealer:hazaral_dealers(company_name, city, is_verified, logo_url, slug)")
+      .select("*, dealer:hazaral_dealers(id, company_name, city, is_verified, logo_url, slug)")
       .eq("status", "active")
       .eq("brand", brand)
       .neq("id", currentId)
@@ -30,7 +33,7 @@ export async function SimilarListings({ currentId, brand, grade }: SimilarListin
       const existingIds = [currentId, ...listings.map((l) => l.id)];
       const { data: gradeData } = await supabaseAdmin
         .from("hazaral_listings")
-        .select("*, dealer:hazaral_dealers(company_name, city, is_verified, logo_url, slug)")
+        .select("*, dealer:hazaral_dealers(id, company_name, city, is_verified, logo_url, slug)")
         .eq("status", "active")
         .eq("damage_grade", grade)
         .not("id", "in", `(${existingIds.join(",")})`)
@@ -48,7 +51,7 @@ export async function SimilarListings({ currentId, brand, grade }: SimilarListin
   return (
     <section>
       <h2 className="text-[18px] font-semibold text-on-surface mb-20">
-        Benzer İlanlar
+        {t("title")}
       </h2>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-16">
         {listings.map((l) => (

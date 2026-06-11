@@ -5,6 +5,7 @@ export const routing = defineRouting({
   locales: ["tr", "en"],
   defaultLocale: "tr",
   localePrefix: "as-needed",
+  localeDetection: false,
   pathnames: {
     "/": "/",
     "/nasil-calisir": { tr: "/nasil-calisir", en: "/how-it-works" },

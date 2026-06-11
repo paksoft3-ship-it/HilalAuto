@@ -1,4 +1,5 @@
-import { DamageGrade, GRADE_COLORS, GRADE_DESCRIPTIONS } from "@/types/marketplace";
+import { useTranslations } from "next-intl";
+import { DamageGrade, GRADE_COLORS } from "@/types/marketplace";
 import { cn } from "@/lib/utils";
 
 interface GradeBadgeProps {
@@ -15,9 +16,12 @@ const sizeClasses = {
 };
 
 export function GradeBadge({ grade, size = "md", showTooltip = false, className }: GradeBadgeProps) {
+  const t = useTranslations("grade");
   if (!grade) return null;
 
   const color = GRADE_COLORS[grade];
+  const label = t(`${grade}.label`);
+  const description = t(`${grade}.description`);
 
   return (
     <div className={cn("relative group inline-block", className)}>
@@ -27,8 +31,8 @@ export function GradeBadge({ grade, size = "md", showTooltip = false, className 
           sizeClasses[size]
         )}
         style={{ backgroundColor: color.bg }}
-        title={showTooltip ? undefined : color.label}
-        aria-label={`Otograde Derecesi: ${color.label}`}
+        title={showTooltip ? undefined : label}
+        aria-label={t("aria", { label })}
       >
         {grade}
       </div>
@@ -36,8 +40,8 @@ export function GradeBadge({ grade, size = "md", showTooltip = false, className 
       {showTooltip && (
         <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-8 z-50 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-150">
           <div className="bg-[#0D0D0D] text-white text-[11px] px-10 py-6 rounded-md whitespace-nowrap shadow-lg">
-            <div className="font-semibold mb-2">{color.label}</div>
-            <div className="text-[#AAAAAA]">{GRADE_DESCRIPTIONS[grade]}</div>
+            <div className="font-semibold mb-2">{label}</div>
+            <div className="text-[#AAAAAA]">{description}</div>
           </div>
           <div className="w-0 h-0 mx-auto border-l-[5px] border-r-[5px] border-t-[5px] border-l-transparent border-r-transparent border-t-[#0D0D0D]" />
         </div>
