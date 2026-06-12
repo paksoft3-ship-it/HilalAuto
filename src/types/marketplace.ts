@@ -77,8 +77,11 @@ export interface Listing {
 export interface ListingFilters {
   brand?: string;
   model?: string;
+  district?: string;
   year_min?: string;
   year_max?: string;
+  km_min?: string;
+  km_max?: string;
   price_min?: string;
   price_max?: string;
   damage_type?: string;
@@ -86,7 +89,13 @@ export interface ListingFilters {
   city?: string;
   fuel_type?: string;
   transmission?: string;
-  sort?: 'newest' | 'price_asc' | 'price_desc' | 'views_desc';
+  has_tramer?: string;
+  negotiable?: string;
+  verified_dealer?: string;
+  featured?: string;
+  has_photos?: string;
+  has_damage_note?: string;
+  sort?: 'newest' | 'price_asc' | 'price_desc' | 'views_desc' | 'km_asc' | 'year_desc';
   page?: string;
 }
 

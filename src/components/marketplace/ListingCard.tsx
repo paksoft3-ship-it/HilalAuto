@@ -1,15 +1,22 @@
+"use client";
+
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { Listing } from "@/types/marketplace";
 import { GradeBadge } from "./GradeBadge";
 import { DamageBadge } from "./DamageBadge";
 import { FavoriteButton } from "./FavoriteButton";
-import { MapPin, Eye, Fuel, Gauge, Star, Zap } from "lucide-react";
+import { MapPin, Eye, Fuel, Gauge, Star, Zap, GitCompareArrows } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ListingCardProps {
   listing: Listing;
   className?: string;
+  compareSelected?: boolean;
+  compareDisabled?: boolean;
+  compareLabel?: string;
+  compareSelectedLabel?: string;
+  onCompareToggle?: (listing: Listing) => void;
 }
 
 function formatPrice(n: number): string {
@@ -28,7 +35,15 @@ function daysSince(dateStr: string): number {
   return Math.floor((Date.now() - new Date(dateStr).getTime()) / (1000 * 60 * 60 * 24));
 }
 
-export function ListingCard({ listing, className }: ListingCardProps) {
+export function ListingCard({
+  listing,
+  className,
+  compareSelected = false,
+  compareDisabled = false,
+  compareLabel,
+  compareSelectedLabel,
+  onCompareToggle,
+}: ListingCardProps) {
   const t = useTranslations("listingCard");
   const coverImg = listing.primary_image || listing.images?.[0] || null;
   const days = daysSince(listing.created_at);
@@ -49,6 +64,28 @@ export function ListingCard({ listing, className }: ListingCardProps) {
         size="sm"
         className="absolute right-8 top-8 z-20"
       />
+      {onCompareToggle && (
+        <button
+          type="button"
+          title={compareSelected ? compareSelectedLabel : compareLabel}
+          disabled={compareDisabled && !compareSelected}
+          onClick={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            onCompareToggle(listing);
+          }}
+          className={cn(
+            "absolute left-8 top-8 z-20 inline-flex h-[28px] items-center gap-5 rounded-full border px-8 text-[11px] font-semibold shadow-sm transition-colors",
+            compareSelected
+              ? "border-primary bg-primary text-white"
+              : "border-border-default bg-white/95 text-on-surface hover:border-primary hover:text-primary",
+            compareDisabled && !compareSelected && "cursor-not-allowed opacity-50"
+          )}
+        >
+          <GitCompareArrows size={12} />
+          <span className="hidden sm:inline">{compareSelected ? compareSelectedLabel : compareLabel}</span>
+        </button>
+      )}
       <Link
         href={{ pathname: "/ara/[slug]", params: { slug: listing.slug } } as never}
         className="flex h-full flex-col"

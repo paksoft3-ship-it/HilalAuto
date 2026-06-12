@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
-import { Listing, Dealer } from "@/types/marketplace";
+import { Listing, Dealer, DamageGrade } from "@/types/marketplace";
 import { ImageGallery } from "@/components/marketplace/ImageGallery";
 import { GradeBadge, GradeBar } from "@/components/marketplace/GradeBadge";
 import { DamageBadge } from "@/components/marketplace/DamageBadge";
@@ -17,7 +17,24 @@ import {
   trackImageViewed,
   setupScrollTracking,
 } from "@/lib/marketplace-tracker";
-import { AlertTriangle, Gauge, Fuel, Settings, Calendar, Palette, MapPin, Shield, TrendingDown, Eye } from "lucide-react";
+import {
+  AlertTriangle,
+  Camera,
+  Calendar,
+  CheckCircle2,
+  Eye,
+  FileText,
+  Fuel,
+  Gauge,
+  MapPin,
+  Palette,
+  Printer,
+  Settings,
+  Shield,
+  TrendingDown,
+  Wrench,
+  XCircle,
+} from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import { externalRoutes } from "@/lib/routes";
 import {
@@ -29,6 +46,8 @@ interface ListingDetailClientProps {
   dealer: Dealer;
   locale?: string;
 }
+
+const RECENT_STORAGE_KEY = "og_recently_viewed";
 
 function getSessionId(): string {
   if (typeof window === "undefined") return "";
@@ -50,6 +69,55 @@ function formatKm(km: number) {
 
 function daysSince(dateStr: string): number {
   return Math.floor((Date.now() - new Date(dateStr).getTime()) / (1000 * 60 * 60 * 24));
+}
+
+function saveRecentListing(listing: Listing) {
+  if (typeof window === "undefined") return;
+  try {
+    const raw = window.localStorage.getItem(RECENT_STORAGE_KEY);
+    const current = raw ? JSON.parse(raw) : [];
+    const list = Array.isArray(current) ? current : [];
+    const item = {
+      id: listing.id,
+      slug: listing.slug,
+      title: listing.title,
+      asking_price: listing.asking_price,
+      city: listing.city,
+      primary_image: listing.primary_image || listing.images?.[0] || null,
+      viewedAt: new Date().toISOString(),
+    };
+    window.localStorage.setItem(
+      RECENT_STORAGE_KEY,
+      JSON.stringify([item, ...list.filter((entry: { id?: string }) => entry.id !== listing.id)].slice(0, 5))
+    );
+  } catch {
+    // Ignore storage failures; listing tracking still runs through analytics.
+  }
+}
+
+function getRepairPotential(
+  grade: DamageGrade | null,
+  t: (key: string) => string
+): { title: string; description: string; className: string } {
+  if (grade === "A" || grade === "B") {
+    return {
+      title: t("repairLowTitle"),
+      description: t("repairLowDescription"),
+      className: "border-green-200 bg-green-50 text-green-700",
+    };
+  }
+  if (grade === "C") {
+    return {
+      title: t("repairMediumTitle"),
+      description: t("repairMediumDescription"),
+      className: "border-amber-200 bg-amber-50 text-amber-700",
+    };
+  }
+  return {
+    title: t("repairHighTitle"),
+    description: t("repairHighDescription"),
+    className: "border-orange-200 bg-orange-50 text-orange-700",
+  };
 }
 
 export function ListingDetailClient({ listing, dealer, locale = "tr" }: ListingDetailClientProps) {
@@ -83,6 +151,7 @@ export function ListingDetailClient({ listing, dealer, locale = "tr" }: ListingD
     location: t("location"),
     damageInfo: t("damageInfo"),
     grade: t("grade"),
+    damageType: t("damageType"),
     tramer: t("tramer"),
     exists: t("exists"),
     none: t("none"),
@@ -91,13 +160,23 @@ export function ListingDetailClient({ listing, dealer, locale = "tr" }: ListingD
     warning: t("warning"),
     whatsapp: t("whatsapp"),
     call: t("call"),
+    printReport: t("printReport"),
+    damageChecklist: t("damageChecklist"),
+    repairPotential: t("repairPotential"),
+    photosAvailable: t("photosAvailable"),
+    damageNoteAvailable: t("damageNoteAvailable"),
+    negotiableStatus: t("negotiableStatus"),
+    yes: t("yes"),
+    no: t("no"),
   };
   const waMessage = t("whatsappMessage", { title: listing.title, slug: listing.slug });
+  const repairPotential = getRepairPotential(listing.damage_grade, t);
 
   // Tracking setup
   useEffect(() => {
     // 1. Track page view
     trackListingView(listing.id, dealer.id);
+    saveRecentListing(listing);
 
     // 2. Scroll depth
     const cleanupScroll = setupScrollTracking(listing.id, (pct) => {
@@ -123,7 +202,7 @@ export function ListingDetailClient({ listing, dealer, locale = "tr" }: ListingD
       cleanupScroll();
       document.removeEventListener("visibilitychange", handleVisibility);
     };
-  }, [listing.id, dealer.id]);
+  }, [listing, dealer.id]);
 
   const days = daysSince(listing.created_at);
   const summaryItems = [
@@ -190,7 +269,16 @@ export function ListingDetailClient({ listing, dealer, locale = "tr" }: ListingD
                     </div>
                   )}
                 </div>
-                <FavoriteButton listingId={listing.id} size="lg" showText locale={locale} />
+                <div className="flex flex-wrap items-center gap-8">
+                  <button
+                    type="button"
+                    onClick={() => window.print()}
+                    className="inline-flex items-center justify-center gap-8 rounded-btn border border-[0.5px] border-border-default bg-surface px-14 py-10 text-[13px] font-medium text-on-surface transition-colors hover:border-primary hover:text-primary"
+                  >
+                    <Printer size={14} /> {text.printReport}
+                  </button>
+                  <FavoriteButton listingId={listing.id} size="lg" showText locale={locale} />
+                </div>
               </div>
             </div>
 
@@ -260,6 +348,63 @@ export function ListingDetailClient({ listing, dealer, locale = "tr" }: ListingD
               </div>
             </div>
 
+            {/* Damage checklist */}
+            <div className="bg-surface-container-lowest border border-[0.5px] border-border-default rounded-card p-24">
+              <h2 className="text-[15px] font-semibold text-on-surface mb-16">{text.damageChecklist}</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
+                <ChecklistItem
+                  icon={<Shield size={14} />}
+                  label={text.grade}
+                  value={listing.damage_grade ? `${listing.damage_grade} - ${tGrade(`${listing.damage_grade}.description`)}` : "-"}
+                  positive={!!listing.damage_grade}
+                />
+                <ChecklistItem
+                  icon={<AlertTriangle size={14} />}
+                  label={text.damageType}
+                  value={listing.damage_type.length > 0 ? listing.damage_type.join(", ") : "-"}
+                  positive={listing.damage_type.length > 0}
+                />
+                <ChecklistItem
+                  icon={<Shield size={14} />}
+                  label={text.tramer}
+                  value={listing.has_tramer ? `${text.exists}${listing.tramer_amount ? ` - ${formatPrice(listing.tramer_amount)}` : ""}` : text.none}
+                  positive={!listing.has_tramer}
+                />
+                <ChecklistItem
+                  icon={<Camera size={14} />}
+                  label={text.photosAvailable}
+                  value={`${listing.images.length} ${text.photosAvailable}`}
+                  positive={listing.images.length > 0}
+                />
+                <ChecklistItem
+                  icon={<FileText size={14} />}
+                  label={text.damageNoteAvailable}
+                  value={listing.damage_description ? text.yes : text.no}
+                  positive={!!listing.damage_description}
+                />
+                <ChecklistItem
+                  icon={<TrendingDown size={14} />}
+                  label={text.negotiableStatus}
+                  value={listing.is_price_negotiable ? text.yes : text.no}
+                  positive={listing.is_price_negotiable}
+                />
+              </div>
+            </div>
+
+            {/* Repair potential */}
+            <div className={`rounded-card border p-16 ${repairPotential.className}`}>
+              <div className="flex gap-12">
+                <Wrench size={18} className="shrink-0 mt-1" />
+                <div>
+                  <div className="text-[12px] font-semibold uppercase tracking-wider opacity-80">
+                    {text.repairPotential}
+                  </div>
+                  <h2 className="mt-4 text-[16px] font-bold">{repairPotential.title}</h2>
+                  <p className="mt-6 text-[13px] leading-relaxed">{repairPotential.description}</p>
+                </div>
+              </div>
+            </div>
+
             {/* Safety notice */}
             <div className="bg-amber-50 border border-amber-200 rounded-card p-16 flex gap-12">
               <AlertTriangle size={16} className="text-amber-600 shrink-0 mt-1" />
@@ -320,6 +465,33 @@ function QuickSpec({
       <div className="mt-3 truncate text-[13px] font-semibold text-on-surface capitalize">
         {value}
       </div>
+    </div>
+  );
+}
+
+function ChecklistItem({
+  icon,
+  label,
+  value,
+  positive,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+  positive: boolean;
+}) {
+  return (
+    <div className="flex items-start gap-10 rounded-card border border-[0.5px] border-border-default bg-surface p-12">
+      <div className="mt-1 text-muted-text">{icon}</div>
+      <div className="min-w-0 flex-1">
+        <div className="text-[11px] font-medium text-muted-text">{label}</div>
+        <div className="mt-3 text-[13px] font-semibold text-on-surface">{value}</div>
+      </div>
+      {positive ? (
+        <CheckCircle2 size={15} className="mt-1 shrink-0 text-green-600" />
+      ) : (
+        <XCircle size={15} className="mt-1 shrink-0 text-orange-500" />
+      )}
     </div>
   );
 }
