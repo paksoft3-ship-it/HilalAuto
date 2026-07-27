@@ -9,6 +9,7 @@ import { GradeBadge } from "@/components/marketplace/GradeBadge";
 import { CITIES, CAR_BRANDS, DAMAGE_TYPES } from "@/lib/constants";
 import { YEAR_OPTIONS, autoTitle } from "@/lib/dealer-utils";
 import { CheckCircle, ImagePlus, Save, Star, X } from "lucide-react";
+import { CarLoader } from "@/components/ui/CarLoader";
 import { cn } from "@/lib/utils";
 
 const GRADES: DamageGrade[] = ["A", "B", "C", "D", "E"];
@@ -170,7 +171,13 @@ export default function IlanDuzenle() {
     setSaving(false);
   }
 
-  if (loading) return <div className="animate-pulse h-[400px] bg-surface-container-lowest rounded-card" />;
+  if (loading) {
+    return (
+      <div className="h-[400px] flex items-center justify-center">
+        <CarLoader label="İlan yükleniyor..." />
+      </div>
+    );
+  }
 
   const inputCls = "w-full px-14 py-11 bg-surface border border-[0.5px] border-border-default rounded-input text-[13px] text-on-surface outline-none focus:border-primary transition-colors";
 

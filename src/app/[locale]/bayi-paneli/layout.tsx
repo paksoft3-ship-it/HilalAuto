@@ -6,6 +6,7 @@ import { usePathname, useRouter, Link } from "@/i18n/routing";
 import { supabase } from "@/lib/supabase";
 import { Dealer } from "@/types/marketplace";
 import { NotificationBell } from "@/components/dealer/NotificationBell";
+import { CarLoader } from "@/components/ui/CarLoader";
 import {
   LayoutDashboard, Car, Plus, MessageSquare, BarChart2,
   Bell, LogOut, Menu, X, AlertCircle, Clock, CreditCard
@@ -115,7 +116,7 @@ export default function DealerPanelLayout({ children }: { children: React.ReactN
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-surface">
-        <div className="w-[32px] h-[32px] border-2 border-primary border-t-transparent rounded-full animate-spin" />
+        <CarLoader label="Yükleniyor..." />
       </div>
     );
   }

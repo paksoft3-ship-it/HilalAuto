@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "@/i18n/routing";
 import { Link } from "@/i18n/routing";
 import { supabase } from "@/lib/supabase";
+import { CarLoader } from "@/components/ui/CarLoader";
 import {
   LayoutDashboard, Users, FileText, LogOut, Menu, X,
   Building2, ClipboardList, CreditCard, BarChart3, ShieldCheck,
@@ -66,7 +67,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-surface-container-lowest">
-        <div className="w-[32px] h-[32px] border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+        <CarLoader label="Yükleniyor..." />
       </div>
     );
   }
