@@ -50,37 +50,56 @@ export function CarLoader({ label, className, size = 64 }: CarLoaderProps) {
           <rect className="og-speed-line" x="6" y="40" width="11" height="2.5" rx="1.25" />
         </g>
 
-        {/* Car */}
+        {/* Sports car — low fastback silhouette with rear spoiler */}
         <g className="og-car">
-          {/* cabin */}
+          {/* rear spoiler */}
+          <rect x="10.5" y="30.6" width="13.5" height="2.8" rx="1.4" fill="currentColor" />
+          <rect x="15.5" y="33" width="2.6" height="4.5" rx="1" fill="currentColor" opacity="0.8" />
+
+          {/* body: one low wedge from tail to nose */}
           <path
-            d="M38 36 L44 24 Q45.5 22 48 22 L74 22 Q77 22 78.8 24.4 L87 36 Z"
+            d="M12 47
+               L12 41
+               Q12 37.4 16.5 36.6
+               L32 34.8
+               L45.5 25.8
+               Q47.5 24.4 50.5 24.4
+               L62 24.4
+               Q65.5 24.4 68.5 26.4
+               L80 33
+               L98 34.8
+               Q105.5 35.8 106.8 39.4
+               L106.8 43.4
+               Q106.8 47 102.5 47
+               Z"
             fill="currentColor"
-            opacity="0.85"
           />
-          {/* windows */}
-          <path d="M46 34.5 L50.5 25 L60 25 L60 34.5 Z" fill="white" opacity="0.55" />
-          <path d="M63.5 34.5 L63.5 25 L73.5 25 Q74.8 25 75.6 26.1 L81.5 34.5 Z" fill="white" opacity="0.55" />
-          {/* body */}
-          <rect x="24" y="34" width="76" height="13.5" rx="5" fill="currentColor" />
-          {/* headlight */}
-          <rect x="95.5" y="37" width="4" height="3.4" rx="1.5" fill="#FFD066" />
-          {/* tail light */}
-          <rect x="24.5" y="37" width="3" height="3.4" rx="1.4" fill="#FF6B5E" />
+
+          {/* glass: fastback rear window + raked windshield */}
+          <path d="M40.5 33.6 L48.5 28 L54.5 27 L54.5 33.6 Z" fill="white" opacity="0.55" />
+          <path d="M58 33.6 L58 27 L62.5 27 Q65.2 27 67.4 28.5 L75.5 33.6 Z" fill="white" opacity="0.55" />
+
+          {/* side vent + sill accent */}
+          <rect x="80" y="38.6" width="7" height="2" rx="1" fill="white" opacity="0.35" />
+          <rect x="26" y="44" width="58" height="1.6" rx="0.8" fill="white" opacity="0.22" />
+
+          {/* sleek headlight slit + tail light strip */}
+          <rect x="98.5" y="36.6" width="7" height="2.4" rx="1.2" fill="#FFD066" />
+          <rect x="12.4" y="38" width="2.8" height="4.6" rx="1.2" fill="#FF6B5E" />
 
           {/* rear wheel */}
           <g className="og-wheel">
-            <circle cx="40" cy="48.5" r="7.2" fill="#1E232B" />
-            <rect x="34.4" y="47.6" width="11.2" height="1.8" rx="0.9" fill="#4B5563" />
-            <rect x="39.1" y="42.9" width="1.8" height="11.2" rx="0.9" fill="#4B5563" />
-            <circle cx="40" cy="48.5" r="2.1" fill="white" />
+            <circle cx="34" cy="48.5" r="7.4" fill="#1E232B" />
+            <rect x="28.2" y="47.6" width="11.6" height="1.8" rx="0.9" fill="#4B5563" />
+            <rect x="33.1" y="42.7" width="1.8" height="11.6" rx="0.9" fill="#4B5563" />
+            <circle cx="34" cy="48.5" r="2.1" fill="white" />
           </g>
           {/* front wheel */}
           <g className="og-wheel">
-            <circle cx="86" cy="48.5" r="7.2" fill="#1E232B" />
-            <rect x="80.4" y="47.6" width="11.2" height="1.8" rx="0.9" fill="#4B5563" />
-            <rect x="85.1" y="42.9" width="1.8" height="11.2" rx="0.9" fill="#4B5563" />
-            <circle cx="86" cy="48.5" r="2.1" fill="white" />
+            <circle cx="90" cy="48.5" r="7.4" fill="#1E232B" />
+            <rect x="84.2" y="47.6" width="11.6" height="1.8" rx="0.9" fill="#4B5563" />
+            <rect x="89.1" y="42.7" width="1.8" height="11.6" rx="0.9" fill="#4B5563" />
+            <circle cx="90" cy="48.5" r="2.1" fill="white" />
           </g>
         </g>
 
