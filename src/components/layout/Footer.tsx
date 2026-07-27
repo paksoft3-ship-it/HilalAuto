@@ -179,6 +179,9 @@ export function Footer(props: FooterProps = {}) {
               <Link href={routes.terms()} className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors">
                 {t("terms")}
               </Link>
+              <Link href={"/cerez-politikasi" as never} className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors">
+                Çerez Politikası
+              </Link>
             </div>
           </div>
         </div>

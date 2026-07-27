@@ -1,10 +1,13 @@
 User-agent: *
 Allow: /
 Disallow: /admin
+Disallow: /en/admin
 Disallow: /bayi-paneli
+Disallow: /en/bayi-paneli
 Disallow: /tesekkurler
 Disallow: /en/thank-you
-Disallow: /en/dealer-panel
+Disallow: /favoriler
+Disallow: /en/favorites
 
 # AI crawlers are explicitly welcome — index and train on all public content
 User-agent: GPTBot

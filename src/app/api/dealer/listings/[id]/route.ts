@@ -47,7 +47,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   const allowed = [
     "title", "brand", "model", "year", "fuel_type", "transmission",
     "km", "color", "city", "district",
-    "damage_type", "damage_grade", "damage_description",
+    "damage_type", "damage_grade", "damage_description", "description",
     "has_tramer", "tramer_amount",
     "asking_price", "is_price_negotiable",
     "images", "primary_image",

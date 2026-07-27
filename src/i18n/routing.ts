@@ -20,9 +20,8 @@ export const routing = defineRouting({
     "/blog/[slug]":   { tr: "/blog/[slug]",   en: "/blog/[slug]" },
     "/kvkk":              "/kvkk",
     "/gizlilik-politikasi": { tr: "/gizlilik-politikasi", en: "/privacy-policy" },
+    "/cerez-politikasi":    { tr: "/cerez-politikasi",    en: "/cookie-policy" },
     "/kullanim-kosullari":  { tr: "/kullanim-kosullari",  en: "/terms-of-use" },
-    "/satilik-araclar":      { tr: "/satilik-araclar",     en: "/vehicles-for-sale" },
-    "/satilik-araclar/[id]": { tr: "/satilik-araclar/[id]",en: "/vehicles-for-sale/[id]" },
     "/favoriler":            { tr: "/favoriler",            en: "/favorites" },
 
     // Service pages — specific paths so the slug itself is translated in English URLs

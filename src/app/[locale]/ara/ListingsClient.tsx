@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useEffect, useCallback, useTransition, useMemo } from "react";
 import type { ReactNode } from "react";
 import { useRouter, usePathname, Link } from "@/i18n/routing";
@@ -1291,7 +1292,7 @@ function RecentViewedPanel({
             >
               <div className="h-44 w-56 shrink-0 overflow-hidden rounded bg-surface-container-low">
                 {listing.primary_image ? (
-                  <img src={listing.primary_image} alt={listing.title} className="h-full w-full object-cover" loading="lazy" />
+                  <Image src={listing.primary_image} alt={listing.title} width={56} height={44} className="h-full w-full object-cover" />
                 ) : null}
               </div>
               <div className="min-w-0">
@@ -1360,7 +1361,7 @@ function CompareModal({
                 <div key={item.id} className="rounded-card border border-[0.5px] border-border-default bg-surface p-10">
                   <div className="mb-8 h-80 overflow-hidden rounded bg-surface-container-low">
                     {item.primary_image ? (
-                      <img src={item.primary_image} alt={item.title} className="h-full w-full object-cover" />
+                      <Image src={item.primary_image} alt={item.title} width={150} height={80} className="h-full w-full object-cover" />
                     ) : null}
                   </div>
                   <div className="line-clamp-2 text-[12px] font-semibold text-on-surface">{item.title}</div>

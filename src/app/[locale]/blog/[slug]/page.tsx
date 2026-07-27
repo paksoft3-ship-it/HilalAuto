@@ -71,6 +71,8 @@ export default async function BlogDetailPage({ params }: Props) {
     .from("hazaral_blogs")
     .select("*")
     .eq("slug", slug)
+    .eq("status", "published")
+    .eq("locale", locale)
     .single();
 
   if (error || !blog) notFound();
@@ -80,6 +82,8 @@ export default async function BlogDetailPage({ params }: Props) {
     .from("hazaral_blogs")
     .select("title, slug, excerpt, image_url, created_at")
     .neq("slug", slug)
+    .eq("status", "published")
+    .eq("locale", locale)
     .limit(3)
     .order("created_at", { ascending: false });
 

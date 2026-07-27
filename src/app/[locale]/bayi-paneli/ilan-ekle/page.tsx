@@ -141,6 +141,7 @@ export default function IlanEklePage() {
           damage_type: form.damage_type,
           damage_grade: form.damage_grade || null,
           damage_description: form.damage_description || null,
+          description: form.description || null,
           has_tramer: form.has_tramer,
           tramer_amount: form.tramer_amount ? parseInt(form.tramer_amount) : null,
           asking_price: parseInt(form.asking_price),

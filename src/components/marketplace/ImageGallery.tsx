@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { ChevronLeft, ChevronRight, X, ZoomIn, Images } from "lucide-react";
@@ -77,10 +78,13 @@ export function ImageGallery({ images, title, onImageViewed }: ImageGalleryProps
             if (Math.abs(diff) > 50) go(diff > 0 ? 1 : -1);
           }}
         >
-          <img
+          <Image
             src={images[current]}
             alt={`${title} — ${t("photo")} ${current + 1}`}
-            className="w-full h-full object-cover"
+            fill
+            priority={current === 0}
+            sizes="(max-width: 1024px) 100vw, 66vw"
+            className="object-cover"
             draggable={false}
           />
 
@@ -136,7 +140,7 @@ export function ImageGallery({ images, title, onImageViewed }: ImageGalleryProps
                 )}
                 aria-label={t("photoAria", { number: i + 1 })}
               >
-                <img src={src} alt="" className="w-full h-full object-cover" />
+                <Image src={src} alt={`${title} — ${i + 1}`} width={64} height={48} className="w-full h-full object-cover" />
               </button>
             ))}
           </div>

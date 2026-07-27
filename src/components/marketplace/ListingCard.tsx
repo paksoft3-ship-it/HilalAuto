@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { Listing } from "@/types/marketplace";
@@ -93,11 +94,12 @@ export function ListingCard({
       {/* Image */}
       <div className="relative aspect-[4/3] bg-surface overflow-hidden">
         {coverImg ? (
-          <img
+          <Image
             src={coverImg}
             alt={listing.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            loading="lazy"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-surface-container-low">

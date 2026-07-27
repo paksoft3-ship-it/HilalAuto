@@ -8,7 +8,7 @@ import { Listing, DamageGrade } from "@/types/marketplace";
 import { GradeBadge } from "@/components/marketplace/GradeBadge";
 import { CITIES, CAR_BRANDS, DAMAGE_TYPES } from "@/lib/constants";
 import { YEAR_OPTIONS, autoTitle } from "@/lib/dealer-utils";
-import { CheckCircle, Save } from "lucide-react";
+import { CheckCircle, ImagePlus, Save, Star, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const GRADES: DamageGrade[] = ["A", "B", "C", "D", "E"];
@@ -34,8 +34,11 @@ export default function IlanDuzenle() {
     damage_type: [] as string[], damage_grade: "" as DamageGrade | "",
     damage_description: "", has_tramer: false, tramer_amount: "",
     asking_price: "", is_price_negotiable: false,
-    title: "",
+    title: "", description: "",
   });
+  const [images, setImages] = useState<string[]>([]);
+  const [primaryImage, setPrimaryImage] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     async function load() {
@@ -64,8 +67,10 @@ export default function IlanDuzenle() {
         damage_description: l.damage_description || "",
         has_tramer: l.has_tramer, tramer_amount: l.tramer_amount ? String(l.tramer_amount) : "",
         asking_price: String(l.asking_price), is_price_negotiable: l.is_price_negotiable,
-        title: l.title,
+        title: l.title, description: l.description || "",
       });
+      setImages(l.images || []);
+      setPrimaryImage(l.primary_image || l.images?.[0] || null);
       setLoading(false);
     }
     load();
@@ -82,8 +87,50 @@ export default function IlanDuzenle() {
     );
   }
 
+  async function addPhotos(files: FileList | null) {
+    if (!files || files.length === 0) return;
+    setUploading(true);
+    setError("");
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) throw new Error("Oturum bulunamadı.");
+
+      const urls: string[] = [];
+      for (const file of Array.from(files)) {
+        const fd = new FormData();
+        fd.append("file", file);
+        fd.append("folder", `listing-${id}`);
+        const res = await fetch("/api/dealer/upload", {
+          method: "POST",
+          headers: { Authorization: `Bearer ${session.access_token}` },
+          body: fd,
+        });
+        const d = await res.json();
+        if (!res.ok) throw new Error(d.error || "Yükleme başarısız.");
+        urls.push(d.url);
+      }
+      setImages((prev) => {
+        const next = [...prev, ...urls].slice(0, 20);
+        if (!primaryImage && next.length > 0) setPrimaryImage(next[0]);
+        return next;
+      });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Fotoğraf yüklenemedi.");
+    }
+    setUploading(false);
+  }
+
+  function removePhoto(url: string) {
+    setImages((prev) => {
+      const next = prev.filter((u) => u !== url);
+      if (primaryImage === url) setPrimaryImage(next[0] || null);
+      return next;
+    });
+  }
+
   async function save() {
     if (!listing) return;
+    if (images.length === 0) { setError("En az 1 fotoğraf gereklidir."); return; }
     setSaving(true);
     setError("");
 
@@ -106,6 +153,9 @@ export default function IlanDuzenle() {
         has_tramer: form.has_tramer, tramer_amount: form.tramer_amount ? Number(form.tramer_amount) : null,
         asking_price: Number(form.asking_price), is_price_negotiable: form.is_price_negotiable,
         title: form.title || autoTitle(Number(form.year), form.brand, form.model, form.damage_type),
+        description: form.description || null,
+        images,
+        primary_image: primaryImage && images.includes(primaryImage) ? primaryImage : images[0] || null,
         status: "pending_review",
       }),
     });
@@ -211,6 +261,43 @@ export default function IlanDuzenle() {
         </section>
 
         <section>
+          <h2 className="text-[14px] font-semibold text-on-surface mb-14 pb-10 border-b border-[0.5px] border-border-default">Fotoğraflar</h2>
+          <div className="flex flex-col gap-12">
+            <div className="grid grid-cols-3 sm:grid-cols-4 gap-10">
+              {images.map((url) => (
+                <div key={url} className="relative group aspect-[4/3] rounded-lg overflow-hidden border border-[0.5px] border-border-default">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={url} alt="" className="w-full h-full object-cover" />
+                  {primaryImage === url && (
+                    <span className="absolute top-4 left-4 bg-primary text-white text-[10px] font-semibold px-6 py-2 rounded-full flex items-center gap-3">
+                      <Star size={9} fill="currentColor" /> Kapak
+                    </span>
+                  )}
+                  <div className="absolute inset-x-0 bottom-0 flex justify-between p-4 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                    {primaryImage !== url ? (
+                      <button type="button" onClick={() => setPrimaryImage(url)} className="text-[10px] text-white font-medium px-6 py-3 rounded bg-white/20 hover:bg-white/30">
+                        Kapak yap
+                      </button>
+                    ) : <span />}
+                    <button type="button" onClick={() => removePhoto(url)} className="text-white p-3 rounded bg-red-500/80 hover:bg-red-600" aria-label="Fotoğrafı kaldır">
+                      <X size={12} />
+                    </button>
+                  </div>
+                </div>
+              ))}
+              {images.length < 20 && (
+                <label className="aspect-[4/3] rounded-lg border-2 border-dashed border-border-default flex flex-col items-center justify-center gap-6 cursor-pointer text-muted-text hover:border-primary hover:text-primary transition-colors">
+                  <ImagePlus size={20} />
+                  <span className="text-[11px] font-medium">{uploading ? "Yükleniyor..." : "Ekle"}</span>
+                  <input type="file" accept="image/jpeg,image/png,image/webp" multiple className="hidden" disabled={uploading} onChange={(e) => { addPhotos(e.target.files); e.target.value = ""; }} />
+                </label>
+              )}
+            </div>
+            <p className="text-[11px] text-muted-text">En fazla 20 fotoğraf, her biri 10 MB altında (JPEG, PNG, WebP).</p>
+          </div>
+        </section>
+
+        <section>
           <h2 className="text-[14px] font-semibold text-on-surface mb-14 pb-10 border-b border-[0.5px] border-border-default">Fiyat & Açıklama</h2>
           <div className="flex flex-col gap-14">
             <Field label="Fiyat (TL)"><input type="number" value={form.asking_price} onChange={(e) => set("asking_price", e.target.value)} className={inputCls} /></Field>
@@ -219,6 +306,9 @@ export default function IlanDuzenle() {
               <span className="text-[13px] text-on-surface">Pazarlık payı var</span>
             </label>
             <Field label="İlan Başlığı"><input value={form.title} onChange={(e) => set("title", e.target.value)} className={inputCls} /></Field>
+            <Field label="Ek Açıklama">
+              <textarea rows={4} value={form.description} onChange={(e) => set("description", e.target.value)} className={cn(inputCls, "resize-none")} placeholder="Aracın genel durumu, ekstra bilgiler..." />
+            </Field>
           </div>
         </section>
 

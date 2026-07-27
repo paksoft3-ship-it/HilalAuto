@@ -13,9 +13,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = await getTranslations({ locale, namespace: "seo" });
   return {
     title: { absolute: t("kvkkTitle", { default: `KVKK Aydınlatma Metni — ${SITE_NAME}` }) },
-    description: t("kvkkDesc", { default: "Oto Grade KVKK Kişisel Verilerin Korunması Kanunu aydınlatma metni." }),
+    description: t("kvkkDesc", { default: "Otograde KVKK Kişisel Verilerin Korunması Kanunu aydınlatma metni." }),
     alternates: { canonical: `${SITE_URL}${getPathname({ locale, href: "/kvkk" })}` },
-    robots: { index: false },
+
   };
 }
 
@@ -71,7 +71,7 @@ export default async function KVKKPage({ params }: Props) {
             <section>
               <h2 className="text-[16px] font-medium text-text-primary mb-12">{t("s6Title", { default: "6. İletişim" })}</h2>
               <p>
-                {t("s6Content", { default: "Haklarınızı kullanmak için bizimle iletişime geçebilirsiniz. Bu metin, nihai hukuki metin değildir; hukuki danışmanlık önerilir." })}
+                {t("s6Content", { default: "Haklarınızı kullanmak için bizimle iletişime geçebilirsiniz." })}
               </p>
             </section>
           </div>

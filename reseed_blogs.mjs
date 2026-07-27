@@ -1,6 +1,10 @@
 import pg from 'pg';
 
-const connectionString = "postgres://postgres.hgkvzlwwisuijygzpmbr:aLv4kR3h82MX9cVp@aws-1-eu-central-1.pooler.supabase.com:5432/postgres";
+const connectionString = process.env.POSTGRES_URL;
+if (!connectionString) {
+  console.error("POSTGRES_URL env var is required. Run: POSTGRES_URL=$(grep '^POSTGRES_URL=' .env.local | cut -d= -f2-) node reseed_blogs.mjs");
+  process.exit(1);
+}
 
 const pool = new pg.Pool({
   connectionString,

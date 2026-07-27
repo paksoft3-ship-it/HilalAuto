@@ -12,7 +12,11 @@ import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Container } from "@/components/ui/Container";
 import { Badge } from "@/components/ui/Badge";
 import { ContactForm } from "@/components/forms/ContactForm";
-import { PHONE_NUMBER, WHATSAPP_NUMBER, SITE_URL, CITIES } from "@/lib/constants";
+import {
+  PHONE_NUMBER, WHATSAPP_NUMBER, SITE_URL, CITIES,
+  COMPANY_LEGAL_NAME, COMPANY_ADDRESS, COMPANY_CITY, COMPANY_EMAIL,
+  COMPANY_MERSIS, COMPANY_TAX_OFFICE, SITE_NAME,
+} from "@/lib/constants";
 import { localeUrl } from "@/lib/locale-url";
 import { externalRoutes, routes } from "@/lib/routes";
 import { Link } from "@/i18n/routing";
@@ -52,15 +56,21 @@ export default async function IletisimPage({ params }: Props) {
     url: localeUrl(locale, locale === "en" ? "/contact" : "/iletisim"),
     mainEntity: {
       "@type": "LocalBusiness",
-      name: "Oto Grade",
+      name: COMPANY_LEGAL_NAME || SITE_NAME,
       url: SITE_URL,
       telephone: PHONE_NUMBER,
+      email: COMPANY_EMAIL,
+      address: {
+        "@type": "PostalAddress",
+        ...(COMPANY_ADDRESS ? { streetAddress: COMPANY_ADDRESS } : {}),
+        addressLocality: COMPANY_CITY,
+        addressCountry: "TR",
+      },
       contactPoint: [
         {
           "@type": "ContactPoint",
           telephone: PHONE_NUMBER,
           contactType: "customer service",
-          contactOption: "TollFree",
           availableLanguage: ["Turkish", "English"],
         },
       ],
@@ -120,7 +130,44 @@ export default async function IletisimPage({ params }: Props) {
               </div>
 
               {/* Sidebar: cities */}
-              <aside className="lg:col-span-5" aria-label={t("citiesAria", { default: "Hizmet verilen şehirler" })}>
+              <aside className="lg:col-span-5 flex flex-col gap-16" aria-label={t("citiesAria", { default: "Hizmet verilen şehirler" })}>
+                {/* Business identity */}
+                <div className="bg-bg-surface border border-[0.5px] border-border-default rounded-card p-24">
+                  <h2 className="text-[15px] font-medium text-text-primary mb-16">
+                    {locale === "en" ? "Company Information" : "Şirket Bilgileri"}
+                  </h2>
+                  <dl className="flex flex-col gap-10 text-[13px]">
+                    <div>
+                      <dt className="text-text-soft">{locale === "en" ? "Company" : "Ünvan"}</dt>
+                      <dd className="text-text-primary mt-2">{COMPANY_LEGAL_NAME || SITE_NAME}</dd>
+                    </div>
+                    {COMPANY_ADDRESS && (
+                      <div>
+                        <dt className="text-text-soft">{locale === "en" ? "Address" : "Adres"}</dt>
+                        <dd className="text-text-primary mt-2">{COMPANY_ADDRESS}, {COMPANY_CITY}</dd>
+                      </div>
+                    )}
+                    <div>
+                      <dt className="text-text-soft">E-posta</dt>
+                      <dd className="mt-2">
+                        <a href={`mailto:${COMPANY_EMAIL}`} className="text-accent hover:underline">{COMPANY_EMAIL}</a>
+                      </dd>
+                    </div>
+                    {COMPANY_MERSIS && (
+                      <div>
+                        <dt className="text-text-soft">MERSİS</dt>
+                        <dd className="text-text-primary mt-2">{COMPANY_MERSIS}</dd>
+                      </div>
+                    )}
+                    {COMPANY_TAX_OFFICE && (
+                      <div>
+                        <dt className="text-text-soft">{locale === "en" ? "Tax Office" : "Vergi Dairesi"}</dt>
+                        <dd className="text-text-primary mt-2">{COMPANY_TAX_OFFICE}</dd>
+                      </div>
+                    )}
+                  </dl>
+                </div>
+
                 <div className="bg-bg-surface border border-[0.5px] border-border-default rounded-card p-24">
                   <h2 className="text-[15px] font-medium text-text-primary mb-16">{t("citiesTitle", { default: "Hizmet Verdiğimiz Şehirler" })}</h2>
                   <ul className="flex flex-wrap gap-8">

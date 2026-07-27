@@ -5,6 +5,8 @@ import { useTranslations } from "next-intl";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { externalRoutes } from "@/lib/routes";
 import { DAMAGE_TYPES, WHATSAPP_NUMBER } from "@/lib/constants";
+import { trackFormSubmit, trackLeadSuccess, trackWhatsApp } from "@/lib/tracking";
+import { fireGoogleAdsConversion } from "@/lib/gtag";
 
 const CURRENT_YEAR = new Date().getFullYear();
 const YEARS = Array.from({ length: 30 }, (_, i) => String(CURRENT_YEAR - i));
@@ -32,6 +34,7 @@ export function QuickQuoteForm() {
     }
 
     setIsLoading(true);
+    trackFormSubmit("quick_quote");
 
     try {
       const res = await fetch("/api/quick-quote", {
@@ -45,6 +48,10 @@ export function QuickQuoteForm() {
       if (!res.ok) {
         throw new Error(data.error || t("errorGeneric", { default: "Bir hata oluştu." }));
       }
+
+      trackLeadSuccess(data.id || "quick_quote");
+      fireGoogleAdsConversion();
+      trackWhatsApp("quick_quote_form");
 
       // Success! Format WhatsApp message and redirect
       const message = t("whatsappMessage", {

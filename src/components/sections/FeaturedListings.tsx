@@ -7,21 +7,10 @@ interface Props {
   listings: CardListing[];
 }
 
-function SkeletonCard() {
-  return (
-    <div className="bg-white border-[0.5px] border-[#EEEEEE] rounded-xl overflow-hidden animate-pulse">
-      <div className="h-[200px] bg-[#F3F3F4]" />
-      <div className="p-16 flex flex-col gap-10">
-        <div className="h-4 bg-[#F3F3F4] rounded w-3/4" />
-        <div className="h-3 bg-[#F3F3F4] rounded w-1/2" />
-        <div className="h-4 bg-[#F3F3F4] rounded w-1/3" />
-      </div>
-    </div>
-  );
-}
-
 export function FeaturedListings({ listings }: Props) {
   const t = useTranslations("marketplaceHome");
+
+  if (listings.length === 0) return null;
 
   return (
     <section className="py-60 bg-white" aria-label={t("featuredAria")}>
@@ -44,10 +33,7 @@ export function FeaturedListings({ listings }: Props) {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-24">
-          {listings.length > 0
-            ? listings.map((l) => <HomepageListingCard key={l.id} listing={l} />)
-            : Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)
-          }
+          {listings.map((l) => <HomepageListingCard key={l.id} listing={l} />)}
         </div>
       </div>
     </section>

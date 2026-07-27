@@ -13,9 +13,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = await getTranslations({ locale, namespace: "seo" });
   return {
     title: { absolute: t("privacyTitle", { default: `Gizlilik Politikası — ${SITE_NAME}` }) },
-    description: t("privacyDesc", { default: "Oto Grade gizlilik politikası ve kişisel veri işleme hakkında bilgi." }),
+    description: t("privacyDesc", { default: "Otograde gizlilik politikası ve kişisel veri işleme hakkında bilgi." }),
     alternates: { canonical: `${SITE_URL}${getPathname({ locale, href: "/gizlilik-politikasi" })}` },
-    robots: { index: false },
   };
 }
 

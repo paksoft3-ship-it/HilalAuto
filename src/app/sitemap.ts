@@ -6,8 +6,8 @@ import { supabase } from "@/lib/supabase";
 import { getPathname } from "@/i18n/routing";
 
 
-// TR = default locale, no prefix (e.g. https://hazaral.com/teklif-al)
-// EN = /en/ prefix with localised paths (e.g. https://hazaral.com/en/get-a-quote)
+// TR = default locale, no prefix (e.g. https://otograde.com/teklif-al)
+// EN = /en/ prefix with localised paths (e.g. https://otograde.com/en/get-a-quote)
 
 function tr(path: string): string {
   return path === "/" ? SITE_URL : `${SITE_URL}${path}`;
@@ -52,13 +52,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...pair("/sehir",              "/cities",              { freq: "monthly", priority: 0.80 }),
     ...pair("/nasil-calisir",      "/how-it-works",        { freq: "monthly", priority: 0.75 }),
     ...pair("/blog",               "/blog",                { freq: "weekly",  priority: 0.70 }),
-    ...pair("/satilik-araclar",    "/vehicles-for-sale",   { freq: "weekly",  priority: 0.70 }),
     ...pair("/ara",                "/listings",            { freq: "daily",   priority: 0.90 }),
     ...pair("/hakkimizda",         "/about-us",            { freq: "monthly", priority: 0.60 }),
     ...pair("/iletisim",           "/contact",             { freq: "monthly", priority: 0.60 }),
+    ...pair("/bayiler",            "/bayiler",             { freq: "weekly",  priority: 0.60 }),
     ...pair("/kvkk",               "/kvkk",                { freq: "yearly",  priority: 0.30 }),
     ...pair("/gizlilik-politikasi","/privacy-policy",      { freq: "yearly",  priority: 0.30 }),
     ...pair("/kullanim-kosullari", "/terms-of-use",        { freq: "yearly",  priority: 0.30 }),
+    ...pair("/cerez-politikasi",   "/cookie-policy",       { freq: "yearly",  priority: 0.30 }),
   ];
 
   // ── Service pages — TR slug kept canonical, EN uses translated slug ─────────
@@ -82,17 +83,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const { data: posts } = await supabase
       .from("hazaral_blogs")
-      .select("slug, created_at, updated_at");
+      .select("slug, locale, created_at, updated_at")
+      .eq("status", "published");
 
     if (posts && posts.length > 0) {
-      blogPosts = posts.flatMap((post) => {
+      blogPosts = posts.map((post) => {
         const raw = (post as Record<string, unknown>).updated_at ?? post.created_at ?? new Date();
         const lastMod = new Date(raw as string);
-        return pair(`/blog/${post.slug}`, `/blog/${post.slug}`, {
-          freq: "monthly",
+        // Posts are single-locale — only emit the URL for the locale they exist in
+        const url = post.locale === "en" ? en(`/blog/${post.slug}`) : tr(`/blog/${post.slug}`);
+        return {
+          url,
+          lastModified: lastMod,
+          changeFrequency: "monthly" as const,
           priority: 0.65,
-          lastMod,
-        });
+        };
       });
     }
   } catch {
@@ -102,10 +107,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // ── Active listings ──────────────────────────────────────────────────────────
   let marketplaceListings: MetadataRoute.Sitemap = [];
   try {
+    // Sold listings stay in the sitemap — they render a "Satıldı" page and
+    // keep their SEO value instead of 404ing.
     const { data: activeListing } = await supabase
       .from("hazaral_listings")
       .select("slug, created_at, updated_at")
-      .eq("status", "active");
+      .in("status", ["active", "sold"]);
 
     if (activeListing && activeListing.length > 0) {
       marketplaceListings = activeListing.flatMap((l) => {

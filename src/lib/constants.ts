@@ -1,4 +1,4 @@
-export const SITE_NAME = "Oto Grade";
+export const SITE_NAME = "Otograde";
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://otograde.com";
 export const SITE_DESCRIPTION =
   "Kazalı, pert, yanmış, sel hasarlı veya hurda aracınızı değerinde alıyoruz. Ücretsiz teklif alın.";
@@ -6,6 +6,15 @@ export const SITE_DESCRIPTION =
 export const PHONE_NUMBER = process.env.NEXT_PUBLIC_PHONE_NUMBER ?? "+90 552 567 71 64";
 export const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "905525677164";
 export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
+
+// ── Business identity (required for Google Ads verification & Turkish
+// e-commerce disclosure). Fill these via env; empty values are hidden in UI.
+export const COMPANY_LEGAL_NAME = process.env.NEXT_PUBLIC_COMPANY_LEGAL_NAME ?? "";
+export const COMPANY_ADDRESS = process.env.NEXT_PUBLIC_COMPANY_ADDRESS ?? "";
+export const COMPANY_CITY = process.env.NEXT_PUBLIC_COMPANY_CITY ?? "İstanbul";
+export const COMPANY_EMAIL = process.env.NEXT_PUBLIC_COMPANY_EMAIL ?? "info@otograde.com";
+export const COMPANY_MERSIS = process.env.NEXT_PUBLIC_COMPANY_MERSIS ?? "";
+export const COMPANY_TAX_OFFICE = process.env.NEXT_PUBLIC_COMPANY_TAX_OFFICE ?? "";
 
 export const LOCALES = ["tr", "en"] as const;
 export type Locale = (typeof LOCALES)[number];

@@ -102,20 +102,9 @@ async function fetchHomeData() {
 
     const cityCount = new Set((cityRows || []).map((r: { city: string }) => r.city)).size;
 
-    // Fill featured up to 6 with most recent if needed
-    let featured = ((featuredRows || []) as unknown) as CardListing[];
-    if (featured.length < 6) {
-      const ids = featured.map((l) => l.id);
-      const q = supabaseAdmin
-        .from("hazaral_listings")
-        .select(LISTING_FIELDS)
-        .eq("status", "active")
-        .order("created_at", { ascending: false })
-        .limit(6 - featured.length);
-      if (ids.length > 0) q.not("id", "in", `(${ids.join(",")})`);
-      const { data: fill } = await q;
-      featured = [...featured, ...(((fill || []) as unknown) as CardListing[])];
-    }
+    // Only genuinely featured listings — no backfill, so the section hides
+    // itself instead of duplicating the "recent" grid when inventory is small.
+    const featured = ((featuredRows || []) as unknown) as CardListing[];
 
     return {
       stats: { listingCount: listingCount ?? 0, dealerCount: dealerCount ?? 0, cityCount } as HeroStats,

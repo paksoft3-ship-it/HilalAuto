@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const {
     brand, model, year, fuel_type, transmission, km, color, city, district,
-    damage_type, damage_grade, damage_description,
+    damage_type, damage_grade, damage_description, description,
     has_tramer, tramer_amount,
     asking_price, is_price_negotiable,
     title: customTitle,
@@ -70,43 +70,52 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Zorunlu alanlar eksik." }, { status: 400 });
   }
 
-  const slug = generateListingSlug(year, brand, model);
   const title = customTitle || autoTitle(year, brand, model, damage_type || []);
 
   // Set expiration based on dealer plan
   const days = dealer.subscription_plan === "professional" ? 60 : dealer.subscription_plan === "premium" ? 90 : 30;
   const expires_at = new Date(Date.now() + days * 86400000).toISOString();
 
-  const { data, error } = await supabaseAdmin
-    .from("hazaral_listings")
-    .insert({
-      dealer_id: dealer.id,
-      slug,
-      status,
-      title,
-      brand,
-      model,
-      year: Number(year),
-      fuel_type: fuel_type || null,
-      transmission: transmission || null,
-      km: km ? Number(km) : null,
-      color: color || null,
-      city,
-      district: district || null,
-      damage_type: damage_type || [],
-      damage_grade: damage_grade || null,
-      damage_description: damage_description || null,
-      has_tramer: !!has_tramer,
-      tramer_amount: tramer_amount ? Number(tramer_amount) : null,
-      asking_price: Number(asking_price),
-      is_price_negotiable: !!is_price_negotiable,
-      images: images || [],
-      primary_image: primary_image || null,
-      expires_at,
-      locale: "tr",
-    })
-    .select("id, slug")
-    .single();
+  const row = {
+    dealer_id: dealer.id,
+    status,
+    title,
+    brand,
+    model,
+    year: Number(year),
+    fuel_type: fuel_type || null,
+    transmission: transmission || null,
+    km: km ? Number(km) : null,
+    color: color || null,
+    city,
+    district: district || null,
+    damage_type: damage_type || [],
+    damage_grade: damage_grade || null,
+    damage_description: damage_description || null,
+    description: description || null,
+    has_tramer: !!has_tramer,
+    tramer_amount: tramer_amount ? Number(tramer_amount) : null,
+    asking_price: Number(asking_price),
+    is_price_negotiable: !!is_price_negotiable,
+    images: images || [],
+    primary_image: primary_image || null,
+    expires_at,
+    locale: "tr",
+  };
+
+  // Retry on the (rare) random-suffix slug collision instead of surfacing a raw
+  // Postgres unique-violation error to the dealer.
+  let data = null;
+  let error = null;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const slug = generateListingSlug(year, brand, model);
+    ({ data, error } = await supabaseAdmin
+      .from("hazaral_listings")
+      .insert({ ...row, slug })
+      .select("id, slug")
+      .single());
+    if (!error || error.code !== "23505") break;
+  }
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 

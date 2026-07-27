@@ -27,14 +27,32 @@ function baseInputClass(hasError?: boolean) {
 
 export function ContactForm() {
   const [sent, setSent] = useState(false);
+  const [serverError, setServerError] = useState("");
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
 
-  async function onSubmit() {
-    await new Promise((r) => setTimeout(r, 600));
-    trackContactFormSubmit();
-    setSent(true);
+  async function onSubmit(values: FormData) {
+    setServerError("");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: values.adSoyad,
+          phone: values.telefon,
+          message: values.mesaj,
+        }),
+      });
+      if (!res.ok) {
+        const d = await res.json().catch(() => ({}));
+        throw new Error(d.error || "Mesaj gönderilemedi. Lütfen tekrar deneyin.");
+      }
+      trackContactFormSubmit();
+      setSent(true);
+    } catch (err) {
+      setServerError(err instanceof Error ? err.message : "Mesaj gönderilemedi. Lütfen tekrar deneyin.");
+    }
   }
 
   if (sent) {
@@ -66,6 +84,7 @@ export function ContactForm() {
         <textarea id="cf-msg" rows={4} placeholder="Mesajınızı yazın..." className={cn(baseInputClass(!!errors.mesaj), "mt-4 resize-none")} {...register("mesaj")} />
         {errors.mesaj && <p className="text-[12px] text-red-500 mt-4" role="alert">{errors.mesaj.message}</p>}
       </div>
+      {serverError && <p className="text-[12px] text-red-500" role="alert">{serverError}</p>}
       <button type="submit" disabled={isSubmitting} className="w-full flex items-center justify-center bg-accent text-white py-16 rounded-btn font-medium text-[14px] hover:opacity-90 transition-opacity disabled:opacity-60">
         {isSubmitting ? "Gönderiliyor..." : "Gönder"}
       </button>

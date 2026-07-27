@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: { absolute: title },
     description,
     alternates: {
-      canonical: `${SITE_URL}/bayiler`,
+      canonical: isEn ? `${SITE_URL}/en/bayiler` : `${SITE_URL}/bayiler`,
       languages: {
         tr: `${SITE_URL}/bayiler`,
         en: `${SITE_URL}/en/bayiler`,

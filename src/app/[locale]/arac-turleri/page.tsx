@@ -60,8 +60,8 @@ export default async function AracTurleriPage({ params }: Props) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Ana Sayfa", item: `${SITE_URL}/tr` },
-      { "@type": "ListItem", position: 2, name: "Araç Türleri", item: `${SITE_URL}/tr/arac-turleri` },
+      { "@type": "ListItem", position: 1, name: "Ana Sayfa", item: `${SITE_URL}` },
+      { "@type": "ListItem", position: 2, name: "Araç Türleri", item: `${SITE_URL}/arac-turleri` },
     ],
   };
 
@@ -73,7 +73,7 @@ export default async function AracTurleriPage({ params }: Props) {
       "@type": "ListItem",
       position: i + 1,
       name: label,
-      url: `${SITE_URL}/tr/hizmet/${slug}`,
+      url: `${SITE_URL}/hizmet/${slug}`,
     })),
   };
 

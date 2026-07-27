@@ -9,6 +9,7 @@ const nextConfig = {
   reactStrictMode: true,
   allowedDevOrigins: ["127.0.0.1", "localhost"],
   images: {
+    formats: ["image/avif", "image/webp"],
     remotePatterns: [
       {
         protocol: "https",
@@ -22,13 +23,23 @@ const nextConfig = {
       },
     ],
   },
+  async redirects() {
+    // Legacy /satilik-araclar system retired in favor of the /ara marketplace.
+    return [
+      { source: "/satilik-araclar", destination: "/ara", permanent: true },
+      { source: "/satilik-araclar/:id", destination: "/ara", permanent: true },
+      { source: "/en/vehicles-for-sale", destination: "/en/listings", permanent: true },
+      { source: "/en/vehicles-for-sale/:id", destination: "/en/listings", permanent: true },
+    ];
+  },
   async headers() {
     return [
       {
         source: "/(.*)",
         headers: [
           { key: "X-Content-Type-Options", value: "nosniff" },
-          { key: "X-Frame-Options", value: "DENY" },
+          // SAMEORIGIN (not DENY) so GTM Preview / Tag Assistant debugging works
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
         ],
       },

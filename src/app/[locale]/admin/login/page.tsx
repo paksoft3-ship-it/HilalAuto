@@ -41,7 +41,7 @@ export default function AdminLogin() {
       <div className="w-full max-w-[400px] bg-surface-container-lowest border border-[0.5px] border-border-default rounded-[14px] p-32 shadow-sm">
         <div className="text-center mb-32">
           <Link href="/" className="inline-block text-[24px] font-bold text-on-surface tracking-[-1px] mb-8">
-            Hazar<span className="text-primary">Al</span>
+            Oto<span className="text-primary">grade</span>
           </Link>
           <h1 className="text-[18px] font-medium text-on-surface">Yönetim Paneli</h1>
           <p className="text-[13px] text-muted-text mt-4">Devam etmek için giriş yapın</p>

@@ -52,6 +52,7 @@ export interface Listing {
   damage_type: string[];
   damage_grade: DamageGrade | null;
   damage_description: string | null;
+  description: string | null;
   has_tramer: boolean;
   tramer_amount: number | null;
   asking_price: number;

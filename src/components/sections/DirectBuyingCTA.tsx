@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { CheckCircle } from "lucide-react";
+import { trackFormSubmit, trackLeadSuccess } from "@/lib/tracking";
+import { fireGoogleAdsConversion } from "@/lib/gtag";
 
 export function DirectBuyingCTA() {
   const [form, setForm] = useState({ vehicle: "", phone: "", detail: "" });
@@ -11,6 +13,7 @@ export function DirectBuyingCTA() {
     e.preventDefault();
     if (!form.vehicle.trim() || !form.phone.trim()) return;
     setStatus("loading");
+    trackFormSubmit("direct_buying");
     try {
       const res = await fetch("/api/quick-quote", {
         method: "POST",
@@ -23,6 +26,10 @@ export function DirectBuyingCTA() {
           phone: form.phone,
         }),
       });
+      if (res.ok) {
+        trackLeadSuccess("direct_buying");
+        fireGoogleAdsConversion();
+      }
       setStatus(res.ok ? "ok" : "err");
     } catch {
       setStatus("err");

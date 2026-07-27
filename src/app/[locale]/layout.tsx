@@ -4,6 +4,9 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { GoogleTagManager } from "@/components/tracking/GoogleTagManager";
 import { GTMNoScript } from "@/components/tracking/GTMNoScript";
+import { ConsentScript } from "@/components/tracking/ConsentScript";
+import { ConsentBanner } from "@/components/tracking/ConsentBanner";
+import { ContactClickTracker } from "@/components/tracking/ContactClickTracker";
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
 import { SITE_URL, SITE_NAME } from "@/lib/constants";
@@ -30,11 +33,11 @@ export async function generateMetadata({
   return {
     title: {
       template: isEn
-        ? "%s | Oto Grade — Damaged Vehicle Buyers"
-        : "%s | Oto Grade — Hasarlı Araç Alım",
+        ? "%s | Otograde — Damaged Vehicle Marketplace"
+        : "%s | Otograde — Hasarlı Araç Alım Satım",
       default: isEn
-        ? "Oto Grade — Damaged Vehicle Buyers Turkey"
-        : "Oto Grade — Hasarlı Araç Alım",
+        ? "Otograde — Damaged Vehicle Marketplace Turkey"
+        : "Otograde — Hasarlı Araç Alım Satım",
     },
     metadataBase: new URL(SITE_URL),
     openGraph: {
@@ -68,11 +71,14 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
       <body
         className={`${inter.variable} antialiased font-body-md text-body-md bg-surface-container-lowest text-on-surface`}
       >
+        <ConsentScript />
         {gtmId && <GTMNoScript gtmId={gtmId} />}
         <GoogleTagManager gtmId={gtmId} />
         <NextIntlClientProvider messages={messages}>
           {children}
+          <ConsentBanner locale={locale} />
         </NextIntlClientProvider>
+        <ContactClickTracker />
       </body>
     </html>
   );

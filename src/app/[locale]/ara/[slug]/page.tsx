@@ -20,7 +20,7 @@ async function getListing(slug: string): Promise<Listing | null> {
       .from("hazaral_listings")
       .select("*, dealer:hazaral_dealers(*)")
       .eq("slug", slug)
-      .eq("status", "active")
+      .in("status", ["active", "sold"])
       .single();
 
     if (error || !data) return null;
@@ -47,7 +47,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const gradeLabel = listing.damage_grade ? GRADE_COLORS[listing.damage_grade].label : "";
-  const title = `${listing.year} ${listing.brand} ${listing.model} — ${listing.damage_type.slice(0, 2).join(", ")} | Otograde`;
+  const soldPrefix = listing.status === "sold" ? (locale === "en" ? "[SOLD] " : "[SATILDI] ") : "";
+  const title = `${soldPrefix}${listing.year} ${listing.brand} ${listing.model} — ${listing.damage_type.slice(0, 2).join(", ")} | Otograde`;
   const description = `${listing.city}${listing.district ? " / " + listing.district : ""} — ${listing.year} ${listing.brand} ${listing.model}. ${gradeLabel}. ${new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY", maximumFractionDigits: 0 }).format(listing.asking_price)} TL.`;
   const canonical = `${SITE_URL}${listingPath(locale, slug)}`;
   const ogImage = listing.primary_image || listing.images?.[0] || `${SITE_URL}/opengraph-image`;
@@ -78,26 +79,32 @@ function buildJsonLd(listing: Listing, locale: string) {
   const canonical = `${SITE_URL}${listingPath(locale, listing.slug)}`;
   const listingIndexUrl = `${SITE_URL}${listingsPath(locale)}`;
 
-  // ── Product schema with vehicle-specific PropertyValue fields ─────────────
+  // ── Car schema with typed vehicle properties (Google vehicle listing) ─────
   const additionalProps = [
     ...(listing.damage_grade ? [{ "@type": "PropertyValue", name: "Otograde Derecesi", value: listing.damage_grade, description: "Otograde A–E hasar değerlendirme sistemi" }] : []),
     ...(listing.damage_type?.length ? [{ "@type": "PropertyValue", name: "Hasar Türü", value: listing.damage_type.join(", ") }] : []),
     { "@type": "PropertyValue", name: "Tramer", value: listing.has_tramer ? (listing.tramer_amount ? `${listing.tramer_amount.toLocaleString("tr-TR")} TL` : "Var") : "Yok" },
-    ...(listing.color ? [{ "@type": "PropertyValue", name: "Renk", value: listing.color }] : []),
     ...(listing.district ? [{ "@type": "PropertyValue", name: "İlçe", value: listing.district }] : []),
   ];
 
+  const FUEL_LABELS: Record<string, string> = { benzin: "Gasoline", dizel: "Diesel", lpg: "LPG", elektrik: "Electric", hibrit: "Hybrid" };
+
   const product = {
     "@context": "https://schema.org",
-    "@type": "Product",
+    "@type": "Car",
     name: listing.title,
     description: listing.damage_description || `${listing.year} ${listing.brand} ${listing.model} — ${listing.damage_type?.join(", ")}`,
     image: listing.images?.length ? listing.images : undefined,
     url: canonical,
     sku: listing.id,
-    category: "Hasarlı Araç",
+    vehicleModelDate: String(listing.year),
+    ...(listing.km != null ? { mileageFromOdometer: { "@type": "QuantitativeValue", value: listing.km, unitCode: "KMT" } } : {}),
+    ...(listing.fuel_type ? { fuelType: FUEL_LABELS[listing.fuel_type] || listing.fuel_type } : {}),
+    ...(listing.transmission ? { vehicleTransmission: listing.transmission === "otomatik" ? "Automatic" : "Manual" } : {}),
+    ...(listing.color ? { color: listing.color } : {}),
     brand: { "@type": "Brand", name: listing.brand },
     model: listing.model,
+    itemCondition: "https://schema.org/DamagedCondition",
     offers: {
       "@type": "Offer",
       price: listing.asking_price.toString(),
@@ -119,10 +126,6 @@ function buildJsonLd(listing: Listing, locale: string) {
     },
     additionalProperty: [
       { "@type": "PropertyValue", name: "Araç Tipi", value: "Hasarlı araç" },
-      { "@type": "PropertyValue", name: "Model Yılı", value: String(listing.year) },
-      ...(listing.km != null ? [{ "@type": "PropertyValue", name: "Kilometre", value: `${listing.km} km` }] : []),
-      ...(listing.fuel_type ? [{ "@type": "PropertyValue", name: "Yakıt", value: listing.fuel_type }] : []),
-      ...(listing.transmission ? [{ "@type": "PropertyValue", name: "Vites", value: listing.transmission }] : []),
       ...additionalProps,
     ],
   };

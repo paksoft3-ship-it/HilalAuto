@@ -224,6 +224,29 @@ export function ListingDetailClient({ listing, dealer, locale = "tr" }: ListingD
           <span className="text-on-surface truncate">{listing.title}</span>
         </nav>
 
+        {/* Sold banner */}
+        {listing.status === "sold" && (
+          <div className="mb-24 flex flex-wrap items-center gap-12 rounded-card border border-red-200 bg-red-50 px-20 py-16">
+            <XCircle size={20} className="text-red-600 shrink-0" />
+            <div className="flex-1 min-w-[200px]">
+              <div className="text-[15px] font-bold text-red-700">
+                {locale === "en" ? "This vehicle has been sold" : "Bu araç satıldı"}
+              </div>
+              <div className="text-[13px] text-red-600">
+                {locale === "en"
+                  ? "Browse similar listings below or see all active listings."
+                  : "Benzer ilanlara aşağıdan göz atabilir veya tüm aktif ilanları inceleyebilirsiniz."}
+              </div>
+            </div>
+            <Link
+              href="/ara"
+              className="shrink-0 rounded-full bg-red-600 px-16 py-8 text-[13px] font-semibold text-white hover:bg-red-700 transition-colors"
+            >
+              {locale === "en" ? "Active listings" : "Aktif İlanlar"}
+            </Link>
+          </div>
+        )}
+
         {/* Layout */}
         <div className="flex flex-col lg:flex-row gap-32">
 
@@ -348,6 +371,18 @@ export function ListingDetailClient({ listing, dealer, locale = "tr" }: ListingD
               </div>
             </div>
 
+            {/* General description */}
+            {listing.description && (
+              <div className="bg-surface-container-lowest border border-[0.5px] border-border-default rounded-card p-24">
+                <h2 className="text-[15px] font-semibold text-on-surface mb-16">
+                  {locale === "en" ? "Description" : "Açıklama"}
+                </h2>
+                <p className="text-[13px] text-on-surface leading-relaxed whitespace-pre-wrap">
+                  {listing.description}
+                </p>
+              </div>
+            )}
+
             {/* Damage checklist */}
             <div className="bg-surface-container-lowest border border-[0.5px] border-border-default rounded-card p-24">
               <h2 className="text-[15px] font-semibold text-on-surface mb-16">{text.damageChecklist}</h2>
@@ -417,13 +452,28 @@ export function ListingDetailClient({ listing, dealer, locale = "tr" }: ListingD
           {/* ── RIGHT COLUMN (sticky) ── */}
           <div className="w-full lg:w-[360px] shrink-0">
             <div className="sticky top-[76px]">
-              <ContactCard listing={listing} dealer={dealer} sessionId={sessionId.current} locale={locale} />
+              {listing.status === "sold" ? (
+                <div className="rounded-card border border-[0.5px] border-border-default bg-surface-container-lowest p-24 text-center">
+                  <XCircle size={28} className="mx-auto mb-8 text-red-600" />
+                  <div className="text-[15px] font-bold text-on-surface mb-4">
+                    {locale === "en" ? "This vehicle has been sold" : "Bu araç satıldı"}
+                  </div>
+                  <p className="text-[13px] text-muted-text">
+                    {locale === "en"
+                      ? "Contact options are disabled for sold vehicles."
+                      : "Satılan araçlar için iletişim seçenekleri kapalıdır."}
+                  </p>
+                </div>
+              ) : (
+                <ContactCard listing={listing} dealer={dealer} sessionId={sessionId.current} locale={locale} />
+              )}
             </div>
           </div>
         </div>
       </Container>
 
       {/* Mobile sticky CTA bar */}
+      {listing.status !== "sold" && (
       <div className="fixed bottom-0 left-0 right-0 z-[100] lg:hidden bg-surface-container-lowest border-t border-[0.5px] border-border-default px-16 py-12 flex gap-8 pb-[calc(12px+env(safe-area-inset-bottom))]">
         <button
           onClick={async () => {
@@ -441,6 +491,7 @@ export function ListingDetailClient({ listing, dealer, locale = "tr" }: ListingD
           {text.call}
         </a>
       </div>
+      )}
       {/* Spacer for mobile CTA */}
       <div className="h-[72px] lg:hidden" />
     </div>
