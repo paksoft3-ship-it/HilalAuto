@@ -139,6 +139,7 @@ export default async function HomePage({ params }: HomePageProps) {
         : "Otograde, Türkiye'nin hasarlı araç pazaryeri. A'dan E'ye grade sistemiyle şeffaf değerleme.",
     url: SITE_URL,
     logo: { "@type": "ImageObject", url: OG_IMAGE_URL, width: 1200, height: 630 },
+    sameAs: ["https://hasarliaracalan.com/"],
     contactPoint: {
       "@type": "ContactPoint",
       telephone: PHONE_NUMBER,

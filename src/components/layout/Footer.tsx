@@ -183,6 +183,20 @@ export function Footer(props: FooterProps = {}) {
                 Çerez Politikası
               </Link>
             </div>
+
+            <p className="text-[13px] font-medium text-white uppercase tracking-wider mt-8">
+              Grup Siteleri
+            </p>
+            <div className="flex flex-col gap-8">
+              <a
+                href="https://hasarliaracalan.com/"
+                target="_blank"
+                rel="noopener"
+                className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors"
+              >
+                Hasarlı Araç Alan — HasarliAracAlan.com
+              </a>
+            </div>
           </div>
         </div>
       </div>
