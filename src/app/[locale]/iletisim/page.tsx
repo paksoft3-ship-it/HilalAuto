@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { Phone } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
+import { GroupSiteBacklink } from "@/components/seo/GroupSiteBacklink";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 import { MobileStickyCTA } from "@/components/layout/MobileStickyCTA";
@@ -93,6 +94,7 @@ export default async function IletisimPage({ params }: Props) {
             </p>
           </Container>
         </section>
+        <GroupSiteBacklink variant="contact" locale={locale} />
 
         {/* Contact options */}
         <section className="py-32 md:py-44">

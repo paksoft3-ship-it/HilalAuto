@@ -14,6 +14,7 @@ import { ServiceCategories } from "@/components/sections/ServiceCategories";
 import { CityHub } from "@/components/sections/CityHub";
 import { HomeFAQ } from "@/components/sections/HomeFAQ";
 import { FinalCTABand } from "@/components/sections/FinalCTABand";
+import { GroupSiteBacklink } from "@/components/seo/GroupSiteBacklink";
 import { supabaseAdmin } from "@/lib/supabase";
 import { type CardListing } from "@/components/marketplace/HomepageListingCard";
 import { OG_IMAGE_URL, PHONE_NUMBER, SITE_URL } from "@/lib/constants";
@@ -169,6 +170,7 @@ export default async function HomePage({ params }: HomePageProps) {
       <main className="pb-[60px] md:pb-0">
         {/* 1 — Hero + stats bar */}
         <MarketplaceHero stats={stats} />
+        <GroupSiteBacklink variant="home" locale={locale} />
 
         {/* 2 — Featured listings */}
         <FeaturedListings listings={featuredListings} />

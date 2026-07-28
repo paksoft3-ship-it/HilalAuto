@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Link } from "@/i18n/routing";
 import { ArrowRight, Car, Flame, Droplets, Trash2, Wrench, FileX, AlertTriangle, ShieldAlert } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
+import { GroupSiteBacklink } from "@/components/seo/GroupSiteBacklink";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 import { MobileStickyCTA } from "@/components/layout/MobileStickyCTA";
@@ -114,6 +115,7 @@ export default async function AracTurleriPage({ params }: Props) {
             </div>
           </Container>
         </section>
+        <GroupSiteBacklink variant="vehicleTypes" locale={locale} />
 
         {/* Vehicle type cards */}
         <section className="py-32 md:py-44">

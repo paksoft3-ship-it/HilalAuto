@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { Link } from "@/i18n/routing";
 import { MapPin, ArrowRight } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
+import { GroupSiteBacklink } from "@/components/seo/GroupSiteBacklink";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 import { MobileStickyCTA } from "@/components/layout/MobileStickyCTA";
@@ -167,6 +168,7 @@ export default async function CityPage({ params }: Props) {
             </div>
           </Container>
         </section>
+        <GroupSiteBacklink variant="city" locale={locale} />
 
         <TrustBar />
 

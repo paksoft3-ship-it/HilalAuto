@@ -7,6 +7,7 @@ import { Link } from "@/i18n/routing";
 import { Check, ArrowRight } from "lucide-react";
 import { FaWhatsapp } from 'react-icons/fa';
 import { Navbar } from "@/components/layout/Navbar";
+import { GroupSiteBacklink } from "@/components/seo/GroupSiteBacklink";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 import { MobileStickyCTA } from "@/components/layout/MobileStickyCTA";
@@ -202,6 +203,7 @@ export default async function ServicePage({ params }: Props) {
             </div>
           </Container>
         </section>
+        <GroupSiteBacklink variant="service" locale={locale} />
 
         {/* Problems */}
         <section className="py-32 md:py-44">
