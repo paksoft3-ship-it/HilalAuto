@@ -8,38 +8,18 @@ import { CheckCircle, ChevronRight, ChevronLeft, Building2, User } from "lucide-
 import { Link } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 
-const STEPS = ["Hesap", "Firma", "Plan", "Onay"];
-
-const PLANS = [
-  {
-    slug: "basic", name: "Basic", price: "4.999 TL/ay",
-    features: ["5 ilan", "30 gün yayın", "Standart destek"],
-    badge: null,
-  },
-  {
-    slug: "professional", name: "Professional", price: "9.999 TL/ay",
-    features: ["15 ilan", "60 gün yayın", "2 öne çıkan ilan", "Analitik paneli", "Öncelikli destek"],
-    badge: "Popüler",
-  },
-  {
-    slug: "premium", name: "Premium", price: "19.999 TL/ay",
-    features: ["Sınırsız ilan", "90 gün yayın", "5 öne çıkan ilan", "Analitik + ısı haritası", "Onaylı Bayi rozeti", "Öncelikli destek"],
-    badge: "Tam Özellik",
-  },
-];
+const STEPS = ["Hesap", "Bilgiler", "Onay"];
 
 type FormData = {
   email: string; password: string; confirmPassword: string;
   company_name: string; contact_name: string; phone: string;
   whatsapp: string; city: string; district: string; description: string;
-  subscription_plan: string;
 };
 
 const INIT: FormData = {
   email: "", password: "", confirmPassword: "",
   company_name: "", contact_name: "", phone: "",
   whatsapp: "", city: "", district: "", description: "",
-  subscription_plan: "professional",
 };
 
 export default function BayiOlPage() {
@@ -89,7 +69,6 @@ export default function BayiOlPage() {
           city: form.city,
           district: form.district || null,
           description: form.description || null,
-          subscription_plan: form.subscription_plan,
         }),
       });
       const data = await res.json();
@@ -136,9 +115,10 @@ export default function BayiOlPage() {
         <div className="max-w-[600px] mx-auto">
           {/* Header */}
           <div className="text-center mb-32">
-            <h1 className="text-[28px] font-bold text-on-surface tracking-[-1px]">Bayi Başvurusu</h1>
+            <h1 className="text-[28px] font-bold text-on-surface tracking-[-1px]">Üye Ol</h1>
             <p className="text-[14px] text-muted-text mt-8">
-              Otograde&apos;de ilan yayınlamaya başlamak için birkaç adımı tamamlayın.
+              Üyelik tamamen ücretsizdir. İster galeri ister bireysel satıcı olun,
+              birkaç adımda hesabınızı oluşturun ve aracınızı hemen ilana koyun.
             </p>
             <div className="mt-12">
               <Link href="/bayi-paneli/giris" className="text-[13px] text-primary hover:underline">
@@ -188,10 +168,10 @@ export default function BayiOlPage() {
             {step === 1 && (
               <div className="flex flex-col gap-16">
                 <h2 className="text-[18px] font-semibold text-on-surface flex items-center gap-8">
-                  <Building2 size={18} className="text-primary" /> Firma Bilgileri
+                  <Building2 size={18} className="text-primary" /> Satıcı Bilgileri
                 </h2>
-                <Input label="Firma Adı *" value={form.company_name} onChange={(v) => set("company_name", v)} placeholder="ABC Oto Galeri" />
-                <Input label="Yetkili Adı *" value={form.contact_name} onChange={(v) => set("contact_name", v)} placeholder="Ad Soyad" />
+                <Input label="Galeri Adı / Ad Soyad *" value={form.company_name} onChange={(v) => set("company_name", v)} placeholder="ABC Oto Galeri veya Ad Soyad" />
+                <Input label="İletişim Kurulacak Kişi *" value={form.contact_name} onChange={(v) => set("contact_name", v)} placeholder="Ad Soyad" />
                 <Input label="Telefon *" type="tel" value={form.phone} onChange={(v) => set("phone", v)} placeholder="05xx xxx xx xx" />
                 <Input label="WhatsApp" type="tel" value={form.whatsapp} onChange={(v) => set("whatsapp", v)} placeholder="905xxxxxxxxx (uluslararası format)" />
                 <div className="flex flex-col gap-6">
@@ -209,78 +189,30 @@ export default function BayiOlPage() {
                 </div>
                 <Input label="İlçe" value={form.district} onChange={(v) => set("district", v)} placeholder="İlçe (isteğe bağlı)" />
                 <div className="flex flex-col gap-6">
-                  <label className="text-[13px] font-medium text-on-surface">Firma Hakkında</label>
+                  <label className="text-[13px] font-medium text-on-surface">Hakkında (isteğe bağlı)</label>
                   <textarea
                     value={form.description}
                     onChange={(e) => set("description", e.target.value)}
                     rows={3}
-                    placeholder="Firmanız hakkında kısa bilgi..."
+                    placeholder="Kendiniz veya galeriniz hakkında kısa bilgi..."
                     className="w-full px-14 py-12 bg-surface border border-[0.5px] border-border-default rounded-input text-[14px] text-on-surface outline-none focus:border-primary resize-none"
                   />
                 </div>
               </div>
             )}
 
-            {/* Step 2: Plan selection */}
+            {/* Step 2: Review */}
             {step === 2 && (
-              <div className="flex flex-col gap-16">
-                <h2 className="text-[18px] font-semibold text-on-surface">Plan Seçimi</h2>
-                <p className="text-[13px] text-muted-text">Başvurunuz onaylandıktan sonra ödeme talimatları iletilecektir.</p>
-                <div className="flex flex-col gap-12">
-                  {PLANS.map((plan) => (
-                    <label
-                      key={plan.slug}
-                      className={cn(
-                        "flex items-start gap-14 p-16 rounded-card border-2 cursor-pointer transition-colors",
-                        form.subscription_plan === plan.slug
-                          ? "border-primary bg-primary/5"
-                          : "border-border-default hover:border-primary/40"
-                      )}
-                    >
-                      <input
-                        type="radio"
-                        name="plan"
-                        value={plan.slug}
-                        checked={form.subscription_plan === plan.slug}
-                        onChange={() => set("subscription_plan", plan.slug)}
-                        className="mt-1 accent-primary"
-                      />
-                      <div className="flex-1">
-                        <div className="flex items-center gap-8 mb-4">
-                          <span className="text-[15px] font-semibold text-on-surface">{plan.name}</span>
-                          {plan.badge && (
-                            <span className="bg-primary text-white text-[10px] font-semibold px-8 py-2 rounded-full">
-                              {plan.badge}
-                            </span>
-                          )}
-                          <span className="ml-auto text-[14px] font-bold text-primary">{plan.price}</span>
-                        </div>
-                        <ul className="flex flex-col gap-3">
-                          {plan.features.map((f) => (
-                            <li key={f} className="flex items-center gap-6 text-[12px] text-muted-text">
-                              <CheckCircle size={11} className="text-green-500 shrink-0" /> {f}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </label>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Step 3: Review */}
-            {step === 3 && (
               <div className="flex flex-col gap-16">
                 <h2 className="text-[18px] font-semibold text-on-surface">Başvuruyu Gözden Geçirin</h2>
                 <ReviewRow label="E-posta" value={form.email} />
-                <ReviewRow label="Firma" value={form.company_name} />
-                <ReviewRow label="Yetkili" value={form.contact_name} />
+                <ReviewRow label="Satıcı" value={form.company_name} />
+                <ReviewRow label="İletişim" value={form.contact_name} />
                 <ReviewRow label="Telefon" value={form.phone} />
                 <ReviewRow label="Şehir" value={form.city} />
-                <ReviewRow label="Plan" value={PLANS.find((p) => p.slug === form.subscription_plan)?.name || ""} />
-                <div className="bg-amber-50 border border-amber-200 rounded-lg p-14 text-[12px] text-amber-700">
-                  Başvurunuz incelendikten sonra e-posta ile onay gönderilecek ve ödeme bilgileri iletilecektir.
+                <div className="bg-green-50 border border-green-200 rounded-lg p-14 text-[12px] text-green-700">
+                  Üyelik ve ilan yayınlama ücretsizdir. Başvurunuz incelendikten sonra
+                  e-posta ile onay gönderilecektir.
                 </div>
               </div>
             )}

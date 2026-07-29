@@ -16,13 +16,13 @@ export function FinalCTABand() {
               href="/bayi-ol"
               className="w-full md:w-auto bg-primary text-white px-44 py-16 rounded-lg font-medium text-[14px] hover:opacity-90 transition-opacity text-center"
             >
-              Hemen Araç Sat
+              Ücretsiz İlan Ver
             </Link>
             <Link
-              href="/bayi-ol"
+              href={"/teklif-al" as never}
               className="w-full md:w-auto bg-white border-[0.5px] border-[#EEEEEE] text-[#111111] px-44 py-16 rounded-lg font-medium text-[14px] hover:bg-gray-50 transition-colors text-center"
             >
-              Kurumsal Bayi Ol
+              Anında Nakit Teklif Al
             </Link>
           </div>
         </div>

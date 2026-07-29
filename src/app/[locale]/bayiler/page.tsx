@@ -118,7 +118,7 @@ export default async function BayilerPage({ params }: Props) {
               className="inline-flex items-center justify-center px-24 py-13 rounded-[10px] text-[13px] font-medium text-white hover:opacity-90 transition-opacity shrink-0"
               style={{ background: "#C0392B" }}
             >
-              {isEn ? "Become a Dealer" : "Bayi Ol"}
+              {isEn ? "Sign Up Free" : "Ücretsiz Üye Ol"}
             </Link>
           </div>
         </div>

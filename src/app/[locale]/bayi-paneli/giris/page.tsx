@@ -32,7 +32,7 @@ export default function DealerLoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-surface p-16">
       <div className="w-full max-w-[400px] bg-surface-container-lowest border border-[0.5px] border-border-default rounded-card p-32 shadow-sm">
         <div className="text-center mb-28">
-          <h1 className="text-[22px] font-bold text-on-surface tracking-[-0.5px]">Bayi Girişi</h1>
+          <h1 className="text-[22px] font-bold text-on-surface tracking-[-0.5px]">Giriş Yap</h1>
           <p className="text-[13px] text-muted-text mt-6">Otograde Bayi Paneline Giriş</p>
         </div>
 
@@ -79,7 +79,7 @@ export default function DealerLoginPage() {
         <div className="text-center mt-20 text-[13px] text-muted-text">
           Hesabınız yok mu?{" "}
           <Link href="/bayi-ol" className="text-primary hover:underline font-medium">
-            Bayi Başvurusu
+            Ücretsiz Üye Ol
           </Link>
         </div>
       </div>

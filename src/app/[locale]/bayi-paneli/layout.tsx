@@ -9,7 +9,7 @@ import { NotificationBell } from "@/components/dealer/NotificationBell";
 import { CarLoader } from "@/components/ui/CarLoader";
 import {
   LayoutDashboard, Car, Plus, MessageSquare, BarChart2,
-  Bell, LogOut, Menu, X, AlertCircle, Clock, CreditCard
+  Bell, LogOut, Menu, X, AlertCircle, Clock
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -19,7 +19,6 @@ const NAV = [
   { label: "İlan Ekle", href: "/bayi-paneli/ilan-ekle", icon: Plus },
   { label: "Mesajlar", href: "/bayi-paneli/mesajlar", icon: MessageSquare },
   { label: "Analitik", href: "/bayi-paneli/analitik", icon: BarChart2 },
-  { label: "Abonelik", href: "/bayi-paneli/abonelik", icon: CreditCard },
   { label: "Bildirimler", href: "/bayi-paneli/bildirimler", icon: Bell },
 ];
 

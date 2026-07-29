@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Dealer, Listing } from "@/types/marketplace";
 import { Link } from "@/i18n/routing";
-import { formatPrice, getPlanLimit, daysBetween } from "@/lib/dealer-utils";
+import { formatPrice, getPlanLimit } from "@/lib/dealer-utils";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line, CartesianGrid } from "recharts";
-import { Plus, Eye, MessageSquare, TrendingUp, Clock, ArrowRight, Zap, Car } from "lucide-react";
+import { Plus, Eye, MessageSquare, TrendingUp, ArrowRight, Zap, Car } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function DealerDashboard() {
@@ -88,9 +88,8 @@ export default function DealerDashboard() {
 
   if (!dealer) return null;
 
-  const planLimit = getPlanLimit(dealer.subscription_plan);
+  const planLimit = getPlanLimit();
   const activeCount = listings.length;
-  const daysLeft = dealer.subscription_end ? daysBetween(new Date().toISOString(), dealer.subscription_end) : 0;
 
   const totalViews = viewsData.reduce((s, r) => s + r.views, 0);
   const totalContacts = viewsData.reduce((s, r) => s + r.contacts, 0);
@@ -111,19 +110,6 @@ export default function DealerDashboard() {
           <Plus size={15} /> Yeni İlan Ekle
         </Link>
       </div>
-
-      {/* Subscription status bar */}
-      {dealer.subscription_end && daysLeft <= 14 && (
-        <div className="bg-amber-50 border border-amber-200 rounded-card p-14 flex flex-col md:flex-row md:items-center gap-12 text-[13px] text-amber-700">
-          <div className="flex items-center gap-10">
-            <Clock size={15} />
-            Aboneliğiniz <strong>{daysLeft} gün</strong> içinde sona eriyor.
-          </div>
-          <Link href="/bayi-paneli/abonelik" className="md:ml-auto text-primary font-semibold hover:underline">
-            Hemen yenile
-          </Link>
-        </div>
-      )}
 
       {/* KPI cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-14">

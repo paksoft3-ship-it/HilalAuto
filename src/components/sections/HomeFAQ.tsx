@@ -15,11 +15,11 @@ const FAQ_ITEMS = [
   },
   {
     q: "Aracımı nasıl satabilirim?",
-    a: "İki seçeneğiniz var: Bayi olarak kaydolup kendi ilanınızı yayınlayabilir, ya da sağ taraftaki formu doldurarak doğrudan bize teklif isteği gönderebilirsiniz. Uzmanlarımız 15 dakika içinde dönüş yapar.",
+    a: "İki seçeneğiniz var: Ücretsiz üye olup kendi ilanınızı yayınlayabilir, ya da teklif formunu doldurarak doğrudan bize teklif isteği gönderebilirsiniz. Uzmanlarımız 15 dakika içinde dönüş yapar.",
   },
   {
-    q: "Bayi olmak için ne yapmalıyım?",
-    a: "Bayi Ol sayfasından başvuru formunu doldurun. Belgelerinizi yükleyin ve 24 saat içinde onay alın. Onaylı bayiler istedikleri planı seçerek hemen ilan yayınlamaya başlayabilir.",
+    q: "İlan vermek ücretli mi?",
+    a: "Hayır. Üyelik ve ilan yayınlama şu anda tamamen ücretsizdir. Üye Ol sayfasından kaydolun, 24 saat içinde onay alın ve ister galeri ister bireysel satıcı olarak hemen ilan yayınlamaya başlayın.",
   },
 ] as const;
 

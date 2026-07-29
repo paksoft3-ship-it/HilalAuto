@@ -48,24 +48,14 @@ export function daysBetween(a: string, b: string = new Date().toISOString()): nu
   return Math.max(0, Math.floor((new Date(b).getTime() - new Date(a).getTime()) / 86400000));
 }
 
-export function getPlanLimit(plan: string | null): number {
-  if (plan === "professional") return 15;
-  if (plan === "premium") return -1; // unlimited
-  return 5; // basic / default
+// Free-launch mode: paid plans are disabled, so there are no listing limits
+// and no subscription checks. Restore the plan-based logic from git history
+// when pricing is reintroduced.
+export function getPlanLimit(): number {
+  return -1; // unlimited
 }
 
-export function canAddListing(
-  activePlan: string | null,
-  currentCount: number,
-  subscriptionStatus: string
-): { allowed: boolean; reason: string } {
-  if (subscriptionStatus !== "active") {
-    return { allowed: false, reason: "Aboneliğiniz aktif değil." };
-  }
-  const limit = getPlanLimit(activePlan);
-  if (limit !== -1 && currentCount >= limit) {
-    return { allowed: false, reason: `Planınız en fazla ${limit} ilan eklemenize izin veriyor.` };
-  }
+export function canAddListing(): { allowed: boolean; reason: string } {
   return { allowed: true, reason: "" };
 }
 

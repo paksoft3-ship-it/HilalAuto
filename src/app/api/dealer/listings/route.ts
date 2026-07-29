@@ -48,11 +48,7 @@ export async function POST(req: NextRequest) {
   const dealer = await getDealer(req);
   if (!dealer) return NextResponse.json({ error: "Yetkisiz." }, { status: 401 });
 
-  const { allowed, reason } = canAddListing(
-    dealer.subscription_plan,
-    dealer.total_listings,
-    dealer.subscription_status
-  );
+  const { allowed, reason } = canAddListing();
   if (!allowed) return NextResponse.json({ error: reason }, { status: 403 });
 
   const body = await req.json();
@@ -72,8 +68,8 @@ export async function POST(req: NextRequest) {
 
   const title = customTitle || autoTitle(year, brand, model, damage_type || []);
 
-  // Set expiration based on dealer plan
-  const days = dealer.subscription_plan === "professional" ? 60 : dealer.subscription_plan === "premium" ? 90 : 30;
+  // Free-launch mode: every listing runs 90 days regardless of plan
+  const days = 90;
   const expires_at = new Date(Date.now() + days * 86400000).toISOString();
 
   const row = {
