@@ -20,7 +20,7 @@ import { type CardListing } from "@/components/marketplace/HomepageListingCard";
 import { OG_IMAGE_URL, PHONE_NUMBER, SITE_URL } from "@/lib/constants";
 import { localeUrl } from "@/lib/locale-url";
 
-export const revalidate = 3600;
+export const revalidate = 60;
 
 interface HomePageProps {
   params: Promise<{ locale: string }>;
@@ -92,7 +92,7 @@ async function fetchHomeData() {
         .eq("status", "active")
         .eq("is_featured", true)
         .order("featured_until", { ascending: false })
-        .limit(6),
+        .limit(9),
       supabaseAdmin
         .from("hazaral_listings")
         .select(LISTING_FIELDS)

@@ -36,3 +36,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Raw car photos are uploaded to Supabase storage, not served from the repo
+/public/images/Cars/

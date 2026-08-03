@@ -17,6 +17,10 @@ import {
   type MarketplaceFilterOptions,
 } from "@/lib/marketplace-filter-options";
 
+// Search results must always reflect the live inventory — never serve a
+// build-time snapshot from the full route cache.
+export const dynamic = "force-dynamic";
+
 interface Props {
   params: Promise<{ locale: string }>;
   searchParams: Promise<Record<string, string | string[] | undefined>>;

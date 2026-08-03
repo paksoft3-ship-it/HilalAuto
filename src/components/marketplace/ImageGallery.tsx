@@ -23,6 +23,24 @@ export function ImageGallery({ images, title, onImageViewed }: ImageGalleryProps
 
   const total = images.length;
 
+  // Keep every visited image plus the current one's neighbors mounted so
+  // arrow/swipe navigation shows an already-loaded image instantly.
+  const mountedRef = useRef<Set<number>>(new Set([0]));
+  if (total > 0) {
+    mountedRef.current.add(current);
+    mountedRef.current.add((current + 1) % total);
+    mountedRef.current.add((current - 1 + total) % total);
+  }
+
+  // The lightbox renders original URLs; warm the browser cache for neighbors.
+  useEffect(() => {
+    if (!lightbox || total < 2) return;
+    [1, -1].forEach((d) => {
+      const img = new window.Image();
+      img.src = images[(current + d + total) % total];
+    });
+  }, [lightbox, current, images, total]);
+
   const go = useCallback(
     (dir: 1 | -1) => {
       setCurrent((prev) => {
@@ -78,15 +96,24 @@ export function ImageGallery({ images, title, onImageViewed }: ImageGalleryProps
             if (Math.abs(diff) > 50) go(diff > 0 ? 1 : -1);
           }}
         >
-          <Image
-            src={images[current]}
-            alt={`${title} — ${t("photo")} ${current + 1}`}
-            fill
-            priority={current === 0}
-            sizes="(max-width: 1024px) 100vw, 66vw"
-            className="object-cover"
-            draggable={false}
-          />
+          {images.map((src, i) =>
+            mountedRef.current.has(i) ? (
+              <Image
+                key={src}
+                src={src}
+                alt={`${title} — ${t("photo")} ${i + 1}`}
+                fill
+                priority={i === 0}
+                loading={i === 0 ? undefined : "eager"}
+                sizes="(max-width: 1024px) 100vw, 66vw"
+                className={cn(
+                  "object-cover transition-opacity duration-150",
+                  i === current ? "opacity-100" : "opacity-0"
+                )}
+                draggable={false}
+              />
+            ) : null
+          )}
 
           {/* Nav arrows */}
           {total > 1 && (
