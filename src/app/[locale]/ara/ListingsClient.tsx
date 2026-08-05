@@ -37,6 +37,7 @@ import {
 import { cn } from "@/lib/utils";
 import { DAMAGE_FILTER_OPTIONS, parseDamageFilters } from "@/lib/listing-filters";
 import type { FilterCountOption, MarketplaceFilterOptions } from "@/lib/marketplace-filter-options";
+import { SearchAlertBox } from "@/components/marketplace/SearchAlertBox";
 
 interface ListingsClientProps {
   initialListings: Listing[];
@@ -423,6 +424,28 @@ export function ListingsClient({ initialListings, initialTotal, filterOptions }:
     setSavedSearches(next);
     storeArray(SAVED_SEARCH_STORAGE_KEY, next);
   }
+
+  // Filters shaped for /api/alerts (a deliberately small, matchable subset).
+  const alertFilters = useMemo(() => {
+    const f: Record<string, string> = {};
+    if (brand) f.brand = brand;
+    if (city) f.city = city;
+    if (gradeArr.length === 1) f.grade = gradeArr[0];
+    if (damageFilters.length === 1) f.damage = damageFilters[0].slug;
+    if (priceMax) f.maxPrice = priceMax;
+    if (priceMin) f.minPrice = priceMin;
+    return f;
+  }, [brand, city, gradeArr, damageFilters, priceMax, priceMin]);
+
+  const alertSummary = useMemo(() => {
+    const parts = [
+      brand,
+      city,
+      ...damageFilters.map((filter) => damageLabel(filter.slug, filter.label)),
+      ...gradeArr.map((g) => text.gradeChip(g)),
+    ].filter(Boolean);
+    return parts.length > 0 ? parts.join(" · ") : heroCopy.title;
+  }, [brand, city, damageFilters, gradeArr, text, heroCopy.title]);
 
   function removeSavedSearch(id: string) {
     const next = savedSearches.filter((search) => search.id !== id);
@@ -914,6 +937,10 @@ export function ListingsClient({ initialListings, initialTotal, filterOptions }:
                 >
                   {text.clearFilters}
                 </button>
+                {/* No stock today is exactly when an alert is worth most. */}
+                <div className="max-w-[420px] mx-auto mt-32 text-left">
+                  <SearchAlertBox filters={alertFilters} summary={alertSummary} />
+                </div>
               </div>
             ) : (
               <div className="grid grid-cols-2 md:grid-cols-3 gap-16">
@@ -931,6 +958,12 @@ export function ListingsClient({ initialListings, initialTotal, filterOptions }:
                     />
                   );
                 })}
+              </div>
+            )}
+
+            {!loading && listings.length > 0 && (
+              <div className="mt-24">
+                <SearchAlertBox filters={alertFilters} summary={alertSummary} />
               </div>
             )}
 

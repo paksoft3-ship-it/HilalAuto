@@ -8,6 +8,9 @@ export type HeroStats = {
   cityCount: number;
 };
 
+/** Below this, showing the dealer count hurts more than it helps. */
+const DEALER_STAT_MIN = 10;
+
 export function MarketplaceHero({ stats }: { stats: HeroStats }) {
   const t = useTranslations("marketplaceHome");
 
@@ -45,9 +48,15 @@ export function MarketplaceHero({ stats }: { stats: HeroStats }) {
       {/* Stats bar */}
       <div className="w-full bg-[#FAFAFA] border-y-[0.5px] border-[#EEEEEE] py-24">
         <div className="max-w-[1240px] mx-auto px-16 md:px-24">
+          {/* A low dealer count reads as an empty marketplace, so the dealer stat
+              only appears once it is a selling point. */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-24">
             <StatItem value={stats.listingCount > 0 ? `${stats.listingCount}+` : "—"} label={t("activeListings")} />
-            <StatItem value={stats.dealerCount > 0 ? `${stats.dealerCount}+` : "—"} label={t("verifiedDealers")} />
+            {stats.dealerCount >= DEALER_STAT_MIN ? (
+              <StatItem value={`${stats.dealerCount}+`} label={t("verifiedDealers")} />
+            ) : (
+              <StatItem value="81" label={t("provincesServed")} />
+            )}
             <StatItem value={stats.cityCount > 0 ? String(stats.cityCount) : "—"} label={t("citiesServed")} />
             <StatItem value={t("responseValue")} label={t("responseTime")} />
           </div>

@@ -20,7 +20,9 @@ async function getListing(slug: string): Promise<Listing | null> {
       .from("hazaral_listings")
       .select("*, dealer:hazaral_dealers(*)")
       .eq("slug", slug)
-      .in("status", ["active", "sold"])
+      // Expired listings keep their page (with a banner) so inbound links and
+      // accumulated ranking are not thrown away on a 404.
+      .in("status", ["active", "sold", "expired"])
       .single();
 
     if (error || !data) return null;
@@ -47,7 +49,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const gradeLabel = listing.damage_grade ? GRADE_COLORS[listing.damage_grade].label : "";
-  const soldPrefix = listing.status === "sold" ? (locale === "en" ? "[SOLD] " : "[SATILDI] ") : "";
+  const soldPrefix =
+    listing.status === "sold"
+      ? (locale === "en" ? "[SOLD] " : "[SATILDI] ")
+      : listing.status === "expired"
+        ? (locale === "en" ? "[EXPIRED] " : "[SÜRESİ DOLDU] ")
+        : "";
   const title = `${soldPrefix}${listing.year} ${listing.brand} ${listing.model} — ${listing.damage_type.slice(0, 2).join(", ")} | Otograde`;
   const description = `${listing.city}${listing.district ? " / " + listing.district : ""} — ${listing.year} ${listing.brand} ${listing.model}. ${gradeLabel}. ${new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY", maximumFractionDigits: 0 }).format(listing.asking_price)} TL.`;
   const canonical = `${SITE_URL}${listingPath(locale, slug)}`;
@@ -56,6 +63,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: { absolute: title },
     description,
+    // Keep the page reachable, but stop it competing in search once it's off-market.
+    robots: listing.status === "expired" ? { index: false, follow: true } : undefined,
     alternates: {
       canonical,
       languages: {

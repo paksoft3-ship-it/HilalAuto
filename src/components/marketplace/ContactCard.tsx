@@ -4,13 +4,15 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Dealer, Listing } from "@/types/marketplace";
 import { FaWhatsapp } from "react-icons/fa";
-import { Phone, Send, Link2, Heart, Star, MapPin, Flag, EyeOff } from "lucide-react";
+import { Phone, Send, Link2, Heart, Star, MapPin, Flag, EyeOff, Tag } from "lucide-react";
 import { externalRoutes } from "@/lib/routes";
 import {
   trackWhatsAppClick,
   trackPhoneReveal,
   trackMessageSent,
+  trackOfferSent,
 } from "@/lib/marketplace-tracker";
+import { fireGoogleAdsConversion } from "@/lib/gtag";
 import { supabase } from "@/lib/supabase";
 import { cn } from "@/lib/utils";
 
@@ -30,6 +32,11 @@ export function ContactCard({ listing, dealer, sessionId }: ContactCardProps) {
   const [msgSending, setMsgSending] = useState(false);
   const [msgSent, setMsgSent] = useState(false);
   const [msgError, setMsgError] = useState("");
+  const [offerOpen, setOfferOpen] = useState(false);
+  const [offerForm, setOfferForm] = useState({ name: "", phone: "", amount: "", note: "" });
+  const [offerSending, setOfferSending] = useState(false);
+  const [offerSent, setOfferSent] = useState(false);
+  const [offerError, setOfferError] = useState("");
 
   const phone = dealer.phone;
   const wa = dealer.whatsapp || dealer.phone.replace(/\D/g, "");
@@ -54,14 +61,42 @@ export function ContactCard({ listing, dealer, sessionId }: ContactCardProps) {
 
   async function handleWhatsApp() {
     await trackWhatsAppClick(listing.id, dealer.id);
+    fireGoogleAdsConversion();
     window.open(externalRoutes.whatsapp(wa, waMessage), "_blank", "noopener");
   }
 
   async function handlePhoneReveal() {
     if (!phoneRevealed) {
       await trackPhoneReveal(listing.id, dealer.id);
+      fireGoogleAdsConversion();
       setPhoneRevealed(true);
     }
+  }
+
+  async function handleOffer(e: React.FormEvent) {
+    e.preventDefault();
+    const amount = Number(offerForm.amount.replace(/\D/g, ""));
+    if (!amount) {
+      setOfferError(t("offerAmountInvalid"));
+      return;
+    }
+    setOfferSending(true);
+    setOfferError("");
+    try {
+      await trackOfferSent(
+        listing.id,
+        dealer.id,
+        offerForm.name,
+        offerForm.phone,
+        amount,
+        offerForm.note
+      );
+      fireGoogleAdsConversion();
+      setOfferSent(true);
+    } catch {
+      setOfferError(text.error);
+    }
+    setOfferSending(false);
   }
 
   async function handleFavorite() {
@@ -100,6 +135,7 @@ export function ContactCard({ listing, dealer, sessionId }: ContactCardProps) {
         msgForm.phone,
         msgForm.message
       );
+      fireGoogleAdsConversion();
       setMsgSent(true);
     } catch {
       setMsgError(text.error);
@@ -146,6 +182,84 @@ export function ContactCard({ listing, dealer, sessionId }: ContactCardProps) {
         >
           <FaWhatsapp size={20} /> {text.whatsapp}
         </button>
+
+        {/* Make an offer — pazarlık is the norm in this market, so capture the
+            buyer who thinks the price is close but not right. */}
+        {offerSent ? (
+          <div className="bg-green-50 text-green-700 text-[13px] p-12 rounded-lg text-center mb-8">
+            {t("offerSent")}
+          </div>
+        ) : offerOpen ? (
+          <form onSubmit={handleOffer} className="flex flex-col gap-8 mb-8 p-14 bg-surface border border-[0.5px] border-border-default rounded-card">
+            <div className="flex items-center justify-between">
+              <span className="text-[13px] font-semibold text-on-surface">{t("offerTitle")}</span>
+              <button
+                type="button"
+                onClick={() => setOfferOpen(false)}
+                className="text-[12px] text-muted-text hover:text-on-surface"
+              >
+                {t("offerCancel")}
+              </button>
+            </div>
+            <div className="relative">
+              <input
+                type="text"
+                inputMode="numeric"
+                placeholder={t("offerAmount")}
+                required
+                value={offerForm.amount}
+                onChange={(e) => {
+                  const digits = e.target.value.replace(/\D/g, "");
+                  setOfferForm({
+                    ...offerForm,
+                    amount: digits ? Number(digits).toLocaleString("tr-TR") : "",
+                  });
+                }}
+                className="w-full px-12 py-10 pr-32 bg-surface-container-lowest border border-[0.5px] border-border-default rounded-input text-[15px] font-semibold text-on-surface outline-none focus:border-primary transition-colors"
+              />
+              <span className="absolute right-12 top-1/2 -translate-y-1/2 text-[13px] text-muted-text">TL</span>
+            </div>
+            <input
+              type="text"
+              placeholder={text.name}
+              required
+              value={offerForm.name}
+              onChange={(e) => setOfferForm({ ...offerForm, name: e.target.value })}
+              className="w-full px-12 py-8 bg-surface-container-lowest border border-[0.5px] border-border-default rounded-input text-[13px] text-on-surface outline-none focus:border-primary transition-colors"
+            />
+            <input
+              type="tel"
+              placeholder={text.phone}
+              required
+              value={offerForm.phone}
+              onChange={(e) => setOfferForm({ ...offerForm, phone: e.target.value })}
+              className="w-full px-12 py-8 bg-surface-container-lowest border border-[0.5px] border-border-default rounded-input text-[13px] text-on-surface outline-none focus:border-primary transition-colors"
+            />
+            <input
+              type="text"
+              placeholder={t("offerNote")}
+              value={offerForm.note}
+              onChange={(e) => setOfferForm({ ...offerForm, note: e.target.value })}
+              className="w-full px-12 py-8 bg-surface-container-lowest border border-[0.5px] border-border-default rounded-input text-[13px] text-on-surface outline-none focus:border-primary transition-colors"
+            />
+            {offerError && <p className="text-[12px] text-red-600">{offerError}</p>}
+            <button
+              type="submit"
+              disabled={offerSending}
+              className="w-full bg-primary text-white py-12 rounded-btn text-[13px] font-semibold hover:opacity-90 transition-opacity disabled:opacity-60"
+            >
+              {offerSending ? text.sending : t("offerSubmit")}
+            </button>
+            <p className="text-[11px] text-muted-text text-center">{t("offerHint")}</p>
+          </form>
+        ) : (
+          <button
+            onClick={() => setOfferOpen(true)}
+            className="w-full flex items-center justify-center gap-8 bg-primary/10 border border-[0.5px] border-primary/30 hover:bg-primary/15 text-primary px-16 py-12 rounded-btn text-[14px] font-semibold transition-colors mb-8"
+          >
+            <Tag size={16} /> {t("offerCta")}
+          </button>
+        )}
 
         {/* Phone reveal */}
         <button

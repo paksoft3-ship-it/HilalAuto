@@ -213,11 +213,26 @@
   },
   "grade": {
     "aria": "Otograde Grade: {label}",
-    "A": { "label": "A — Very Light Damage", "description": "Cosmetic damage — drivable and easy to repair" },
-    "B": { "label": "B — Light Damage", "description": "Light damage — low repair cost" },
-    "C": { "label": "C — Moderate Damage", "description": "Moderate damage — meaningful repair needed but still economical" },
-    "D": { "label": "D — Heavy Damage", "description": "Heavy damage — high repair cost" },
-    "E": { "label": "E — Severe Damage", "description": "Severe damage or total loss — economical repair may not be possible" }
+    "A": {
+      "label": "A — Very Light Damage",
+      "description": "Cosmetic damage — drivable and easy to repair"
+    },
+    "B": {
+      "label": "B — Light Damage",
+      "description": "Light damage — low repair cost"
+    },
+    "C": {
+      "label": "C — Moderate Damage",
+      "description": "Moderate damage — meaningful repair needed but still economical"
+    },
+    "D": {
+      "label": "D — Heavy Damage",
+      "description": "Heavy damage — high repair cost"
+    },
+    "E": {
+      "label": "E — Severe Damage",
+      "description": "Severe damage or total loss — economical repair may not be possible"
+    }
   },
   "damageTypeLabels": {
     "kazali": "Accident Damaged",
@@ -331,14 +346,46 @@
     "schemaName": "Damaged Vehicle Listings",
     "schemaDescription": "Accident-damaged, written-off, and damaged vehicles for sale from verified dealers across Turkey",
     "damage": {
-      "kazali": { "label": "Accident Damaged", "title": "Accident-Damaged Vehicle Listings", "description": "Browse front, rear, and side-damaged vehicles from verified Otograde dealers." },
-      "pert": { "label": "Written-Off", "title": "Written-Off Vehicle Listings", "description": "Browse vehicles declared total loss by insurers with photos, dealer details, and Otograde damage grades." },
-      "yanmis": { "label": "Fire Damaged", "title": "Fire-Damaged Vehicle Listings", "description": "View fire-damaged vehicle listings with photos, damage notes, and Otograde grades." },
-      "sel": { "label": "Flood Damaged", "title": "Flood-Damaged Vehicle Listings", "description": "Filter water or flood-damaged vehicles by city, price, and damage grade." },
-      "hurda": { "label": "Scrap", "title": "Scrap Vehicle Listings", "description": "Find scrap vehicles suitable for parts, repair, or project use." },
-      "motor": { "label": "Engine Fault", "title": "Engine-Fault Vehicle Listings", "description": "Compare vehicles with engine or drivetrain issues by make, city, and price range." },
-      "cekme": { "label": "Tow Certificate", "title": "Tow-Certificate Vehicle Listings", "description": "Browse tow-certificate damaged vehicles with dealer details and Otograde grades." },
-      "agir": { "label": "Heavily Damaged", "title": "Heavily Damaged Vehicle Listings", "description": "Browse heavily damaged or high-repair-cost vehicles with transparent Otograde damage grades." }
+      "kazali": {
+        "label": "Accident Damaged",
+        "title": "Accident-Damaged Vehicle Listings",
+        "description": "Browse front, rear, and side-damaged vehicles from verified Otograde dealers."
+      },
+      "pert": {
+        "label": "Written-Off",
+        "title": "Written-Off Vehicle Listings",
+        "description": "Browse vehicles declared total loss by insurers with photos, dealer details, and Otograde damage grades."
+      },
+      "yanmis": {
+        "label": "Fire Damaged",
+        "title": "Fire-Damaged Vehicle Listings",
+        "description": "View fire-damaged vehicle listings with photos, damage notes, and Otograde grades."
+      },
+      "sel": {
+        "label": "Flood Damaged",
+        "title": "Flood-Damaged Vehicle Listings",
+        "description": "Filter water or flood-damaged vehicles by city, price, and damage grade."
+      },
+      "hurda": {
+        "label": "Scrap",
+        "title": "Scrap Vehicle Listings",
+        "description": "Find scrap vehicles suitable for parts, repair, or project use."
+      },
+      "motor": {
+        "label": "Engine Fault",
+        "title": "Engine-Fault Vehicle Listings",
+        "description": "Compare vehicles with engine or drivetrain issues by make, city, and price range."
+      },
+      "cekme": {
+        "label": "Tow Certificate",
+        "title": "Tow-Certificate Vehicle Listings",
+        "description": "Browse tow-certificate damaged vehicles with dealer details and Otograde grades."
+      },
+      "agir": {
+        "label": "Heavily Damaged",
+        "title": "Heavily Damaged Vehicle Listings",
+        "description": "Browse heavily damaged or high-repair-cost vehicles with transparent Otograde damage grades."
+      }
     },
     "fuel": {
       "benzin": "Gasoline",
@@ -425,7 +472,16 @@
     "copy": "Copy Link",
     "favorite": "Add to favorites",
     "report": "Report listing",
-    "whatsappMessage": "Hello, I would like more information about your listing: {title}. (Listing: {slug})"
+    "whatsappMessage": "Hello, I would like more information about your listing: {title}. (Listing: {slug})",
+    "offerCta": "Make an Offer",
+    "offerTitle": "Your Offer",
+    "offerAmount": "Your offer",
+    "offerNote": "Note (optional)",
+    "offerSubmit": "Send Offer",
+    "offerCancel": "Cancel",
+    "offerSent": "Your offer has been sent. The seller will get back to you shortly.",
+    "offerHint": "Your offer is not binding. The seller will contact you by phone or WhatsApp.",
+    "offerAmountInvalid": "Please enter a valid amount."
   },
   "favoriteButton": {
     "add": "Add to favorites",
@@ -498,7 +554,8 @@
     "dealerFallback": "Dealer",
     "minutesAgo": "{count} minutes ago",
     "hoursAgo": "{count} hours ago",
-    "daysAgo": "{count} days ago"
+    "daysAgo": "{count} days ago",
+    "provincesServed": "provinces served"
   },
   "thankyou": {
     "title": "Application Received",
@@ -927,5 +984,16 @@
     "back": "Back to Listings",
     "safetyNote": "Always arrange an independent inspection before purchasing.",
     "similarTitle": "Similar Listings"
+  },
+  "searchAlert": {
+    "cta": "Notify me when a matching vehicle is listed",
+    "title": "New listing alert",
+    "emailPlaceholder": "Your email address",
+    "submit": "Get Alerts",
+    "sending": "Saving...",
+    "cancel": "Cancel",
+    "success": "Saved. We'll email you when a matching vehicle is listed.",
+    "error": "Could not save. Please try again.",
+    "hint": "You'll only be emailed about listings matching this search. Unsubscribe anytime."
   }
 }

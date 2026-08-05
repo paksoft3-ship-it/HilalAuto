@@ -34,9 +34,11 @@ import {
   TrendingDown,
   Wrench,
   XCircle,
+  Clock,
 } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import { externalRoutes } from "@/lib/routes";
+import { fireGoogleAdsConversion } from "@/lib/gtag";
 import {
   trackWhatsAppClick,
 } from "@/lib/marketplace-tracker";
@@ -241,6 +243,29 @@ export function ListingDetailClient({ listing, dealer, locale = "tr" }: ListingD
             <Link
               href="/ara"
               className="shrink-0 rounded-full bg-red-600 px-16 py-8 text-[13px] font-semibold text-white hover:bg-red-700 transition-colors"
+            >
+              {locale === "en" ? "Active listings" : "Aktif İlanlar"}
+            </Link>
+          </div>
+        )}
+
+        {/* Expired banner — page stays live so links and ranking survive */}
+        {listing.status === "expired" && (
+          <div className="mb-24 flex flex-wrap items-center gap-12 rounded-card border border-amber-200 bg-amber-50 px-20 py-16">
+            <Clock size={20} className="text-amber-600 shrink-0" />
+            <div className="flex-1 min-w-[200px]">
+              <div className="text-[15px] font-bold text-amber-700">
+                {locale === "en" ? "This listing has expired" : "Bu ilanın yayın süresi doldu"}
+              </div>
+              <div className="text-[13px] text-amber-700/80">
+                {locale === "en"
+                  ? "The vehicle may still be available — contact us, or browse active listings."
+                  : "Araç hâlâ satılık olabilir — bize ulaşın veya aktif ilanlara göz atın."}
+              </div>
+            </div>
+            <Link
+              href="/ara"
+              className="shrink-0 rounded-full bg-amber-600 px-16 py-8 text-[13px] font-semibold text-white hover:bg-amber-700 transition-colors"
             >
               {locale === "en" ? "Active listings" : "Aktif İlanlar"}
             </Link>
@@ -478,6 +503,7 @@ export function ListingDetailClient({ listing, dealer, locale = "tr" }: ListingD
         <button
           onClick={async () => {
             await trackWhatsAppClick(listing.id, dealer.id);
+            fireGoogleAdsConversion();
             window.open(externalRoutes.whatsapp(wa, waMessage), "_blank", "noopener");
           }}
           className="flex-1 flex items-center justify-center gap-8 bg-[#25D366] text-white py-12 rounded-btn text-[14px] font-semibold"

@@ -122,6 +122,30 @@ export async function trackMessageSent(
   });
 }
 
+export async function trackOfferSent(
+  listingId: string,
+  dealerId: string,
+  contactName: string,
+  contactPhone: string,
+  offerAmount: number,
+  note: string
+) {
+  await post("/api/track/contact", {
+    listing_id: listingId,
+    dealer_id: dealerId,
+    contact_type: "offer",
+    contact_name: contactName,
+    contact_phone: contactPhone,
+    contact_message: note,
+    offer_amount: offerAmount,
+    session_id: getSessionId(),
+    device_type: getDeviceType(),
+    referrer: document.referrer || undefined,
+    utm_source: getUTMParam("utm_source"),
+    utm_medium: getUTMParam("utm_medium"),
+  });
+}
+
 export async function trackSearchQuery(
   filters: Record<string, string>,
   resultsCount: number

@@ -10,6 +10,7 @@ export const NOTIFICATION_TYPES = [
   "subscription_activated",
   "new_message",
   "listing_featured",
+  "listing_expiring",
 ] as const;
 
 export type NotificationType = (typeof NOTIFICATION_TYPES)[number];
@@ -188,20 +189,25 @@ export async function ensureSubscriptionNotifications(dealer: NotificationDealer
   }
 }
 
-async function sendEmail(to: string, subject: string, html: string) {
+async function sendEmail(to: string, subject: string, html: string): Promise<boolean> {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
     console.log(`[email] RESEND_API_KEY not set, skipping "${subject}" to ${to}`);
-    return;
+    return false;
   }
 
   try {
     const { Resend } = await import("resend");
     const resend = new Resend(apiKey);
     const { error } = await resend.emails.send({ from: FROM_EMAIL, to, subject, html });
-    if (error) console.error("[email/send]", error);
+    if (error) {
+      console.error("[email/send]", error);
+      return false;
+    }
+    return true;
   } catch (err) {
     console.error("[email/send]", err);
+    return false;
   }
 }
 
@@ -211,6 +217,12 @@ export async function emailAdmin(subject: string, html: string) {
 
 export async function emailDealer(dealerEmail: string, subject: string, html: string) {
   await sendEmail(dealerEmail, subject, html);
+}
+
+/** Returns true only when the message actually went out, so callers can avoid
+ *  marking an alert as notified when email delivery is unconfigured. */
+export async function emailUser(to: string, subject: string, html: string): Promise<boolean> {
+  return sendEmail(to, subject, html);
 }
 
 function emailShell(title: string, body: string): string {
@@ -261,6 +273,64 @@ export function adminNewListingEmail(title: string, dealer: string, city: string
     <div style="margin-top:24px;">
       <a href="${SITE_URL}/admin/ilanlar" style="display:inline-block;background:#C0392B;color:#fff;padding:12px 24px;border-radius:8px;font-weight:600;font-size:13px;text-decoration:none;">İlanları İncele</a>
     </div>
+  `);
+}
+
+export function adminNewOfferEmail(
+  title: string,
+  slug: string,
+  askingPrice: number | null,
+  offerAmount: number | null,
+  name: string,
+  phone: string,
+  note: string | null,
+): string {
+  const diff =
+    askingPrice && offerAmount ? askingPrice - offerAmount : null;
+  return emailShell("Yeni Fiyat Teklifi", `
+    <h2 style="margin:0 0 16px;font-size:18px;color:#1a1c1c;">Yeni Fiyat Teklifi Aldınız</h2>
+    <table style="width:100%;border-collapse:collapse;font-size:13px;">
+      <tr><td style="padding:6px 0;color:#888;width:130px;">İlan</td><td style="padding:6px 0;font-weight:600;">${title}</td></tr>
+      <tr><td style="padding:6px 0;color:#888;">İlan Fiyatı</td><td style="padding:6px 0;">${askingPrice ? askingPrice.toLocaleString("tr-TR") + " TL" : "-"}</td></tr>
+      <tr><td style="padding:6px 0;color:#888;">Teklif</td><td style="padding:6px 0;color:#C0392B;font-weight:700;font-size:15px;">${offerAmount ? offerAmount.toLocaleString("tr-TR") + " TL" : "-"}</td></tr>
+      ${diff !== null ? `<tr><td style="padding:6px 0;color:#888;">Fark</td><td style="padding:6px 0;">${diff.toLocaleString("tr-TR")} TL</td></tr>` : ""}
+      <tr><td style="padding:6px 0;color:#888;">Ad Soyad</td><td style="padding:6px 0;">${name}</td></tr>
+      <tr><td style="padding:6px 0;color:#888;">Telefon</td><td style="padding:6px 0;font-weight:600;">${phone}</td></tr>
+      ${note ? `<tr><td style="padding:6px 0;color:#888;vertical-align:top;">Not</td><td style="padding:6px 0;">${note}</td></tr>` : ""}
+    </table>
+    <div style="margin-top:24px;">
+      <a href="https://wa.me/${phone.replace(/\D/g, "")}" style="display:inline-block;background:#25D366;color:#fff;padding:12px 24px;border-radius:8px;font-weight:600;font-size:13px;text-decoration:none;margin-right:8px;">WhatsApp ile Yanıtla</a>
+      <a href="${SITE_URL}/ara/${slug}" style="display:inline-block;background:#C0392B;color:#fff;padding:12px 24px;border-radius:8px;font-weight:600;font-size:13px;text-decoration:none;">İlanı Aç</a>
+    </div>
+  `);
+}
+
+export function alertNewListingEmail(
+  listings: { title: string; slug: string; asking_price: number; city: string; primary_image: string | null }[],
+  label: string,
+  unsubscribeToken: string,
+): string {
+  const rows = listings.map((l) => `
+    <tr>
+      <td style="padding:12px 0;border-bottom:1px solid #eee;">
+        <a href="${SITE_URL}/ara/${l.slug}" style="text-decoration:none;color:#1a1c1c;">
+          <div style="font-weight:600;font-size:14px;">${l.title}</div>
+          <div style="font-size:12px;color:#888;margin-top:2px;">${l.city}</div>
+          <div style="font-size:15px;color:#C0392B;font-weight:700;margin-top:4px;">${l.asking_price.toLocaleString("tr-TR")} TL</div>
+        </a>
+      </td>
+    </tr>`).join("");
+  return emailShell("Aramanıza Uygun Yeni İlan", `
+    <h2 style="margin:0 0 8px;font-size:18px;color:#1a1c1c;">Aramanıza uygun ${listings.length} yeni ilan</h2>
+    <p style="font-size:13px;color:#888;margin:0 0 16px;">${label}</p>
+    <table style="width:100%;border-collapse:collapse;">${rows}</table>
+    <div style="margin-top:24px;">
+      <a href="${SITE_URL}/ara" style="display:inline-block;background:#C0392B;color:#fff;padding:12px 24px;border-radius:8px;font-weight:600;font-size:13px;text-decoration:none;">Tüm İlanları Gör</a>
+    </div>
+    <p style="margin-top:24px;font-size:11px;color:#aaa;">
+      Bu bildirimleri almak istemiyorsanız
+      <a href="${SITE_URL}/api/alerts/unsubscribe?token=${unsubscribeToken}" style="color:#888;">aboneliğinizi iptal edin</a>.
+    </p>
   `);
 }
 

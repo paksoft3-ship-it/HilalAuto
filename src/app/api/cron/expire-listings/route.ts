@@ -30,46 +30,39 @@ export async function GET(req: NextRequest) {
   if (listingExpireErr) console.error("[cron/expire-listings] listings:", listingExpireErr);
   summary.listingsExpired = expiredListings?.length ?? 0;
 
-  // ── 2. Expire dealer subscriptions whose subscription_end has passed ────────
-  const { data: expiredDealers, error: dealerExpireErr } = await supabaseAdmin
-    .from("hazaral_dealers")
-    .update({ subscription_status: "expired" })
-    .eq("subscription_status", "active")
-    .not("subscription_end", "is", null)
-    .lt("subscription_end", now)
-    .select("id, company_name, subscription_plan");
+  // ── 2. Warn dealers about listings expiring within a week ──────────────────
+  // Membership is free, so nothing is taken away for non-payment; the only
+  // lifecycle event is the listing's own 90-day window, and it should never
+  // expire silently.
+  const weekOut = new Date(Date.now() + 7 * 86400000).toISOString();
+  const { data: expiringSoon } = await supabaseAdmin
+    .from("hazaral_listings")
+    .select("id, dealer_id, title, expires_at")
+    .eq("status", "active")
+    .not("expires_at", "is", null)
+    .gt("expires_at", now)
+    .lt("expires_at", weekOut);
 
-  if (dealerExpireErr) console.error("[cron/expire-listings] dealers:", dealerExpireErr);
-  summary.dealersExpired = expiredDealers?.length ?? 0;
+  summary.listingsExpiringSoon = expiringSoon?.length ?? 0;
 
-  // ── 3. When a dealer expires, deactivate all their active listings ──────────
-  if (expiredDealers && expiredDealers.length > 0) {
-    const dealerIds = expiredDealers.map((d) => d.id);
-
-    const { data: dealerListingsExpired, error: dlErr } = await supabaseAdmin
-      .from("hazaral_listings")
-      .update({ status: "expired" })
-      .in("dealer_id", dealerIds)
-      .eq("status", "active")
-      .select("id");
-
-    if (dlErr) console.error("[cron/expire-listings] dealer-listings:", dlErr);
-    summary.listingsExpiredByDealerExpiry = dealerListingsExpired?.length ?? 0;
-
-    // Create in-app notification for each expired dealer
-    const notifications = expiredDealers.map((d) => ({
-      dealer_id: d.id,
-      type: "subscription_expired" as const,
-      title: "Aboneliğiniz Sona Erdi",
-      body: `${d.subscription_plan ?? ""} aboneliğiniz sona erdi. İlanlarınız yayından kaldırıldı. Yenileme için bizimle iletişime geçin.`.trim(),
-      is_read: false,
-    }));
-
-    if (notifications.length > 0) {
-      const { error: notifErr } = await supabaseAdmin
-        .from("hazaral_notifications")
-        .insert(notifications);
-      if (notifErr) console.error("[cron/expire-listings] notifications:", notifErr);
+  if (expiringSoon?.length) {
+    // One notification per listing per day would be spam; the cron runs daily,
+    // so only warn on the day the listing crosses the 7-day mark.
+    const sixDaysOut = new Date(Date.now() + 6 * 86400000).toISOString();
+    const toWarn = expiringSoon.filter((l) => l.expires_at! > sixDaysOut);
+    if (toWarn.length) {
+      const { error: warnErr } = await supabaseAdmin.from("hazaral_notifications").insert(
+        toWarn.map((l) => ({
+          dealer_id: l.dealer_id,
+          type: "listing_expiring" as const,
+          title: "İlanınızın Süresi Doluyor",
+          body: `"${l.title}" ilanının yayın süresi 7 gün içinde doluyor. Panelden süreyi uzatabilirsiniz.`,
+          listing_id: l.id,
+          is_read: false,
+        }))
+      );
+      if (warnErr) console.error("[cron/expire-listings] expiry-warning:", warnErr);
+      summary.expiryWarningsSent = toWarn.length;
     }
   }
 

@@ -81,7 +81,12 @@ export default function MesajlarPage() {
                 <div className={cn("w-[8px] h-[8px] rounded-full mt-2 shrink-0", !msg.is_read ? "bg-primary" : "bg-transparent")} />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-8">
-                    <span className={cn("text-[13px] truncate", !msg.is_read ? "font-semibold text-on-surface" : "font-medium text-muted-text")}>
+                    <span className={cn("text-[13px] truncate flex items-center gap-6", !msg.is_read ? "font-semibold text-on-surface" : "font-medium text-muted-text")}>
+                      {msg.message.startsWith("TEKLİF:") && (
+                        <span className="shrink-0 bg-primary text-white text-[9px] font-bold px-6 py-[2px] rounded-full uppercase tracking-wide">
+                          Teklif
+                        </span>
+                      )}
                       {msg.sender_name}
                     </span>
                     <span className="text-[10px] text-muted-text shrink-0">

@@ -213,11 +213,26 @@
   },
   "grade": {
     "aria": "Otograde Derecesi: {label}",
-    "A": { "label": "A — Çok Az Hasar", "description": "Kozmetik hasar — araç yürür durumda ve kolayca onarılabilir" },
-    "B": { "label": "B — Az Hasar", "description": "Hafif hasar — onarım maliyeti düşük" },
-    "C": { "label": "C — Orta Hasar", "description": "Orta hasar — önemli onarım gerektirir ama ekonomik" },
-    "D": { "label": "D — Ağır Hasar", "description": "Ağır hasar — yüksek onarım maliyeti" },
-    "E": { "label": "E — Çok Ağır Hasar", "description": "Çok ağır hasar veya pert — ekonomik onarım mümkün olmayabilir" }
+    "A": {
+      "label": "A — Çok Az Hasar",
+      "description": "Kozmetik hasar — araç yürür durumda ve kolayca onarılabilir"
+    },
+    "B": {
+      "label": "B — Az Hasar",
+      "description": "Hafif hasar — onarım maliyeti düşük"
+    },
+    "C": {
+      "label": "C — Orta Hasar",
+      "description": "Orta hasar — önemli onarım gerektirir ama ekonomik"
+    },
+    "D": {
+      "label": "D — Ağır Hasar",
+      "description": "Ağır hasar — yüksek onarım maliyeti"
+    },
+    "E": {
+      "label": "E — Çok Ağır Hasar",
+      "description": "Çok ağır hasar veya pert — ekonomik onarım mümkün olmayabilir"
+    }
   },
   "damageTypeLabels": {
     "kazali": "Kazalı",
@@ -331,14 +346,46 @@
     "schemaName": "Hasarlı Araç İlanları",
     "schemaDescription": "Türkiye genelinde onaylı bayilerden satılık kazalı, pert ve hasarlı araçlar",
     "damage": {
-      "kazali": { "label": "Kazalı", "title": "Kazalı Araç İlanları", "description": "Önden, arkadan veya yandan hasarlı satılık kazalı araç ilanlarını Otograde güvencesiyle inceleyin." },
-      "pert": { "label": "Pert", "title": "Pert Araç İlanları", "description": "Sigorta tarafından pert ilan edilmiş ve onarım süreci netleşmiş satılık pert araç ilanlarını keşfedin." },
-      "yanmis": { "label": "Yanmış", "title": "Yanmış Araç İlanları", "description": "Yangın hasarı bulunan satılık araç ilanlarını fotoğrafları, hasar notları ve Otograde derecesiyle görüntüleyin." },
-      "sel": { "label": "Sel Hasarlı", "title": "Sel Hasarlı Araç İlanları", "description": "Su baskını veya sel hasarı bulunan araç ilanlarını şehir, fiyat ve hasar derecesine göre filtreleyin." },
-      "hurda": { "label": "Hurda", "title": "Hurda Araç İlanları", "description": "Parça, onarım veya proje amaçlı değerlendirilebilecek satılık hurda araç ilanlarını inceleyin." },
-      "motor": { "label": "Motor Arızalı", "title": "Motor Arızalı Araç İlanları", "description": "Motor veya yürür aksam arızası bulunan satılık araçları marka, şehir ve fiyat aralığına göre karşılaştırın." },
-      "cekme": { "label": "Çekme Belgeli", "title": "Çekme Belgeli Araç İlanları", "description": "Çekme belgeli satılık hasarlı araç ilanlarını bayi bilgileri ve Otograde dereceleriyle görüntüleyin." },
-      "agir": { "label": "Ağır Hasarlı", "title": "Ağır Hasarlı Araç İlanları", "description": "Ağır hasar kayıtlı veya yüksek onarım maliyetli satılık araç ilanlarını Otograde derecesiyle inceleyin." }
+      "kazali": {
+        "label": "Kazalı",
+        "title": "Kazalı Araç İlanları",
+        "description": "Önden, arkadan veya yandan hasarlı satılık kazalı araç ilanlarını Otograde güvencesiyle inceleyin."
+      },
+      "pert": {
+        "label": "Pert",
+        "title": "Pert Araç İlanları",
+        "description": "Sigorta tarafından pert ilan edilmiş ve onarım süreci netleşmiş satılık pert araç ilanlarını keşfedin."
+      },
+      "yanmis": {
+        "label": "Yanmış",
+        "title": "Yanmış Araç İlanları",
+        "description": "Yangın hasarı bulunan satılık araç ilanlarını fotoğrafları, hasar notları ve Otograde derecesiyle görüntüleyin."
+      },
+      "sel": {
+        "label": "Sel Hasarlı",
+        "title": "Sel Hasarlı Araç İlanları",
+        "description": "Su baskını veya sel hasarı bulunan araç ilanlarını şehir, fiyat ve hasar derecesine göre filtreleyin."
+      },
+      "hurda": {
+        "label": "Hurda",
+        "title": "Hurda Araç İlanları",
+        "description": "Parça, onarım veya proje amaçlı değerlendirilebilecek satılık hurda araç ilanlarını inceleyin."
+      },
+      "motor": {
+        "label": "Motor Arızalı",
+        "title": "Motor Arızalı Araç İlanları",
+        "description": "Motor veya yürür aksam arızası bulunan satılık araçları marka, şehir ve fiyat aralığına göre karşılaştırın."
+      },
+      "cekme": {
+        "label": "Çekme Belgeli",
+        "title": "Çekme Belgeli Araç İlanları",
+        "description": "Çekme belgeli satılık hasarlı araç ilanlarını bayi bilgileri ve Otograde dereceleriyle görüntüleyin."
+      },
+      "agir": {
+        "label": "Ağır Hasarlı",
+        "title": "Ağır Hasarlı Araç İlanları",
+        "description": "Ağır hasar kayıtlı veya yüksek onarım maliyetli satılık araç ilanlarını Otograde derecesiyle inceleyin."
+      }
     },
     "fuel": {
       "benzin": "Benzin",
@@ -425,7 +472,16 @@
     "copy": "Linki Kopyala",
     "favorite": "Favorilere ekle",
     "report": "İlanı şikayet et",
-    "whatsappMessage": "Merhaba, {title} ilanınız hakkında bilgi almak istiyorum. (İlan: {slug})"
+    "whatsappMessage": "Merhaba, {title} ilanınız hakkında bilgi almak istiyorum. (İlan: {slug})",
+    "offerCta": "Teklif Ver",
+    "offerTitle": "Fiyat Teklifiniz",
+    "offerAmount": "Teklifiniz",
+    "offerNote": "Not (isteğe bağlı)",
+    "offerSubmit": "Teklifi Gönder",
+    "offerCancel": "Vazgeç",
+    "offerSent": "Teklifiniz iletildi. En kısa sürede size dönüş yapılacaktır.",
+    "offerHint": "Teklifiniz bağlayıcı değildir. Satıcı size telefonla veya WhatsApp'tan dönüş yapar.",
+    "offerAmountInvalid": "Lütfen geçerli bir tutar girin."
   },
   "favoriteButton": {
     "add": "Favorilere ekle",
@@ -498,7 +554,8 @@
     "dealerFallback": "Bayi",
     "minutesAgo": "{count} dakika önce",
     "hoursAgo": "{count} saat önce",
-    "daysAgo": "{count} gün önce"
+    "daysAgo": "{count} gün önce",
+    "provincesServed": "hizmet verilen il"
   },
   "thankyou": {
     "title": "Başvurunuz Alındı",
@@ -927,5 +984,16 @@
     "sectionSubtitle": "Aşağıdan şehrinizi seçin, o şehre özel hasarlı araç alım sayfasına ulaşın.",
     "districts": "ilçe",
     "getQuote": "Teklif Al"
+  },
+  "searchAlert": {
+    "cta": "Bu aramaya uygun yeni ilan çıkınca haber ver",
+    "title": "Yeni ilan bildirimi",
+    "emailPlaceholder": "E-posta adresiniz",
+    "submit": "Bildirim Al",
+    "sending": "Kaydediliyor...",
+    "cancel": "Vazgeç",
+    "success": "Kaydedildi. Aramanıza uygun yeni ilan çıktığında e-posta göndereceğiz.",
+    "error": "Kayıt oluşturulamadı. Lütfen tekrar deneyin.",
+    "hint": "Sadece bu aramaya uyan ilanlar için e-posta alırsınız. İstediğiniz zaman iptal edebilirsiniz."
   }
 }
