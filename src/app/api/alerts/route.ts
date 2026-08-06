@@ -35,13 +35,20 @@ export async function POST(req: NextRequest) {
 
     const clean = sanitizeFilters(filters);
 
-    // One alert per email+filter combination.
-    const { data: existing } = await supabaseAdmin
+    // One alert per email+filter combination. Compared in JS because an
+    // `.eq()` on a jsonb column does not perform jsonb equality.
+    const fingerprint = JSON.stringify(
+      Object.keys(clean).sort().map((k) => [k, clean[k]])
+    );
+    const { data: forEmail } = await supabaseAdmin
       .from("hazaral_search_alerts")
-      .select("id")
-      .eq("email", email.toLowerCase())
-      .eq("filters", clean)
-      .maybeSingle();
+      .select("id, filters")
+      .eq("email", email.toLowerCase());
+
+    const existing = (forEmail ?? []).find((row) => {
+      const f = (row.filters ?? {}) as Record<string, string>;
+      return JSON.stringify(Object.keys(f).sort().map((k) => [k, f[k]])) === fingerprint;
+    });
 
     if (existing) {
       await supabaseAdmin
