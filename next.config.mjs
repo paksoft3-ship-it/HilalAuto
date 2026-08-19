@@ -7,9 +7,14 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
-  allowedDevOrigins: ["127.0.0.1", "localhost"],
   images: {
-    formats: ["image/avif", "image/webp"],
+    // Vercel's Image Optimization quota for this account is exhausted; the
+    // optimizer answers /_next/image with HTTP 402 and every image blanks out.
+    // Serving files directly keeps the site intact and uses no quota.
+    // Re-enable (drop `unoptimized`, restore `formats`) after a plan upgrade or
+    // quota reset — and prefer webp alone, since avif+webp doubles the number
+    // of billable transformations per image.
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
@@ -41,6 +46,14 @@ const nextConfig = {
           // SAMEORIGIN (not DENY) so GTM Preview / Tag Assistant debugging works
           { key: "X-Frame-Options", value: "SAMEORIGIN" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains; preload",
+          },
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=(), browsing-topics=()",
+          },
         ],
       },
     ];
