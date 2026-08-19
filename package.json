@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "test:e2e": "playwright test",
-    "test:e2e:smoke": "playwright test tests/smoke"
+    "test:e2e:smoke": "playwright test tests/smoke",
+    "seo:indexnow": "node scripts/indexnow.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",
