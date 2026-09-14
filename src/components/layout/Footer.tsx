@@ -6,7 +6,8 @@ import { routes, externalRoutes } from "@/lib/routes";
 import { PHONE_NUMBER, WHATSAPP_NUMBER, VEHICLE_TYPES } from "@/lib/constants";
 import { FaWhatsapp, FaTiktok, FaInstagram, FaFacebook, FaYoutube, FaLinkedin } from "react-icons/fa";
 
-const SERVICES = VEHICLE_TYPES.slice(0, 6);
+// All eight: slicing to 6 orphaned cekme-belgeli and agir-hasarli.
+const SERVICES = VEHICLE_TYPES;
 
 const CITIES = [
   { label: "İstanbul", slug: "istanbul" },
@@ -20,6 +21,10 @@ const CITIES = [
   { label: "Samsun",   slug: "samsun" },
   { label: "Balıkesir", slug: "balikesir" },
   { label: "Hatay",    slug: "hatay" },
+  { label: "Kocaeli",  slug: "kocaeli" },
+  { label: "Adana",    slug: "adana" },
+  { label: "Gaziantep", slug: "gaziantep" },
+  { label: "Kayseri",  slug: "kayseri" },
 ];
 
 interface FooterProps {
@@ -152,11 +157,20 @@ export function Footer(props: FooterProps = {}) {
               <Link href={routes.becomeDealer()} className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors">
                 {t("becomeDealer")}
               </Link>
-              <Link href={routes.dealerPanel()} className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors">
-                {t("dealerLogin")}
+              <Link href={routes.dealers()} className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors">
+                {t("dealerDirectory", { default: "Bayiler" })}
               </Link>
               <Link href={routes.about()} className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors">
                 {t("about")}
+              </Link>
+              <Link href={routes.cities()} className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors">
+                {t("cityHub", { default: "Şehirler" })}
+              </Link>
+              <Link href={routes.vehicleTypes()} className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors">
+                {t("vehicleTypeHub", { default: "Araç Türleri" })}
+              </Link>
+              <Link href={"/grade-sistemi" as never} className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors">
+                {t("gradeSystemHub", { default: "Grade Sistemi" })}
               </Link>
               <Link href={routes.blog()} className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors">
                 Blog
@@ -185,13 +199,13 @@ export function Footer(props: FooterProps = {}) {
             </div>
 
             <p className="text-[13px] font-medium text-white uppercase tracking-wider mt-8">
-              Grup Siteleri
+              Grup Şirketlerimiz
             </p>
             <div className="flex flex-col gap-8">
               <a
                 href="https://hasarliaracalan.com/"
                 target="_blank"
-                rel="noopener"
+                rel="noopener nofollow"
                 className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors"
               >
                 Hasarlı Araç Alan — HasarliAracAlan.com

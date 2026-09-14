@@ -14,10 +14,9 @@ import { ServiceCategories } from "@/components/sections/ServiceCategories";
 import { CityHub } from "@/components/sections/CityHub";
 import { HomeFAQ } from "@/components/sections/HomeFAQ";
 import { FinalCTABand } from "@/components/sections/FinalCTABand";
-import { GroupSiteBacklink } from "@/components/seo/GroupSiteBacklink";
 import { supabaseAdmin } from "@/lib/supabase";
 import { type CardListing } from "@/components/marketplace/HomepageListingCard";
-import { OG_IMAGE_URL, PHONE_NUMBER, SITE_URL } from "@/lib/constants";
+import { OG_IMAGE_URL, LOGO_URL, PHONE_NUMBER, SITE_URL } from "@/lib/constants";
 import { localeUrl } from "@/lib/locale-url";
 
 export const revalidate = 60;
@@ -139,8 +138,7 @@ export default async function HomePage({ params }: HomePageProps) {
         ? "Turkey's damaged vehicle marketplace. Transparent A-E grade system, verified dealers."
         : "Otograde, Türkiye'nin hasarlı araç pazaryeri. A'dan E'ye grade sistemiyle şeffaf değerleme.",
     url: SITE_URL,
-    logo: { "@type": "ImageObject", url: OG_IMAGE_URL, width: 1200, height: 630 },
-    sameAs: ["https://hasarliaracalan.com/"],
+    logo: { "@type": "ImageObject", url: LOGO_URL },
     contactPoint: {
       "@type": "ContactPoint",
       telephone: PHONE_NUMBER,
@@ -170,7 +168,6 @@ export default async function HomePage({ params }: HomePageProps) {
       <main className="pb-[60px] md:pb-0">
         {/* 1 — Hero + stats bar */}
         <MarketplaceHero stats={stats} />
-        <GroupSiteBacklink variant="home" locale={locale} />
 
         {/* 2 — Featured listings */}
         <FeaturedListings listings={featuredListings} />
