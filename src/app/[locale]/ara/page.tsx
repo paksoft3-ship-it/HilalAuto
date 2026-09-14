@@ -16,6 +16,8 @@ import {
   type FilterCountOption,
   type MarketplaceFilterOptions,
 } from "@/lib/marketplace-filter-options";
+import { countDamageFacetListings, getIndexableDamageFacets, MIN_INDEXABLE_LISTINGS } from "@/lib/indexable-facets";
+import { routes } from "@/lib/routes";
 
 // Search results must always reflect the live inventory — never serve a
 // build-time snapshot from the full route cache.
@@ -156,7 +158,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
     priceMin || priceMax || yearMin || yearMax || kmMin || kmMax || hasTramer ||
     negotiable || verifiedDealer || featured || hasPhotos || hasDamageNote || sort || page
   );
-  const isIndexableDamagePage =
+  const isSingleDamageFacet =
     damageFilters.length === 1 &&
     !brand &&
     !model &&
@@ -179,6 +181,17 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
     !hasDamageNote &&
     (!sort || sort === "newest") &&
     (!page || page === "1");
+
+  // A facet is only worth indexing once it actually holds inventory — a
+  // clean single-filter shape used to be enough, which meant a damage_type
+  // with zero live listings still shipped `index, follow`. This flips it to
+  // noindex the moment the count drops below MIN_INDEXABLE_LISTINGS, and back
+  // to indexable automatically once it clears the bar again.
+  let isIndexableDamagePage = false;
+  if (isSingleDamageFacet) {
+    const count = await countDamageFacetListings(getDamageMatchValues(damageType));
+    isIndexableDamagePage = count >= MIN_INDEXABLE_LISTINGS;
+  }
 
   const title       = buildTitle(brand, city, damageFilters, grade, t);
   const description = buildDescription(brand, city, damageFilters, t);
@@ -482,6 +495,11 @@ export default async function AraPage({ params, searchParams }: Props) {
     fetchFilterOptions(),
   ]);
 
+  // Empty result: not a soft 404 (still 200, still noindex/index per the
+  // rules above), but pointless without a way out. Suggest facets that
+  // actually have inventory instead of a dead end.
+  const suggestedFacets = initialTotal === 0 ? await getIndexableDamageFacets() : [];
+
   const itemListSchema = buildItemListSchema(initialListings, locale, t);
 
   return (
@@ -497,6 +515,11 @@ export default async function AraPage({ params, searchParams }: Props) {
             initialListings={initialListings}
             initialTotal={initialTotal}
             filterOptions={filterOptions}
+            suggestedFacets={suggestedFacets.map((f) => ({
+              slug: f.slug,
+              label: f.label,
+              href: routes.damageFilter(f.slug),
+            }))}
           />
         </Suspense>
       </main>

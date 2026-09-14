@@ -43,6 +43,9 @@ interface ListingsClientProps {
   initialListings: Listing[];
   initialTotal: number;
   filterOptions: MarketplaceFilterOptions;
+  /** Damage-type facets that currently hold real inventory — shown as an escape
+   *  hatch on the empty state instead of leaving the visitor at a dead end. */
+  suggestedFacets?: { slug: string; label: string; href: string }[];
 }
 
 type SortValue = "newest" | "price_asc" | "price_desc" | "views_desc" | "km_asc" | "year_desc";
@@ -129,7 +132,7 @@ function fallbackOptions(values: readonly string[]): FilterCountOption[] {
   return values.map((value) => ({ value, label: value, count: 0 }));
 }
 
-export function ListingsClient({ initialListings, initialTotal, filterOptions }: ListingsClientProps) {
+export function ListingsClient({ initialListings, initialTotal, filterOptions, suggestedFacets = [] }: ListingsClientProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -937,6 +940,19 @@ export function ListingsClient({ initialListings, initialTotal, filterOptions }:
                 >
                   {text.clearFilters}
                 </button>
+                {suggestedFacets.length > 0 && (
+                  <div className="flex flex-wrap items-center justify-center gap-8 mt-24">
+                    {suggestedFacets.map((facet) => (
+                      <Link
+                        key={facet.slug}
+                        href={facet.href as never}
+                        className="px-16 py-8 bg-surface border border-[0.5px] border-border-default rounded-btn text-[12px] font-medium text-on-surface hover:border-primary transition-colors"
+                      >
+                        {facet.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
                 {/* No stock today is exactly when an alert is worth most. */}
                 <div className="max-w-[420px] mx-auto mt-32 text-left">
                   <SearchAlertBox filters={alertFilters} summary={alertSummary} />

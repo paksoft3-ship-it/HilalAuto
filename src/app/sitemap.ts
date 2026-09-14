@@ -1,10 +1,7 @@
 import type { MetadataRoute } from "next";
-import { ALL_SERVICE_SLUGS } from "@/data/services";
-import { ALL_CITY_SLUGS } from "@/data/cities";
 import { SITE_URL } from "@/lib/constants";
 import { supabase } from "@/lib/supabase";
-import { getPathname } from "@/i18n/routing";
-
+import { getIndexableCityFacets, getIndexableDamageFacets } from "@/lib/indexable-facets";
 
 // TR = default locale, no prefix (e.g. https://otograde.com/teklif-al)
 // EN = /en/ prefix with localised paths (e.g. https://otograde.com/en/get-a-quote)
@@ -17,18 +14,14 @@ function en(path: string): string {
   return `${SITE_URL}/en${path === "/" ? "" : path}`;
 }
 
-type Entry = MetadataRoute.Sitemap[number];
-
-function pair(
-  trPath: string,
-  enPath: string,
-  opts: { freq?: Entry["changeFrequency"]; priority?: number; lastMod?: Date } = {}
-): MetadataRoute.Sitemap {
-  const lastModified = opts.lastMod ?? new Date();
-  const freq = opts.freq ?? "monthly";
-  const trPriority = opts.priority ?? 0.7;
-  const enPriority = Math.max(trPriority - 0.05, 0.1);
-
+/**
+ * No `priority`/`changeFrequency` — Google has said for years it ignores
+ * both. `lastModified` is included only where a real date exists (blog
+ * posts, listings, dealers all carry genuine updated_at/created_at); the
+ * static and facet pages below have no per-page content date to report
+ * honestly, so they omit it rather than default to the build timestamp.
+ */
+function pair(trPath: string, enPath: string, lastMod?: Date): MetadataRoute.Sitemap {
   const alternates = {
     languages: {
       tr: tr(trPath),
@@ -36,47 +29,54 @@ function pair(
       "x-default": tr(trPath),
     },
   };
-
   return [
-    { url: tr(trPath), lastModified, changeFrequency: freq, priority: trPriority, alternates },
-    { url: en(enPath), lastModified, changeFrequency: freq, priority: enPriority, alternates },
+    { url: tr(trPath), ...(lastMod ? { lastModified: lastMod } : {}), alternates },
+    { url: en(enPath), ...(lastMod ? { lastModified: lastMod } : {}), alternates },
   ];
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // ── Static pages ────────────────────────────────────────────────────────────
   const statics: MetadataRoute.Sitemap = [
-    ...pair("/", "/",                                      { freq: "weekly",  priority: 1.00 }),
-    ...pair("/teklif-al",          "/get-a-quote",         { freq: "monthly", priority: 0.90 }),
-    ...pair("/arac-turleri",       "/vehicle-types",       { freq: "monthly", priority: 0.85 }),
-    ...pair("/sehir",              "/cities",              { freq: "monthly", priority: 0.80 }),
-    ...pair("/nasil-calisir",      "/how-it-works",        { freq: "monthly", priority: 0.75 }),
-    ...pair("/blog",               "/blog",                { freq: "weekly",  priority: 0.70 }),
-    ...pair("/ara",                "/listings",            { freq: "daily",   priority: 0.90 }),
-    ...pair("/hakkimizda",         "/about-us",            { freq: "monthly", priority: 0.60 }),
-    ...pair("/iletisim",           "/contact",             { freq: "monthly", priority: 0.60 }),
-    ...pair("/bayiler",            "/bayiler",             { freq: "weekly",  priority: 0.60 }),
-    ...pair("/kvkk",               "/kvkk",                { freq: "yearly",  priority: 0.30 }),
-    ...pair("/gizlilik-politikasi","/privacy-policy",      { freq: "yearly",  priority: 0.30 }),
-    ...pair("/kullanim-kosullari", "/terms-of-use",        { freq: "yearly",  priority: 0.30 }),
-    ...pair("/cerez-politikasi",   "/cookie-policy",       { freq: "yearly",  priority: 0.30 }),
+    ...pair("/", "/"),
+    ...pair("/teklif-al", "/get-a-quote"),
+    ...pair("/arac-turleri", "/vehicle-types"),
+    ...pair("/sehir", "/cities"),
+    ...pair("/nasil-calisir", "/how-it-works"),
+    ...pair("/blog", "/blog"),
+    ...pair("/ara", "/listings"),
+    ...pair("/grade-sistemi", "/grade-system"),
+    ...pair("/hakkimizda", "/about-us"),
+    ...pair("/iletisim", "/contact"),
+    ...pair("/bayiler", "/bayiler"),
+    ...pair("/kvkk", "/kvkk"),
+    ...pair("/gizlilik-politikasi", "/privacy-policy"),
+    ...pair("/kullanim-kosullari", "/terms-of-use"),
+    ...pair("/cerez-politikasi", "/cookie-policy"),
   ];
 
-  // ── Service pages — TR slug kept canonical, EN uses translated slug ─────────
-  const services: MetadataRoute.Sitemap = ALL_SERVICE_SLUGS.flatMap((slug) => {
-    const trUrl = `${SITE_URL}${getPathname({ locale: "tr", href: `/hizmet/${slug}` as never })}`;
-    const enUrl = `${SITE_URL}${getPathname({ locale: "en", href: `/hizmet/${slug}` as never })}`;
-    const alternates = { languages: { tr: trUrl, en: enUrl, "x-default": trUrl } };
-    return [
-      { url: trUrl, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.85, alternates },
-      { url: enUrl, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.80, alternates },
-    ];
-  });
+  // ── Damage-type facets — only ones currently holding real inventory ────────
+  // /hizmet/*-arac-alimi (the old seller-funnel pages) are gone from here
+  // entirely: they now 301 to these same URLs, and a redirect has no place
+  // in a sitemap.
+  let damageFacets: MetadataRoute.Sitemap = [];
+  try {
+    const indexable = await getIndexableDamageFacets();
+    damageFacets = indexable.flatMap((f) =>
+      pair(`/ara?damage_type=${f.slug}`, `/listings?damage_type=${f.slug}`),
+    );
+  } catch {
+    // Supabase unavailable at build time
+  }
 
-  // ── City pages ───────────────────────────────────────────────────────────────
-  const cities: MetadataRoute.Sitemap = ALL_CITY_SLUGS.flatMap((slug) =>
-    pair(`/sehir/${slug}`, `/cities/${slug}`, { priority: 0.80 })
-  );
+  // ── City pages — same rule, only cities with >= MIN_INDEXABLE_LISTINGS ──────
+  let cities: MetadataRoute.Sitemap = [];
+  try {
+    const indexable = await getIndexableCityFacets();
+    cities = indexable.flatMap((c) => pair(`/sehir/${c.slug}`, `/cities/${c.slug}`));
+  } catch {
+    // Supabase unavailable at build time
+  }
 
   // ── Blog posts (dynamic from Supabase) ───────────────────────────────────────
   let blogPosts: MetadataRoute.Sitemap = [];
@@ -92,12 +92,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         const lastMod = new Date(raw as string);
         // Posts are single-locale — only emit the URL for the locale they exist in
         const url = post.locale === "en" ? en(`/blog/${post.slug}`) : tr(`/blog/${post.slug}`);
-        return {
-          url,
-          lastModified: lastMod,
-          changeFrequency: "monthly" as const,
-          priority: 0.65,
-        };
+        return { url, lastModified: lastMod };
       });
     }
   } catch {
@@ -118,11 +113,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       marketplaceListings = activeListing.flatMap((l) => {
         const raw = (l as Record<string, unknown>).updated_at ?? l.created_at ?? new Date();
         const lastMod = new Date(raw as string);
-        return pair(`/ara/${l.slug}`, `/listings/${l.slug}`, {
-          freq: "weekly",
-          priority: 0.80,
-          lastMod,
-        });
+        return pair(`/ara/${l.slug}`, `/listings/${l.slug}`, lastMod);
       });
     }
   } catch {
@@ -141,16 +132,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     if (dealers && dealers.length > 0) {
       dealerProfiles = dealers.flatMap((d) => {
         const lastMod = new Date((d.updated_at as string) ?? new Date());
-        return pair(`/bayi/${d.slug}`, `/dealer/${d.slug}`, {
-          freq: "weekly",
-          priority: 0.60,
-          lastMod,
-        });
+        return pair(`/bayi/${d.slug}`, `/dealer/${d.slug}`, lastMod);
       });
     }
   } catch {
     // Supabase unavailable at build time
   }
 
-  return [...statics, ...services, ...cities, ...blogPosts, ...marketplaceListings, ...dealerProfiles];
+  return [...statics, ...damageFacets, ...cities, ...blogPosts, ...marketplaceListings, ...dealerProfiles];
 }

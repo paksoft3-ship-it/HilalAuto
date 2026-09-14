@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any */
 import { getPathname } from "@/i18n/routing";
+import { getCityContent } from "@/data/city-content";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/routing";
 import { MapPin, ArrowRight } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
-import { GroupSiteBacklink } from "@/components/seo/GroupSiteBacklink";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 import { MobileStickyCTA } from "@/components/layout/MobileStickyCTA";
@@ -18,11 +18,12 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Badge } from "@/components/ui/Badge";
 import { QuickQuoteForm } from "@/components/forms/QuickQuoteForm";
-import { getCities, ALL_CITY_SLUGS } from "@/data/cities";
+import { getCities, ALL_CITY_SLUGS, CITIES_TR } from "@/data/cities";
 import { SITE_FAQ_ITEMS } from "@/data/faqs";
 import { routes } from "@/lib/routes";
 import { localeUrl } from "@/lib/locale-url";
 import { CITIES, SITE_URL, PHONE_NUMBER } from "@/lib/constants";
+import { countCityListings, MIN_INDEXABLE_LISTINGS } from "@/lib/indexable-facets";
 
 interface Props {
   params: Promise<{ locale: string; slug: string }>;
@@ -41,9 +42,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const city = CITIES_DATA[slug];
   if (!city) return {};
   const t = await getTranslations({ locale, namespace: "seo" });
+  // Hand-written per-city description (TR); falls back to the generic one for EN.
+  const unique = locale === "tr" ? getCityContent(slug) : undefined;
+  const description = unique?.metaDescription ?? city.metaDescription;
+
+  // Same rule as the damage_type facets: a city page is only worth indexing
+  // once it actually holds inventory. The `city` column always stores the
+  // Turkish name regardless of page locale, so count against that.
+  const cityNameTr = CITIES_TR[slug]?.name ?? city.name;
+  const listingCount = await countCityListings(cityNameTr);
+  const isIndexable = listingCount >= MIN_INDEXABLE_LISTINGS;
+
   return {
     title: { absolute: `${city.name} ${t("cityTitleSuffix", { default: "Hasarlı Araç Alanlar — Oto Grade" })}` },
-    description: city.metaDescription,
+    description,
+    robots: isIndexable
+      ? { index: true, follow: true }
+      : { index: false, follow: true },
     alternates: {
       canonical: `${SITE_URL}${getPathname({ locale, href: { pathname: "/sehir/[slug]", params: { slug } } } as any)}`,
       languages: {
@@ -54,7 +69,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     openGraph: {
       title: `${city.name} ${t("cityTitleSuffix", { default: "Hasarlı Araç Alanlar — Oto Grade" })}`,
-      description: city.metaDescription,
+      description,
       locale: locale === "en" ? "en_US" : "tr_TR",
       type: "website",
     },
@@ -67,6 +82,7 @@ export default async function CityPage({ params }: Props) {
   const city = CITIES_DATA[slug];
   if (!city) notFound();
 
+  const unique = locale === "tr" ? getCityContent(slug) : undefined;
   const t = await getTranslations({ locale, namespace: "cityPage" });
   const tTypes = await getTranslations({ locale, namespace: "vehicleTypes" });
 
@@ -101,8 +117,8 @@ export default async function CityPage({ params }: Props) {
   const localBusinessSchema = {
     "@context": "https://schema.org",
     "@type": "AutoDealer",
-    name: `Oto Grade — ${city.name} ${t("citySchemaLocalBusiness", { default: "Hasarlı Araç Alımı" })}`,
-    description: city.metaDescription,
+    name: `Otograde — ${city.name} ${t("citySchemaLocalBusiness", { default: "Hasarlı Araç Alımı" })}`,
+    description: unique?.metaDescription ?? city.metaDescription,
     url: localeUrl(locale, `/sehir/${slug}`),
     telephone: PHONE_NUMBER,
     areaServed: {
@@ -113,10 +129,14 @@ export default async function CityPage({ params }: Props) {
     priceRange: t("citySchemaPrice", { default: "Ücretsiz Teklif" }),
   };
 
+  // Per-city questions where we have them: 15 byte-identical FAQPage nodes
+  // across 15 URLs is duplicate structured data.
+  const faqItems = unique?.faqs ?? SITE_FAQ_ITEMS;
+
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: SITE_FAQ_ITEMS.map((item) => ({
+    mainEntity: faqItems.map((item) => ({
       "@type": "Question",
       name: item.question,
       acceptedAnswer: { "@type": "Answer", text: item.answer },
@@ -139,7 +159,7 @@ export default async function CityPage({ params }: Props) {
                   {city.name} {t("heroTitle", { default: "Hasarlı Araç Alanlar" })}
                 </h1>
                 <p className="text-[14px] text-text-muted leading-relaxed mb-32">
-                  {city.description}
+                  {unique?.intro ?? city.description}
                 </p>
 
                 <div>
@@ -168,9 +188,39 @@ export default async function CityPage({ params }: Props) {
             </div>
           </Container>
         </section>
-        <GroupSiteBacklink variant="city" locale={locale} />
 
         <TrustBar />
+
+        {/* Locally specific copy — the substance that makes this page more than
+            a name-swapped template. TR only for now; EN keeps the short intro. */}
+        {unique && (
+          <section className="py-32 md:py-44 bg-bg-surface border-y border-[0.5px] border-border-default">
+            <Container narrow>
+              <h2 className="text-section-title-mobile md:text-[28px] font-medium tracking-heading text-text-primary mb-24">
+                {city.nameGenitive} Hasarlı Araç Pazarı
+              </h2>
+              {unique.body.map((paragraph, i) => (
+                <p key={i} className="text-[14px] text-text-muted leading-relaxed mb-16">
+                  {paragraph}
+                </p>
+              ))}
+              <ul className="mt-24 grid gap-8 sm:grid-cols-2">
+                {unique.points.map((point) => (
+                  <li
+                    key={point}
+                    className="flex items-start gap-8 text-[13px] text-text-primary"
+                  >
+                    <span
+                      aria-hidden
+                      className="mt-6 h-4 w-4 shrink-0 rounded-full bg-accent"
+                    />
+                    {point}
+                  </li>
+                ))}
+              </ul>
+            </Container>
+          </section>
+        )}
 
         {/* Vehicle types */}
         <section className="py-32 md:py-44">
@@ -190,7 +240,7 @@ export default async function CityPage({ params }: Props) {
         </section>
 
         <DarkCTAForm />
-        <FAQSection />
+        <FAQSection items={unique?.faqs} />
 
         {/* Nearby cities */}
         {nearbyCities.length > 0 && (
