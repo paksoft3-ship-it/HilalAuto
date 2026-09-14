@@ -150,14 +150,14 @@ Bu sistem, satıcıların aracının gerçek değerini anlamasını sağlar ve
 fiyat teklifinin hangi temele dayandığını şeffaf biçimde gösterir.
 
 ### Aldığımız Araç Türleri
-1. Kazalı Araç (Kaza Hasarı): Trafik kazası geçirmiş araçlar — ${SITE_URL}/hizmet/kazali-arac-alimi
-2. Pert Araç (Tam Hasar): Sigorta tarafından pert ilan edilmiş araçlar — ${SITE_URL}/hizmet/pert-arac-alimi
-3. Yanmış Araç (Yangın Hasarı): Yangına maruz kalmış araçlar — ${SITE_URL}/hizmet/yanmis-arac-alimi
-4. Sel Hasarlı Araç (Su Hasarı): Sel veya taşkına maruz kalmış araçlar — ${SITE_URL}/hizmet/sel-hasarli-arac-alimi
-5. Hurda Araç: Ekonomik ömrünü tamamlamış araçlar — ${SITE_URL}/hizmet/hurda-arac-alimi
-6. Motor Arızalı Araç: Motor veya şanzıman arızası olan araçlar — ${SITE_URL}/hizmet/motor-arizali-arac-alimi
-7. Çekme Belgeli Araç: Çekme kaydı bulunan araçlar — ${SITE_URL}/hizmet/cekme-belgeli-arac-alimi
-8. Ağır Hasarlı Araç: Birden fazla bölgede ciddi hasar olan araçlar — ${SITE_URL}/hizmet/agir-hasarli-arac-alimi
+1. Kazalı Araç (Kaza Hasarı): Trafik kazası geçirmiş araçlar — ${SITE_URL}/ara?damage_type=kazali
+2. Pert Araç (Tam Hasar): Sigorta tarafından pert ilan edilmiş araçlar — ${SITE_URL}/ara?damage_type=pert
+3. Yanmış Araç (Yangın Hasarı): Yangına maruz kalmış araçlar — ${SITE_URL}/ara?damage_type=yanmis
+4. Sel Hasarlı Araç (Su Hasarı): Sel veya taşkına maruz kalmış araçlar — ${SITE_URL}/ara?damage_type=sel
+5. Hurda Araç: Ekonomik ömrünü tamamlamış araçlar — ${SITE_URL}/ara?damage_type=hurda
+6. Motor Arızalı Araç: Motor veya şanzıman arızası olan araçlar — ${SITE_URL}/ara?damage_type=motor
+7. Çekme Belgeli Araç: Çekme kaydı bulunan araçlar — ${SITE_URL}/ara?damage_type=cekme
+8. Ağır Hasarlı Araç: Birden fazla bölgede ciddi hasar olan araçlar — ${SITE_URL}/ara?damage_type=agir
 
 ### 3 Adımlı Süreç
 Adım 1 — Form Doldurun: ${SITE_URL}/teklif-al adresinden araç bilgilerini ve telefon numaranızı gönderin. (~2 dakika)
@@ -180,7 +180,9 @@ Diyarbakır — ${SITE_URL}/sehir/diyarbakir
 Samsun — ${SITE_URL}/sehir/samsun
 Balıkesir — ${SITE_URL}/sehir/balikesir
 Hatay — ${SITE_URL}/sehir/hatay
-Türkiye genelindeki tüm 81 ilde hizmet mevcuttur.
+Platform bayi ve ilan kabulünü Türkiye genelinden yapar; aktif ilan
+sayısı şehre göre değişir ve şu anda çoğunlukla yukarıdaki şehirlerde
+yoğunlaşmıştır.
 
 ${marketplaceSection}
 
@@ -215,8 +217,9 @@ Oto Grade is Turkey's nationwide damaged vehicle buying platform.
 "Oto" means automobile/vehicle in Turkish. "Grade" refers to the A–E
 transparent vehicle grading system used to evaluate and price every vehicle.
 Oto Grade connects vehicle owners with a network of buyers, offering
-fair-market prices for all categories of damaged vehicles across all 81
-provinces of Turkey.
+fair-market prices for all categories of damaged vehicles. Dealers and
+listings are accepted nationwide; active listing volume currently varies
+by city.
 
 ### The Grade System (A–E)
 Every vehicle is evaluated and assigned a grade from A to E:
@@ -229,14 +232,14 @@ This grading makes pricing transparent — sellers know exactly why they
 received a specific offer.
 
 ### Vehicle Types Purchased
-1. Accident Damaged (Kazalı): Traffic collision damage — ${SITE_URL}/en/service/accident-damaged-vehicles
-2. Written-Off / Total Loss (Pert): Insurance-declared total loss — ${SITE_URL}/en/service/written-off-vehicles
-3. Fire Damaged (Yanmış): Fire or heat damage — ${SITE_URL}/en/service/fire-damaged-vehicles
-4. Flood Damaged (Sel Hasarlı): Water or flood damage — ${SITE_URL}/en/service/flood-damaged-vehicles
-5. Scrap (Hurda): End-of-life vehicles — ${SITE_URL}/en/service/scrap-vehicles
-6. Engine Failure (Motor Arızalı): Engine or transmission faults — ${SITE_URL}/en/service/engine-fault-vehicles
-7. Tow Certificate (Çekme Belgeli): Vehicles with tow record — ${SITE_URL}/en/service/tow-certificate-vehicles
-8. Heavily Damaged (Ağır Hasarlı): Multi-zone severe damage — ${SITE_URL}/en/service/heavily-damaged-vehicles
+1. Accident Damaged (Kazalı): Traffic collision damage — ${SITE_URL}/en/listings?damage_type=kazali
+2. Written-Off / Total Loss (Pert): Insurance-declared total loss — ${SITE_URL}/en/listings?damage_type=pert
+3. Fire Damaged (Yanmış): Fire or heat damage — ${SITE_URL}/en/listings?damage_type=yanmis
+4. Flood Damaged (Sel Hasarlı): Water or flood damage — ${SITE_URL}/en/listings?damage_type=sel
+5. Scrap (Hurda): End-of-life vehicles — ${SITE_URL}/en/listings?damage_type=hurda
+6. Engine Failure (Motor Arızalı): Engine or transmission faults — ${SITE_URL}/en/listings?damage_type=motor
+7. Tow Certificate (Çekme Belgeli): Vehicles with tow record — ${SITE_URL}/en/listings?damage_type=cekme
+8. Heavily Damaged (Ağır Hasarlı): Multi-zone severe damage — ${SITE_URL}/en/listings?damage_type=agir
 
 ### 3-Step Process
 Step 1 — Submit Form: Complete the short form at ${SITE_URL}/en/get-a-quote (~2 minutes, no commitment)
@@ -246,7 +249,8 @@ Step 3 — Pickup & Payment: On agreement we pick up from your door, handle all 
 ### Cities Served (15 Major Cities)
 Istanbul, Ankara, Izmir, Bursa, Konya, Antalya, Kocaeli, Adana,
 Gaziantep, Kayseri, Mersin, Diyarbakir, Samsun, Balikesir, Hatay.
-Service available in all 81 provinces of Turkey.
+Dealers and listings are accepted nationwide; active listing volume
+currently varies by city.
 
 ### Blog Articles (English) — ${enPosts.length} articles
 ${enBlogLines}

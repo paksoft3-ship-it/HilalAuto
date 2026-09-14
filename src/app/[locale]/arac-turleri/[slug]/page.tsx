@@ -1,24 +1,19 @@
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import { getPathname } from "@/i18n/routing";
+import { VEHICLE_TYPES } from "@/lib/constants";
 
-// Maps short vehicle-type slugs to the full service page slugs.
-// Handles old URLs like /arac-turleri/kazali → /hizmet/kazali-arac-alimi
-const SLUG_MAP: Record<string, string> = {
-  kazali: "kazali-arac-alimi",
-  pert: "pert-arac-alimi",
-  yanmis: "yanmis-arac-alimi",
-  sel: "sel-hasarli-arac-alimi",
-  hurda: "hurda-arac-alimi",
-  motor: "motor-arizali-arac-alimi",
-  cekme: "cekme-belgeli-arac-alimi",
-  agir: "agir-hasarli-arac-alimi",
-};
+// Handles old URLs like /arac-turleri/kazali. These are already the short
+// damage_type slugs, so this redirects straight to the listing category —
+// not through /hizmet/[slug], which itself now redirects there too and
+// would otherwise turn this into a two-hop chain.
+const VALID_SLUGS: Set<string> = new Set(VEHICLE_TYPES.map((v) => v.slug));
 
 interface Props {
   params: Promise<{ locale: string; slug: string }>;
 }
 
 export function generateStaticParams() {
-  return Object.keys(SLUG_MAP).flatMap((slug) => [
+  return Array.from(VALID_SLUGS).flatMap((slug) => [
     { locale: "tr", slug },
     { locale: "en", slug },
   ]);
@@ -26,6 +21,17 @@ export function generateStaticParams() {
 
 export default async function AracTurleriSlugRedirect({ params }: Props) {
   const { locale, slug } = await params;
-  const serviceSlug = SLUG_MAP[slug];
-  redirect(`/${locale}/hizmet/${serviceSlug ?? "kazali-arac-alimi"}`);
+
+  // Unknown slugs used to fall back to kazali-arac-alimi, which turned every
+  // typo into a soft 404 pointing at the same page.
+  if (!VALID_SLUGS.has(slug)) notFound();
+
+  // getPathname resolves the locale-correct route: TR has no prefix under
+  // localePrefix "as-needed", and EN uses the translated /en/listings path.
+  redirect(
+    getPathname({
+      locale,
+      href: { pathname: "/ara", query: { damage_type: slug } },
+    } as never),
+  );
 }
