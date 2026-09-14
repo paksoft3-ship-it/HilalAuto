@@ -1,31 +1,20 @@
+import { Link } from "@/i18n/routing";
+import { ArrowRight } from "lucide-react";
 import { GRADE_COLORS } from "@/lib/grades";
+import { GRADE_DESCRIPTIONS } from "@/types/marketplace";
 
+// Titles matching the same A–E meaning shown on every listing page
+// (types/marketplace.ts GRADE_COLORS labels / messages "grade" namespace) —
+// this section used to run its own, differently-shifted definition (its
+// "A" was the live site's "B", its "D" called Grade D "Pert Kayıtlı" when
+// the real pert/total-loss end of the scale is E). One meaning per letter,
+// documented in full at /grade-sistemi.
 const GRADES = [
-  {
-    grade: "A" as const,
-    title: "Hafif Hasar",
-    desc: "Düşük onarım maliyetli, yürür aksamı sağlam, minimal kaporta işlemli araçlar.",
-  },
-  {
-    grade: "B" as const,
-    title: "Orta Hasar",
-    desc: "Kaporta ve mekanik onarım gerektiren, parça değişimi olan standart kazalılar.",
-  },
-  {
-    grade: "C" as const,
-    title: "Ağır Hasar",
-    desc: "Şasi veya hava yastığı işlemi görmüş, yüksek onarım maliyetli ağır hasarlı araçlar.",
-  },
-  {
-    grade: "D" as const,
-    title: "Pert Kayıtlı",
-    desc: "Sigorta şirketi tarafından pert kararı verilmiş, onarımı ekonomik olmayan araçlar.",
-  },
-  {
-    grade: "E" as const,
-    title: "Hurda / Yedek",
-    desc: "Sadece yedek parça olarak değerlendirilebilir, trafiğe çıkması uygun olmayan araçlar.",
-  },
+  { grade: "A" as const, title: "Çok Az Hasar", desc: GRADE_DESCRIPTIONS.A },
+  { grade: "B" as const, title: "Az Hasar", desc: GRADE_DESCRIPTIONS.B },
+  { grade: "C" as const, title: "Orta Hasar", desc: GRADE_DESCRIPTIONS.C },
+  { grade: "D" as const, title: "Ağır Hasar", desc: GRADE_DESCRIPTIONS.D },
+  { grade: "E" as const, title: "Çok Ağır Hasar", desc: GRADE_DESCRIPTIONS.E },
 ] as const;
 
 export function GradeExplainer() {
@@ -58,6 +47,16 @@ export function GradeExplainer() {
               </div>
             );
           })}
+        </div>
+
+        <div className="flex justify-center mt-32">
+          <Link
+            href={"/grade-sistemi" as never}
+            className="inline-flex items-center gap-6 text-primary text-[13px] font-medium hover:opacity-80"
+          >
+            Grade sistemi hakkında detaylı bilgi
+            <ArrowRight size={14} />
+          </Link>
         </div>
       </div>
     </section>

@@ -361,12 +361,18 @@ export function ListingDetailClient({ listing, dealer, locale = "tr" }: ListingD
 
               {/* Grade bar */}
               {listing.damage_grade && (
-                <div className="flex items-center gap-12 mb-16">
+                <div className="flex items-center gap-12 mb-16 flex-wrap">
                   <span className="text-[12px] text-muted-text w-[100px]">{text.grade}</span>
                   <GradeBar activeGrade={listing.damage_grade} />
                   <span className="text-[12px] text-muted-text ml-4">
                     {listing.damage_grade ? tGrade(`${listing.damage_grade}.description`) : ""}
                   </span>
+                  <Link
+                    href={"/grade-sistemi" as never}
+                    className="text-[11px] text-primary hover:underline ml-4"
+                  >
+                    {locale === "en" ? "What does this mean?" : "Bu ne anlama geliyor?"}
+                  </Link>
                 </div>
               )}
 

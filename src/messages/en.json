@@ -204,7 +204,11 @@
     "kvkk": "KVKK",
     "privacy": "Privacy Policy",
     "terms": "Terms of Use",
-    "rights": "All rights reserved."
+    "rights": "All rights reserved.",
+    "dealerDirectory": "Dealers",
+    "cityHub": "Cities",
+    "vehicleTypeHub": "Vehicle Types",
+    "gradeSystemHub": "Grade System"
   },
   "languageSwitcher": {
     "switchTo": "Switch to {language}",
@@ -638,7 +642,9 @@
     "quoteTitle": "Get a Free Quote — Damaged Vehicle | Oto Grade",
     "quoteDescription": "Get a free, non-binding quote for your damaged vehicle. Fill out the form and our expert team will respond quickly.",
     "satilikAraclarTitle": "Damaged Vehicles for Sale — Oto Grade",
-    "satilikAraclarDescription": "Browse damaged vehicles for sale at Oto Grade. Accident-damaged, written-off and scrap vehicles at competitive prices."
+    "satilikAraclarDescription": "Browse damaged vehicles for sale at Oto Grade. Accident-damaged, written-off and scrap vehicles at competitive prices.",
+    "dealerSignupTitle": "Become a Dealer — Free Membership | Otograde",
+    "dealerSignupDesc": "Free membership for dealers trading damaged vehicles. Publish your listings and connect directly with buyers."
   },
   "vehicleTypesPage": {
     "schemaTitle": "Damaged Vehicle Types",
@@ -696,6 +702,16 @@
     "s9Content": "This policy may be updated from time to time. Users will be informed of significant changes.",
     "privacyTitle": "Privacy Policy — Oto Grade",
     "s1Content": "As Oto Grade, protecting the privacy of our users is our top priority. This policy explains how information collected when you visit our website or use our services is processed."
+  },
+  "gradeSystemPage": {
+    "faq1Q": "Who assigns the grade — Otograde or the seller?",
+    "faq1A": "The grade is selected by the listing dealer according to the criteria defined on this page — Otograde does not physically inspect the vehicle. That's why we recommend reading the listing's damage notes and photos carefully, and getting an independent inspection before you buy.",
+    "faq2Q": "Is the grade the same thing as the damage type (accident, written-off, scrap)?",
+    "faq2A": "No — they're two separate, complementary pieces of information. Damage type describes the cause of the damage (accident, fire, flood, scrap, etc.); the Otograde grade classifies how economically severe that damage is, from A to E. Two vehicles with the same damage type can carry different grades depending on how extensive the damage is.",
+    "faq3Q": "Is the A–E grade an official insurance or traffic record?",
+    "faq3A": "No. A–E is Otograde's own evaluation scale — it is not an official insurance or vehicle registry record. Official terms insurers use, like \"heavily damaged\" or \"written-off,\" are shown separately in the Tramer/damage record field and the listing description.",
+    "faq4Q": "Does the grade set the price directly?",
+    "faq4A": "No. The grade gives a quick sense of how severe the damage is, but the final price depends on brand, model, mileage, damage type, and the price the seller has set. Otograde does not guarantee a price — every listing is settled directly with the dealer."
   },
   "servicePage": {
     "step1Desc": "Submit vehicle information via a short form.",
@@ -857,8 +873,9 @@
     "story": {
       "p1": "Oto Grade was founded to simplify the complicated process of selling damaged vehicles."
     },
-    "stat1": "Vehicles purchased",
-    "stat2": "Cities served",
+    "stat1Val": "Free",
+    "stat1": "Membership and listing",
+    "stat2": "Grade evaluation system",
     "stat3Val": "1 hour",
     "stat3": "Average response time",
     "stat4": "Transparent process",
@@ -995,5 +1012,17 @@
     "success": "Saved. We'll email you when a matching vehicle is listed.",
     "error": "Could not save. Please try again.",
     "hint": "You'll only be emailed about listings matching this search. Unsubscribe anytime."
+  },
+  "homeFaq": {
+    "badge": "HELP",
+    "title": "Frequently Asked Questions",
+    "q1": "What is the grade system?",
+    "a1": "The Otograde grade system is an independent damage rating scale that places damaged vehicles into five categories from A to E. A is the lightest damage; E means salvage or spare-parts condition.",
+    "q2": "How can I buy a vehicle?",
+    "a2": "Search the listings page using the grade, city and price filters. Open the listing you are interested in and contact the dealer directly by WhatsApp or message.",
+    "q3": "How can I sell my vehicle?",
+    "a3": "You have two options: register free and publish your own listing, or fill in the quote form to send us a request directly.",
+    "q4": "Is publishing a listing free?",
+    "a4": "Yes, it is free. Membership and listing publication currently cost nothing. Sign up on the Become a Member page and start publishing as a dealer or an individual seller once approved."
   }
 }

@@ -204,7 +204,11 @@
     "kvkk": "KVKK",
     "privacy": "Gizlilik Politikası",
     "terms": "Kullanım Koşulları",
-    "rights": "Tüm hakları saklıdır."
+    "rights": "Tüm hakları saklıdır.",
+    "dealerDirectory": "Bayiler",
+    "cityHub": "Şehirler",
+    "vehicleTypeHub": "Araç Türleri",
+    "gradeSystemHub": "Grade Sistemi"
   },
   "languageSwitcher": {
     "switchTo": "{language} diline geç",
@@ -638,7 +642,9 @@
     "quoteTitle": "Ücretsiz Teklif Al — Hasarlı Araç | Oto Grade",
     "quoteDescription": "Hasarlı aracınız için ücretsiz ve bağlayıcı olmayan teklif alın. Formu doldurun, uzman ekibimiz hızlıca dönüş yapsın.",
     "satilikAraclarTitle": "Satılık Hasarlı Araçlar — Oto Grade",
-    "satilikAraclarDescription": "Oto Gradeden satışa çıkan hasarlı araçları inceleyin. Kazalı, pert ve hurda araçlarda uygun fiyatlar."
+    "satilikAraclarDescription": "Oto Gradeden satışa çıkan hasarlı araçları inceleyin. Kazalı, pert ve hurda araçlarda uygun fiyatlar.",
+    "dealerSignupTitle": "Bayi Ol — Ücretsiz Üyelik | Otograde",
+    "dealerSignupDesc": "Hasarlı araç alım satımı yapan bayiler için ücretsiz üyelik. İlanlarınızı yayınlayın, alıcılarla doğrudan iletişime geçin."
   },
   "vehicleTypesPage": {
     "schemaTitle": "Hasarlı Araç Türleri",
@@ -696,6 +702,16 @@
     "s9Content": "Bu politika zaman zaman güncellenebilir. Önemli değişikliklerde kullanıcılar bilgilendirilecektir.",
     "privacyTitle": "Gizlilik Politikası — Oto Grade",
     "s1Content": "Oto Grade olarak kullanıcılarımızın gizliliğini korumak en önemli önceliğimizdir. Bu politika, web sitemizi ziyaret ettiğinizde veya hizmetlerimizi kullandığınızda toplanan bilgilerin nasıl işlendiğini açıklamaktadır."
+  },
+  "gradeSystemPage": {
+    "faq1Q": "Grade'i kim belirliyor, Otograde mi yoksa satıcı mı?",
+    "faq1A": "Grade, ilanı oluşturan bayi tarafından bu sayfada tanımlanan kritere göre seçilir — Otograde aracı fiziksel olarak incelemez. Bu yüzden ilandaki hasar notlarını ve fotoğrafları dikkatle incelemenizi, karar öncesi bağımsız ekspertiz yaptırmanızı öneririz.",
+    "faq2Q": "Grade ile hasar türü (kazalı, pert, hurda) aynı şey mi?",
+    "faq2A": "Hayır, ikisi farklı ve birbirini tamamlayan iki bilgidir. Hasar türü hasarın nedenini anlatır (kazalı, yanmış, sel hasarlı, hurda vb.); Otograde derecesi ise hasarın ekonomik ağırlığını A'dan E'ye sınıflandırır. Aynı hasar türündeki iki araç, hasarın boyutuna göre farklı derece alabilir.",
+    "faq3Q": "A-E derecesi resmi bir sigorta veya trafik kaydı mı?",
+    "faq3A": "Hayır. A-E, Otograde'nin kendi değerlendirme ölçeğidir; resmî bir sigorta veya trafik sicil kaydı değildir. Sigorta şirketlerinin kullandığı 'ağır hasarlı', 'pert' gibi resmî kayıtlar ayrıca Tramer/hasar kaydı alanında ve ilan açıklamasında belirtilir.",
+    "faq4Q": "Grade fiyatı doğrudan mı belirliyor?",
+    "faq4A": "Hayır. Grade, aracın hasar ağırlığı hakkında hızlı bir fikir verir, ancak nihai fiyatı marka, model, kilometre, hasar türü ve satıcının belirlediği talep fiyatı birlikte belirler. Otograde fiyat garantisi vermez; her ilan bayisiyle doğrudan görüşerek netleştirilir."
   },
   "servicePage": {
     "step1Desc": "Araç bilgilerini kısa form üzerinden gönderin.",
@@ -841,8 +857,9 @@
     "story": {
       "p1": "Oto Grade, hasarlı araç satışının karmaşık sürecini sadeleştirmek için kuruldu."
     },
-    "stat1": "Satın alınan araç",
-    "stat2": "İlde hizmet",
+    "stat1Val": "Ücretsiz",
+    "stat1": "Üyelik ve ilan yayınlama",
+    "stat2": "Grade değerlendirme sistemi",
     "stat3Val": "1 saat",
     "stat3": "Ortalama dönüş süresi",
     "stat4": "Şeffaf süreç",
@@ -995,5 +1012,17 @@
     "success": "Kaydedildi. Aramanıza uygun yeni ilan çıktığında e-posta göndereceğiz.",
     "error": "Kayıt oluşturulamadı. Lütfen tekrar deneyin.",
     "hint": "Sadece bu aramaya uyan ilanlar için e-posta alırsınız. İstediğiniz zaman iptal edebilirsiniz."
+  },
+  "homeFaq": {
+    "badge": "YARDIM",
+    "title": "Sık Sorulan Sorular",
+    "q1": "Grade sistemi nedir?",
+    "a1": "Otograde grade sistemi, hasarlı araçları A'dan E'ye kadar beş kategoride değerlendiren bağımsız bir hasar derecelendirme sistemidir. A en hafif hasarı, E ise hurda/yedek parça durumunu ifade eder.",
+    "q2": "Nasıl araç alabilirim?",
+    "a2": "İlanlar sayfasından grade, şehir ve fiyat filtrelerini kullanarak arama yapın. İlgilendiğiniz ilanı açın ve bayi ile WhatsApp veya mesaj yoluyla doğrudan iletişime geçin.",
+    "q3": "Aracımı nasıl satabilirim?",
+    "a3": "İki seçeneğiniz var: Ücretsiz üye olup kendi ilanınızı yayınlayabilir, ya da teklif formunu doldurarak doğrudan bize teklif isteği gönderebilirsiniz.",
+    "q4": "İlan vermek ücretli mi?",
+    "a4": "Hayır. Üyelik ve ilan yayınlama şu anda tamamen ücretsizdir. Üye Ol sayfasından kaydolun, onay sonrası ister galeri ister bireysel satıcı olarak ilan yayınlamaya başlayın."
   }
 }

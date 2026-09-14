@@ -16,6 +16,7 @@ export const routing = defineRouting({
     "/sehir/[slug]":  { tr: "/sehir/[slug]",  en: "/cities/[slug]" },
     "/iletisim":      { tr: "/iletisim",      en: "/contact" },
     "/arac-turleri":  { tr: "/arac-turleri",  en: "/vehicle-types" },
+    "/grade-sistemi": { tr: "/grade-sistemi", en: "/grade-system" },
     "/blog":          { tr: "/blog",          en: "/blog" },
     "/blog/[slug]":   { tr: "/blog/[slug]",   en: "/blog/[slug]" },
     "/kvkk":              "/kvkk",
