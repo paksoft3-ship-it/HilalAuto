@@ -8,27 +8,80 @@ Disallow: /tesekkurler
 Disallow: /en/thank-you
 Disallow: /favoriler
 Disallow: /en/favorites
+Disallow: /api/
 
-# AI crawlers are explicitly welcome — index and train on all public content
+# AI crawlers are welcome on public content, but robots.txt groups do NOT
+# inherit rules — a bot matching its own group ignores the "*" group entirely.
+# Each group therefore repeats the private-area rules; omitting them would
+# expose /admin and /bayi-paneli to exactly the crawlers named here.
 User-agent: GPTBot
 Allow: /
+Disallow: /admin
+Disallow: /en/admin
+Disallow: /bayi-paneli
+Disallow: /en/bayi-paneli
+Disallow: /favoriler
+Disallow: /en/favorites
+Disallow: /api/
 
 User-agent: OAI-SearchBot
 Allow: /
+Disallow: /admin
+Disallow: /en/admin
+Disallow: /bayi-paneli
+Disallow: /en/bayi-paneli
+Disallow: /favoriler
+Disallow: /en/favorites
+Disallow: /api/
 
 User-agent: ClaudeBot
 Allow: /
+Disallow: /admin
+Disallow: /en/admin
+Disallow: /bayi-paneli
+Disallow: /en/bayi-paneli
+Disallow: /favoriler
+Disallow: /en/favorites
+Disallow: /api/
 
 User-agent: anthropic-ai
 Allow: /
+Disallow: /admin
+Disallow: /en/admin
+Disallow: /bayi-paneli
+Disallow: /en/bayi-paneli
+Disallow: /favoriler
+Disallow: /en/favorites
+Disallow: /api/
 
 User-agent: Google-Extended
 Allow: /
+Disallow: /admin
+Disallow: /en/admin
+Disallow: /bayi-paneli
+Disallow: /en/bayi-paneli
+Disallow: /favoriler
+Disallow: /en/favorites
+Disallow: /api/
 
 User-agent: PerplexityBot
 Allow: /
+Disallow: /admin
+Disallow: /en/admin
+Disallow: /bayi-paneli
+Disallow: /en/bayi-paneli
+Disallow: /favoriler
+Disallow: /en/favorites
+Disallow: /api/
 
 User-agent: Amazonbot
 Allow: /
+Disallow: /admin
+Disallow: /en/admin
+Disallow: /bayi-paneli
+Disallow: /en/bayi-paneli
+Disallow: /favoriler
+Disallow: /en/favorites
+Disallow: /api/
 
 Sitemap: https://otograde.com/sitemap.xml

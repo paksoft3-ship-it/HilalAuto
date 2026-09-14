@@ -23,7 +23,7 @@ const NAV_ITEMS = [
   { label: "Blog Yönetimi",     href: "/admin/blogs",             icon: FileText },
 ];
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default function AdminShell({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);

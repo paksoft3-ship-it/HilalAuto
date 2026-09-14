@@ -22,7 +22,7 @@ const NAV = [
   { label: "Bildirimler", href: "/bayi-paneli/bildirimler", icon: Bell },
 ];
 
-export default function DealerPanelLayout({ children }: { children: React.ReactNode }) {
+export default function DealerPanelShell({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [dealer, setDealer] = useState<Dealer | null>(null);
   const [unreadMessages, setUnreadMessages] = useState(0);
