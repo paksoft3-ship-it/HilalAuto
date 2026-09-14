@@ -44,9 +44,12 @@ export default async function HakkimizdaPage({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "about" });
 
+  // Real, verifiable claims only — no invented transaction counts or
+  // province coverage. "500+ araç" and "81 il" previously asserted a track
+  // record and reach the current ~15-listing, 2-city inventory doesn't have.
   const STATS = [
-    { value: "500+", label: t("stat1", { default: "Satın alınan araç" }) },
-    { value: "81", label: t("stat2", { default: "İlde hizmet" }) },
+    { value: t("stat1Val", { default: "Ücretsiz" }), label: t("stat1", { default: "Üyelik ve ilan yayınlama" }) },
+    { value: "A–E", label: t("stat2", { default: "Grade değerlendirme sistemi" }) },
     { value: t("stat3Val", { default: "1 saat" }), label: t("stat3", { default: "Ortalama dönüş süresi" }) },
     { value: "%100", label: t("stat4", { default: "Şeffaf süreç" }) },
   ];
