@@ -14,7 +14,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: { absolute: t("privacyTitle", { default: `Gizlilik Politikası — ${SITE_NAME}` }) },
     description: t("privacyDesc", { default: "Otograde gizlilik politikası ve kişisel veri işleme hakkında bilgi." }),
-    alternates: { canonical: `${SITE_URL}${getPathname({ locale, href: "/gizlilik-politikasi" })}` },
+    alternates: {
+      canonical: `${SITE_URL}${getPathname({ locale, href: "/gizlilik-politikasi" })}`,
+      languages: {
+        tr: `${SITE_URL}${getPathname({ locale: "tr", href: "/gizlilik-politikasi" })}`,
+        en: `${SITE_URL}${getPathname({ locale: "en", href: "/gizlilik-politikasi" })}`,
+        "x-default": `${SITE_URL}${getPathname({ locale: "tr", href: "/gizlilik-politikasi" })}`,
+      },
+    },
   };
 }
 

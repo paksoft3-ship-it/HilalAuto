@@ -7,7 +7,7 @@ import { Link } from "@/i18n/routing";
 import { Calendar, ArrowLeft, Share2, Clock, ChevronRight, ShieldCheck } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { Container } from "@/components/ui/Container";
-import { SITE_URL, OG_IMAGE_URL } from "@/lib/constants";
+import { SITE_URL, OG_IMAGE_URL, LOGO_URL } from "@/lib/constants";
 import { localeUrl } from "@/lib/locale-url";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -25,6 +25,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .from("hazaral_blogs")
     .select("title, image_url, excerpt")
     .eq("slug", slug)
+    .eq("locale", locale)
+    .eq("status", "published")
     .single();
 
   if (!data) return {};
@@ -38,13 +40,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: { absolute: postTitle },
     description: postDescription,
+    // Posts exist in one locale only, so no hreflang alternates are emitted:
+    // advertising a reciprocal URL that 404s is worse than omitting it.
     alternates: {
       canonical: localeUrl(locale, `/blog/${slug}`),
-      languages: {
-        tr: localeUrl("tr", `/blog/${slug}`),
-        en: localeUrl("en", `/blog/${slug}`),
-        "x-default": localeUrl("tr", `/blog/${slug}`),
-      },
     },
     openGraph: {
       title: postTitle,
@@ -88,7 +87,9 @@ export default async function BlogDetailPage({ params }: Props) {
     .order("created_at", { ascending: false });
 
   // Calculate Reading Time (assuming average 200 words per minute)
-  const wordCount = blog.content ? blog.content.replace(/<[^>]*>?/gm, '').split(/\\s+/).length : 0;
+  const wordCount = blog.content
+    ? blog.content.replace(/<[^>]*>?/gm, " ").trim().split(/\s+/).filter(Boolean).length
+    : 0;
   const readingTime = Math.max(1, Math.ceil(wordCount / 200));
 
   const postUrl = localeUrl(locale, `/blog/${slug}`);
@@ -115,9 +116,7 @@ export default async function BlogDetailPage({ params }: Props) {
       url: SITE_URL,
       logo: {
         "@type": "ImageObject",
-        url: OG_IMAGE_URL,
-        width: 1200,
-        height: 630,
+        url: LOGO_URL,
       },
     },
     ...(blog.image_url
@@ -135,7 +134,7 @@ export default async function BlogDetailPage({ params }: Props) {
     ],
   };
 
-  const shareUrl = `${SITE_URL}${localeUrl(locale, `/blog/${slug}`)}`;
+  const shareUrl = localeUrl(locale, `/blog/${slug}`);
   const whatsappShareUrl = `https://wa.me/?text=${encodeURIComponent(blog.title + " " + shareUrl)}`;
   const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
   const twitterShareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(blog.title)}`;

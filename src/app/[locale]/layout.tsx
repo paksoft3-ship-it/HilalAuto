@@ -12,7 +12,10 @@ import { notFound } from "next/navigation";
 import { SITE_URL, SITE_NAME } from "@/lib/constants";
 
 const inter = Inter({
-  subsets: ["latin"],
+  // latin-ext carries the Turkish glyphs the base latin subset lacks
+  // (g-breve, s-cedilla, dotted capital I); without it they fall back
+  // to a system font mid-word on a site whose content is Turkish.
+  subsets: ["latin", "latin-ext"],
   weight: ["400", "500"],
   variable: "--font-inter",
   display: "swap",

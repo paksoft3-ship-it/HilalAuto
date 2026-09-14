@@ -22,7 +22,7 @@ const INIT: FormData = {
   whatsapp: "", city: "", district: "", description: "",
 };
 
-export default function BayiOlPage() {
+export default function BayiOlForm() {
   const [step, setStep] = useState(0);
   const [form, setForm] = useState<FormData>(INIT);
   const [loading, setLoading] = useState(false);

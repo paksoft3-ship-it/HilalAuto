@@ -111,4 +111,9 @@ export const GADS_ID = process.env.NEXT_PUBLIC_GADS_ID;
 export const GADS_CONVERSION_LABEL = process.env.NEXT_PUBLIC_GADS_CONVERSION_LABEL;
 
 export const OG_IMAGE_URL = `${SITE_URL}/opengraph-image`;
+/**
+ * Organization.logo / publisher.logo. Must NOT be the 1200x630 social banner:
+ * Google rejects a 1.91:1 image for logo rich results.
+ */
+export const LOGO_URL = `${SITE_URL}/images/logo/otograde-icon-og.svg`;
 export const TWITTER_HANDLE = "@otograde";

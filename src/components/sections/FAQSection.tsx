@@ -10,15 +10,23 @@ import { FaWhatsapp } from 'react-icons/fa';
 
 interface FAQSectionProps {
   dark?: boolean;
+  /**
+   * Page-specific questions. Supplying these keeps the rendered accordion in
+   * step with the page's FAQPage JSON-LD — Google requires the markup to match
+   * what the visitor actually sees. Omit to fall back to the shared set.
+   */
+  items?: { question: string; answer: string }[];
 }
 
-export function FAQSection({ dark = false }: FAQSectionProps) {
+export function FAQSection({ dark = false, items: customItems }: FAQSectionProps) {
   const t = useTranslations("faq");
-  const items = Array.from({ length: 8 }).map((_, i) => ({
-    id: `q${i + 1}`,
-    question: t(`q${i + 1}` as never),
-    answer: t(`a${i + 1}` as never),
-  }));
+  const items =
+    customItems?.map((item, i) => ({ id: `q${i + 1}`, ...item })) ??
+    Array.from({ length: 8 }).map((_, i) => ({
+      id: `q${i + 1}`,
+      question: t(`q${i + 1}` as never),
+      answer: t(`a${i + 1}` as never),
+    }));
 
   return (
     <section

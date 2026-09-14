@@ -2,7 +2,6 @@ import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { CheckCircle } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
-import { GroupSiteBacklink } from "@/components/seo/GroupSiteBacklink";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 import { MobileStickyCTA } from "@/components/layout/MobileStickyCTA";
@@ -28,6 +27,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description,
     alternates: {
       canonical: `${SITE_URL}${getPathname({ locale, href: "/teklif-al" })}`,
+      languages: {
+        tr: `${SITE_URL}${getPathname({ locale: "tr", href: "/teklif-al" })}`,
+        en: `${SITE_URL}${getPathname({ locale: "en", href: "/teklif-al" })}`,
+        "x-default": `${SITE_URL}${getPathname({ locale: "tr", href: "/teklif-al" })}`,
+      },
     },
     openGraph: {
       title,
@@ -80,7 +84,6 @@ export default async function TeklifAlPage({ params }: Props) {
             </ul>
           </Container>
         </section>
-        <GroupSiteBacklink variant="quote" locale={locale} />
 
         {/* Main content */}
         <section className="py-32 md:py-44">

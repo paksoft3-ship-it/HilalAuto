@@ -15,7 +15,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: isEn
       ? "Information about the cookies used on Otograde and how you can manage them."
       : "Otograde üzerinde kullanılan çerezler ve bunları nasıl yönetebileceğiniz hakkında bilgi.",
-    alternates: { canonical: `${SITE_URL}${getPathname({ locale, href: "/cerez-politikasi" as never })}` },
+    alternates: {
+      canonical: `${SITE_URL}${getPathname({ locale, href: "/cerez-politikasi" as never })}`,
+      languages: {
+        tr: `${SITE_URL}${getPathname({ locale: "tr", href: "/cerez-politikasi" as never })}`,
+        en: `${SITE_URL}${getPathname({ locale: "en", href: "/cerez-politikasi" as never })}`,
+        "x-default": `${SITE_URL}${getPathname({ locale: "tr", href: "/cerez-politikasi" as never })}`,
+      },
+    },
   };
 }
 

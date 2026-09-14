@@ -14,7 +14,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: { absolute: t("kvkkTitle", { default: `KVKK Aydınlatma Metni — ${SITE_NAME}` }) },
     description: t("kvkkDesc", { default: "Otograde KVKK Kişisel Verilerin Korunması Kanunu aydınlatma metni." }),
-    alternates: { canonical: `${SITE_URL}${getPathname({ locale, href: "/kvkk" })}` },
+    alternates: {
+      canonical: `${SITE_URL}${getPathname({ locale, href: "/kvkk" })}`,
+      languages: {
+        tr: `${SITE_URL}${getPathname({ locale: "tr", href: "/kvkk" })}`,
+        en: `${SITE_URL}${getPathname({ locale: "en", href: "/kvkk" })}`,
+        "x-default": `${SITE_URL}${getPathname({ locale: "tr", href: "/kvkk" })}`,
+      },
+    },
 
   };
 }

@@ -1,43 +1,47 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Plus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const FAQ_ITEMS = [
-  {
-    q: "Grade sistemi nedir?",
-    a: "Otograde grade sistemi, hasarlı araçları A'dan E'ye kadar beş kategoride değerlendiren bağımsız bir hasar derecelendirme sistemidir. A en hafif hasarı, E ise hurda/yedek parça durumunu ifade eder.",
-  },
-  {
-    q: "Nasıl araç alabilirim?",
-    a: "İlanlar sayfasından grade, şehir ve fiyat filtrelerini kullanarak arama yapın. İlgilendiğiniz ilanı açın ve bayi ile WhatsApp veya mesaj yoluyla doğrudan iletişime geçin.",
-  },
-  {
-    q: "Aracımı nasıl satabilirim?",
-    a: "İki seçeneğiniz var: Ücretsiz üye olup kendi ilanınızı yayınlayabilir, ya da teklif formunu doldurarak doğrudan bize teklif isteği gönderebilirsiniz. Uzmanlarımız 15 dakika içinde dönüş yapar.",
-  },
-  {
-    q: "İlan vermek ücretli mi?",
-    a: "Hayır. Üyelik ve ilan yayınlama şu anda tamamen ücretsizdir. Üye Ol sayfasından kaydolun, 24 saat içinde onay alın ve ister galeri ister bireysel satıcı olarak hemen ilan yayınlamaya başlayın.",
-  },
-] as const;
-
 export function HomeFAQ() {
   const [open, setOpen] = useState<number | null>(null);
+  // Previously hardcoded Turkish, so the /en homepage rendered Turkish FAQs.
+  const t = useTranslations("homeFaq");
+
+  const FAQ_ITEMS = [1, 2, 3, 4].map((i) => ({
+    q: t(`q${i}` as never),
+    a: t(`a${i}` as never),
+  }));
+
+  // Matches the visible accordion exactly, as Google requires.
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: FAQ_ITEMS.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: { "@type": "Answer", text: item.a },
+    })),
+  };
 
   return (
     <section
       className="py-60 bg-[#FAFAFA] border-t-[0.5px] border-[#EEEEEE]"
-      aria-label="Sık sorulan sorular"
+      aria-label={t("title")}
     >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <div className="max-w-[1240px] mx-auto px-16 md:px-24">
         <div className="text-center mb-44">
           <span className="text-[11px] font-medium text-primary uppercase tracking-wider">
-            YARDIM
+            {t("badge")}
           </span>
           <h2 className="text-[32px] font-medium text-[#111111] tracking-[-1.5px] mt-8">
-            Sık Sorulan Sorular
+            {t("title")}
           </h2>
         </div>
 

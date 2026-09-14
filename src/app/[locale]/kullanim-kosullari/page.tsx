@@ -14,7 +14,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: { absolute: t("termsTitle", { default: `Kullanım Koşulları — ${SITE_NAME}` }) },
     description: t("termsDesc", { default: "Oto Grade web sitesi kullanım koşulları ve hizmet şartları." }),
-    alternates: { canonical: `${SITE_URL}${getPathname({ locale, href: "/kullanim-kosullari" })}` },
+    alternates: {
+      canonical: `${SITE_URL}${getPathname({ locale, href: "/kullanim-kosullari" })}`,
+      languages: {
+        tr: `${SITE_URL}${getPathname({ locale: "tr", href: "/kullanim-kosullari" })}`,
+        en: `${SITE_URL}${getPathname({ locale: "en", href: "/kullanim-kosullari" })}`,
+        "x-default": `${SITE_URL}${getPathname({ locale: "tr", href: "/kullanim-kosullari" })}`,
+      },
+    },
 
   };
 }
