@@ -208,7 +208,8 @@
     "dealerDirectory": "Dealers",
     "cityHub": "Cities",
     "vehicleTypeHub": "Vehicle Types",
-    "gradeSystemHub": "Grade System"
+    "gradeSystemHub": "Grade System",
+    "guideHub": "Buyer's Guide"
   },
   "languageSwitcher": {
     "switchTo": "Switch to {language}",

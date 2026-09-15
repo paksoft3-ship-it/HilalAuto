@@ -19,6 +19,8 @@ export const routing = defineRouting({
     "/grade-sistemi": { tr: "/grade-sistemi", en: "/grade-system" },
     "/blog":          { tr: "/blog",          en: "/blog" },
     "/blog/[slug]":   { tr: "/blog/[slug]",   en: "/blog/[slug]" },
+    "/rehber":        { tr: "/rehber",        en: "/guide" },
+    "/rehber/[slug]": { tr: "/rehber/[slug]", en: "/guide/[slug]" },
     "/kvkk":              "/kvkk",
     "/gizlilik-politikasi": { tr: "/gizlilik-politikasi", en: "/privacy-policy" },
     "/cerez-politikasi":    { tr: "/cerez-politikasi",    en: "/cookie-policy" },

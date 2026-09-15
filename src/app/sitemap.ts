@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/constants";
 import { supabase } from "@/lib/supabase";
 import { getIndexableCityFacets, getIndexableDamageFacets } from "@/lib/indexable-facets";
+import { REHBER_POSTS } from "@/data/rehber-content";
 
 // TR = default locale, no prefix (e.g. https://otograde.com/teklif-al)
 // EN = /en/ prefix with localised paths (e.g. https://otograde.com/en/get-a-quote)
@@ -46,6 +47,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...pair("/blog", "/blog"),
     ...pair("/ara", "/listings"),
     ...pair("/grade-sistemi", "/grade-system"),
+    ...pair("/rehber", "/guide"),
     ...pair("/hakkimizda", "/about-us"),
     ...pair("/iletisim", "/contact"),
     ...pair("/bayiler", "/bayiler"),
@@ -139,5 +141,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Supabase unavailable at build time
   }
 
-  return [...statics, ...damageFacets, ...cities, ...blogPosts, ...marketplaceListings, ...dealerProfiles];
+  // ── Rehber (buyer guide) posts — static content, real per-file publish date ──
+  const rehberPosts: MetadataRoute.Sitemap = REHBER_POSTS.flatMap((post) =>
+    pair(`/rehber/${post.slug}`, `/guide/${post.slug}`, new Date(post.publishedDate)),
+  );
+
+  return [
+    ...statics,
+    ...damageFacets,
+    ...cities,
+    ...blogPosts,
+    ...rehberPosts,
+    ...marketplaceListings,
+    ...dealerProfiles,
+  ];
 }

@@ -208,7 +208,8 @@
     "dealerDirectory": "Bayiler",
     "cityHub": "Şehirler",
     "vehicleTypeHub": "Araç Türleri",
-    "gradeSystemHub": "Grade Sistemi"
+    "gradeSystemHub": "Grade Sistemi",
+    "guideHub": "Alıcı Rehberi"
   },
   "languageSwitcher": {
     "switchTo": "{language} diline geç",

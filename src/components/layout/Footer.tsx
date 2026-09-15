@@ -172,6 +172,9 @@ export function Footer(props: FooterProps = {}) {
               <Link href={"/grade-sistemi" as never} className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors">
                 {t("gradeSystemHub", { default: "Grade Sistemi" })}
               </Link>
+              <Link href={routes.guide()} className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors">
+                {t("guideHub", { default: "Alıcı Rehberi" })}
+              </Link>
               <Link href={routes.blog()} className="text-[13px] text-[#AAAAAA] hover:text-white transition-colors">
                 Blog
               </Link>
