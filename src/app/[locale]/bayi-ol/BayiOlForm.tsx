@@ -110,7 +110,7 @@ export default function BayiOlForm() {
   }
 
   return (
-    <div className="min-h-screen bg-surface py-60">
+    <div className="bg-surface py-60">
       <Container>
         <div className="max-w-[600px] mx-auto">
           {/* Header */}
