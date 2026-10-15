@@ -196,6 +196,57 @@ export const REHBER_POSTS: RehberPost[] = [
       },
     ],
   },
+  {
+    slug: "sel-hasarli-arac-nasil-anlasilir",
+    question: "Sel Hasarlı Araç Nasıl Anlaşılır?",
+    metaDescription:
+      "Sel hasarlı bir aracı satın almadan önce nasıl anlarsınız? Koltuk rayı paslanması, küf kokusu, far buğusu ve elektronik arıza belirtileri.",
+    excerpt:
+      "Sel hasarlı bir araç genellikle onarılıp normal ilan gibi satılır — koltuk rayındaki pas, küf kokusu ve far içindeki buğu gibi izler gizli hasarı ele verir.",
+    publishedDate: "2026-10-15",
+    damageSlug: "sel",
+    body: [
+      {
+        type: "p",
+        text: "Sel hasarlı bir araç; koltuk raylarında ve cıvatalarda paslanma, kapı lastiklerinin altında küf kokusu, far/stop lambalarının içinde buğu veya su izi, döşeme ile iç kaplamanın renk/doku uyumsuzluğu ve açıklanamayan elektronik arızalar incelenerek anlaşılabilir. Bu izler, araç dıştan tertemiz görünse ve normal bir ikinci el ilanı gibi satılsa bile ortaya çıkar.",
+      },
+      {
+        type: "p",
+        text: "Bu konu şu anda özellikle güncel: 14 Ekim 2026'da İstanbul (Sarıyer, Kemerburgaz, Kağıthane, Eyüpsultan), Kocaeli, Sakarya (D-650 Adapazarı-Mekece) ve Antalya'nın Demre ilçesinde etkili olan sel, yüzlerce aracın su altında kalmasına veya sürüklenmesine yol açtı. İstanbul'da AFAD ve 112'ye tek başına 76 araca ilişkin hasar ihbarı ulaştı. Bu tür toplu sel olaylarından sonraki haftalar ve aylarda, hasar gören araçların bir kısmı ucuza onarılıp herhangi bir sel kaydı belirtilmeden normal ikinci el piyasasında satışa çıkar — üstelik yalnızca etkilenen şehirlerde değil, Türkiye genelinde.",
+      },
+      {
+        type: "h2",
+        text: "Kontrol Edilmesi Gereken Noktalar",
+      },
+      {
+        type: "list",
+        items: [
+          "Koltuk rayları ve alt gövde cıvataları: Paslanma, özellikle yeni/düşük kilometreli bir araçta normal olmayan bir bulgudur",
+          "Koku: Kapılar kapalıyken birkaç dakika içeride kalındığında hissedilen küf veya nem kokusu",
+          "Far ve stop lambaları: İçeride buğulanma, su birikintisi izi veya lens ile gövde arasında renk/parlaklık farkı",
+          "Döşeme ve halı: Orijinal dikiş ve renk tonuyla uyuşmayan, sonradan değiştirilmiş gibi duran bölümler",
+          "Elektronik sistemler: Cam motorları, iç aydınlatma, gösterge paneli veya hava yastığı uyarı ışığında açıklanamayan arızalar",
+          "Metal aksam: Direksiyon mili, emniyet kemeri mekanizması gibi görünmeyen noktalarda pas",
+        ],
+      },
+      {
+        type: "p",
+        text: "Hiçbiri tek başına kesin kanıt değildir, ancak birkaçının bir arada görülmesi bağımsız ekspertiz talep etmek için yeterli bir nedendir. Tramer kaydında sel hasarı görünmeyebilir — kayıt yalnızca sigortaya bildirilen hasarları gösterir, bu yüzden görsel ve fiziksel kontrol gereklidir.",
+      },
+      {
+        type: "link",
+        text: "Otograde'de ilan açıklamasında hasar türü sel hasarlı olarak belirtilen araçları doğrudan filtreleyerek inceleyebilir, her ilanın A-E arası Otograde derecesini karşılaştırabilirsiniz.",
+        href: "/ara?damage_type=sel",
+        cta: "Sel Hasarlı Araç İlanlarını Gör",
+      },
+      {
+        type: "link",
+        text: "Grade sisteminin hasar ağırlığını nasıl sınıflandırdığını görmek için grade sistemi sayfasına göz atın.",
+        href: "/grade-sistemi",
+        cta: "Grade Sistemini İncele",
+      },
+    ],
+  },
 ];
 
 export function getRehberPost(slug: string): RehberPost | undefined {
