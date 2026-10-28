@@ -25,7 +25,7 @@ if (!SUPABASE_URL || !SERVICE_KEY || !POSTGRES_URL || !dir) {
 const DEALER_ID = "ea3d95ed-380f-45d6-a137-1fb7510b526d";
 const UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/126.0 Safari/537.36";
 
-// Normalized fields per sahibinden ilan no (store snapshots 2026-10-07, 2026-10-21). Grade: A hafif,
+// Normalized fields per sahibinden ilan no (store snapshots 2026-10-07, 2026-10-21, 2026-10-28). Grade: A hafif,
 // B orta, C ağır (şasi/airbag/çekme/motor sökülü), D pert, E hurda — from each ad's own text.
 // km overrides the ad's KM field where the description corrects it (Corvette: miles).
 const CARS = {
@@ -45,6 +45,11 @@ const CARS = {
   "1329075724": { brand: "Hyundai", model: "Accent 1.5", fuel: "lpg", tr: "otomatik", grade: "B", types: ["Motor Arızalı"], tramer: 8000, featured: false },
   "1346232109": { brand: "Chevrolet", model: "Kalos 1.2", fuel: "lpg", tr: "manuel", grade: "B", types: ["Motor Arızalı"], tramer: 8600, featured: false },
   "1346824975": { brand: "Renault", model: "Clio 1.2 Touch", fuel: "benzin", tr: "otomatik", grade: "C", types: ["Kazalı", "Ağır Hasarlı"], tramer: null, featured: true },
+  "1347119192": { brand: "Audi", model: "A7 3.0 TDI quattro", fuel: "dizel", tr: "otomatik", grade: "C", types: ["Motor Arızalı", "Ağır Hasarlı"], tramer: null, featured: true },
+  "1347305689": { brand: "Audi", model: "A6 3.0 Multitronic", fuel: "lpg", tr: "otomatik", grade: "C", types: ["Kazalı", "Çekme Belgeli"], tramer: 14000, featured: false },
+  "1347481127": { brand: "Peugeot", model: "308 1.6 HDi", fuel: "dizel", tr: "manuel", grade: "B", types: ["Kazalı"], tramer: 5600, featured: false, city: "Ankara" },
+  "1347767786": { brand: "BMW", model: "320i Coupe (E92)", fuel: "benzin", tr: "otomatik", grade: "B", types: ["Motor Arızalı"], tramer: 38000, featured: true },
+  "1347993332": { brand: "Fiat", model: "Punto 1.3 Multijet", fuel: "dizel", tr: "manuel", grade: "D", types: ["Sel Hasarlı", "Ağır Hasarlı"], tramer: null, featured: false },
   "1292487276": { brand: "BMC", model: "Megastar 310 P", fuel: "dizel", tr: "manuel", grade: "C", types: ["Motor Arızalı", "Çekme Belgeli"], tramer: null, featured: false },
 };
 
