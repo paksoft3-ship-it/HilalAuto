@@ -2,6 +2,22 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
+// /hizmet/<tr-slug> and /en/service/<en-slug> → listing facet for that damage type.
+const HIZMET = [
+  ["kazali-arac-alimi", "accident-damaged-vehicles", "kazali"],
+  ["pert-arac-alimi", "written-off-vehicles", "pert"],
+  ["yanmis-arac-alimi", "fire-damaged-vehicles", "yanmis"],
+  ["sel-hasarli-arac-alimi", "flood-damaged-vehicles", "sel"],
+  ["hurda-arac-alimi", "scrap-vehicles", "hurda"],
+  ["motor-arizali-arac-alimi", "engine-fault-vehicles", "motor"],
+  ["cekme-belgeli-arac-alimi", "tow-certificate-vehicles", "cekme"],
+  ["agir-hasarli-arac-alimi", "heavily-damaged-vehicles", "agir"],
+];
+const HIZMET_REDIRECTS = HIZMET.flatMap(([tr, en, damage]) => [
+  { source: `/hizmet/${tr}`, destination: `/ara?damage_type=${damage}`, permanent: true },
+  { source: `/en/service/${en}`, destination: `/en/listings?damage_type=${damage}`, permanent: true },
+]);
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   compress: true,
@@ -35,6 +51,10 @@ const nextConfig = {
       { source: "/satilik-araclar/:id", destination: "/ara", permanent: true },
       { source: "/en/vehicles-for-sale", destination: "/en/listings", permanent: true },
       { source: "/en/vehicles-for-sale/:id", destination: "/en/listings", permanent: true },
+      // Retired seller-funnel pages → their listing category. These must be real
+      // HTTP 308s: redirect() inside the streamed page returned 200 + a client-side
+      // redirect, so Google kept treating them as normal pages.
+      ...HIZMET_REDIRECTS,
     ];
   },
   async headers() {
