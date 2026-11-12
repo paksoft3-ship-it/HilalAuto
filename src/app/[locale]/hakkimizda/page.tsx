@@ -138,7 +138,7 @@ export default async function HakkimizdaPage({ params }: Props) {
                 {locale === "en" ? (
                   <>
                     If you prefer to sell your vehicle directly for cash, our group company{" "}
-                    <a href="https://hasarliaracalan.com/" target="_blank" rel="noopener" className="text-primary font-medium hover:underline">
+                    <a href="https://hasarliaracalan.com/" target="_blank" rel="noopener nofollow" className="text-primary font-medium hover:underline">
                       hasarlı araç alan
                     </a>{" "}
                     team at HasarliAracAlan.com buys accident-damaged, written-off and scrap vehicles across Turkey with same-day payment.
@@ -146,7 +146,7 @@ export default async function HakkimizdaPage({ params }: Props) {
                 ) : (
                   <>
                     Aracınızı ilan vermeden doğrudan nakit satmak isterseniz, grup şirketimiz{" "}
-                    <a href="https://hasarliaracalan.com/" target="_blank" rel="noopener" className="text-primary font-medium hover:underline">
+                    <a href="https://hasarliaracalan.com/" target="_blank" rel="noopener nofollow" className="text-primary font-medium hover:underline">
                       hasarlı araç alan
                     </a>{" "}
                     ekibimiz HasarliAracAlan.com üzerinden kazalı, pert ve hurda araçları Türkiye genelinde aynı gün ödeme ile satın almaktadır.
