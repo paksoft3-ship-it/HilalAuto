@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -14,12 +14,20 @@ import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 import { MobileStickyCTA } from "@/components/layout/MobileStickyCTA";
 
+// Cached on demand (ISR): built on the first request, then served from cache and
+// refreshed at most every 60 minutes. Was rendered on every request (blog posts).
+export const revalidate = 3600;
+export async function generateStaticParams() {
+  return [];
+}
+
 interface Props {
   params: Promise<{ locale: string; slug: string }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
+  setRequestLocale(locale);
 
   const { data } = await supabase
     .from("hazaral_blogs")
@@ -64,6 +72,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogDetailPage({ params }: Props) {
   const { locale, slug } = await params;
+  setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "blogDetail" });
 
   const { data: blog, error } = await supabase

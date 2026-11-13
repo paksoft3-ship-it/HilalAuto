@@ -1,3 +1,4 @@
+import { setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { supabaseAdmin } from "@/lib/supabase";
@@ -8,6 +9,13 @@ import { Container } from "@/components/ui/Container";
 import { ShieldCheck, MapPin, Phone, MessageCircle, Building2, Eye, Layers, Calendar } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import { externalRoutes } from "@/lib/routes";
+
+// Cached on demand (ISR): built on the first request, then served from cache and
+// refreshed at most every 10 minutes. Was rendered on every request (dealer profiles).
+export const revalidate = 600;
+export async function generateStaticParams() {
+  return [];
+}
 
 interface Props {
   params: Promise<{ locale: string; slug: string }>;
@@ -41,6 +49,7 @@ async function getData(slug: string) {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
+  setRequestLocale(locale);
   const result = await getData(slug);
 
   if (!result) return { title: "Bayi Bulunamadı" };
@@ -131,6 +140,7 @@ function buildDealerJsonLd(dealer: Dealer, listings: Listing[], locale: string) 
 
 export default async function DealerProfilePage({ params }: Props) {
   const { locale, slug } = await params;
+  setRequestLocale(locale);
   const result = await getData(slug);
 
   if (!result) notFound();

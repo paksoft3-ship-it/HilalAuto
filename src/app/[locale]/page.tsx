@@ -19,7 +19,7 @@ import { type CardListing } from "@/components/marketplace/HomepageListingCard";
 import { OG_IMAGE_URL, LOGO_URL, PHONE_NUMBER, SITE_URL } from "@/lib/constants";
 import { localeUrl } from "@/lib/locale-url";
 
-export const revalidate = 60;
+export const revalidate = 600; // listings refresh every 10 min (was 60s: 5 Supabase queries per minute)
 
 interface HomePageProps {
   params: Promise<{ locale: string }>;

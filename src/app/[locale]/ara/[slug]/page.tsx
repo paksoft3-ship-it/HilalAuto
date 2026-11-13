@@ -1,3 +1,4 @@
+import { setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { supabaseAdmin } from "@/lib/supabase";
@@ -9,6 +10,13 @@ import { Suspense } from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
+
+// Cached on demand (ISR): built on the first request, then served from cache and
+// refreshed at most every 5 minutes. Was rendered on every request (listing pages are the most-crawled URLs).
+export const revalidate = 300;
+export async function generateStaticParams() {
+  return [];
+}
 
 interface Props {
   params: Promise<{ locale: string; slug: string }>;
@@ -42,6 +50,7 @@ function listingsPath(locale: string): string {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
+  setRequestLocale(locale);
   const listing = await getListing(slug);
 
   if (!listing) {
@@ -165,6 +174,7 @@ function buildJsonLd(listing: Listing, locale: string) {
 
 export default async function ListingDetailPage({ params }: Props) {
   const { locale, slug } = await params;
+  setRequestLocale(locale);
   const listing = await getListing(slug);
 
   if (!listing) notFound();

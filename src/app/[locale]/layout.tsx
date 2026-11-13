@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
+import { getMessages, setRequestLocale } from "next-intl/server";
 import { GoogleTagManager } from "@/components/tracking/GoogleTagManager";
 import { GTMNoScript } from "@/components/tracking/GTMNoScript";
 import { ConsentScript } from "@/components/tracking/ConsentScript";
@@ -61,6 +61,8 @@ interface LocaleLayoutProps {
 
 export default async function LocaleLayout({ children, params }: LocaleLayoutProps) {
   const { locale } = await params;
+  // Lets next-intl render this tree without reading request headers (needed for cached/ISR pages).
+  if ((routing.locales as readonly string[]).includes(locale)) setRequestLocale(locale);
 
   if (!routing.locales.includes(locale as "tr")) {
     notFound();

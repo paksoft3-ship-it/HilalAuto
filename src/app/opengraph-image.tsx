@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const runtime = "edge";
+// Static image: generated once at build instead of on every request (was edge-runtime, dynamic).
 export const alt = "Oto Grade — Hasarlı Araç Alım Merkezi";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
