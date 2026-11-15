@@ -7,6 +7,7 @@ import { GTMNoScript } from "@/components/tracking/GTMNoScript";
 import { ConsentScript } from "@/components/tracking/ConsentScript";
 import { ConsentBanner } from "@/components/tracking/ConsentBanner";
 import { ContactClickTracker } from "@/components/tracking/ContactClickTracker";
+import { Analytics } from "@vercel/analytics/next";
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
 import { SITE_URL, SITE_NAME } from "@/lib/constants";
@@ -84,6 +85,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
           <ConsentBanner locale={locale} />
         </NextIntlClientProvider>
         <ContactClickTracker />
+        <Analytics />
       </body>
     </html>
   );

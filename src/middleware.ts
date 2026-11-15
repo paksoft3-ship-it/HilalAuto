@@ -5,6 +5,6 @@ export default createMiddleware(routing);
 
 export const config = {
   matcher: [
-    "/((?!api|_next/static|_next/image|favicon.ico|images|.*\\..*).*)",
+    "/((?!api|_vercel|_next/static|_next/image|favicon.ico|images|.*\\..*).*)",
   ],
 };
