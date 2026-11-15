@@ -25,7 +25,7 @@ if (!SUPABASE_URL || !SERVICE_KEY || !POSTGRES_URL || !dir) {
 const DEALER_ID = "ea3d95ed-380f-45d6-a137-1fb7510b526d";
 const UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/126.0 Safari/537.36";
 
-// Normalized fields per sahibinden ilan no (store snapshots 2026-10-07, 2026-10-21, 2026-10-28). Grade: A hafif,
+// Normalized fields per sahibinden ilan no (store snapshots 2026-10-07, 2026-10-21, 2026-10-28, 2026-11-15). Grade: A hafif,
 // B orta, C ağır (şasi/airbag/çekme/motor sökülü), D pert, E hurda — from each ad's own text.
 // km overrides the ad's KM field where the description corrects it (Corvette: miles).
 const CARS = {
@@ -50,6 +50,12 @@ const CARS = {
   "1347481127": { brand: "Peugeot", model: "308 1.6 HDi", fuel: "dizel", tr: "manuel", grade: "B", types: ["Kazalı"], tramer: 5600, featured: false, city: "Ankara" },
   "1347767786": { brand: "BMW", model: "320i Coupe (E92)", fuel: "benzin", tr: "otomatik", grade: "B", types: ["Motor Arızalı"], tramer: 38000, featured: true },
   "1347993332": { brand: "Fiat", model: "Punto 1.3 Multijet", fuel: "dizel", tr: "manuel", grade: "D", types: ["Sel Hasarlı", "Ağır Hasarlı"], tramer: null, featured: false },
+  "1348728016": { brand: "Chrysler", model: "Grand Voyager 2.8 CRD", fuel: "dizel", tr: "otomatik", grade: "B", types: ["Motor Arızalı"], tramer: 25000, featured: false },
+  "1351174072": { brand: "Ford", model: "Tourneo Courier 1.5 TDCi Deluxe", fuel: "dizel", tr: "manuel", grade: "C", types: ["Çekme Belgeli", "Ağır Hasarlı"], tramer: null, featured: true },
+  "1351006725": { brand: "Mercedes-Benz", model: "A 140", fuel: "lpg", tr: "manuel", grade: "C", types: ["Motor Arızalı"], tramer: 0, featured: false },
+  "1350477064": { brand: "Mercedes-Benz", model: "A 180 AMG", fuel: "benzin", tr: "otomatik", grade: "C", types: ["Ağır Hasarlı", "Kazalı"], tramer: null, featured: true },
+  "1349804032": { brand: "Toyota", model: "RAV4 2.5 Hybrid Premium", fuel: "hibrit", tr: "otomatik", grade: "A", types: ["Kazalı"], tramer: 80000, featured: true },
+  "1348903955": { brand: "Audi", model: "Q3 1.4 TFSI", fuel: "benzin", tr: "otomatik", grade: "B", types: ["Kazalı"], tramer: 227000, featured: true },
   "1292487276": { brand: "BMC", model: "Megastar 310 P", fuel: "dizel", tr: "manuel", grade: "C", types: ["Motor Arızalı", "Çekme Belgeli"], tramer: null, featured: false },
 };
 
