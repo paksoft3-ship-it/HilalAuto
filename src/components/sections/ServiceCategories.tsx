@@ -32,7 +32,7 @@ export function ServiceCategories() {
           {SERVICES.map(({ name, icon: Icon, slug }) => (
             <Link
               key={slug}
-              href={(`/ara?damage_type=${slug}`) as never}
+              href={{ pathname: "/ara", query: { damage_type: slug } } as never}
               className="bg-white border-[0.5px] border-[#EEEEEE] rounded-xl p-24 flex flex-col items-start gap-12 group hover:border-primary transition-colors"
             >
               <Icon size={32} className="text-primary" aria-hidden />

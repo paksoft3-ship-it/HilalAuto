@@ -25,6 +25,9 @@ import { localeUrl } from "@/lib/locale-url";
 import { CITIES, SITE_URL, PHONE_NUMBER } from "@/lib/constants";
 import { countCityListings, MIN_INDEXABLE_LISTINGS } from "@/lib/indexable-facets";
 
+// Index/noindex depends on live inventory, so it must not stay frozen at build time.
+export const revalidate = 1800;
+
 interface Props {
   params: Promise<{ locale: string; slug: string }>;
 }

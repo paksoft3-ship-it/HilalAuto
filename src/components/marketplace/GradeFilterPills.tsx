@@ -17,7 +17,7 @@ export function GradeFilterPills() {
     const next = active === grade ? null : grade;
     setActive(next);
     if (next) {
-      router.push((`/ara?grade=${next}`) as never);
+      router.push({ pathname: "/ara", query: { grade: next } } as never);
     } else {
       router.push("/ara" as never);
     }

@@ -9,7 +9,10 @@ export function formatPhone(phone: string): string {
 }
 
 export function slugify(text: string): string {
+  // Map İ first: "İ".toLowerCase() is "i" + a combining dot, which the final
+  // regex would turn into a dash ("İstanbul" -> "i-stanbul").
   return text
+    .replace(/İ/g, "i")
     .toLowerCase()
     .replace(/ğ/g, "g")
     .replace(/ü/g, "u")

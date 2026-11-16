@@ -11,7 +11,7 @@ import { Container } from "@/components/ui/Container";
 import { SITE_URL } from "@/lib/constants";
 import { localeUrl } from "@/lib/locale-url";
 import { REHBER_POSTS, getRehberPost } from "@/data/rehber-content";
-import { routes } from "@/lib/routes";
+import { routes, toHref } from "@/lib/routes";
 
 interface Props {
   params: Promise<{ locale: string; slug: string }>;
@@ -137,7 +137,7 @@ export default async function RehberDetailPage({ params }: Props) {
                 >
                   <p className="text-[14px] text-text-secondary leading-relaxed mb-12">{block.text}</p>
                   <Link
-                    href={block.href as never}
+                    href={toHref(block.href) as never}
                     className="inline-flex items-center gap-8 text-[13px] font-medium text-primary hover:underline"
                   >
                     {block.cta}

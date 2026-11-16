@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { getPathname } from "@/i18n/routing";
+import { getPathname, Link } from "@/i18n/routing";
 import Image from "next/image";
-import Link from "next/link";
 import { Calendar, ArrowRight } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import { Navbar } from "@/components/layout/Navbar";
@@ -15,6 +14,9 @@ import { supabase } from "@/lib/supabase";
 import { SITE_URL, WHATSAPP_NUMBER } from "@/lib/constants";
 import { localeUrl } from "@/lib/locale-url";
 import { externalRoutes } from "@/lib/routes";
+
+// Refresh the post list every 10 min; without it new posts stay hidden until the next deploy.
+export const revalidate = 600;
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -103,7 +105,7 @@ export default async function BlogIndexPage({ params }: Props) {
               </p>
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-12 mt-8 w-full sm:w-auto">
                 <Link
-                  href={`/${locale}/teklif-al`}
+                  href="/teklif-al"
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-8 bg-primary text-white px-32 py-16 rounded-btn font-medium text-[14px] hover:opacity-90 transition-opacity"
                 >
                   {t("ctaQuote", { default: "Ücretsiz Teklif Al" })}
@@ -135,7 +137,7 @@ export default async function BlogIndexPage({ params }: Props) {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-24">
               {blogList.map((blog) => (
                 <Link
-                  href={`/${locale}/blog/${blog.slug}`}
+                  href={{ pathname: "/blog/[slug]", params: { slug: blog.slug } }}
                   key={blog.id}
                   className="group bg-surface-container-lowest border border-[0.5px] border-border-default rounded-[14px] overflow-hidden hover:border-primary transition-colors flex flex-col"
                 >

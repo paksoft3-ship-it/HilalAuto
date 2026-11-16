@@ -4,6 +4,10 @@ import { supabase } from "@/lib/supabase";
 import { getIndexableCityFacets, getIndexableDamageFacets } from "@/lib/indexable-facets";
 import { REHBER_POSTS } from "@/data/rehber-content";
 
+// Regenerated hourly. Without this the sitemap is built once per deploy (and its Supabase
+// reads are cached with no expiry), so new listings never reach it until the next deploy.
+export const revalidate = 3600;
+
 // TR = default locale, no prefix (e.g. https://otograde.com/teklif-al)
 // EN = /en/ prefix with localised paths (e.g. https://otograde.com/en/get-a-quote)
 

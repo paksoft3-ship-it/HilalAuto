@@ -207,7 +207,8 @@ export default async function BlogDetailPage({ params }: Props) {
                     prose-p:text-muted-text prose-p:leading-relaxed
                     prose-a:text-primary prose-a:no-underline hover:prose-a:underline
                     prose-li:text-muted-text prose-strong:text-on-surface"
-                  dangerouslySetInnerHTML={{ __html: blog.content }}
+                  // Authored content hard-codes locale-prefixed links (/tr/...). TR has no prefix, so each was a 307 hop.
+                  dangerouslySetInnerHTML={{ __html: blog.content.replace(/href="\/tr\//g, 'href="/') }}
                 />
               </div>
 

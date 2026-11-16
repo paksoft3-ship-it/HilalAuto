@@ -25,7 +25,7 @@ export function RecentListings({ listings }: Props) {
             </h2>
           </div>
           <Link
-            href={("/ara?sort=newest") as never}
+            href={{ pathname: "/ara", query: { sort: "newest" } } as never}
             className="text-primary text-[13px] font-medium flex items-center gap-4 hover:underline"
           >
             {t("viewAll")} <ArrowRight size={16} aria-hidden />

@@ -14,7 +14,6 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Badge } from "@/components/ui/Badge";
 import { GRADE_COLORS as GRADE_TEXT, GRADE_DESCRIPTIONS } from "@/types/marketplace";
 import { GRADE_COLORS } from "@/lib/grades";
-import { routes } from "@/lib/routes";
 import { SITE_URL } from "@/lib/constants";
 import { localeUrl } from "@/lib/locale-url";
 
@@ -279,7 +278,7 @@ export default async function GradeSystemPage({ params }: Props) {
               {GRADES.map((grade) => (
                 <Link
                   key={grade}
-                  href={`${routes.marketplace()}?grade=${grade}` as never}
+                  href={{ pathname: "/ara", query: { grade } } as never}
                   className="inline-flex items-center gap-8 px-20 py-12 bg-surface border border-[0.5px] border-border-default rounded-btn text-[13px] font-medium text-on-surface hover:border-primary transition-colors"
                 >
                   Grade {grade}

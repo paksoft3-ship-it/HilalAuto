@@ -45,7 +45,7 @@ interface ListingsClientProps {
   filterOptions: MarketplaceFilterOptions;
   /** Damage-type facets that currently hold real inventory — shown as an escape
    *  hatch on the empty state instead of leaving the visitor at a dead end. */
-  suggestedFacets?: { slug: string; label: string; href: string }[];
+  suggestedFacets?: { slug: string; label: string; href: unknown }[];
 }
 
 type SortValue = "newest" | "price_asc" | "price_desc" | "views_desc" | "km_asc" | "year_desc";
