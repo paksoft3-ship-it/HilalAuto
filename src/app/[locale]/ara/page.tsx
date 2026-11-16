@@ -20,8 +20,10 @@ import { countDamageFacetListings, getIndexableDamageFacets, MIN_INDEXABLE_LISTI
 import { routes } from "@/lib/routes";
 
 // Search results must always reflect the live inventory — never serve a
-// build-time snapshot from the full route cache.
+// build-time snapshot from the full route cache. force-no-store also keeps the
+// Supabase queries out of the Data Cache, which otherwise served stale results.
 export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 
 interface Props {
   params: Promise<{ locale: string }>;
