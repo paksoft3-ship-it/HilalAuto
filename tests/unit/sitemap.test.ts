@@ -1,15 +1,16 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 // A thenable query builder: .select().in().eq().not() all return the builder, awaiting it yields { data }.
-function builder(rows: unknown[]) {
+function builder(rows: unknown[], error: unknown = null) {
   const b: Record<string, unknown> = {};
   for (const m of ["select", "in", "eq", "not", "order"]) b[m] = () => b;
-  b.then = (resolve: (v: unknown) => unknown) => resolve({ data: rows, error: null });
+  b.then = (resolve: (v: unknown) => unknown) => resolve({ data: error ? null : rows, error });
   return b;
 }
 
 const tables: Record<string, unknown[]> = {};
-vi.mock("@/lib/supabase", () => ({ supabase: { from: (t: string) => builder(tables[t] ?? []) } }));
+const failing = new Set<string>();
+vi.mock("@/lib/supabase", () => ({ supabase: { from: (t: string) => builder(tables[t] ?? [], failing.has(t) ? { message: "boom" } : null) } }));
 vi.mock("@/lib/indexable-facets", () => ({
   getIndexableDamageFacets: async () => [{ slug: "kazali" }],
   getIndexableCityFacets: async () => [{ slug: "istanbul" }],
@@ -19,6 +20,8 @@ const load = async () => (await import("@/app/sitemap")).default();
 
 describe("sitemap", () => {
   beforeEach(() => {
+    failing.clear();
+    delete process.env.NEXT_PHASE;
     tables.hazaral_listings = [
       { slug: "2017-toyota-rav4-abc123", created_at: "2026-11-15T10:00:00Z", updated_at: "2026-11-15T12:00:00Z" },
     ];
@@ -72,5 +75,18 @@ describe("sitemap", () => {
   it("is regenerated periodically (not frozen at build time)", async () => {
     const mod = await import("@/app/sitemap");
     expect((mod as { revalidate?: number }).revalidate).toBeGreaterThan(0);
+  });
+
+  it("a transient database error at runtime rejects, so ISR keeps the last good sitemap instead of caching one without listings", async () => {
+    failing.add("hazaral_listings");
+    await expect(load()).rejects.toBeTruthy();
+  });
+
+  it("but never fails the deploy: during `next build` a database error just omits that section", async () => {
+    process.env.NEXT_PHASE = "phase-production-build";
+    failing.add("hazaral_listings");
+    const urls = (await load()).map((e) => e.url);
+    expect(urls).toContain("https://otograde.com/ilanlar");
+    expect(urls.some((u) => u.includes("/ilanlar/2017-toyota"))).toBe(false);
   });
 });

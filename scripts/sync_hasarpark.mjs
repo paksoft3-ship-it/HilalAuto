@@ -167,14 +167,14 @@ try {
       `insert into public.hazaral_listings (${cols.join(", ")}) values (${cols.map((_, i) => `$${i + 1}`).join(", ")}) returning slug`,
       Object.values(row)
     );
-    console.log(`  OK -> /ara/${res.rows[0].slug} (${urls.length} imgs)`);
+    console.log(`  OK -> /ilanlar/${res.rows[0].slug} (${urls.length} imgs)`);
   }
 
   // The site mirrors the store: any other HASARPARK listing still shown is hidden
   // as draft (404s, leaves the sitemap; reversible).
   for (const r of dealerRows) {
     if (matched.has(r.id) || !["active", "sold", "expired"].includes(r.status)) continue;
-    console.log(`REMOVE ${r.title} (/ara/${r.slug}, ${r.status}) not on HASARPARK store`);
+    console.log(`REMOVE ${r.title} (/ilanlar/${r.slug}, ${r.status}) not on HASARPARK store`);
     if (APPLY) {
       await pool.query(
         `update public.hazaral_listings set status = 'draft', is_featured = false, featured_until = null, updated_at = now() where id = $1`,

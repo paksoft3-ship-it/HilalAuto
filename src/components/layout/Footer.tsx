@@ -60,7 +60,7 @@ export function Footer(props: FooterProps = {}) {
               <a
                 href={externalRoutes.phone(PHONE_NUMBER)}
                 className="inline-flex items-center gap-8 text-[13px] text-[#AAAAAA] hover:text-white transition-colors"
-                aria-label={t("phoneAria")}
+                aria-label={`${t("phoneAria")}: ${PHONE_NUMBER.replace("+90", "0")}`}
               >
                 <Phone size={14} strokeWidth={1.5} aria-hidden />
                 {PHONE_NUMBER.replace("+90", "0")}

@@ -22,6 +22,15 @@ describe("next.config redirects", () => {
     for (const x of await redirects()) expect(x.destination, x.source).not.toMatch(/^\/(en\/)?ara(\/|\?|$)/);
   });
 
+  it("legacy English spellings emitted by older pages are permanent too (not middleware 307s)", async () => {
+    const r = await redirects();
+    const has = (source: string, destination: string) => r.some((x) => x.source === source && x.destination === destination && x.permanent);
+    expect(has("/en/ara", "/en/listings")).toBe(true);
+    expect(has("/en/ara/:slug", "/en/listings/:slug")).toBe(true);
+    expect(has("/en/sehir/:slug", "/en/cities/:slug")).toBe(true);
+    expect(has("/en/teklif-al", "/en/get-a-quote")).toBe(true);
+  });
+
   it("all redirects are permanent", async () => {
     for (const x of await redirects()) expect(x.permanent, x.source).toBe(true);
   });

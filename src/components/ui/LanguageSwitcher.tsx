@@ -49,7 +49,8 @@ export function LanguageSwitcher({ className, compact = false }: LanguageSwitche
         compact ? "px-8" : "px-12 py-8 bg-surface-container-lowest border border-[0.5px] border-border-default rounded-btn text-on-surface hover:border-primary hover:text-primary",
         className
       )}
-      aria-label={t("switchTo", { language: nextLanguage })}
+      // The accessible name must contain the visible text ("EN"/"TR") (WCAG 2.5.3 label in name).
+      aria-label={`${locale === "tr" ? "EN" : "TR"} — ${t("switchTo", { language: nextLanguage })}`}
     >
       <Globe size={compact ? 15 : 14} aria-hidden />
       <span className={cn("font-medium uppercase", compact ? "text-[12px]" : "text-[13px]")}>

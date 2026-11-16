@@ -107,7 +107,8 @@ export const contactApiSchema = z.object({
 export const quickQuoteApiSchema = z.object({
   brand: z.string().trim().min(1, "Marka zorunludur.").max(80),
   year: z.union([z.string(), z.number()]).transform((v) => String(v).trim()).pipe(z.string().min(1).max(20)),
-  damage: z.string().trim().min(1, "Hasar bilgisi zorunludur.").max(200),
+  // DirectBuyingCTA sends a free-text paragraph here, so match the quote form's 1000-char description limit.
+  damage: z.string().trim().min(1, "Hasar bilgisi zorunludur.").max(1000, "Hasar detayı en fazla 1000 karakter olabilir."),
   city: z.string().trim().min(1, "Şehir zorunludur.").max(80),
   phone: phoneField,
 });

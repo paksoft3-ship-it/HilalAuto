@@ -8,11 +8,13 @@ import { fireGoogleAdsConversion } from "@/lib/gtag";
 export function DirectBuyingCTA() {
   const [form, setForm] = useState({ vehicle: "", phone: "", detail: "" });
   const [status, setStatus] = useState<"idle" | "loading" | "ok" | "err">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!form.vehicle.trim() || !form.phone.trim()) return;
     setStatus("loading");
+    setErrorMsg("");
     trackFormSubmit("direct_buying");
     try {
       const res = await fetch("/api/quick-quote", {
@@ -29,6 +31,11 @@ export function DirectBuyingCTA() {
       if (res.ok) {
         trackLeadSuccess("direct_buying");
         fireGoogleAdsConversion();
+      }
+      if (!res.ok) {
+        // Show the server's specific reason (e.g. invalid phone) instead of a generic error.
+        const data = await res.json().catch(() => ({}));
+        setErrorMsg(typeof data?.error === "string" ? data.error : "");
       }
       setStatus(res.ok ? "ok" : "err");
     } catch {
@@ -80,6 +87,7 @@ export function DirectBuyingCTA() {
                 onChange={set("vehicle")}
                 placeholder="Plaka veya Marka Model"
                 required
+                maxLength={80}
                 className="w-full bg-[#F9F9F9] border-[0.5px] border-[#EEEEEE] rounded-lg px-16 py-12 text-[14px] focus:border-primary focus:outline-none transition-colors"
               />
               <input
@@ -88,6 +96,7 @@ export function DirectBuyingCTA() {
                 onChange={set("phone")}
                 placeholder="Telefon Numaranız"
                 required
+                maxLength={32}
                 className="w-full bg-[#F9F9F9] border-[0.5px] border-[#EEEEEE] rounded-lg px-16 py-12 text-[14px] focus:border-primary focus:outline-none transition-colors"
               />
               <textarea
@@ -95,11 +104,12 @@ export function DirectBuyingCTA() {
                 onChange={set("detail")}
                 placeholder="Hasar Detayı (Opsiyonel)"
                 rows={4}
+                maxLength={1000}
                 className="w-full bg-[#F9F9F9] border-[0.5px] border-[#EEEEEE] rounded-lg px-16 py-12 text-[14px] focus:border-primary focus:outline-none transition-colors resize-none"
                 style={{ height: "100px" }}
               />
               {status === "err" && (
-                <p className="text-[12px] text-red-500">Bir hata oluştu. Tekrar deneyin.</p>
+                <p className="text-[12px] text-red-500" role="alert">{errorMsg || "Bir hata oluştu. Tekrar deneyin."}</p>
               )}
               <button
                 type="submit"

@@ -54,6 +54,12 @@ const nextConfig = {
       { source: "/ara/:slug", destination: "/ilanlar/:slug", permanent: true },
       { source: "/tr/ara", destination: "/ilanlar", permanent: true },
       { source: "/tr/ara/:slug", destination: "/ilanlar/:slug", permanent: true },
+      // English spellings that older pages emitted (Turkish slugs under /en). The middleware answered these
+      // with temporary 307s; Google has crawled them, so make them permanent.
+      { source: "/en/ara", destination: "/en/listings", permanent: true },
+      { source: "/en/ara/:slug", destination: "/en/listings/:slug", permanent: true },
+      { source: "/en/sehir/:slug", destination: "/en/cities/:slug", permanent: true },
+      { source: "/en/teklif-al", destination: "/en/get-a-quote", permanent: true },
       // Legacy /satilik-araclar system retired in favor of the marketplace.
       { source: "/satilik-araclar", destination: "/ilanlar", permanent: true },
       { source: "/satilik-araclar/:id", destination: "/ilanlar", permanent: true },

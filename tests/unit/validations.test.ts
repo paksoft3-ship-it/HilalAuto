@@ -92,6 +92,10 @@ describe("quick-quote API schema", () => {
   it("accepts the DirectBuyingCTA payload that sends 'Belirtilmedi' placeholders", () => {
     expect(quickQuoteApiSchema.safeParse({ brand: "BMW 320i", year: "Belirtilmedi", damage: "Belirtilmedi", city: "Belirtilmedi", phone: "+90 555 123 45 67" }).success).toBe(true);
   });
+  it("accepts a long free-text damage paragraph (DirectBuyingCTA textarea)", () => {
+    expect(quickQuoteApiSchema.safeParse({ ...ok, damage: "Ön tampon ezik, sol far kırık. ".repeat(30) }).success).toBe(true);
+    expect(quickQuoteApiSchema.safeParse({ ...ok, damage: "x".repeat(1001) }).success).toBe(false);
+  });
   it("accepts a numeric year and stores it as text", () => {
     expect(quickQuoteApiSchema.parse({ ...ok, year: 2012 }).year).toBe("2012");
   });
