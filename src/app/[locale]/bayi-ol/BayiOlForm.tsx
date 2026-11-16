@@ -93,7 +93,7 @@ export default function BayiOlForm() {
           <div className="w-[64px] h-[64px] bg-green-100 rounded-full flex items-center justify-center mx-auto mb-20">
             <CheckCircle size={32} className="text-green-600" />
           </div>
-          <h1 className="text-[24px] font-bold text-on-surface mb-12">Başvurunuz Alındı</h1>
+          <h2 className="text-[24px] font-bold text-on-surface mb-12">Başvurunuz Alındı</h2>
           <p className="text-[14px] text-muted-text leading-relaxed mb-24">
             Başvurunuz inceleniyor. Onaylandıktan sonra e-posta ile bilgilendirileceksiniz.
             Genellikle 24 saat içinde dönüş yapılır.
@@ -115,7 +115,7 @@ export default function BayiOlForm() {
         <div className="max-w-[600px] mx-auto">
           {/* Header */}
           <div className="text-center mb-32">
-            <h1 className="text-[28px] font-bold text-on-surface tracking-[-1px]">Üye Ol</h1>
+            <h2 className="text-[28px] font-bold text-on-surface tracking-[-1px]">Üye Ol</h2>
             <p className="text-[14px] text-muted-text mt-8">
               Üyelik tamamen ücretsizdir. İster galeri ister bireysel satıcı olun,
               birkaç adımda hesabınızı oluşturun ve aracınızı hemen ilana koyun.

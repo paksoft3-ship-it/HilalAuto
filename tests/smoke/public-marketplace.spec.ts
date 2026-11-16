@@ -11,7 +11,7 @@ test("marketplace and favorites pages render", async ({ page }) => {
 
 test("listing detail renders if at least one active listing exists", async ({ page }) => {
   await page.goto("/ilanlar");
-  const firstListing = page.locator("a[href*='/ilanlar/']").filter({ hasText: /TL/ }).first();
+  const firstListing = page.locator("a[href*='/ilanlar/']").filter({ hasText: /₺/ }).first();
 
   if (await firstListing.count() === 0) {
     test.skip(true, "No active listing is available in this environment.");
@@ -19,5 +19,5 @@ test("listing detail renders if at least one active listing exists", async ({ pa
 
   await firstListing.click();
   await expect(page.getByRole("heading").first()).toBeVisible();
-  await expect(page.getByRole("button", { name: /Favorilere ekle|Favorilerden kaldır/i })).toBeVisible();
+  await expect(page.getByRole("button", { name: /Favorilere ekle|Favorilerden kaldır/i }).first()).toBeVisible();
 });

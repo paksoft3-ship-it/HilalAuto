@@ -83,7 +83,9 @@ export default async function BlogDetailPage({ params }: Props) {
     .eq("locale", locale)
     .single();
 
-  if (error || !blog) notFound();
+  // PGRST116 = no such post. Other errors are transient: throw instead of caching a false 404.
+  if (error && error.code !== "PGRST116") throw error;
+  if (!blog) notFound();
 
   // Fetch related blogs (latest 3 excluding current)
   const { data: relatedBlogs } = await supabase

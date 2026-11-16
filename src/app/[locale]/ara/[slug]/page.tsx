@@ -23,21 +23,23 @@ interface Props {
 }
 
 async function getListing(slug: string): Promise<Listing | null> {
-  try {
-    const { data, error } = await supabaseAdmin
-      .from("hazaral_listings")
-      .select("*, dealer:hazaral_dealers(*)")
-      .eq("slug", slug)
-      // Expired listings keep their page (with a banner) so inbound links and
-      // accumulated ranking are not thrown away on a 404.
-      .in("status", ["active", "sold", "expired"])
-      .single();
+  const { data, error } = await supabaseAdmin
+    .from("hazaral_listings")
+    .select("*, dealer:hazaral_dealers(*)")
+    .eq("slug", slug)
+    // Expired listings keep their page (with a banner) so inbound links and
+    // accumulated ranking are not thrown away on a 404.
+    .in("status", ["active", "sold", "expired"])
+    .single();
 
-    if (error || !data) return null;
-    return data as Listing;
-  } catch {
-    return null;
+  // PGRST116 = "no rows": the listing really does not exist -> 404. Any other error is a
+  // transient database problem and must NOT become a 404: on an ISR page that 404 would be
+  // cached and a live listing would disappear. Throwing keeps the last good page being served.
+  if (error) {
+    if (error.code === "PGRST116") return null;
+    throw error;
   }
+  return (data as Listing | null) ?? null;
 }
 
 function listingPath(locale: string, slug: string): string {

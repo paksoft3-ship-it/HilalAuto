@@ -960,12 +960,13 @@ export function ListingsClient({ initialListings, initialTotal, filterOptions, s
               </div>
             ) : (
               <div className="grid grid-cols-2 md:grid-cols-3 gap-16">
-                {listings.map((listing) => {
+                {listings.map((listing, index) => {
                   const selected = compareItems.some((item) => item.id === listing.id);
                   return (
                     <ListingCard
                       key={listing.id}
                       listing={listing}
+                      priority={index < 3}
                       compareSelected={selected}
                       compareDisabled={!selected && compareItems.length >= 4}
                       compareLabel={text.compare}

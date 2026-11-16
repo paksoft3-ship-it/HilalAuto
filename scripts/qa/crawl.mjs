@@ -65,6 +65,7 @@ async function visit(path, from) {
   const desc = pick(/<meta[^>]+name="description"[^>]+content="([^"]*)"/i, html) ?? pick(/<meta[^>]+content="([^"]*)"[^>]+name="description"/i, html);
   const canonical = pick(/<link[^>]+rel="canonical"[^>]+href="([^"]*)"/i, html);
   const robots = pick(/<meta[^>]+name="robots"[^>]+content="([^"]*)"/i, html);
+  const noindex = /noindex/.test(robots || "");
   const h1 = (html.match(/<h1[\s>]/gi) || []).length;
   const links = (html.match(/<a\s/gi) || []).length;
   Object.assign(rec, { title, desc, canonical, robots, h1, links });
@@ -72,8 +73,7 @@ async function visit(path, from) {
   if (!title) add("error", path, "missing <title>");
   else if (title.length > 70) add("info", path, `title is ${title.length} chars (>70 gets truncated)`);
   if (!desc && !noindex) add("warn", path, "missing meta description");
-  else if (desc.length > 170) add("info", path, `description is ${desc.length} chars (>160 gets truncated)`);
-  const noindex = /noindex/.test(robots || "");
+  else if (desc && desc.length > 170) add("info", path, `description is ${desc.length} chars (>160 gets truncated)`);
   if (h1 === 0 && !noindex) add("error", path, "no <h1> in server HTML");
   if (h1 > 1) add("warn", path, `${h1} <h1> elements`);
   if (links < 5 && !noindex) add("warn", path, `only ${links} <a> links in server HTML (client-side rendered?)`);
