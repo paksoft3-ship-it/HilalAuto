@@ -24,7 +24,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const post = getRehberPost(slug);
-  if (!post) return {};
+  if (!post) notFound();
 
   const title = `${post.question} — Otograde`;
   const canonical = `${SITE_URL}${getPathname({ locale, href: { pathname: "/rehber/[slug]", params: { slug } } })}`;

@@ -52,7 +52,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   setRequestLocale(locale);
   const result = await getData(slug);
 
-  if (!result) return { title: "Bayi Bulunamadı" };
+  if (!result) notFound();
 
   const { dealer } = result;
   const title = `${dealer.company_name} — Hasarlı Araç Bayii | Otograde`;
@@ -120,7 +120,7 @@ function buildDealerJsonLd(dealer: Dealer, listings: Listing[], locale: string) 
     itemListElement: listings.map((listing, index) => ({
       "@type": "ListItem",
       position: index + 1,
-      url: `${SITE_URL}${locale === "en" ? "/en/listings" : "/ara"}/${listing.slug}`,
+      url: `${SITE_URL}${locale === "en" ? "/en/listings" : "/ilanlar"}/${listing.slug}`,
       name: listing.title,
     })),
   };
@@ -130,7 +130,7 @@ function buildDealerJsonLd(dealer: Dealer, listings: Listing[], locale: string) 
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Oto Grade", item: SITE_URL },
-      { "@type": "ListItem", position: 2, name: "Hasarlı Araç İlanları", item: `${SITE_URL}${locale === "en" ? "/en/listings" : "/ara"}` },
+      { "@type": "ListItem", position: 2, name: "Hasarlı Araç İlanları", item: `${SITE_URL}${locale === "en" ? "/en/listings" : "/ilanlar"}` },
       { "@type": "ListItem", position: 3, name: dealer.company_name, item: canonical },
     ],
   };

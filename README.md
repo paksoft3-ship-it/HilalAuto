@@ -111,7 +111,7 @@ PLAYWRIGHT_BASE_URL=https://otograde.com npm run test:e2e:smoke -- --project=chr
 
 ## Useful Routes
 
-- Marketplace: `/tr/ara`
+- Marketplace: `/ilanlar`
 - Buyer favorites: `/tr/favoriler`
 - Dealer login: `/tr/bayi-paneli/giris`
 - Dealer subscription: `/tr/bayi-paneli/abonelik`

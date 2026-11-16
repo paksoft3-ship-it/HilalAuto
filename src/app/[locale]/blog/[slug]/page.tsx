@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .eq("status", "published")
     .single();
 
-  if (!data) return {};
+  if (!data) notFound();
 
   const postTitle = `${data.title} — Oto Grade`;
   const postDescription = data.excerpt || data.title;

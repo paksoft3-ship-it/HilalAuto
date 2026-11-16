@@ -45,7 +45,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...pair("/sehir", "/cities"),
     ...pair("/nasil-calisir", "/how-it-works"),
     ...pair("/blog", "/blog"),
-    ...pair("/ara", "/listings"),
+    ...pair("/ilanlar", "/listings"),
     ...pair("/grade-sistemi", "/grade-system"),
     ...pair("/rehber", "/guide"),
     ...pair("/hakkimizda", "/about-us"),
@@ -65,7 +65,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const indexable = await getIndexableDamageFacets();
     damageFacets = indexable.flatMap((f) =>
-      pair(`/ara?damage_type=${f.slug}`, `/listings?damage_type=${f.slug}`),
+      pair(`/ilanlar?damage_type=${f.slug}`, `/listings?damage_type=${f.slug}`),
     );
   } catch {
     // Supabase unavailable at build time
@@ -115,7 +115,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       marketplaceListings = activeListing.flatMap((l) => {
         const raw = (l as Record<string, unknown>).updated_at ?? l.created_at ?? new Date();
         const lastMod = new Date(raw as string);
-        return pair(`/ara/${l.slug}`, `/listings/${l.slug}`, lastMod);
+        return pair(`/ilanlar/${l.slug}`, `/listings/${l.slug}`, lastMod);
       });
     }
   } catch {

@@ -14,7 +14,7 @@ const HIZMET = [
   ["agir-hasarli-arac-alimi", "heavily-damaged-vehicles", "agir"],
 ];
 const HIZMET_REDIRECTS = HIZMET.flatMap(([tr, en, damage]) => [
-  { source: `/hizmet/${tr}`, destination: `/ara?damage_type=${damage}`, permanent: true },
+  { source: `/hizmet/${tr}`, destination: `/ilanlar?damage_type=${damage}`, permanent: true },
   { source: `/en/service/${en}`, destination: `/en/listings?damage_type=${damage}`, permanent: true },
 ]);
 
@@ -45,10 +45,18 @@ const nextConfig = {
     ],
   },
   async redirects() {
-    // Legacy /satilik-araclar system retired in favor of the /ara marketplace.
+    // The marketplace lives at /ilanlar (EN: /listings). The old /ara URLs are
+    // indexed by Google and sit in already-sent alert emails, so they stay as
+    // permanent redirects — never remove them. Query strings are carried over
+    // automatically. /tr/... is the explicit-locale spelling of the same pages.
     return [
-      { source: "/satilik-araclar", destination: "/ara", permanent: true },
-      { source: "/satilik-araclar/:id", destination: "/ara", permanent: true },
+      { source: "/ara", destination: "/ilanlar", permanent: true },
+      { source: "/ara/:slug", destination: "/ilanlar/:slug", permanent: true },
+      { source: "/tr/ara", destination: "/ilanlar", permanent: true },
+      { source: "/tr/ara/:slug", destination: "/ilanlar/:slug", permanent: true },
+      // Legacy /satilik-araclar system retired in favor of the marketplace.
+      { source: "/satilik-araclar", destination: "/ilanlar", permanent: true },
+      { source: "/satilik-araclar/:id", destination: "/ilanlar", permanent: true },
       { source: "/en/vehicles-for-sale", destination: "/en/listings", permanent: true },
       { source: "/en/vehicles-for-sale/:id", destination: "/en/listings", permanent: true },
       // Retired seller-funnel pages → their listing category. These must be real

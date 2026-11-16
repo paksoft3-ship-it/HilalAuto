@@ -38,8 +38,8 @@ export const routing = defineRouting({
     "/hizmet/cekme-belgeli-arac-alimi": { tr: "/hizmet/cekme-belgeli-arac-alimi", en: "/service/tow-certificate-vehicles" },
     "/hizmet/agir-hasarli-arac-alimi":  { tr: "/hizmet/agir-hasarli-arac-alimi",  en: "/service/heavily-damaged-vehicles" },
 
-    "/ara":              { tr: "/ara",          en: "/listings" },
-    "/ara/[slug]":       { tr: "/ara/[slug]",   en: "/listings/[slug]" },
+    "/ara":              { tr: "/ilanlar",      en: "/listings" },
+    "/ara/[slug]":       { tr: "/ilanlar/[slug]", en: "/listings/[slug]" },
     "/bayi/[slug]":      { tr: "/bayi/[slug]",  en: "/dealer/[slug]" },
     "/bayi-ol":                        { tr: "/bayi-ol",       en: "/become-a-dealer" },
     "/bayi-paneli":                    "/bayi-paneli",

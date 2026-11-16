@@ -41,11 +41,11 @@ async function getListing(slug: string): Promise<Listing | null> {
 }
 
 function listingPath(locale: string, slug: string): string {
-  return locale === "en" ? `/en/listings/${slug}` : `/ara/${slug}`;
+  return locale === "en" ? `/en/listings/${slug}` : `/ilanlar/${slug}`;
 }
 
 function listingsPath(locale: string): string {
-  return locale === "en" ? "/en/listings" : "/ara";
+  return locale === "en" ? "/en/listings" : "/ilanlar";
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -54,7 +54,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const listing = await getListing(slug);
 
   if (!listing) {
-    return { title: "İlan Bulunamadı" };
+    notFound();
   }
 
   const gradeLabel = listing.damage_grade ? GRADE_COLORS[listing.damage_grade].label : "";
@@ -77,9 +77,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     alternates: {
       canonical,
       languages: {
-        tr: `${SITE_URL}/ara/${slug}`,
+        tr: `${SITE_URL}/ilanlar/${slug}`,
         en: `${SITE_URL}/en/listings/${slug}`,
-        "x-default": `${SITE_URL}/ara/${slug}`,
+        "x-default": `${SITE_URL}/ilanlar/${slug}`,
       },
     },
     openGraph: {

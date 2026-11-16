@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const CITIES_DATA = getCities(locale);
   const city = CITIES_DATA[slug];
-  if (!city) return {};
+  if (!city) notFound();
   const t = await getTranslations({ locale, namespace: "seo" });
   // Hand-written per-city description (TR); falls back to the generic one for EN.
   const unique = locale === "tr" ? getCityContent(slug) : undefined;

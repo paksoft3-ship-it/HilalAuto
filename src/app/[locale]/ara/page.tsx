@@ -198,7 +198,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   const title       = buildTitle(brand, city, damageFilters, grade, t);
   const description = buildDescription(brand, city, damageFilters, t);
 
-  const listingPath = `${SITE_URL}${locale === "tr" ? "/ara" : "/en/listings"}`;
+  const listingPath = `${SITE_URL}${locale === "tr" ? "/ilanlar" : "/en/listings"}`;
   const canonical = isIndexableDamagePage
     ? `${listingPath}?damage_type=${damageFilters[0].slug}`
     : listingPath;
@@ -212,9 +212,9 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
     alternates: {
       canonical,
       languages: {
-        tr: isIndexableDamagePage ? `${SITE_URL}/ara?damage_type=${damageFilters[0].slug}` : `${SITE_URL}/ara`,
+        tr: isIndexableDamagePage ? `${SITE_URL}/ilanlar?damage_type=${damageFilters[0].slug}` : `${SITE_URL}/ilanlar`,
         en: isIndexableDamagePage ? `${SITE_URL}/en/listings?damage_type=${damageFilters[0].slug}` : `${SITE_URL}/en/listings`,
-        "x-default": isIndexableDamagePage ? `${SITE_URL}/ara?damage_type=${damageFilters[0].slug}` : `${SITE_URL}/ara`,
+        "x-default": isIndexableDamagePage ? `${SITE_URL}/ilanlar?damage_type=${damageFilters[0].slug}` : `${SITE_URL}/ilanlar`,
       },
     },
     openGraph: {
@@ -464,8 +464,8 @@ async function fetchFilterOptions(): Promise<MarketplaceFilterOptions> {
 // ── ItemList JSON-LD ──────────────────────────────────────────────────────────
 
 function buildItemListSchema(listings: Listing[], locale: string, t: TranslationFn) {
-  const listingIndex = `${SITE_URL}${locale === "en" ? "/en/listings" : "/ara"}`;
-  const listingBase = `${SITE_URL}${locale === "en" ? "/en/listings" : "/ara"}`;
+  const listingIndex = `${SITE_URL}${locale === "en" ? "/en/listings" : "/ilanlar"}`;
+  const listingBase = `${SITE_URL}${locale === "en" ? "/en/listings" : "/ilanlar"}`;
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",

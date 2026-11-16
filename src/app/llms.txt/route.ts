@@ -44,15 +44,15 @@ kazalı, pert ve hasarlı araç ilanları yayınlanmaktadır.
 - Başlıca İlan Şehirleri: ${topCitiesLine}
 
 ### Pazar Yeri URL'leri
-- Tüm İlanlar (Listing Index): ${SITE_URL}/ara
+- Tüm İlanlar (Listing Index): ${SITE_URL}/ilanlar
 - İngilizce Listing Index: ${SITE_URL}/en/listings
-- İlan Detay Sayfası: ${SITE_URL}/ara/{slug}
-  Örnek: ${SITE_URL}/ara/2019-bmw-320i-on-hasar-ab12cd
+- İlan Detay Sayfası: ${SITE_URL}/ilanlar/{slug}
+  Örnek: ${SITE_URL}/ilanlar/2019-bmw-320i-on-hasar-ab12cd
 - Bayi Profili: ${SITE_URL}/bayi/{dealer-slug}
 
 ### Arama Filtreleri (URL Parametreleri)
 Filtrelenmiş arama yapmak için şu URL yapısını kullanın:
-${SITE_URL}/ara?{parametre}={değer}
+${SITE_URL}/ilanlar?{parametre}={değer}
 
 Desteklenen parametreler:
 - brand        : Araç markası — örn. brand=BMW
@@ -68,11 +68,11 @@ Desteklenen parametreler:
 - sort         : Sıralama (newest, price_asc, price_desc, views_desc)
 
 ### Filtreli Arama Örnekleri
-${SITE_URL}/ara?brand=BMW
-${SITE_URL}/ara?city=Istanbul&brand=Mercedes-Benz
-${SITE_URL}/ara?grade=A,B&price_max=150000
-${SITE_URL}/ara?damage_type=Pert&city=Ankara
-${SITE_URL}/ara?year_min=2018&sort=price_asc
+${SITE_URL}/ilanlar?brand=BMW
+${SITE_URL}/ilanlar?city=Istanbul&brand=Mercedes-Benz
+${SITE_URL}/ilanlar?grade=A,B&price_max=150000
+${SITE_URL}/ilanlar?damage_type=Pert&city=Ankara
+${SITE_URL}/ilanlar?year_min=2018&sort=price_asc
 
 ### Otograde Derecesi (A–E) Açıklaması
 - Grade A: Çok az hasar — cosmetic hasar, araç sürülebilir, kolayca onarılabilir
@@ -88,10 +88,10 @@ Onaylı bayiler "Onaylı Bayi" rozeti taşır.
 Bayi başvurusu: ${SITE_URL}/bayi-ol
 
 ### Bu Pazar Yeri İçin Örnek Arama Sorguları
-- "istanbul satılık bmw kazalı araç" → ${SITE_URL}/ara?brand=BMW&city=Istanbul
-- "pert araç ilanları" → ${SITE_URL}/ara?damage_type=Pert
-- "ucuz hasarlı araç 2020 sonrası" → ${SITE_URL}/ara?year_min=2020&sort=price_asc
-- "grade A hasarlı araç" → ${SITE_URL}/ara?grade=A
+- "istanbul satılık bmw kazalı araç" → ${SITE_URL}/ilanlar?brand=BMW&city=Istanbul
+- "pert araç ilanları" → ${SITE_URL}/ilanlar?damage_type=Pert
+- "ucuz hasarlı araç 2020 sonrası" → ${SITE_URL}/ilanlar?year_min=2020&sort=price_asc
+- "grade A hasarlı araç" → ${SITE_URL}/ilanlar?grade=A
 
 ---`;
 }
@@ -150,14 +150,14 @@ Bu sistem, satıcıların aracının gerçek değerini anlamasını sağlar ve
 fiyat teklifinin hangi temele dayandığını şeffaf biçimde gösterir.
 
 ### Aldığımız Araç Türleri
-1. Kazalı Araç (Kaza Hasarı): Trafik kazası geçirmiş araçlar — ${SITE_URL}/ara?damage_type=kazali
-2. Pert Araç (Tam Hasar): Sigorta tarafından pert ilan edilmiş araçlar — ${SITE_URL}/ara?damage_type=pert
-3. Yanmış Araç (Yangın Hasarı): Yangına maruz kalmış araçlar — ${SITE_URL}/ara?damage_type=yanmis
-4. Sel Hasarlı Araç (Su Hasarı): Sel veya taşkına maruz kalmış araçlar — ${SITE_URL}/ara?damage_type=sel
-5. Hurda Araç: Ekonomik ömrünü tamamlamış araçlar — ${SITE_URL}/ara?damage_type=hurda
-6. Motor Arızalı Araç: Motor veya şanzıman arızası olan araçlar — ${SITE_URL}/ara?damage_type=motor
-7. Çekme Belgeli Araç: Çekme kaydı bulunan araçlar — ${SITE_URL}/ara?damage_type=cekme
-8. Ağır Hasarlı Araç: Birden fazla bölgede ciddi hasar olan araçlar — ${SITE_URL}/ara?damage_type=agir
+1. Kazalı Araç (Kaza Hasarı): Trafik kazası geçirmiş araçlar — ${SITE_URL}/ilanlar?damage_type=kazali
+2. Pert Araç (Tam Hasar): Sigorta tarafından pert ilan edilmiş araçlar — ${SITE_URL}/ilanlar?damage_type=pert
+3. Yanmış Araç (Yangın Hasarı): Yangına maruz kalmış araçlar — ${SITE_URL}/ilanlar?damage_type=yanmis
+4. Sel Hasarlı Araç (Su Hasarı): Sel veya taşkına maruz kalmış araçlar — ${SITE_URL}/ilanlar?damage_type=sel
+5. Hurda Araç: Ekonomik ömrünü tamamlamış araçlar — ${SITE_URL}/ilanlar?damage_type=hurda
+6. Motor Arızalı Araç: Motor veya şanzıman arızası olan araçlar — ${SITE_URL}/ilanlar?damage_type=motor
+7. Çekme Belgeli Araç: Çekme kaydı bulunan araçlar — ${SITE_URL}/ilanlar?damage_type=cekme
+8. Ağır Hasarlı Araç: Birden fazla bölgede ciddi hasar olan araçlar — ${SITE_URL}/ilanlar?damage_type=agir
 
 ### 3 Adımlı Süreç
 Adım 1 — Form Doldurun: ${SITE_URL}/teklif-al adresinden araç bilgilerini ve telefon numaranızı gönderin. (~2 dakika)

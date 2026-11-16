@@ -100,7 +100,7 @@ try {
     [DEALER_ID]
   );
   console.log(`\nListing created: ${res.rows[0].id}`);
-  console.log(`URL: https://otograde.com/ara/${res.rows[0].slug}`);
+  console.log(`URL: https://otograde.com/ilanlar/${res.rows[0].slug}`);
 } catch (e) {
   console.error("FAILED:", e.message);
   process.exitCode = 1;

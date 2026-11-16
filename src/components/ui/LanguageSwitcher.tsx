@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "@/i18n/routing";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -17,14 +17,16 @@ export function LanguageSwitcher({ className, compact = false }: LanguageSwitche
   const router = useRouter();
   const pathname = usePathname();
   const params = useParams();
-  const searchParams = useSearchParams();
 
   const toggleLocale = () => {
     const nextLocale = locale === "tr" ? "en" : "tr";
     const routeParams = Object.fromEntries(
       Object.entries(params).filter(([key]) => key !== "locale")
     );
-    const query = Object.fromEntries(searchParams.entries());
+    // Read the query string at click time. useSearchParams() during render makes every
+    // statically generated page bail out to client-side rendering (crawlers got only the
+    // loading spinner), and the query is only needed here anyway.
+    const query = Object.fromEntries(new URLSearchParams(window.location.search).entries());
 
     router.replace(
       {

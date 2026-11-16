@@ -130,7 +130,7 @@ export default function MesajlarPage() {
                   <div className="bg-surface border border-[0.5px] border-border-default rounded-lg p-12 flex items-center gap-10">
                     <span className="text-[12px] text-muted-text">İlan:</span>
                     <span className="text-[12px] font-medium text-on-surface flex-1 truncate">{selected.listing.title}</span>
-                    <a href={`/ara/${selected.listing.slug}`} target="_blank" rel="noopener" className="text-muted-text hover:text-primary">
+                    <a href={`/ilanlar/${selected.listing.slug}`} target="_blank" rel="noopener" className="text-muted-text hover:text-primary">
                       <ExternalLink size={13} />
                     </a>
                   </div>

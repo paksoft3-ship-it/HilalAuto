@@ -300,7 +300,7 @@ export function adminNewOfferEmail(
     </table>
     <div style="margin-top:24px;">
       <a href="https://wa.me/${phone.replace(/\D/g, "")}" style="display:inline-block;background:#25D366;color:#fff;padding:12px 24px;border-radius:8px;font-weight:600;font-size:13px;text-decoration:none;margin-right:8px;">WhatsApp ile Yanıtla</a>
-      <a href="${SITE_URL}/ara/${slug}" style="display:inline-block;background:#C0392B;color:#fff;padding:12px 24px;border-radius:8px;font-weight:600;font-size:13px;text-decoration:none;">İlanı Aç</a>
+      <a href="${SITE_URL}/ilanlar/${slug}" style="display:inline-block;background:#C0392B;color:#fff;padding:12px 24px;border-radius:8px;font-weight:600;font-size:13px;text-decoration:none;">İlanı Aç</a>
     </div>
   `);
 }
@@ -313,7 +313,7 @@ export function alertNewListingEmail(
   const rows = listings.map((l) => `
     <tr>
       <td style="padding:12px 0;border-bottom:1px solid #eee;">
-        <a href="${SITE_URL}/ara/${l.slug}" style="text-decoration:none;color:#1a1c1c;">
+        <a href="${SITE_URL}/ilanlar/${l.slug}" style="text-decoration:none;color:#1a1c1c;">
           <div style="font-weight:600;font-size:14px;">${l.title}</div>
           <div style="font-size:12px;color:#888;margin-top:2px;">${l.city}</div>
           <div style="font-size:15px;color:#C0392B;font-weight:700;margin-top:4px;">${l.asking_price.toLocaleString("tr-TR")} TL</div>
@@ -325,7 +325,7 @@ export function alertNewListingEmail(
     <p style="font-size:13px;color:#888;margin:0 0 16px;">${label}</p>
     <table style="width:100%;border-collapse:collapse;">${rows}</table>
     <div style="margin-top:24px;">
-      <a href="${SITE_URL}/ara" style="display:inline-block;background:#C0392B;color:#fff;padding:12px 24px;border-radius:8px;font-weight:600;font-size:13px;text-decoration:none;">Tüm İlanları Gör</a>
+      <a href="${SITE_URL}/ilanlar" style="display:inline-block;background:#C0392B;color:#fff;padding:12px 24px;border-radius:8px;font-weight:600;font-size:13px;text-decoration:none;">Tüm İlanları Gör</a>
     </div>
     <p style="margin-top:24px;font-size:11px;color:#aaa;">
       Bu bildirimleri almak istemiyorsanız
@@ -352,7 +352,7 @@ export function dealerListingApprovedEmail(company: string, listingTitle: string
     <p>Merhaba <strong>${company}</strong>,</p>
     <p><strong>"${listingTitle}"</strong> başlıklı ilanınız incelendi ve yayına alındı.</p>
     <div style="margin-top:24px;">
-      <a href="${SITE_URL}/ara/${slug}" style="display:inline-block;background:#16a34a;color:#fff;padding:12px 24px;border-radius:8px;font-weight:600;font-size:13px;text-decoration:none;">İlanı Görüntüle</a>
+      <a href="${SITE_URL}/ilanlar/${slug}" style="display:inline-block;background:#16a34a;color:#fff;padding:12px 24px;border-radius:8px;font-weight:600;font-size:13px;text-decoration:none;">İlanı Görüntüle</a>
     </div>
   `);
 }
