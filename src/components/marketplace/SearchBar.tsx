@@ -17,8 +17,7 @@ export function SearchBar() {
     if (query.trim()) params.set("brand", query.trim());
     if (city.trim()) params.set("city", city.trim());
     if (maxPrice) params.set("price_max", maxPrice);
-    const qs = params.toString();
-    router.push((`/ara${qs ? `?${qs}` : ""}`) as never);
+    router.push({ pathname: "/ara", query: Object.fromEntries(params.entries()) } as never);
   }
 
   return (

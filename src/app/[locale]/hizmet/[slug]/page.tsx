@@ -31,6 +31,6 @@ export default async function ServicePageRedirect({ params }: Props) {
   if (!damageSlug) notFound();
 
   const target =
-    locale === "en" ? `/en/listings?damage_type=${damageSlug}` : `/ara?damage_type=${damageSlug}`;
+    locale === "en" ? `/en/listings?damage_type=${damageSlug}` : `/ilanlar?damage_type=${damageSlug}`;
   redirect(target);
 }

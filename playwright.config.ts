@@ -4,6 +4,8 @@ const baseURL = process.env.PLAYWRIGHT_BASE_URL || "http://127.0.0.1:3000";
 
 export default defineConfig({
   testDir: "./tests",
+  // Vitest unit tests live in tests/unit as *.test.ts — Playwright must only pick up *.spec.ts.
+  testMatch: "**/*.spec.ts",
   timeout: 45_000,
   expect: {
     timeout: 10_000,

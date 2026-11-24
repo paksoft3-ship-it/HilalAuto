@@ -25,6 +25,9 @@ import { localeUrl } from "@/lib/locale-url";
 import { CITIES, SITE_URL, PHONE_NUMBER } from "@/lib/constants";
 import { countCityListings, MIN_INDEXABLE_LISTINGS } from "@/lib/indexable-facets";
 
+// Index/noindex depends on live inventory, so it must not stay frozen at build time.
+export const revalidate = 1800;
+
 interface Props {
   params: Promise<{ locale: string; slug: string }>;
 }
@@ -40,7 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const CITIES_DATA = getCities(locale);
   const city = CITIES_DATA[slug];
-  if (!city) return {};
+  if (!city) notFound();
   const t = await getTranslations({ locale, namespace: "seo" });
   // Hand-written per-city description (TR); falls back to the generic one for EN.
   const unique = locale === "tr" ? getCityContent(slug) : undefined;

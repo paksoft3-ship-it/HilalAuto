@@ -277,7 +277,7 @@ export default function AdminIlanlar() {
                       {selected.is_price_negotiable && <span className="text-[12px] text-muted-text font-normal ml-8">Pazarlık var</span>}
                     </div>
                   </div>
-                  <a href={`/ara/${selected.slug}`} target="_blank" rel="noopener" className="text-muted-text hover:text-primary">
+                  <a href={`/ilanlar/${selected.slug}`} target="_blank" rel="noopener" className="text-muted-text hover:text-primary">
                     <ExternalLink size={16} />
                   </a>
                 </div>

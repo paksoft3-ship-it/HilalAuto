@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .eq("status", "published")
     .single();
 
-  if (!data) return {};
+  if (!data) notFound();
 
   const postTitle = `${data.title} — Oto Grade`;
   const postDescription = data.excerpt || data.title;
@@ -83,7 +83,9 @@ export default async function BlogDetailPage({ params }: Props) {
     .eq("locale", locale)
     .single();
 
-  if (error || !blog) notFound();
+  // PGRST116 = no such post. Other errors are transient: throw instead of caching a false 404.
+  if (error && error.code !== "PGRST116") throw error;
+  if (!blog) notFound();
 
   // Fetch related blogs (latest 3 excluding current)
   const { data: relatedBlogs } = await supabase
@@ -207,7 +209,8 @@ export default async function BlogDetailPage({ params }: Props) {
                     prose-p:text-muted-text prose-p:leading-relaxed
                     prose-a:text-primary prose-a:no-underline hover:prose-a:underline
                     prose-li:text-muted-text prose-strong:text-on-surface"
-                  dangerouslySetInnerHTML={{ __html: blog.content }}
+                  // Authored content hard-codes locale-prefixed links (/tr/...). TR has no prefix, so each was a 307 hop.
+                  dangerouslySetInnerHTML={{ __html: blog.content.replace(/href="\/tr\//g, 'href="/') }}
                 />
               </div>
 

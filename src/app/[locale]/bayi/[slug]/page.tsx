@@ -22,29 +22,27 @@ interface Props {
 }
 
 async function getData(slug: string) {
-  try {
-    const { data: dealer, error } = await supabaseAdmin
-      .from("hazaral_dealers")
-      .select("*")
-      .eq("slug", slug)
-      .eq("is_approved", true)
-      .single();
+  const { data: dealer, error } = await supabaseAdmin
+    .from("hazaral_dealers")
+    .select("*")
+    .eq("slug", slug)
+    .eq("is_approved", true)
+    .single();
 
-    if (error || !dealer) return null;
+  // PGRST116 = no such dealer. Other errors are transient: throw instead of caching a false 404.
+  if (error && error.code !== "PGRST116") throw error;
+  if (!dealer) return null;
 
-    const { data: listings } = await supabaseAdmin
-      .from("hazaral_listings")
-      .select("*, dealer:hazaral_dealers(id, company_name, city, is_verified, logo_url, slug)")
-      .eq("dealer_id", dealer.id)
-      .eq("status", "active")
-      .order("is_featured", { ascending: false })
-      .order("created_at", { ascending: false })
-      .limit(20);
+  const { data: listings } = await supabaseAdmin
+    .from("hazaral_listings")
+    .select("*, dealer:hazaral_dealers(id, company_name, city, is_verified, logo_url, slug)")
+    .eq("dealer_id", dealer.id)
+    .eq("status", "active")
+    .order("is_featured", { ascending: false })
+    .order("created_at", { ascending: false })
+    .limit(20);
 
-    return { dealer: dealer as Dealer, listings: (listings as Listing[]) || [] };
-  } catch {
-    return null;
-  }
+  return { dealer: dealer as Dealer, listings: (listings as Listing[]) || [] };
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -52,7 +50,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   setRequestLocale(locale);
   const result = await getData(slug);
 
-  if (!result) return { title: "Bayi Bulunamadı" };
+  if (!result) notFound();
 
   const { dealer } = result;
   const title = `${dealer.company_name} — Hasarlı Araç Bayii | Otograde`;
@@ -120,7 +118,7 @@ function buildDealerJsonLd(dealer: Dealer, listings: Listing[], locale: string) 
     itemListElement: listings.map((listing, index) => ({
       "@type": "ListItem",
       position: index + 1,
-      url: `${SITE_URL}${locale === "en" ? "/en/listings" : "/ara"}/${listing.slug}`,
+      url: `${SITE_URL}${locale === "en" ? "/en/listings" : "/ilanlar"}/${listing.slug}`,
       name: listing.title,
     })),
   };
@@ -130,7 +128,7 @@ function buildDealerJsonLd(dealer: Dealer, listings: Listing[], locale: string) 
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Oto Grade", item: SITE_URL },
-      { "@type": "ListItem", position: 2, name: "Hasarlı Araç İlanları", item: `${SITE_URL}${locale === "en" ? "/en/listings" : "/ara"}` },
+      { "@type": "ListItem", position: 2, name: "Hasarlı Araç İlanları", item: `${SITE_URL}${locale === "en" ? "/en/listings" : "/ilanlar"}` },
       { "@type": "ListItem", position: 3, name: dealer.company_name, item: canonical },
     ],
   };

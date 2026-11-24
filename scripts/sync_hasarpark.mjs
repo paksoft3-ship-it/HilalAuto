@@ -25,7 +25,7 @@ if (!SUPABASE_URL || !SERVICE_KEY || !POSTGRES_URL || !dir) {
 const DEALER_ID = "ea3d95ed-380f-45d6-a137-1fb7510b526d";
 const UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/126.0 Safari/537.36";
 
-// Normalized fields per sahibinden ilan no (store snapshots 2026-10-07, 2026-10-21, 2026-10-28, 2026-11-15). Grade: A hafif,
+// Normalized fields per sahibinden ilan no (store snapshots 2026-10-07, 2026-10-21, 2026-10-28, 2026-11-15, 2026-11-21). Grade: A hafif,
 // B orta, C ağır (şasi/airbag/çekme/motor sökülü), D pert, E hurda — from each ad's own text.
 // km overrides the ad's KM field where the description corrects it (Corvette: miles).
 const CARS = {
@@ -56,6 +56,12 @@ const CARS = {
   "1350477064": { brand: "Mercedes-Benz", model: "A 180 AMG", fuel: "benzin", tr: "otomatik", grade: "C", types: ["Ağır Hasarlı", "Kazalı"], tramer: null, featured: true },
   "1349804032": { brand: "Toyota", model: "RAV4 2.5 Hybrid Premium", fuel: "hibrit", tr: "otomatik", grade: "A", types: ["Kazalı"], tramer: 80000, featured: true },
   "1348903955": { brand: "Audi", model: "Q3 1.4 TFSI", fuel: "benzin", tr: "otomatik", grade: "B", types: ["Kazalı"], tramer: 227000, featured: true },
+  "1352471309": { brand: "Skoda", model: "Superb 1.6 TDI", fuel: "dizel", tr: "otomatik", grade: "C", types: ["Sel Hasarlı"], tramer: null, featured: true },
+  "1352470704": { brand: "Peugeot", model: "206 2.0 GTI", fuel: "lpg", tr: "manuel", grade: "C", types: ["Motor Arızalı", "Çekme Belgeli"], tramer: null, featured: false },
+  "1352297096": { brand: "Mini", model: "Cooper Countryman 1.6", fuel: "benzin", tr: "otomatik", grade: "A", types: ["Kazalı"], tramer: 7000, featured: false },
+  "1352255727": { brand: "Peugeot", model: "Rifter 1.5 BlueHDi", fuel: "dizel", tr: "otomatik", grade: "A", types: ["Kazalı"], tramer: null, featured: false },
+  "1351674676": { brand: "Ford", model: "Fiesta 1.25", fuel: "lpg", tr: "manuel", grade: "C", types: ["Çekme Belgeli", "Ağır Hasarlı"], tramer: null, featured: false },
+  "1351674090": { brand: "Seat", model: "Leon 1.6 TDI Xcellence", fuel: "dizel", tr: "otomatik", grade: "A", types: ["Kazalı"], tramer: null, featured: false },
   "1292487276": { brand: "BMC", model: "Megastar 310 P", fuel: "dizel", tr: "manuel", grade: "C", types: ["Motor Arızalı", "Çekme Belgeli"], tramer: null, featured: false },
 };
 
@@ -167,14 +173,14 @@ try {
       `insert into public.hazaral_listings (${cols.join(", ")}) values (${cols.map((_, i) => `$${i + 1}`).join(", ")}) returning slug`,
       Object.values(row)
     );
-    console.log(`  OK -> /ara/${res.rows[0].slug} (${urls.length} imgs)`);
+    console.log(`  OK -> /ilanlar/${res.rows[0].slug} (${urls.length} imgs)`);
   }
 
   // The site mirrors the store: any other HASARPARK listing still shown is hidden
   // as draft (404s, leaves the sitemap; reversible).
   for (const r of dealerRows) {
     if (matched.has(r.id) || !["active", "sold", "expired"].includes(r.status)) continue;
-    console.log(`REMOVE ${r.title} (/ara/${r.slug}, ${r.status}) not on HASARPARK store`);
+    console.log(`REMOVE ${r.title} (/ilanlar/${r.slug}, ${r.status}) not on HASARPARK store`);
     if (APPLY) {
       await pool.query(
         `update public.hazaral_listings set status = 'draft', is_featured = false, featured_until = null, updated_at = now() where id = $1`,

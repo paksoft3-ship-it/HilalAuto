@@ -45,7 +45,7 @@ interface ListingsClientProps {
   filterOptions: MarketplaceFilterOptions;
   /** Damage-type facets that currently hold real inventory — shown as an escape
    *  hatch on the empty state instead of leaving the visitor at a dead end. */
-  suggestedFacets?: { slug: string; label: string; href: string }[];
+  suggestedFacets?: { slug: string; label: string; href: unknown }[];
 }
 
 type SortValue = "newest" | "price_asc" | "price_desc" | "views_desc" | "km_asc" | "year_desc";
@@ -203,6 +203,7 @@ export function ListingsClient({ initialListings, initialTotal, filterOptions, s
     brandPlaceholder: t("brandPlaceholder"),
     cityPlaceholder: t("cityPlaceholder"),
     filters: t("filters"),
+    sortBy: t("sortBy"),
     clear: t("clear"),
     make: t("make"),
     allMakes: t("allMakes"),
@@ -786,6 +787,7 @@ export function ListingsClient({ initialListings, initialTotal, filterOptions, s
             <div className="relative min-w-0">
               <Search className="absolute left-16 top-1/2 -translate-y-1/2 text-muted-text" size={16} />
               <select
+                aria-label={text.brandPlaceholder}
                 value={brand}
                 onChange={(event) => updateFilters({ brand: event.target.value, model: "" })}
                 className="w-full min-w-0 appearance-none pl-44 pr-16 py-12 bg-white border border-[0.5px] border-border-default rounded-input text-[14px] text-on-surface outline-none focus:border-primary shadow-sm"
@@ -797,6 +799,7 @@ export function ListingsClient({ initialListings, initialTotal, filterOptions, s
 
             <div className="relative min-w-0">
               <select
+                aria-label={text.allModels}
                 value={model}
                 disabled={!brand || modelOptions.length === 0}
                 onChange={(event) => updateFilter("model", event.target.value)}
@@ -809,6 +812,7 @@ export function ListingsClient({ initialListings, initialTotal, filterOptions, s
 
             <div className="relative min-w-0">
               <select
+                aria-label={text.cityPlaceholder}
                 value={city}
                 onChange={(event) => updateFilters({ city: event.target.value, district: "" })}
                 className="w-full min-w-0 appearance-none px-16 py-12 bg-white border border-[0.5px] border-border-default rounded-input text-[14px] text-on-surface outline-none focus:border-primary shadow-sm"
@@ -820,6 +824,7 @@ export function ListingsClient({ initialListings, initialTotal, filterOptions, s
 
             <div className="relative min-w-0">
               <select
+                aria-label={text.sortBy}
                 value={sort}
                 onChange={(event) => updateFilter("sort", event.target.value)}
                 className="w-full min-w-0 appearance-none px-16 py-12 bg-white border border-[0.5px] border-border-default rounded-input text-[14px] text-on-surface outline-none focus:border-primary shadow-sm"
@@ -960,12 +965,13 @@ export function ListingsClient({ initialListings, initialTotal, filterOptions, s
               </div>
             ) : (
               <div className="grid grid-cols-2 md:grid-cols-3 gap-16">
-                {listings.map((listing) => {
+                {listings.map((listing, index) => {
                   const selected = compareItems.some((item) => item.id === listing.id);
                   return (
                     <ListingCard
                       key={listing.id}
                       listing={listing}
+                      priority={index < 3}
                       compareSelected={selected}
                       compareDisabled={!selected && compareItems.length >= 4}
                       compareLabel={text.compare}
@@ -1134,6 +1140,7 @@ function SelectControl({
     <div className="flex flex-col gap-8">
       <ControlLabel>{label}</ControlLabel>
       <select
+        aria-label={label}
         value={value}
         disabled={disabled}
         onChange={(event) => onChange(event.target.value)}

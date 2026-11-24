@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import { useRouter } from "@/i18n/routing";
+import { Link, useRouter } from "@/i18n/routing";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion, AnimatePresence } from "framer-motion";
@@ -530,9 +530,9 @@ function Step3({ step1, step2, photos, onBack, onSubmit, submitting, submitError
           {...register("kvkkAccepted")}
         />
         <label htmlFor="kvkk" className="text-[13px] text-text-muted leading-relaxed cursor-pointer">
-          <a href="/tr/kvkk" target="_blank" rel="noopener noreferrer" className="text-accent underline underline-offset-2">
+          <Link href="/kvkk" target="_blank" rel="noopener noreferrer" className="text-accent underline underline-offset-2">
             KVKK metnini
-          </a>{" "}
+          </Link>{" "}
           okudum ve kişisel verilerimin işlenmesini kabul ediyorum.
         </label>
       </div>

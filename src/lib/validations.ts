@@ -87,3 +87,28 @@ export const quoteApiSchema = quoteFullSchema.extend({
 });
 
 export type QuoteApiData = z.infer<typeof quoteApiSchema>;
+
+// ── Public lead endpoints (/api/contact, /api/quick-quote) ──────────────────────
+// Typed and length-capped, but deliberately lenient on content: DirectBuyingCTA
+// legitimately sends "Belirtilmedi" for year and city.
+const phoneField = z
+  .string()
+  .trim()
+  .max(32)
+  .regex(/^[0-9+\s\-()./]+$/, "Geçerli bir telefon numarası giriniz.")
+  .refine((v) => v.replace(/\D/g, "").length >= 7, "Geçerli bir telefon numarası giriniz.");
+
+export const contactApiSchema = z.object({
+  name: z.string().trim().min(2, "Ad Soyad en az 2 karakter olmalıdır.").max(120),
+  phone: phoneField,
+  message: z.string().trim().min(1, "Mesaj boş olamaz.").max(1000, "Mesaj en fazla 1000 karakter olabilir."),
+});
+
+export const quickQuoteApiSchema = z.object({
+  brand: z.string().trim().min(1, "Marka zorunludur.").max(80),
+  year: z.union([z.string(), z.number()]).transform((v) => String(v).trim()).pipe(z.string().min(1).max(20)),
+  // DirectBuyingCTA sends a free-text paragraph here, so match the quote form's 1000-char description limit.
+  damage: z.string().trim().min(1, "Hasar bilgisi zorunludur.").max(1000, "Hasar detayı en fazla 1000 karakter olabilir."),
+  city: z.string().trim().min(1, "Şehir zorunludur.").max(80),
+  phone: phoneField,
+});

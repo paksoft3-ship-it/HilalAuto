@@ -260,6 +260,7 @@
     "brandPlaceholder": "Select make...",
     "cityPlaceholder": "Select city...",
     "filters": "Filters",
+    "sortBy": "Sort by",
     "clear": "Clear",
     "make": "Make",
     "allMakes": "All Makes",

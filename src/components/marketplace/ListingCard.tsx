@@ -18,6 +18,8 @@ interface ListingCardProps {
   compareLabel?: string;
   compareSelectedLabel?: string;
   onCompareToggle?: (listing: Listing) => void;
+  /** Load the photo eagerly (above-the-fold cards); everything else stays lazy. */
+  priority?: boolean;
 }
 
 function formatPrice(n: number): string {
@@ -44,6 +46,7 @@ export function ListingCard({
   compareLabel,
   compareSelectedLabel,
   onCompareToggle,
+  priority = false,
 }: ListingCardProps) {
   const t = useTranslations("listingCard");
   const coverImg = listing.primary_image || listing.images?.[0] || null;
@@ -98,6 +101,7 @@ export function ListingCard({
             src={coverImg}
             alt={listing.title}
             fill
+            priority={priority}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-cover group-hover:scale-105 transition-transform duration-500"
           />

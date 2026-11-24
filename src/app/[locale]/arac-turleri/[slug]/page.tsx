@@ -12,6 +12,9 @@ interface Props {
   params: Promise<{ locale: string; slug: string }>;
 }
 
+// Only the known slugs exist; anything else is a real 404 (loading.tsx would otherwise stream a 200 shell).
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return Array.from(VALID_SLUGS).flatMap((slug) => [
     { locale: "tr", slug },

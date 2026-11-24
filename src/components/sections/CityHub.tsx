@@ -79,7 +79,7 @@ export async function CityHub() {
           {cities.map(({ name, slug }) => (
             <Link
               key={slug}
-              href={(`/sehir/${slug}`) as never}
+              href={{ pathname: "/sehir/[slug]", params: { slug } } as never}
               className="bg-white border-[0.5px] border-[#EEEEEE] rounded-xl p-16 flex items-center justify-between group hover:border-primary transition-colors"
             >
               <span className="text-[14px] font-medium text-[#111111]">{name}</span>
